@@ -1,3 +1,17 @@
+function getUniqueId(stringPrefix) {
+    var datestr = new Date().getTime().toString();
+    var randomstr = Math.random().toString().replace('.', '');
+    return stringPrefix + '_' + datestr + randomstr;
+}
+
+function getTextWidth(text, font) {
+    // re-use canvas object for better performance
+    var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+    var context = canvas.getContext("2d");
+    context.font = font;
+    var metrics = context.measureText(text);
+    return metrics.width;
+}
 
 AFRAME.registerComponent('gui-item', {
     schema: {
@@ -86,21 +100,6 @@ AFRAME.registerComponent('gui-flex-container', {
   getElementSize: function () {}
 });
 
-
-// Component to change to random color on click.
-AFRAME.registerComponent('cursor-listener', {
-    init: function () {
-        var COLORS = ['red', 'green', 'blue'];
-        this.el.addEventListener('click', function (evt) {
-            var randomIndex = Math.floor(Math.random() * COLORS.length);
-            this.setAttribute('material', 'color', COLORS[randomIndex]);
-            console.log('I was clicked at: ', evt.detail.intersection.point);
-        });
-    }
-});
-
-
-
 function roundedOutline(ctx, x, y, width, height, radius, color) {
     ctx.beginPath();
     ctx.moveTo(x, y + radius);
@@ -146,65 +145,88 @@ function drawText(ctx, canvas, text, font, color, size) {
 }
 
 
-AFRAME.registerComponent('a-button', {
-    schema: {
-        width: {type: 'number', default: 1},
-        height: {type: 'number', default: 1},
-        color: {type: 'color', default: '#AAA'}
-    },
-    /**
-     * Initial creation and setting of the mesh.
-     */
-    init: function () {
-        var data = this.data;
-        var el = this.el;
-        // Create geometry.
-        this.geometry = new THREE.BoxBufferGeometry(data.width, data.height, data.depth);
-        // Create material.
-        this.material = new THREE.MeshStandardMaterial({color: data.color});
-        // Create mesh.
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
-        // Set mesh on entity.
-        el.setObject3D('mesh', this.mesh);
-    }
-});
-
 
 AFRAME.registerComponent('gui-button', {
     schema: {
+        on: {default: 'click'},
+//    	emit: {default:null},
         targetFg: {type: 'selector', default: '#canvasObjFront'},
         targetBg: {type: 'selector', default: '#canvasObjBack'},
-        text: {type: 'string', default: 'button'},
+        text: {type: 'string', default: 'text'},
         fontColor: {type: 'string', default: 'rgba(0,0,0,1)'},
         borderColor: {type: 'string', default: 'rgba(0,0,0,1)'},
         backgroundColor: {type: 'string', default: 'rgba(215,215,215,1)'},
+        hoverColor: {type: 'string', default: 'rgba(122,122,122,1)'},
     },
     init: function() {
+
         var data = this.data;
         var el = this.el;
-        var canvasFg = this.canvasFg = data.targetFg;
-        var canvasBg = this.canvasBg = data.targetBg;
+        var guiItem = el.getAttribute("gui-item")
+        var multiplier = 350;
+        var canvasWidth = guiItem.width*multiplier;
+        var canvasHeight = guiItem.height*multiplier;
+
+        var canvasBg = document.createElement("canvas");
+        this.canvasBg = canvasBg
+        canvasBg.setAttribute('width', canvasWidth);
+        canvasBg.setAttribute('height', canvasHeight);
+        canvasBg.id = getUniqueId('canvasObjBack');
+        document.body.appendChild(canvasBg);
+
+        var canvasFg = document.createElement("canvas");
+        canvasFg.setAttribute('width', canvasWidth);
+        canvasFg.setAttribute('height', canvasHeight);
+        canvasFg.id = getUniqueId('canvasObjFront');
+        document.body.appendChild(canvasFg);
+
         var ctxFg = this.ctxFg = canvasFg.getContext('2d');
         var ctxBg = this.ctxBg = canvasBg.getContext('2d');
-        var textLayer = document.getElementById('canvasObjFront');
 
-        this.el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:double;`);
-        this.el.setAttribute('opacity', 0.95);
-        this.el.setAttribute('geometry', 'primitive: plane;');
+        el.setAttribute('material', 'color', data.backgroundColor);
+        el.setAttribute('geometry', 'width', guiItem.width);
+        el.setAttribute('geometry', 'height', guiItem.height);
+
 
 
         roundedOutline(ctxBg, 10, 10, canvasBg.width - 20, canvasBg.height - 20, 5, data.borderColor);
         roundedRect(ctxBg, 20, 20, canvasBg.width - 40, canvasBg.height - 40, 10, data.backgroundColor);
         drawText(ctxFg, canvasFg, data.text, '100px Arial', data.fontColor, 1);
+        var textWidth = getTextWidth(data.text, '50px Arial');
+        console.log("textWidth: "+textWidth);
 
-        //el.setAttribute()
+        var bgEntity = document.createElement("a-entity");
+        bgEntity.setAttribute('material', `shader: flat; src: #${canvasBg.id}; transparent: true; opacity: 1; side:double;`);
+        bgEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
+        bgEntity.setAttribute('position', '0 0 0.001');
+        this.el.appendChild(bgEntity);
+
+        var fgEntity = document.createElement("a-entity");
+        fgEntity.setAttribute('material', `shader: flat; src: #${canvasFg.id}; transparent: true; opacity: 1; side:double;`);
+        fgEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
+        fgEntity.setAttribute('position', '0 0 0.002');
+        this.el.appendChild(fgEntity);
+
+
+        el.addEventListener('mouseenter', function () {
+            el.setAttribute('material', 'color', data.hoverColor);
+        });
+
+        el.addEventListener('mouseleave', function () {
+            el.setAttribute('material', 'color', data.backgroundColor);
+        });
+
+        el.addEventListener(data.on, function (evt) {
+            this.setAttribute('material', 'color', data.fontColor);
+            console.log('I was clicked at: ', evt.detail.intersection.point);
+        });
+
 
     },
-    update: function () {
-        // var data = this.data;
-        // var canvas = this.canvas = data.target;
-        // var ctx = this.ctx = canvas.getContext('2d');
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // ctx.fillText(data.text, canvas.width/2, canvas.height/2); // position x, y
-    }
+    play: function () {
+
+    },
 });
+
+
+
