@@ -8,6 +8,10 @@
 <body>
 	<a-scene>
 		<a-assets>
+	        <!-- Text Canvas -->    
+	        <canvas id="canvasObjBack" crossorigin="anonymous" webkit-playsinline=""></canvas>
+	        <canvas id="canvasObjFront" crossorigin="anonymous" webkit-playsinline=""></canvas>
+
 		    <img id="gradient" src="assets/gradient.png">
 		    <img id="ground" src="assets/ground.png">
 		    <img id="panel" src="assets/settings.png">
@@ -37,14 +41,37 @@
 
 		<a-entity id="box" cursor-listener geometry="primitive: box;" position="0 0.5 -5" material="color: blue"></a-entity>
 
-		<a-entity id="gui" geometry="primitive: box" material="color: red" ></a-entity>
-
-		<a-entity 
+		<a-entity id="ui-curved"
 			geometry="primitive:cylinder; height:1; open-ended:true; radius:2; segments-height: 18; segments-radial: 48; theta-length:40; theta-start:160;"
-			material="color:#fff; metalness:0; opacity:1; repeat:none; roughness:0.5; shader:flat; side:double; src:#panel; transparent: false"
+			material="color:#fff; src:#panel; transparent: false; metalness:0; opacity:1; repeat:none; roughness:0.5; shader:flat; side:back;"
 			position="0 1.5 0"
 		>
 		</a-entity>
+
+		<a-entity id="ui-flat"
+			button-text="targetBg:#canvasObjBack; targetFg:#canvasObjFront; text:test copy; fontColor:#f00; backgroundColor:#333; borderColor:#00f; width:1;" 
+
+			material="shader: flat; transparent: true; opacity: 1; side:double;"
+			opacity="0.95" geometry="primitive: plane;" 
+			scale="1 1 1"
+			position="0 1.5 -1.5" rotation="0 0 0" 
+		>
+			<a-entity id="bg"
+				material="shader: flat; src: #canvasObjBack; transparent: true; opacity: 1; side:double;"
+				opacity="1" geometry="primitive: plane; width: 2; height: 1" 
+				scale="1 1 1"
+				position="0 0 0.1"
+			></a-entity>
+
+			<a-entity id="text"
+				material="shader: flat; src: #canvasObjFront; transparent: true; opacity: 1; side:double;"
+				opacity="1" geometry="primitive: plane; width: 2; height: 1" 
+				scale="0.5 0.5 0.5"
+				position="0 0 0.2" 
+			></a-entity>
+		</a-entity>
+		
+
 
 	</a-scene>
 
@@ -59,6 +86,114 @@
 					console.log('I was clicked at: ', evt.detail.intersection.point);
 				});
 			}
+		});
+
+
+
+function roundedOutline(ctx, x, y, width, height, radius, color) {
+	ctx.beginPath();
+	ctx.moveTo(x, y + radius);
+	ctx.lineTo(x, y + height - radius);
+	ctx.arcTo(x, y + height, x + radius, y + height, radius);
+	ctx.lineTo(x + width - radius, y + height);
+	ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
+	ctx.lineTo(x + width, y + radius);
+	ctx.arcTo(x + width, y, x + width - radius, y, radius);
+	ctx.lineTo(x + radius, y);
+	ctx.arcTo(x, y, x, y + radius, radius);
+	ctx.strokeStyle = color;
+	ctx.stroke();
+}
+
+function roundedRect(ctx, x, y, width, height, radius, color) {
+	ctx.beginPath();
+	ctx.moveTo(x, y + radius);
+	ctx.lineTo(x, y + height - radius);
+	ctx.arcTo(x, y + height, x + radius, y + height, radius);
+	ctx.lineTo(x + width - radius, y + height);
+	ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
+	ctx.lineTo(x + width, y + radius);
+	ctx.arcTo(x + width, y, x + width - radius, y, radius);
+	ctx.lineTo(x + radius, y);
+	ctx.arcTo(x, y, x, y + radius, radius);
+	ctx.fillStyle = color;
+	ctx.fill();
+}
+
+function drawText(ctx, canvas, text, font, color, size) {
+	ctx.font = font;
+	ctx.fillStyle = color;
+	ctx.textAlign = "center";
+	ctx.textBaseline = 'middle';
+	ctx.shadowColor = 'rgba(0,0,0,0.5)';
+	ctx.shadowBlur = 8;
+	ctx.shadowOffsetY = 0;
+	ctx.shadowOffsetX = 0;
+	ctx.scale(1, 1);
+	ctx.fillText(text, canvas.width/2, canvas.height/2); // position x, y 
+
+}
+
+
+AFRAME.registerComponent('a-button', {
+  schema: {
+    width: {type: 'number', default: 1},
+    height: {type: 'number', default: 1},
+    depth: {type: 'number', default: 1},
+    color: {type: 'color', default: '#AAA'}
+  },
+  /**
+   * Initial creation and setting of the mesh.
+   */
+  init: function () {
+    var data = this.data;
+    var el = this.el;
+    // Create geometry.
+    this.geometry = new THREE.BoxBufferGeometry(data.width, data.height, data.depth);
+    // Create material.
+    this.material = new THREE.MeshStandardMaterial({color: data.color});
+    // Create mesh.
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    // Set mesh on entity.
+    el.setObject3D('mesh', this.mesh);
+  }
+});
+
+
+		AFRAME.registerComponent('button-text', {
+		    schema: {
+		      targetFg: {type: 'selector', default: '#canvasObjFront'},
+		      targetBg: {type: 'selector', default: '#canvasObjBack'},
+		      text: {type: 'string', default: 'button'},
+		      fontColor: {type: 'string', default: 'rgba(0,0,0,1)'},
+		      borderColor: {type: 'string', default: 'rgba(0,0,0,1)'},
+		      backgroundColor: {type: 'string', default: 'rgba(215,215,215,1)'},
+		      width: {type: 'number', default: 1}
+		      height: {type: 'number', default: 1}
+		    },
+		    init: function() {
+		        var data = this.data;
+		        var el = this.el;
+		        var canvasFg = this.canvasFg = data.targetFg;
+		        var canvasBg = this.canvasBg = data.targetBg;
+		        var ctxFg = this.ctxFg = canvasFg.getContext('2d');
+		        var ctxBg = this.ctxBg = canvasBg.getContext('2d');
+		        var textLayer = document.getElementById('canvasObjFront');
+
+				roundedOutline(ctxBg, 10, 10, canvasBg.width - 20, canvasBg.height - 20, 5, data.borderColor);
+				roundedRect(ctxBg, 20, 20, canvasBg.width - 40, canvasBg.height - 40, 10, data.backgroundColor);
+				drawText(ctxFg, canvasFg, data.text, '100px Arial', data.fontColor, 1);
+
+				el.setAttribute()
+
+		    },
+		    update: function () {
+		        // var data = this.data;
+		        // var canvas = this.canvas = data.target;
+		        // var ctx = this.ctx = canvas.getContext('2d');
+		        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+		        // ctx.fillText(data.text, canvas.width/2, canvas.height/2); // position x, y 
+		    }
 		});
 	</script>
 
