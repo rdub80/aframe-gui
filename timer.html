@@ -39,13 +39,11 @@
 		<a-entity
 			geometry="primitive: plane;" 
 
-			gui-toggle="
+			gui-timer="
 				targetBg:#canvasObjBack; 
 				targetFg:#canvasObjFront; 
-				text:label copy; 
+				dur:5; 
 				borderWidth:5;
-				width:2;
-				height:1;
 			" 
 			material="shader: flat; transparent: true; opacity: 1; side:double;"
 			opacity="1" 
@@ -54,7 +52,7 @@
 		>
 			<a-entity id="bg"
 				material="shader: flat; src: #canvasObjBack; transparent: true; opacity: 1; side:double;"
-				geometry="primitive: plane; width: 2; height: 1"
+				geometry="primitive: plane; width: 1; height: 1"
 				opacity="1"  
 				scale="1 1 1"
 				position="0 0 0.001"
@@ -62,7 +60,7 @@
 
 			<a-entity id="text"
 				material="shader: flat; src: #canvasObjFront; transparent: true; opacity: 1; side:double;"
-				geometry="primitive: plane; width: 2; height: 1" 
+				geometry="primitive: plane; width: 1; height: 1" 
 				opacity="1" 
 				scale="1 1 1"
 				position="0 0 0.002" 
@@ -108,7 +106,9 @@ function roundedRect(ctx, x, y, width, height, radius, color) {
 	ctx.fill();
 }
 
-function drawText(ctx, canvas, text, font, color, size,) {
+function drawTime(ctx, canvas, text, font, color, size,) {
+
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	ctx.font = font;
 	ctx.fillStyle = color;
 	ctx.textAlign = "center";
@@ -136,23 +136,20 @@ function drawLabel(ctx, canvas, text, font, color, size,) {
 }
 
 
-AFRAME.registerComponent('gui-toggle', {
+AFRAME.registerComponent('gui-timer', {
     schema: {
-    	on: {default: 'click'},
+    	on: {default:'click'},
 //    	emit: {default:null},
 		targetFg: {type: 'selector', default: '#canvasObjFront'},
 		targetBg: {type: 'selector', default: '#canvasObjBack'},
-      	text: {type: 'string', default: 'text'},
       	fontColor: {type: 'string', default: 'black'},
       	borderColor: {type: 'string', default: 'black'},
       	borderWidth: {type: 'number', default: 1},
-      	toggleColor: {type: 'string', default: 'black'},
-      	toggleOnColor: {type: 'string', default: 'green'},
-      	toggleOffColor: {type: 'string', default: 'grey'},
+      	backgroundColor: {type: 'string', default: 'white'},
       	hoverColor: {type: 'string', default: 'red'},
-      	width: {type: 'number', default: 2},
-      	height: {type: 'number', default: 1},
-      	active: {type: 'boolean', default: true}
+      	dur: {type: 'number', default: 10},
+      	width: {type: 'number', default: 1},
+      	height: {type: 'number', default: 1}
     },
     init: function() {
 
@@ -177,7 +174,7 @@ AFRAME.registerComponent('gui-toggle', {
         canvasFg.setAttribute('width', canvasWidth);
         canvasFg.setAttribute('height', canvasHeight);
 
-		this.updateToggle(data.active);
+		this.updateTimer(321);
 		
 		el.addEventListener('mouseenter', function () {
 			el.setAttribute('material', 'color', data.hoverColor);
@@ -194,25 +191,14 @@ AFRAME.registerComponent('gui-toggle', {
 	},
 	update: function(){
         var data = this.data;
-		this.updateToggle(data.active)
+		this.updateTimer(123);
 	},
 
 
-	updateToggle: function(active){
-
-		if(active){
-			roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, this.canvasBg.height/4 + 20  - this.data.borderWidth/2, this.canvasBg.height/2 - 40 + this.data.borderWidth, this.canvasBg.height/2 - 40 + this.data.borderWidth, 20, this.data.borderColor, this.data.borderWidth);
-			roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/2 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleOnColor);
-			roundedRect(this.ctxBg, this.canvasBg.height/4 + 20, this.canvasBg.height/4 + 20, this.canvasBg.height/4 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleColor);
-			drawLabel(this.ctxFg, this.canvasFg, this.data.text, '100px Arial', this.data.fontColor, 1);
-
-		}else{
-			roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, this.canvasBg.height/4 + 20  - this.data.borderWidth/2, this.canvasBg.height/2 - 40 + this.data.borderWidth, this.canvasBg.height/2 - 40 + this.data.borderWidth, 20, this.data.borderColor, this.data.borderWidth);
-			roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/2 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleOffColor);
-			roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/4 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleColor);
-			drawLabel(this.ctxFg, this.canvasFg, this.data.text, '100px Arial', this.data.fontColor, 1);
-		}
-
+	updateTimer: function(time){
+		roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, 20 - this.data.borderWidth/2, this.canvasBg.height - 40 + this.data.borderWidth, this.canvasBg.height - 40 + this.data.borderWidth, this.canvasBg.height/2-20, this.data.borderColor, this.data.borderWidth);
+		roundedRect(this.ctxBg, 20, 20, this.canvasBg.width - 40, this.canvasBg.height - 40, this.canvasBg.height/2-20, this.data.backgroundColor);
+		drawTime(this.ctxFg, this.canvasFg, time, '100px Arial', this.data.fontColor, 1);
 	}
 
 });
@@ -242,7 +228,7 @@ AFRAME.registerComponent('gui-toggle', {
 
 				//roundedOutline(ctxBg, 10, 10, canvasBg.width - 20, canvasBg.height - 20, 5, data.borderColor);
 				roundedRect(ctxBg, 20, 20, canvasBg.width - 40, canvasBg.height - 40, 10, data.backgroundColor);
-				drawText(ctxFg, canvasFg, data.text, '100px Arial', data.fontColor, 1);
+				drawTime(ctxFg, canvasFg, data.text, '100px Arial', data.fontColor, 1);
 
 
 		    },
