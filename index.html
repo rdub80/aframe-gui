@@ -39,54 +39,47 @@
 		  </a-entity>
 		</a-entity>
 
-		<a-entity id="box" cursor-listener geometry="primitive: box;" position="0 0.5 -5" material="color: blue"></a-entity>
 
-		<a-entity id="ui-curved"
-			geometry="primitive:cylinder; height:1; open-ended:true; radius:2; segments-height: 18; segments-radial: 48; theta-length:40; theta-start:160;"
-			material="color:#fff; src:#panel; transparent: false; metalness:0; opacity:1; repeat:none; roughness:0.5; shader:flat; side:back;"
-			position="0 1.5 0"
-		>
-		</a-entity>
+		<a-entity 
+			geometry="primitive: plane;" 
 
-		<a-entity id="ui-flat"
-			button-text="targetBg:#canvasObjBack; targetFg:#canvasObjFront; text:test copy; fontColor:#f00; backgroundColor:#333; borderColor:#00f; width:1;" 
-
+			gui-button="
+				targetBg:#canvasObjBack; 
+				targetFg:#canvasObjFront; 
+				text:label copy; 
+				fontColor:#f00; 
+				backgroundColor:blue; 
+				borderColor:#00f;
+				width:3;
+				height:1;
+			" 
 			material="shader: flat; transparent: true; opacity: 1; side:double;"
-			opacity="0.95" geometry="primitive: plane;" 
+			opacity="1" 
 			scale="1 1 1"
 			position="0 1.5 -1.5" rotation="0 0 0" 
 		>
 			<a-entity id="bg"
 				material="shader: flat; src: #canvasObjBack; transparent: true; opacity: 1; side:double;"
-				opacity="1" geometry="primitive: plane; width: 2; height: 1" 
+				geometry="primitive: plane; width: 3; height: 1"
+				opacity="1"  
 				scale="1 1 1"
-				position="0 0 0.1"
+				position="0 0 0.001"
 			></a-entity>
 
 			<a-entity id="text"
 				material="shader: flat; src: #canvasObjFront; transparent: true; opacity: 1; side:double;"
-				opacity="1" geometry="primitive: plane; width: 2; height: 1" 
-				scale="0.5 0.5 0.5"
-				position="0 0 0.2" 
+				geometry="primitive: plane; width: 3; height: 1" 
+				opacity="1" 
+				scale="1 1 1"
+				position="0 0 0.002" 
 			></a-entity>
 		</a-entity>
-		
 
 
 	</a-scene>
 
 	<script type="text/javascript">
-	// Component to change to random color on click.
-		AFRAME.registerComponent('cursor-listener', {
-			init: function () {
-				var COLORS = ['red', 'green', 'blue'];
-				this.el.addEventListener('click', function (evt) {
-					var randomIndex = Math.floor(Math.random() * COLORS.length);
-					this.setAttribute('material', 'color', COLORS[randomIndex]);
-					console.log('I was clicked at: ', evt.detail.intersection.point);
-				});
-			}
-		});
+
 
 
 
@@ -135,28 +128,62 @@ function drawText(ctx, canvas, text, font, color, size) {
 }
 
 
-AFRAME.registerComponent('a-button', {
-  schema: {
-    width: {type: 'number', default: 1},
-    height: {type: 'number', default: 1},
-    depth: {type: 'number', default: 1},
-    color: {type: 'color', default: '#AAA'}
-  },
-  /**
-   * Initial creation and setting of the mesh.
-   */
-  init: function () {
-    var data = this.data;
-    var el = this.el;
-    // Create geometry.
-    this.geometry = new THREE.BoxBufferGeometry(data.width, data.height, data.depth);
-    // Create material.
-    this.material = new THREE.MeshStandardMaterial({color: data.color});
-    // Create mesh.
-    this.mesh = new THREE.Mesh(this.geometry, this.material);
-    // Set mesh on entity.
-    el.setObject3D('mesh', this.mesh);
-  }
+
+AFRAME.registerComponent('gui-button', {
+    schema: {
+    	on: {default: 'click'},
+//    	emit: {default:null},
+		targetFg: {type: 'selector', default: '#canvasObjFront'},
+		targetBg: {type: 'selector', default: '#canvasObjBack'},
+      	text: {type: 'string', default: 'text'},
+      	fontColor: {type: 'string', default: 'rgba(0,0,0,1)'},
+      	borderColor: {type: 'string', default: 'rgba(0,0,0,1)'},
+      	backgroundColor: {type: 'string', default: 'rgba(215,215,215,1)'},
+      	hoverColor: {type: 'string', default: 'rgba(122,122,122,1)'},
+      	width: {type: 'number', default: 2},
+      	height: {type: 'number', default: 1}
+    },
+    init: function() {
+
+        var data = this.data;
+        var multiplier = 350;
+        var canvasWidth = data.width*multiplier;
+        var canvasHeight = data.height*multiplier;
+
+        var el = this.el;
+        var canvasFg = this.canvasFg = data.targetFg;
+        var canvasBg = this.canvasBg = data.targetBg;
+        var ctxFg = this.ctxFg = canvasFg.getContext('2d');
+        var ctxBg = this.ctxBg = canvasBg.getContext('2d');
+
+		el.setAttribute('material', 'color', data.backgroundColor);
+		el.setAttribute('geometry', 'width', data.width);
+		el.setAttribute('geometry', 'height', data.height);
+
+        canvasBg.setAttribute('width', canvasWidth);
+        canvasBg.setAttribute('height', canvasHeight);
+
+        canvasFg.setAttribute('width', canvasWidth);
+        canvasFg.setAttribute('height', canvasHeight);
+
+		roundedOutline(ctxBg, 10, 10, canvasBg.width - 20, canvasBg.height - 20, 5, data.borderColor);
+		roundedRect(ctxBg, 20, 20, canvasBg.width - 40, canvasBg.height - 40, 10, data.backgroundColor);
+		drawText(ctxFg, canvasFg, data.text, '100px Arial', data.fontColor, 1);
+		
+		el.addEventListener('mouseenter', function () {
+			el.setAttribute('material', 'color', data.hoverColor);
+		});
+		
+		el.addEventListener('mouseleave', function () {
+			el.setAttribute('material', 'color', data.backgroundColor);
+		});
+		
+		el.addEventListener(data.on, function (evt) {
+			this.setAttribute('material', 'color', data.fontColor);
+			console.log('I was clicked at: ', evt.detail.intersection.point);
+		});
+
+	}
 });
 
 
@@ -168,7 +195,7 @@ AFRAME.registerComponent('a-button', {
 		      fontColor: {type: 'string', default: 'rgba(0,0,0,1)'},
 		      borderColor: {type: 'string', default: 'rgba(0,0,0,1)'},
 		      backgroundColor: {type: 'string', default: 'rgba(215,215,215,1)'},
-		      width: {type: 'number', default: 1}
+		      width: {type: 'number', default: 1},
 		      height: {type: 'number', default: 1}
 		    },
 		    init: function() {
@@ -184,7 +211,6 @@ AFRAME.registerComponent('a-button', {
 				roundedRect(ctxBg, 20, 20, canvasBg.width - 40, canvasBg.height - 40, 10, data.backgroundColor);
 				drawText(ctxFg, canvasFg, data.text, '100px Arial', data.fontColor, 1);
 
-				el.setAttribute()
 
 		    },
 		    update: function () {
