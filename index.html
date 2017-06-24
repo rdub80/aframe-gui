@@ -49,8 +49,7 @@
 		</a-entity>
 
 		<a-entity id="ui-flat"
-			button-text="targetBg:#canvasObjBack; targetFg:#canvasObjFront; text:test copy; fontColor:#f00; backgroundColor:#333; borderColor:#00f; width:1;" 
-
+			button-text="targetBg:#canvasObjBack; targetFg:#canvasObjFront; text:test copy; fontColor:#f00; backgroundColor:#333; borderColor:#00f; width:2; height: 1;"
 			material="shader: flat; transparent: true; opacity: 1; side:double;"
 			opacity="0.95" geometry="primitive: plane;" 
 			scale="1 1 1"
@@ -168,7 +167,7 @@ AFRAME.registerComponent('a-button', {
 		      fontColor: {type: 'string', default: 'rgba(0,0,0,1)'},
 		      borderColor: {type: 'string', default: 'rgba(0,0,0,1)'},
 		      backgroundColor: {type: 'string', default: 'rgba(215,215,215,1)'},
-		      width: {type: 'number', default: 1}
+		      width: {type: 'number', default: 1},
 		      height: {type: 'number', default: 1}
 		    },
 		    init: function() {

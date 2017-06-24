@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI</title>
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="components.js"></script>
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<!-- Text Canvas -->
+			<canvas id="canvasObjBack" crossorigin="anonymous" webkit-playsinline=""></canvas>
+			<canvas id="canvasObjFront" crossorigin="anonymous" webkit-playsinline=""></canvas>
+
+			<img id="gradient" src="assets/gradient.png">
+			<img id="ground" src="assets/ground.png">
+			<img id="panel" src="assets/settings.png">
+		</a-assets>
+
+		<a-light
+			type="directional"
+			color="#FFF"
+			intensity="1"
+			position="-1 1 2">
+		</a-light>
+		<a-light
+			type="ambient"
+			color="#ebd9e9">
+		</a-light>
+		
+		<a-sky src="#gradient"></a-sky>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+		<a-entity gui-item="type: flex-container; width: 5; height: 3;"
+			gui-flex-container="flexDirection: column; justifyContent: center; componentPadding: 0.1;"
+			position="-1 1.5 -3"
+			rotation="0 0 0"
+		 >
+			<a-entity id="ui-flat" gui-item="type: button;  width: 2; height: 1;"
+					  gui-button="targetBg:#canvasObjBack; targetFg:#canvasObjFront; text:test copy; fontColor:#f00; backgroundColor:#333; borderColor:#00f;"
+					  scale="1 1 1"
+					  position="0 1.5 -1.5" rotation="0 0 0"
+			>
+				<a-entity id="bg"
+						  material="shader: flat; src: #canvasObjBack; transparent: true; opacity: 1; side:double;"
+						  opacity="1" geometry="primitive: plane; width: 1.5; height: 0.75"
+						  scale="1 1 1"
+						  position="0 0 0.1"
+				></a-entity>
+
+				<a-entity id="text"
+						  material="shader: flat; src: #canvasObjFront; transparent: true; opacity: 1; side:double;"
+						  opacity="1" geometry="primitive: plane; width: 1.5; height: 0.75"
+						  scale="0.5 0.5 0.5"
+						  position="0 0 0.2"
+				></a-entity>
+			</a-entity>
+			<a-entity gui-item="type: rectangle;  height: 0.5; width: 1;"
+				geometry="primitive: plane; height: 0.5; width: 1;"
+				position="0 0 0.1"
+				rotation="0 0 0"
+				material="shader: flat; color: blue; side: double;"
+			></a-entity>
+			<a-entity gui-item="type: rectangle;  height: 0.5; width: 1;"
+					geometry="primitive: plane; height: 0.5; width: 1;"
+					position="0 0 0.1"
+					rotation="0 0 0"
+					material="shader: flat; color: blue; side: double;"
+			></a-entity>
+			<a-entity gui-item="type: rectangle;  height: 0.5; width: 1;"
+					geometry="primitive: plane; height: 0.5; width: 1;"
+					position="0 0 0.1"
+					rotation="0 0 0"
+					material="shader: flat; color: blue; side: double;"
+			></a-entity>
+		</a-entity>
+		<a-camera> 
+			<a-cursor></a-cursor>
+		</a-camera>
+
+	</a-scene>
+</body>
+</html>
