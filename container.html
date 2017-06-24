@@ -50,25 +50,34 @@
 					position="0 1.5 -1.5"
 			>
 			</a-entity>
-			<a-entity gui-item="type: rectangle;  height: 0.5; width: 1;"
-				geometry="primitive: plane; height: 0.5; width: 1;"
-				position="0 0 0.1"
-				material="shader: flat; color: blue; side: double;"
-			></a-entity>
-			<a-entity gui-item="type: rectangle;  height: 0.5; width: 1;"
-					geometry="primitive: plane; height: 0.5; width: 1;"
-					position="0 0 0.1"
-					material="shader: flat; color: blue; side: double;"
-			></a-entity>
+			<a-entity  gui-item="type: toggle; width: 2.5; height: 0.75;"
+					geometry="primitive: plane;"
+					gui-toggle="
+				targetBg:#canvasObjBack;
+				targetFg:#canvasObjFront;
+				text:label copy;
+				borderWidth:5;
+			"
+					material="shader: flat; transparent: true; opacity: 1; side:double;"
+					opacity="1"
+					scale="1 1 1"
+					position="0 1.5 -1.5" rotation="0 0 0"
+			>
+			</a-entity>
 			<a-entity gui-item="type: rectangle;  height: 0.5; width: 1;"
 					geometry="primitive: plane; height: 0.5; width: 1;"
 					position="0 0 0.1"
 					material="shader: flat; color: blue; side: double;"
 			></a-entity>
 		</a-entity>
-		<a-camera> 
-			<a-cursor></a-cursor>
-		</a-camera>
+		<a-entity camera="userHeight: 1.6" look-controls="">
+			<a-entity cursor="fuse: true; fuseTimeout: 500"
+					  gui-cursor=""
+					  position="0 0 -1"
+					  geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+					  material="color: black; shader: flat">
+			</a-entity>
+		</a-entity>
 
 	</a-scene>
 </body>

@@ -145,6 +145,18 @@ function drawText(ctx, canvas, text, font, color, size) {
 }
 
 
+function drawLabel(ctx, canvas, text, font, color, size,) {
+    ctx.font = font;
+    ctx.fillStyle = color;
+    ctx.textAlign = "left";
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 8;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.scale(1, 1);
+    ctx.fillText(text, canvas.width/2 - canvas.width/4, canvas.height/2, canvas.width - canvas.width/4); // position x, y
+}
 
 AFRAME.registerComponent('gui-button', {
     schema: {
@@ -162,7 +174,7 @@ AFRAME.registerComponent('gui-button', {
 
         var data = this.data;
         var el = this.el;
-        var guiItem = el.getAttribute("gui-item")
+        var guiItem = el.getAttribute("gui-item");
         var multiplier = 350;
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
@@ -175,6 +187,7 @@ AFRAME.registerComponent('gui-button', {
         document.body.appendChild(canvasBg);
 
         var canvasFg = document.createElement("canvas");
+        this.canvasFg = canvasFg
         canvasFg.setAttribute('width', canvasWidth);
         canvasFg.setAttribute('height', canvasHeight);
         canvasFg.id = getUniqueId('canvasObjFront');
@@ -228,5 +241,122 @@ AFRAME.registerComponent('gui-button', {
     },
 });
 
+AFRAME.registerComponent('gui-toggle', {
+    schema: {
+        on: {default: 'click'},
+//    	emit: {default:null},
+        targetFg: {type: 'selector', default: '#canvasObjFront'},
+        targetBg: {type: 'selector', default: '#canvasObjBack'},
+        text: {type: 'string', default: 'text'},
+        fontColor: {type: 'string', default: 'black'},
+        borderColor: {type: 'string', default: 'black'},
+        borderWidth: {type: 'number', default: 1},
+        toggleColor: {type: 'string', default: 'black'},
+        toggleOnColor: {type: 'string', default: 'green'},
+        toggleOffColor: {type: 'string', default: 'grey'},
+        hoverColor: {type: 'string', default: 'red'},
+        active: {type: 'boolean', default: true}
+    },
+    init: function() {
+
+        var el = this.el;
+        var guiItem = el.getAttribute("gui-item");
+        var data = this.data;
+        var multiplier = 350;
+        var canvasWidth = guiItem.width*multiplier;
+        var canvasHeight = guiItem.height*multiplier;
 
 
+        var canvasBg = document.createElement("canvas");
+        this.canvasBg = canvasBg
+        canvasBg.setAttribute('width', canvasWidth);
+        canvasBg.setAttribute('height', canvasHeight);
+        canvasBg.id = getUniqueId('canvasObjBack');
+        document.body.appendChild(canvasBg);
+
+        var canvasFg = document.createElement("canvas");
+        this.canvasFg = canvasFg
+        canvasFg.setAttribute('width', canvasWidth);
+        canvasFg.setAttribute('height', canvasHeight);
+        canvasFg.id = getUniqueId('canvasObjFront');
+        document.body.appendChild(canvasFg);
+
+        var ctxFg = this.ctxFg = canvasFg.getContext('2d');
+        var ctxBg = this.ctxBg = canvasBg.getContext('2d');
+
+        el.setAttribute('material', 'color', data.backgroundColor);
+        el.setAttribute('geometry', 'width', guiItem.width);
+        el.setAttribute('geometry', 'height', guiItem.height);
+
+        var bgEntity = document.createElement("a-entity");
+        bgEntity.setAttribute('material', `shader: flat; src: #${canvasBg.id}; transparent: true; opacity: 1; side:double;`);
+        bgEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
+        bgEntity.setAttribute('position', '0 0 0.001');
+        this.el.appendChild(bgEntity);
+
+        var fgEntity = document.createElement("a-entity");
+        fgEntity.setAttribute('material', `shader: flat; src: #${canvasFg.id}; transparent: true; opacity: 1; side:double;`);
+        fgEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
+        fgEntity.setAttribute('position', '0 0 0.002');
+        this.el.appendChild(fgEntity);
+
+        this.updateToggle(data.active);
+
+        el.addEventListener('mouseenter', function () {
+            el.setAttribute('material', 'color', data.hoverColor);
+        });
+
+        el.addEventListener('mouseleave', function () {
+            el.setAttribute('material', 'color', data.backgroundColor);
+        });
+
+        el.addEventListener(data.on, function (evt) {
+            console.log('I was clicked at: ', evt.detail.intersection.point);
+        });
+
+    },
+    update: function(){
+        var data = this.data;
+        this.updateToggle(data.active)
+    },
+
+
+    updateToggle: function(active){
+
+        if(active){
+            roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, this.canvasBg.height/4 + 20  - this.data.borderWidth/2, this.canvasBg.height/2 - 40 + this.data.borderWidth, this.canvasBg.height/2 - 40 + this.data.borderWidth, 20, this.data.borderColor, this.data.borderWidth);
+            roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/2 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleOnColor);
+            roundedRect(this.ctxBg, this.canvasBg.height/4 + 20, this.canvasBg.height/4 + 20, this.canvasBg.height/4 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleColor);
+            drawLabel(this.ctxFg, this.canvasFg, this.data.text, '100px Arial', this.data.fontColor, 1);
+
+        }else{
+            roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, this.canvasBg.height/4 + 20  - this.data.borderWidth/2, this.canvasBg.height/2 - 40 + this.data.borderWidth, this.canvasBg.height/2 - 40 + this.data.borderWidth, 20, this.data.borderColor, this.data.borderWidth);
+            roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/2 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleOffColor);
+            roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/4 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleColor);
+            drawLabel(this.ctxFg, this.canvasFg, this.data.text, '100px Arial', this.data.fontColor, 1);
+        }
+
+    }
+
+});
+
+AFRAME.registerComponent('gui-cursor', {
+    schema: {
+    },
+    init: function () {
+        var cursor = this.el.getAttribute('cursor');
+        var fuse = cursor.fuse; // true if cursor fuse is enabled.
+        var fuseTimeout = cursor.fuseTimeout; // animation lenght should be based on this value
+        console.log("fuse: "+fuse+", fuseTimeout: "+fuseTimeout);
+    },
+    update: function () {
+    },
+    tick: function () {
+    },
+    remove: function () {
+    },
+    pause: function () {
+    },
+    play: function () {
+    },
+});
