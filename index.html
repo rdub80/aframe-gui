@@ -10,6 +10,7 @@
 		<a-assets>
 		    <img id="gradient" src="assets/gradient.png">
 		    <img id="ground" src="assets/ground.png">
+		    <img id="panel" src="assets/settings.png">
 		</a-assets>
 
 		<a-light
@@ -20,14 +21,45 @@
 		</a-light>
 		<a-light
 			type="ambient"
-			color="#ebd9e9">
+			color="#444">
 		</a-light>
 
 		<a-sky src="#gradient"></a-sky>
-  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#fff"></a-image>
 
-		<a-camera> 
-			<a-cursor></a-cursor>
-		</a-camera>
+		<a-entity camera="userHeight: 1.6" look-controls>
+		  <a-entity cursor="fuse: true; fuseTimeout: 500"
+		            position="0 0 -1"
+		            geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+		            material="color: black; shader: flat">
+		  </a-entity>
+		</a-entity>
+
+		<a-entity id="box" cursor-listener geometry="primitive: box;" position="0 0.5 -5" material="color: blue"></a-entity>
+
+		<a-entity id="gui" geometry="primitive: box" material="color: red" ></a-entity>
+
+		<a-entity 
+			geometry="primitive:cylinder; height:1; open-ended:true; radius:2; segments-height: 18; segments-radial: 48; theta-length:40; theta-start:160;"
+			material="color:#fff; metalness:0; opacity:1; repeat:none; roughness:0.5; shader:flat; side:double; src:#panel; transparent: false"
+			position="0 1.5 0"
+		>
+		</a-entity>
 
 	</a-scene>
+
+	<script type="text/javascript">
+	// Component to change to random color on click.
+		AFRAME.registerComponent('cursor-listener', {
+			init: function () {
+				var COLORS = ['red', 'green', 'blue'];
+				this.el.addEventListener('click', function (evt) {
+					var randomIndex = Math.floor(Math.random() * COLORS.length);
+					this.setAttribute('material', 'color', COLORS[randomIndex]);
+					console.log('I was clicked at: ', evt.detail.intersection.point);
+				});
+			}
+		});
+	</script>
+
+</body>
