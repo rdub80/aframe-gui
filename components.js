@@ -1,3 +1,11 @@
+window.testToggleAction = function() {
+    console.log("in testToggleAction");
+}
+
+window.testButtonAction = function() {
+    console.log("in testButtonAction");
+}
+
 //default colors
 var key_orange       = '#ed5b21' // rgb(237, 91, 33) Light orange
 var key_orange_light = '#ef8c60' // rgb (239, 140, 96) Extra Light Orange
@@ -57,7 +65,7 @@ AFRAME.registerComponent('gui-flex-container', {
 	  console.log("in aframe-gui-component init");
 	  var guiItem = this.el.getAttribute("gui-item")
       console.log("container gui-item: "+guiItem);
-      this.el.setAttribute("geometry", `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
+      this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
       this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; color: ${this.data.backgroundColor};`);
       var cursorX = 0;
       var cursorY = guiItem.height*0.5 - this.data.componentPadding
@@ -205,8 +213,8 @@ AFRAME.registerComponent('gui-button', {
         var ctxBg = this.ctxBg = canvasBg.getContext('2d');
 
         el.setAttribute('material', 'color', data.backgroundColor);
-        el.setAttribute('geometry', 'width', guiItem.width);
-        el.setAttribute('geometry', 'height', guiItem.height);
+        this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
+
 
 
 
@@ -240,6 +248,15 @@ AFRAME.registerComponent('gui-button', {
         el.addEventListener(data.on, function (evt) {
             this.setAttribute('material', 'color', data.fontColor);
             console.log('I was clicked at: ', evt.detail.intersection.point);
+            var guiInteractable = el.getAttribute("gui-interactable");
+            console.log("guiInteractable: "+guiInteractable);
+            var clickActionFunctionName = guiInteractable.clickAction;
+            console.log("clickActionFunctionName: "+clickActionFunctionName);
+            // find object
+            var clickActionFunction = window[clickActionFunctionName];
+            console.log("clickActionFunction: "+clickActionFunction);
+            // is object a function?
+            if (typeof clickActionFunction === "function") clickActionFunction();
         });
 
 
@@ -261,6 +278,8 @@ AFRAME.registerComponent('gui-toggle', {
         toggleOnColor: {type: 'string', default: key_orange},
         toggleOffColor: {type: 'string', default: key_grey_light},
         hoverColor: {type: 'string', default: key_offwhite},
+        backgroundColor: {type: 'string', default: key_offwhite},
+        opacity: {type: 'number', default: 1.0},
         active: {type: 'boolean', default: true}
     },
     init: function() {
@@ -269,7 +288,7 @@ AFRAME.registerComponent('gui-toggle', {
         var guiItem = el.getAttribute("gui-item");
         var data = this.data;
 
-        el.setAttribute('material', 'color', data.backgroundColor);
+        el.setAttribute('material', `shader: flat; color: ${this.data.backgroundColor}; transparent: true; opacity: ${this.data.opacity}; side:double;`);
         el.setAttribute('geometry', 'width', guiItem.width);
         el.setAttribute('geometry', 'height', guiItem.height);
 
@@ -279,7 +298,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.setAttribute('width', `${toggleBoxWidth}`);
         toggleBox.setAttribute('height', '0.35');
         toggleBox.setAttribute('depth', '0.01');
-        toggleBox.setAttribute('material', 'color:lightgray; shader: flat;');
+        toggleBox.setAttribute('material', `color:${key_grey_light}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
         this.el.appendChild(toggleBox);
 
@@ -365,6 +384,15 @@ AFRAME.registerComponent('gui-toggle', {
             console.log('I was clicked at: ', evt.detail.intersection.point);
             toggleColorAnimation.emit('toggleAnimation');
             toggleHandleAnimation.emit('toggleAnimation');
+            var guiInteractable = el.getAttribute("gui-interactable");
+            console.log("guiInteractable: "+guiInteractable);
+            var clickActionFunctionName = guiInteractable.clickAction;
+            console.log("clickActionFunctionName: "+clickActionFunctionName);
+            // find object
+            var clickActionFunction = window[clickActionFunctionName];
+            console.log("clickActionFunction: "+clickActionFunction);
+            // is object a function?
+            if (typeof clickActionFunction === "function") clickActionFunction();
         });
 
     },
@@ -575,6 +603,8 @@ AFRAME.registerComponent('gui-cursor', {
 
 AFRAME.registerComponent('gui-interactable', {
     schema: {
+        clickAction: {type: 'string'},
+        hoverAction: {type: 'string'},
     },
     init: function () {
 

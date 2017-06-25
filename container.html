@@ -3,9 +3,9 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI</title>
-  	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
     <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
     <script src="components.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 </head>
 <body>
 	<a-scene>
@@ -34,11 +34,12 @@
 		<a-sky src="#gradient"></a-sky>
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 		<a-entity gui-item="type: flex-container; width: 5; height: 3;"
-			gui-flex-container="flexDirection: column; justifyContent: center; componentPadding: 0.1;"
-			position="-1 2.5 -3"
+			gui-flex-container="flexDirection: column; justifyContent: left; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+			position="-0.5 1.5 -3"
 			rotation="0 0 0"
 		 >
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: testButtonAction;"
 					geometry="primitive: plane;"
 					gui-button="
 				text:label copy;
@@ -48,11 +49,13 @@
 					position="0 1.5 -1.5"
 			>
 			</a-entity>
-			<a-entity gui-item="type: toggle; width: 2.5; height: 1.0;"
-					  gui-interactable=""
+			<a-entity gui-item="type: toggle; width: 2.5; height: 0.75;"
+					  gui-interactable="clickAction: testToggleAction;"
 					geometry="primitive: plane;"
 					gui-toggle="
 				text:label copy;
+				backgroundColor: red;
+				opacity: 0.2;
 				fontFamily:'Fira Sans';
 			"
 					material="shader: flat; transparent: true; opacity: 1; side:double;"
