@@ -3,6 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI</title>
+  	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
     <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
     <script src="components.js"></script>
 </head>
@@ -41,9 +42,7 @@
 					geometry="primitive: plane;"
 					gui-button="
 				text:label copy;
-				fontColor:white;
-				backgroundColor:gray;
-				borderColor:white;
+				fontFamily:'Fira Sans';
 			"
 					material="shader: flat; transparent: true; opacity: 1; side:double;"
 					position="0 1.5 -1.5"
@@ -54,8 +53,7 @@
 					geometry="primitive: plane;"
 					gui-toggle="
 				text:label copy;
-				fontColor:black;
-				backgroundColor:blue;
+				fontFamily:'Fira Sans';
 			"
 					material="shader: flat; transparent: true; opacity: 1; side:double;"
 					position="0 1.5 -1.5"
@@ -84,7 +82,7 @@
 					  cursor="fuse: true; fuseTimeout: 2000"
 					  gui-cursor=""
 					  position="0 0 -1"
-					  geometry="primitive: ring; radiusInner:0.00015; radiusOuter:0.02"
+					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
 					  material="color: #ffffff; shader: flat"
 			>
 			</a-entity> <!-- /cursor -->
