@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI</title>
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="components.js"></script>
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<!-- Text Canvas -->
+			<!--<canvas id="canvasObjBack" crossorigin="anonymous" webkit-playsinline=""></canvas>
+			<canvas id="canvasObjFront" crossorigin="anonymous" webkit-playsinline=""></canvas> -->
+
+			<img id="gradient" src="assets/gradient.png">
+			<img id="ground" src="assets/ground.png">
+			<img id="panel" src="assets/settings.png">
+		</a-assets>
+
+		<a-light
+			type="directional"
+			color="#FFF"
+			intensity="1"
+			position="-1 1 2">
+		</a-light>
+		<a-light
+			type="ambient"
+			color="#ebd9e9">
+		</a-light>
+		
+		<a-sky src="#gradient"></a-sky>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+		<a-entity gui-item="type: flex-container; width: 5; height: 3;"
+			gui-flex-container="flexDirection: column; justifyContent: center; componentPadding: 0.1;"
+			position="-1 1.5 -3"
+			rotation="0 0 0"
+		 >
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					geometry="primitive: plane;"
+					gui-button="
+				targetBg:#canvasObjBack;
+				targetFg:#canvasObjFront;
+				text:label copy;
+				fontColor:white;
+				backgroundColor:gray;
+				borderColor:white;
+			"
+					material="shader: flat; transparent: true; opacity: 1; side:double;"
+					position="0 1.5 -1.5"
+			>
+			</a-entity>
+			<a-entity  gui-item="type: toggle; width: 2.5; height: 0.75;"
+					geometry="primitive: plane;"
+					gui-toggle="
+				targetBg:#canvasObjBack;
+				targetFg:#canvasObjFront;
+				text:label copy;
+				borderWidth:5;
+			"
+					material="shader: flat; transparent: true; opacity: 1; side:double;"
+					opacity="1"
+					scale="1 1 1"
+					position="0 1.5 -1.5" rotation="0 0 0"
+			>
+			</a-entity>
+			<a-entity gui-item="type: rectangle;  height: 0.5; width: 1;"
+					geometry="primitive: plane; height: 0.5; width: 1;"
+					position="0 0 0.1"
+					material="shader: flat; color: blue; side: double;"
+			></a-entity>
+		</a-entity>
+
+
+
+      <!-- Camera + cursor. -->
+        <a-entity camera="userHeight: 1.6" look-controls="">
+
+          	<a-entity id="cursor" 
+                    raycaster="interval: 1000; objects: [gui-toggle]"
+                    cursor="fuse: true; fuseTimeout: 1500"
+					gui-cursor=""
+                    position="0 0 -1"
+                    geometry="primitive: ring; radiusInner:0.00015; radiusOuter:0.02"
+                    material="color: #ffffff; shader: flat"
+                    >
+            	<a-entity id="cursorshadow"
+                      geometry="primitive: ring; radiusInner:0.02; radiusOuter:0.0225"
+                      material="color: #000000; shader: flat; opacity:0.25;">
+            	</a-entity>
+
+            	<a-animation begin="hovergui" easing="linear" attribute="geometry.radiusInner" fill="forwards" from="0.00015" to="0.015" dur="100"></a-animation>
+
+            	<a-animation begin="leavegui" easing="linear" attribute="geometry.radiusInner" fill="forwards" from="0.015" to="0.00015" dur="100"></a-animation>
+
+
+            	<a-animation begin="cursor-fusing" easing="linear" attribute="scale" fill="forwards" from="1 1 1" to="2 2 2" dur="100"></a-animation>
+            	<a-animation begin="cursor-fusing" easing="linear" attribute="material.color" fill="forwards" from="#ffffff" to="#F0E372" dur="100"></a-animation>
+            	<a-animation begin="cursor-fusing" easing="linear" attribute="geometry.thetaLength" fill="forwards" from="0" to="360" dur="1500"></a-animation>
+            	<a-animation begin="click" easing="linear" attribute="scale" fill="none" from="2 2 2" to="4 4 4" dur="300" easing="ease-in"></a-animation>
+          
+          </a-entity> <!-- /cursor -->
+
+        </a-entity> <!-- /camera -->
+
+
+
+
+	</a-scene>
+</body>
+</html>

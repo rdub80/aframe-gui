@@ -344,12 +344,27 @@ AFRAME.registerComponent('gui-cursor', {
     schema: {
     },
     init: function () {
-        var cursor = this.el.getAttribute('cursor');
+        var cursor = this.cursor = this.el.getAttribute('cursor');
         var fuse = cursor.fuse; // true if cursor fuse is enabled.
         var fuseTimeout = cursor.fuseTimeout; // animation lenght should be based on this value
         console.log("fuse: "+fuse+", fuseTimeout: "+fuseTimeout);
+
+        // this.el.addEventListener('mouseenter', function () {
+        //     cursor.emit('hovergui');
+        // });
+
+        // this.el.addEventListener('mouseleave', function () {
+        //     cursor.emit('leavegui');
+        // });
+
+        this.el.addEventListener("mouseenter", this.hovergui()); 
+        this.el.addEventListener("mouseleave", this.leavegui()); 
+        // this.el.addEventListener("stateremoved", this.reset(this.ev)); 
+
     },
     update: function () {
+
+       
     },
     tick: function () {
     },
@@ -359,4 +374,31 @@ AFRAME.registerComponent('gui-cursor', {
     },
     play: function () {
     },
+    hovergui: function () {
+        this.cursor.emit('hovergui');
+    },
+    leavegui: function (evt) {
+        this.cursor.emit('leavegui');
+    },
+    resetcursor: function(){
+        if (evt.detail.state === 'cursor-fusing') {
+            AFRAME.utils.entity.setComponentProperty(this, "geometry.thetaLength", 360);
+            AFRAME.utils.entity.setComponentProperty(this, "material.color", "#ffffff");
+            AFRAME.utils.entity.setComponentProperty(this, "scale", "1 1 1");
+        }        
+    }
 });
+
+
+
+// Reset cursor
+var cursor = document.querySelector("#cursor");
+if (cursor) {
+  cursor.addEventListener("stateremoved", function (evt) {
+    if (evt.detail.state === 'cursor-fusing') {
+      AFRAME.utils.entity.setComponentProperty(this, "geometry.thetaLength", 360);
+      AFRAME.utils.entity.setComponentProperty(this, "material.color", "#ffffff");
+      AFRAME.utils.entity.setComponentProperty(this, "scale", "1 1 1");
+    }
+  });
+}
