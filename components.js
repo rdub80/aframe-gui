@@ -36,7 +36,7 @@ var key_grey         = '#22252a' // rgb(34, 37, 42) Standard grey
 var key_grey_dark    = '#2c3037' // rgb(44, 48, 55) Medium grey
 var key_grey_light   = '#606876' // rgb(96, 104, 118) Light grey
 var key_offwhite     = '#d3d3d4' // rgb(211, 211, 212) Extra Light grey
-
+var key_white        = '#fff'
 
 function getUniqueId(stringPrefix) {
     var datestr = new Date().getTime().toString();
@@ -232,7 +232,8 @@ AFRAME.registerComponent('gui-button', {
 
         var ctx = this.ctx = canvas.getContext('2d');
 
-        el.setAttribute('material', 'color', 'red');
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
+
         this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
 
         drawText(ctx, canvas, data.text, '100px' + data.fontFamily, data.fontColor, 1);
@@ -318,7 +319,8 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var ctx = this.ctx = canvas.getContext('2d');
 
-        el.setAttribute('material', 'transparent', 'true');
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
+
         this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
 
         drawIcon(ctx, canvas, data.icon, data.fontColor, 1);
@@ -404,7 +406,8 @@ AFRAME.registerComponent('gui-toggle', {
         var guiItem = el.getAttribute("gui-item");
         var data = this.data;
 
-        el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:double;`);
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
+
         el.setAttribute('geometry', 'width', guiItem.width);
         el.setAttribute('geometry', 'height', guiItem.height);
 
@@ -516,8 +519,8 @@ AFRAME.registerComponent('gui-toggle', {
 
 AFRAME.registerComponent('gui-cursor', {
     schema: {
-        cursorColor: {type: 'string', default: 'white'},
-        cursorActiveColor: {type: 'string', default: 'green'},
+        cursorColor: {type: 'string', default: key_white},
+        cursorActiveColor: {type: 'string', default: key_orange_light},
     },
     init: function () {
         var cursor = this.cursor = this.el.getAttribute('cursor');

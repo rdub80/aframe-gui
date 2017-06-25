@@ -67,40 +67,36 @@
 					   gui-interactable="clickAction: selectCinematic;"
 					geometry="primitive: plane;"
 					gui-button="
-				text:Cinematic;
-				fontFamily:'Fira Sans';
-			"
-					material="shader: flat; transparent: true; opacity: 1; side:double;"
+						text:Cinematic;
+						fontFamily:'Fira Sans';
+					"
 			>
 			</a-entity>
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
 					   gui-interactable="clickAction: selectClassicRock;"
 					   geometry="primitive: plane;"
 					   gui-button="
-				text:Classic Rock;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+							text:Classic Rock;
+							fontFamily:'Fira Sans';
+						"
 			>
 			</a-entity>
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
 					   gui-interactable="clickAction: selectModernFolk;"
 					   geometry="primitive: plane;"
 					   gui-button="
-				text:Modern Folk;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+							text:Modern Folk;
+							fontFamily:'Fira Sans';
+						"
 			>
 			</a-entity>
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
 					   gui-interactable="clickAction: select90sPop;"
 					   geometry="primitive: plane;"
 					   gui-button="
-				text:90's Pop;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+							text:90's Pop;
+							fontFamily:'Fira Sans';
+						"
 			>
 			</a-entity>
 		</a-entity>
@@ -114,42 +110,40 @@
 					   gui-interactable="clickAction: select5Seconds;"
 					   geometry="primitive: plane;"
 					   gui-button="
-				text:5 seconds;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+							text:5 seconds;
+							fontFamily:'Fira Sans';
+						"
 			>
 			</a-entity>
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
 					   gui-interactable="clickAction: select10Seconds;"
 					   geometry="primitive: plane;"
 					   gui-button="
-				text:10 seconds;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+							text:10 seconds;
+							fontFamily:'Fira Sans';
+						"
 			>
 			</a-entity>
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
 					   gui-interactable="clickAction: select15Seconds;"
 					   geometry="primitive: plane;"
 					   gui-button="
-				text:15 seconds;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+							text:15 seconds;
+							fontFamily:'Fira Sans';
+						"
 			>
 			</a-entity>
-			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+
+			<a-entity gui-item="type: icon-button; height: 0.75;"
 					   gui-interactable="clickAction: submitMusicCreate;"
-					   geometry="primitive: plane;"
-					   gui-button="
-				text:Gimme Music;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
-			>
+					geometry="primitive: plane;"
+					gui-icon-button="
+						icon:music;
+					"
+				>
 			</a-entity>
+
+
 		</a-entity>
 
 		<a-entity id="music_player_panel" id="music_type_panel" gui-item="type: flex-container; width: 5; height: 4;"
