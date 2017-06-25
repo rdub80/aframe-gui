@@ -1,5 +1,28 @@
-window.testToggleAction = function() {
-    console.log("in testToggleAction");
+window.musicType = '';
+window.musicLength = 0;
+
+var normalYPosition = 1.5;
+var hiddenYPosition = 1000;
+window.selectCinematic = function() {
+    var musicTypePanel = document.getElementById("music_type_panel");
+    var musicLengthPanel = document.getElementById("music_type_panel");
+    var musicPlayerPanel = document.getElementById("music_player_panel");
+
+    musicTypePanel.setAttribute("position", `-0.5 1000 -3`);
+    musicLengthPanel.setAttribute("position", `-0.5 1.5 -3`);
+    musicPlayerPanel.setAttribute("position", `-0.5 1000 -3`);
+
+    musicTypePanel.setAttribute("scale", `0.001 0.001 0.001`);
+    musicLengthPanel.setAttribute("scale", `1 1 1`);
+    musicPlayerPanel.setAttribute("scale", `0.001 0.001 0.001`);
+
+    musicTypePanel.setAttribute("visible", `false`);
+    musicLengthPanel.setAttribute("visible", `true`);
+    musicPlayerPanel.setAttribute("visible", `false`);
+
+    musicType = 'cinematic';
+    console.log("in selectCinematic, musicTypePanel: "+musicTypePanel+", musicLengthPanel: "+musicLengthPanel+", musicPlayerPanel: "+musicPlayerPanel);
+    console.log("musicType position: "+JSON.stringify(musicTypePanel.getAttribute("position")));
 }
 
 window.testButtonAction = function() {
