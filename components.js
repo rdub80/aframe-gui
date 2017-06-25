@@ -257,11 +257,56 @@ AFRAME.registerComponent('gui-toggle', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
         var data = this.data;
+
+        el.setAttribute('material', 'color', data.backgroundColor);
+        el.setAttribute('geometry', 'width', guiItem.width);
+        el.setAttribute('geometry', 'height', guiItem.height);
+
+        var toggleBoxWidth = 0.50
+        var toggleBoxX = -guiItem.width*0.5 + toggleBoxWidth*0.5 + 0.1;
+        var toggleBox = document.createElement("a-box");
+        toggleBox.setAttribute('width', `${toggleBoxWidth}`);
+        toggleBox.setAttribute('height', '0.35');
+        toggleBox.setAttribute('depth', '0.01');
+        toggleBox.setAttribute('material', 'color:lightgray; shader: flat;');
+        toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
+        this.el.appendChild(toggleBox);
+
+        var toggleColorAnimation = document.createElement("a-animation");
+        toggleColorAnimation.setAttribute('begin', 'toggleAnimation');
+        toggleColorAnimation.setAttribute('direction', 'alternate');
+        toggleColorAnimation.setAttribute('attribute', 'material.color');
+        toggleColorAnimation.setAttribute('from', 'gray');
+        toggleColorAnimation.setAttribute('to', 'green');
+        toggleColorAnimation.setAttribute('dur', '500');
+        toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
+        toggleBox.appendChild(toggleColorAnimation);
+
+        var toggleHandleWidth = 0.15
+        var toggleHandleX = -toggleBoxWidth*0.5 + toggleHandleWidth*0.5 + 0.05;
+        var toggleHandle = document.createElement("a-box");
+        toggleHandle.setAttribute('width', `${toggleHandleWidth}`);
+        toggleHandle.setAttribute('height', '0.30');
+        toggleHandle.setAttribute('depth', '0.02');
+        toggleHandle.setAttribute('material', 'color:grey');
+        toggleHandle.setAttribute('position', `${toggleHandleX} 0 0`);
+        toggleBox.appendChild(toggleHandle);
+
+        var toggleHandleAnimation = document.createElement("a-animation");
+        toggleHandleAnimation.setAttribute('begin', 'toggleAnimation');
+        toggleHandleAnimation.setAttribute('direction', 'alternate');
+        toggleHandleAnimation.setAttribute('attribute', 'position');
+        toggleHandleAnimation.setAttribute('from', `${toggleHandleX} 0 0`);
+        toggleHandleAnimation.setAttribute('to', `${toggleHandleX + toggleBoxWidth - 0.25} 0 0`);
+        toggleHandleAnimation.setAttribute('dur', '500');
+        toggleHandleAnimation.setAttribute('easing', 'ease-in-out-cubic');
+        toggleHandle.appendChild(toggleHandleAnimation);
+
+
+        var labelWidth = guiItem.width - toggleBoxWidth;
         var multiplier = 350;
-        var canvasWidth = guiItem.width*multiplier;
+        var canvasWidth = labelWidth*multiplier;
         var canvasHeight = guiItem.height*multiplier;
-
-
         var labelCanvas = document.createElement("canvas");
         this.labelCanvas = labelCanvas
         labelCanvas.setAttribute('width', canvasWidth);
@@ -273,16 +318,27 @@ AFRAME.registerComponent('gui-toggle', {
 
         drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px Arial', this.data.fontColor);
 
-
-        el.setAttribute('material', 'color', data.backgroundColor);
-        el.setAttribute('geometry', 'width', guiItem.width);
-        el.setAttribute('geometry', 'height', guiItem.height);
-
         var labelEntity = document.createElement("a-entity");
         labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:double;`);
-        labelEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
+        labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height};`);
         labelEntity.setAttribute('position', '0 0 0.02');
         this.el.appendChild(labelEntity);
+
+        /*
+
+         <a-box id="togglebox" width="0.75" height="0.5" depth="0.01" material="color:white" position="-1 0 0">
+         <a-animation begin="toggleAnimation" direction="alternate" attribute="material.color" from="white" to="green"
+         dur="500" easing="ease-in-out-cubic"></a-animation>
+         <a-box id="togglehandle" width="0.15" height="0.45" depth="0.02" material="color:grey"  position="-0.25 0 0">
+         <a-animation begin="toggleAnimation" direction="alternate" attribute="position" from="-0.25 0 0"
+         to="0.25 0 0" dur="500" easing="ease-in-out-cubic"></a-animation>
+         </a-box>
+         </a-box>
+
+         */
+
+
+
 
         this.updateToggle(data.active);
 
@@ -296,8 +352,8 @@ AFRAME.registerComponent('gui-toggle', {
 
         el.addEventListener(data.on, function (evt) {
             console.log('I was clicked at: ', evt.detail.intersection.point);
-            document.querySelector('#togglebox').emit('toggleAnimation');
-            document.querySelector('#togglehandle').emit('toggleAnimation');
+            toggleColorAnimation.emit('toggleAnimation');
+            toggleHandleAnimation.emit('toggleAnimation');
         });
 
     },
@@ -400,36 +456,6 @@ AFRAME.registerComponent('gui-cursor', {
         clickAnimation.setAttribute('to', '4 4 4');
         clickAnimation.setAttribute('dur', '300');
         this.el.appendChild(clickAnimation);
-
-        /*
-
-         <a-entity id="cursorshadow"
-         geometry="primitive: ring; radiusInner:0.02; radiusOuter:0.0225"
-         material="color: #000000; shader: flat; opacity:0.25;">
-         </a-entity>
-
-         <a-animation begin="hovergui"
-         easing="linear" attribute="geometry.radiusInner"
-         fill="forwards" from="0.00015" to="0.015" dur="500"></a-animation>
-
-         <a-animation begin="leavegui" easing="linear"
-         attribute="geometry.radiusInner" fill="forwards" from="0.015" to="0.00015" dur="500"></a-animation>
-
-         <a-animation begin="cursor-fusing" easing="linear" attribute="scale"
-         fill="forwards" from="1 1 1" to="2 2 2" delay="500" dur="100"></a-animation>
-
-         <a-animation begin="cursor-fusing" easing="linear" attribute="material.color"
-         fill="forwards" from="#ffffff" to="#F0E372" delay="500" dur="100"></a-animation>
-
-         <a-animation begin="cursor-fusing" easing="linear" attribute="geometry.thetaLength"
-         fill="forwards" from="0" to="360" delay="500" dur="1500"></a-animation>
-
-         <a-animation begin="click" easing="linear" attribute="scale" fill="none"
-         from="2 2 2" to="4 4 4" dur="300" easing="ease-in"></a-animation>
-
-
-         */
-
 
         el.addEventListener('mouseenter', function () {
             console.log("in gui-cursor mousenter, el: "+el);
