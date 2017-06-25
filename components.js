@@ -160,6 +160,21 @@ function drawText(ctx, canvas, text, font, color, size) {
     ctx.fillText(text, canvas.width/2, canvas.height/2); // position x, y
 
 }
+function drawIcon(ctx, canvas, text, font, color, size) {
+
+    setTimeout(function(){
+        ctx.font = font;
+        ctx.fillStyle = color;
+        ctx.textAlign = "center";
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(0,0,0,0.5)';
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.scale(1, 1);
+    },1000);
+
+}
 
 
 function drawLabel(ctx, canvas, text, font, color, size,) {
@@ -178,13 +193,13 @@ function drawLabel(ctx, canvas, text, font, color, size,) {
 AFRAME.registerComponent('gui-button', {
     schema: {
         on: {default: 'click'},
-//    	emit: {default:null},
         text: {type: 'string', default: 'text'},
         fontColor: {type: 'string', default: key_offwhite},
         fontFamily: {type: 'string', default: 'Arial'},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
+        activeColor: {type: 'string', default: key_orange},
     },
     init: function() {
 
@@ -195,58 +210,51 @@ AFRAME.registerComponent('gui-button', {
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
-        var canvasBg = document.createElement("canvas");
-        this.canvasBg = canvasBg
-        canvasBg.setAttribute('width', canvasWidth);
-        canvasBg.setAttribute('height', canvasHeight);
-        canvasBg.id = getUniqueId('canvasObjBack');
-        document.body.appendChild(canvasBg);
+        var canvas = document.createElement("canvas");
+        this.canvas = canvas;
+        canvas.setAttribute('width', canvasWidth);
+        canvas.setAttribute('height', canvasHeight);
+        canvas.id = getUniqueId('canvasObjFront');
+        document.body.appendChild(canvas);
 
-        var canvasFg = document.createElement("canvas");
-        this.canvasFg = canvasFg
-        canvasFg.setAttribute('width', canvasWidth);
-        canvasFg.setAttribute('height', canvasHeight);
-        canvasFg.id = getUniqueId('canvasObjFront');
-        document.body.appendChild(canvasFg);
+        var ctx = this.ctx = canvas.getContext('2d');
 
-        var ctxFg = this.ctxFg = canvasFg.getContext('2d');
-        var ctxBg = this.ctxBg = canvasBg.getContext('2d');
-
-        el.setAttribute('material', 'color', data.backgroundColor);
+        el.setAttribute('material', 'color', 'red');
         this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
 
+        drawText(ctx, canvas, data.text, '100px' + data.fontFamily, data.fontColor, 1);
+
+        var buttonContainer = document.createElement("a-entity");
+        buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
+        buttonContainer.setAttribute('geometry', `primitive: box; width: ${guiItem.width}; height: ${guiItem.height}; depth: 0.02;`);
+        buttonContainer.setAttribute('rotation', '0 0 0');
+        buttonContainer.setAttribute('position', '0 0 0.01');
+        this.el.appendChild(buttonContainer);
+
+        var buttonEntity = document.createElement("a-entity");
+        buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.backgroundColor}`);
+        buttonEntity.setAttribute('geometry', `primitive: box; width: ${(guiItem.width-0.025)}; height: ${(guiItem.height-0.025)}; depth: 0.04;`);
+        buttonEntity.setAttribute('rotation', '0 0 0');
+        buttonEntity.setAttribute('position', '0 0 0.02');
+        this.el.appendChild(buttonEntity);
 
 
-
-        roundedOutline(ctxBg, 10, 10, canvasBg.width - 20, canvasBg.height - 20, 5, data.borderColor);
-        roundedRect(ctxBg, 20, 20, canvasBg.width - 40, canvasBg.height - 40, 10, data.backgroundColor);
-        drawText(ctxFg, canvasFg, data.text, '100px' + data.fontFamily, data.fontColor, 1);
-        //var textWidth = getTextWidth(data.text, '50px Arial');
-        //console.log("textWidth: "+textWidth);
-
-        var bgEntity = document.createElement("a-entity");
-        bgEntity.setAttribute('material', `shader: flat; src: #${canvasBg.id}; transparent: true; opacity: 1; side:double;`);
-        bgEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
-        bgEntity.setAttribute('position', '0 0 0.001');
-        this.el.appendChild(bgEntity);
-
-        var fgEntity = document.createElement("a-entity");
-        fgEntity.setAttribute('material', `shader: flat; src: #${canvasFg.id}; transparent: true; opacity: 1; side:double;`);
-        fgEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
-        fgEntity.setAttribute('position', '0 0 0.002');
-        this.el.appendChild(fgEntity);
-
+        var textEntity = document.createElement("a-entity");
+        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:double;`);
+        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
+        textEntity.setAttribute('position', '0 0 0.042');
+        this.el.appendChild(textEntity);
 
         el.addEventListener('mouseenter', function () {
-            el.setAttribute('material', 'color', data.hoverColor);
+            buttonEntity.setAttribute('material', 'color', data.hoverColor);
         });
 
         el.addEventListener('mouseleave', function () {
-            el.setAttribute('material', 'color', data.backgroundColor);
+            buttonEntity.setAttribute('material', 'color', data.backgroundColor);
         });
 
         el.addEventListener(data.on, function (evt) {
-            this.setAttribute('material', 'color', data.fontColor);
+            buttonEntity.setAttribute('material', 'color', data.activeColor);
             console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
@@ -257,6 +265,100 @@ AFRAME.registerComponent('gui-button', {
             console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
+        });
+
+
+    },
+    play: function () {
+
+    },
+});
+
+AFRAME.registerComponent('gui-icon-button', {
+    schema: {
+        on: {default: 'click'},
+        icon: {type: 'string', default: ''},
+        iconActive: {type: 'string', default: ''},
+        fontColor: {type: 'string', default: key_offwhite},
+        fontFamily: {type: 'string', default: 'Arial'},
+        borderColor: {type: 'string', default: key_offwhite},
+        backgroundColor: {type: 'string', default: key_grey},
+        hoverColor: {type: 'string', default: key_grey_dark},
+        activeColor: {type: 'string', default: key_orange},
+        toggle: {type: 'boolean', default: false},
+    },
+    init: function() {
+
+        var data = this.data;
+        var el = this.el;
+        var guiItem = el.getAttribute("gui-item");
+        var multiplier = 350;
+        var canvasWidth = guiItem.height*multiplier; //square
+        var canvasHeight = guiItem.height*multiplier;
+
+        var canvas = document.createElement("canvas");
+        this.canvas = canvas;
+        canvas.setAttribute('width', canvasWidth);
+        canvas.setAttribute('height', canvasHeight);
+        canvas.id = getUniqueId('canvasObjFront');
+        document.body.appendChild(canvas);
+
+        var ctx = this.ctx = canvas.getContext('2d');
+
+        el.setAttribute('material', 'color', 'red');
+        this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
+
+        drawIcon(ctx, canvas, data.icon, '150px' + data.fontFamily, data.fontColor, 1);
+
+        var buttonContainer = document.createElement("a-entity");
+        buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
+        buttonContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
+        buttonContainer.setAttribute('rotation', '90 0 0');
+        buttonContainer.setAttribute('position', '0 0 0.01');
+        this.el.appendChild(buttonContainer);
+
+        var buttonEntity = document.createElement("a-entity");
+        buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.backgroundColor}`);
+        buttonEntity.setAttribute('geometry', `primitive: cylinder; radius: ${(guiItem.height/2.05)}; height: 0.04;`);
+        buttonEntity.setAttribute('rotation', '90 0 0');
+        buttonEntity.setAttribute('position', '0 0 0.02');
+        this.el.appendChild(buttonEntity);
+
+
+        var textEntity = document.createElement("a-entity");
+        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:double;`);
+        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height}; height: ${guiItem.height};`);
+        textEntity.setAttribute('position', '0 0 0.042');
+        this.el.appendChild(textEntity);
+
+
+        el.addEventListener('mouseenter', function () {
+            buttonEntity.setAttribute('material', 'color', data.hoverColor);
+        });
+
+        el.addEventListener('mouseleave', function () {
+            buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+        });
+
+        el.addEventListener(data.on, function (evt) {
+            buttonEntity.setAttribute('material', 'color', data.activeColor);
+            console.log('I was clicked at: ', evt.detail.intersection.point);
+            var guiInteractable = el.getAttribute("gui-interactable");
+            console.log("guiInteractable: "+guiInteractable);
+            var clickActionFunctionName = guiInteractable.clickAction;
+            console.log("clickActionFunctionName: "+clickActionFunctionName);
+            // find object
+            var clickActionFunction = window[clickActionFunctionName];
+            console.log("clickActionFunction: "+clickActionFunction);
+            // is object a function?
+            if (typeof clickActionFunction === "function") clickActionFunction();
+
+            if(toggle){
+                drawText(ctx, canvas, data.iconActive, '150px' + data.fontFamily, data.fontColor);
+            }else{
+                drawText(ctx, canvas, data.icon, '150px' + data.fontFamily, data.fontColor);                
+            }
+
         });
 
 
