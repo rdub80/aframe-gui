@@ -44,6 +44,19 @@
 
 
 	</style>
+
+	<script type="text/javascript">
+		window.playMusic = function() {
+		    var musicPlayer = document.getElementById("musicPlayer");
+		    musicPlayer.components.sound.playSound();
+		}
+
+        window.pauseMusic = function() {
+            var musicPlayer = document.getElementById("musicPlayer");
+            musicPlayer.components.sound.pauseSound();
+        }
+
+	</script>
 </head>
 <body>
 	<a-scene>
@@ -56,6 +69,7 @@
 			<img id="gradient" src="assets/gradient.png">
 			<img id="ground" src="assets/ground.png">
 			<img id="panel" src="assets/settings.png">
+			<audio id="classicRock" src="assets/classicrock_15sec.wav" preload="auto"></audio>
 		</a-assets>
 
 		<a-light
@@ -120,7 +134,7 @@
 		</a-entity>
 
 		<a-entity id="music_length_panel" gui-item="type: flex-container; width: 4; height: 4;"
-				  gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+				  gui-flex-container="flexDirection: column; justifyContent: center; alignItems: stretch; componentPadding: 0.1; opacity: 0.7"
 				  position="-0.5 1.5 -3"
 				  rotation="0 0 0"
 		>
@@ -208,7 +222,7 @@
 			>
 			</a-entity>
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
-					   gui-interactable="clickAction: submitMusicCreate;"
+					   gui-interactable="clickAction: playMusic;"
 					   geometry="primitive: plane;"
 					   gui-button="
 				text:Play;
@@ -218,6 +232,8 @@
 			>
 			</a-entity>
 		</a-entity>
+		<a-entity id="musicPlayer" geometry="primitive: plane" material="color: blue"
+				  position="0 0 0" scale="0.001 0.001 0.001" sound="src: #classicRock; autoplay: false;"></a-entity>
 
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 2.0" look-controls="" wasd-controls>
