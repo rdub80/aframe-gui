@@ -34,7 +34,7 @@
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 		<a-entity gui-item="type: flex-container; width: 5; height: 3;"
 			gui-flex-container="flexDirection: column; justifyContent: center; componentPadding: 0.1;"
-			position="-1 1.5 -3"
+			position="-1 2.5 -3"
 			rotation="0 0 0"
 		 >
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
@@ -50,11 +50,12 @@
 			>
 			</a-entity>
 			<a-entity gui-item="type: toggle; width: 2.5; height: 1.0;"
+					  gui-interactable=""
 					geometry="primitive: plane;"
 					gui-toggle="
 				text:label copy;
-				fontColor:white;
-				backgroundColor:gray;
+				fontColor:black;
+				backgroundColor:blue;
 			"
 					material="shader: flat; transparent: true; opacity: 1; side:double;"
 					position="0 1.5 -1.5" rotation="0 0 0"
@@ -81,14 +82,22 @@
 					material="shader: flat; color: blue; side: double;"
 			></a-entity>
 		</a-entity>
+
+
+		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 1.6" look-controls="">
-			<a-entity cursor="fuse: true; fuseTimeout: 500"
+
+			<a-entity id="cursor"
+					  raycaster="interval: 1000; objects: [gui-interactable]"
+					  cursor="fuse: true; fuseTimeout: 2000"
 					  gui-cursor=""
 					  position="0 0 -1"
-					  geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
-					  material="color: black; shader: flat">
-			</a-entity>
-		</a-entity>
+					  geometry="primitive: ring; radiusInner:0.00015; radiusOuter:0.02"
+					  material="color: #ffffff; shader: flat"
+			>
+			</a-entity> <!-- /cursor -->
+
+		</a-entity> <!-- /camera -->
 
 	</a-scene>
 </body>

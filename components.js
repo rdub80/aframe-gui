@@ -320,6 +320,8 @@ AFRAME.registerComponent('gui-toggle', {
 
 AFRAME.registerComponent('gui-cursor', {
     schema: {
+        cursorColor: {type: 'string', default: 'white'},
+        cursorActiveColor: {type: 'string', default: 'green'},
     },
     init: function () {
         var cursor = this.cursor = this.el.getAttribute('cursor');
@@ -327,16 +329,120 @@ AFRAME.registerComponent('gui-cursor', {
         var fuseTimeout = cursor.fuseTimeout; // animation lenght should be based on this value
         console.log("fuse: "+fuse+", fuseTimeout: "+fuseTimeout);
 
-        // this.el.addEventListener('mouseenter', function () {
-        //     cursor.emit('hovergui');
-        // });
+        var el = this.el;
 
-        // this.el.addEventListener('mouseleave', function () {
-        //     cursor.emit('leavegui');
-        // });
+        var cursorShadow = document.createElement("a-entity");
+        cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+        cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.02; radiusOuter:0.0225');
+        this.el.appendChild(cursorShadow);
 
-        this.el.addEventListener("mouseenter", this.hovergui()); 
-        this.el.addEventListener("mouseleave", this.leavegui()); 
+        var defaultHoverAnimationDuration = 500;
+        var hoverGuiAnimation = document.createElement("a-animation");
+        hoverGuiAnimation.setAttribute('begin', 'hovergui');
+        hoverGuiAnimation.setAttribute('easing', 'linear');
+        hoverGuiAnimation.setAttribute('attribute', 'geometry.radiusInner');
+        hoverGuiAnimation.setAttribute('fill', 'forwards');
+        hoverGuiAnimation.setAttribute('from', '0.00015');
+        hoverGuiAnimation.setAttribute('to', '0.015');
+        hoverGuiAnimation.setAttribute('dur', `${defaultHoverAnimationDuration}`);
+        this.el.appendChild(hoverGuiAnimation);
+
+        var leaveGuiAnimation = document.createElement("a-animation");
+        leaveGuiAnimation.setAttribute('begin', 'leavegui');
+        leaveGuiAnimation.setAttribute('easing', 'linear');
+        leaveGuiAnimation.setAttribute('attribute', 'geometry.radiusInner');
+        leaveGuiAnimation.setAttribute('fill', 'forwards');
+        leaveGuiAnimation.setAttribute('from', '0.015');
+        leaveGuiAnimation.setAttribute('to', '0.00015');
+        leaveGuiAnimation.setAttribute('dur', `${defaultHoverAnimationDuration}`);
+        this.el.appendChild(leaveGuiAnimation);
+
+        var fuseScaleAnimation = document.createElement("a-animation");
+        fuseScaleAnimation.setAttribute('begin', 'cursor-fusing');
+        fuseScaleAnimation.setAttribute('easing', 'linear');
+        fuseScaleAnimation.setAttribute('attribute', 'scale');
+        fuseScaleAnimation.setAttribute('fill', 'forwards');
+        fuseScaleAnimation.setAttribute('from', '1 1 1');
+        fuseScaleAnimation.setAttribute('to', '2 2 2');
+        fuseScaleAnimation.setAttribute('delay', `${defaultHoverAnimationDuration}`);
+        fuseScaleAnimation.setAttribute('dur', '100');
+        this.el.appendChild(fuseScaleAnimation);
+
+        var fuseColorAnimation = document.createElement("a-animation");
+        fuseColorAnimation.setAttribute('begin', 'cursor-fusing');
+        fuseColorAnimation.setAttribute('easing', 'linear');
+        fuseColorAnimation.setAttribute('attribute', 'material.color');
+        fuseColorAnimation.setAttribute('fill', 'forwards');
+        fuseColorAnimation.setAttribute('from', this.data.cursorColor);
+        fuseColorAnimation.setAttribute('to', this.data.cursorActiveColor);
+        fuseColorAnimation.setAttribute('delay', `${defaultHoverAnimationDuration}`);
+        fuseColorAnimation.setAttribute('dur', '100');
+        this.el.appendChild(fuseColorAnimation);
+
+        var fuseAnimationDuration = fuseTimeout - defaultHoverAnimationDuration;
+        var fuseFillAnimation = document.createElement("a-animation");
+        fuseFillAnimation.setAttribute('begin', 'cursor-fusing');
+        fuseFillAnimation.setAttribute('easing', 'linear');
+        fuseFillAnimation.setAttribute('attribute', 'geometry.thetaLength');
+        fuseFillAnimation.setAttribute('fill', 'forwards');
+        fuseFillAnimation.setAttribute('from', '0');
+        fuseFillAnimation.setAttribute('to', '360');
+        fuseFillAnimation.setAttribute('delay', `${defaultHoverAnimationDuration}`);
+        fuseFillAnimation.setAttribute('dur', `${fuseAnimationDuration}`);
+        this.el.appendChild(fuseFillAnimation);
+
+        var clickAnimation = document.createElement("a-animation");
+        clickAnimation.setAttribute('begin', 'click');
+        clickAnimation.setAttribute('easing', 'ease-in');
+        clickAnimation.setAttribute('attribute', 'scale');
+        clickAnimation.setAttribute('fill', 'forwards');
+        clickAnimation.setAttribute('from', '2 2 2');
+        clickAnimation.setAttribute('to', '4 4 4');
+        clickAnimation.setAttribute('dur', '300');
+        this.el.appendChild(clickAnimation);
+
+        /*
+
+         <a-entity id="cursorshadow"
+         geometry="primitive: ring; radiusInner:0.02; radiusOuter:0.0225"
+         material="color: #000000; shader: flat; opacity:0.25;">
+         </a-entity>
+
+         <a-animation begin="hovergui"
+         easing="linear" attribute="geometry.radiusInner"
+         fill="forwards" from="0.00015" to="0.015" dur="500"></a-animation>
+
+         <a-animation begin="leavegui" easing="linear"
+         attribute="geometry.radiusInner" fill="forwards" from="0.015" to="0.00015" dur="500"></a-animation>
+
+         <a-animation begin="cursor-fusing" easing="linear" attribute="scale"
+         fill="forwards" from="1 1 1" to="2 2 2" delay="500" dur="100"></a-animation>
+
+         <a-animation begin="cursor-fusing" easing="linear" attribute="material.color"
+         fill="forwards" from="#ffffff" to="#F0E372" delay="500" dur="100"></a-animation>
+
+         <a-animation begin="cursor-fusing" easing="linear" attribute="geometry.thetaLength"
+         fill="forwards" from="0" to="360" delay="500" dur="1500"></a-animation>
+
+         <a-animation begin="click" easing="linear" attribute="scale" fill="none"
+         from="2 2 2" to="4 4 4" dur="300" easing="ease-in"></a-animation>
+
+
+         */
+
+
+        el.addEventListener('mouseenter', function () {
+            console.log("in gui-cursor mousenter, el: "+el);
+            el.emit('hovergui');
+        });
+
+        el.addEventListener('mouseleave', function () {
+            console.log("in gui-cursor mouseleave, el: "+el);
+            el.emit('leavegui');
+        });
+
+        //this.el.addEventListener("mouseenter", this.hovergui());
+        //this.el.addEventListener("mouseleave", this.leavegui());
         // this.el.addEventListener("stateremoved", this.reset(this.ev)); 
 
     },
@@ -353,10 +459,10 @@ AFRAME.registerComponent('gui-cursor', {
     play: function () {
     },
     hovergui: function () {
-        this.cursor.emit('hovergui');
+        //this.cursor.emit('hovergui');
     },
     leavegui: function (evt) {
-        this.cursor.emit('leavegui');
+       // this.cursor.emit('leavegui');
     },
     resetcursor: function(){
         if (evt.detail.state === 'cursor-fusing') {
@@ -367,6 +473,26 @@ AFRAME.registerComponent('gui-cursor', {
     }
 });
 
+AFRAME.registerComponent('gui-interactable', {
+    schema: {
+    },
+    init: function () {
+
+    },
+    update: function () {
+
+
+    },
+    tick: function () {
+    },
+    remove: function () {
+    },
+    pause: function () {
+    },
+    play: function () {
+    },
+
+});
 
 
 // Reset cursor
