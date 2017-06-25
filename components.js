@@ -117,37 +117,10 @@ AFRAME.registerComponent('gui-flex-container', {
   getElementSize: function () {}
 });
 
-function roundedOutline(ctx, x, y, width, height, radius, color) {
-    ctx.beginPath();
-    ctx.moveTo(x, y + radius);
-    ctx.lineTo(x, y + height - radius);
-    ctx.arcTo(x, y + height, x + radius, y + height, radius);
-    ctx.lineTo(x + width - radius, y + height);
-    ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
-    ctx.lineTo(x + width, y + radius);
-    ctx.arcTo(x + width, y, x + width - radius, y, radius);
-    ctx.lineTo(x + radius, y);
-    ctx.arcTo(x, y, x, y + radius, radius);
-    ctx.strokeStyle = color;
-    ctx.stroke();
-}
-
-function roundedRect(ctx, x, y, width, height, radius, color) {
-    ctx.beginPath();
-    ctx.moveTo(x, y + radius);
-    ctx.lineTo(x, y + height - radius);
-    ctx.arcTo(x, y + height, x + radius, y + height, radius);
-    ctx.lineTo(x + width - radius, y + height);
-    ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
-    ctx.lineTo(x + width, y + radius);
-    ctx.arcTo(x + width, y, x + width - radius, y, radius);
-    ctx.lineTo(x + radius, y);
-    ctx.arcTo(x, y, x, y + radius, radius);
-    ctx.fillStyle = color;
-    ctx.fill();
-}
 
 function drawText(ctx, canvas, text, font, color, size) {
+    setTimeout(function(){
+
     ctx.font = font;
     ctx.fillStyle = color;
     ctx.textAlign = "center";
@@ -158,21 +131,38 @@ function drawText(ctx, canvas, text, font, color, size) {
     ctx.shadowOffsetX = 0;
     ctx.scale(1, 1);
     ctx.fillText(text, canvas.width/2, canvas.height/2); // position x, y
+    
+    },500); // callback when font is loaded needed
 
 }
-function drawIcon(ctx, canvas, text, font, color, size) {
 
+function drawIcon(ctx, canvas, icon, color, size) {
     setTimeout(function(){
-        ctx.font = font;
-        ctx.fillStyle = color;
-        ctx.textAlign = "center";
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.scale(1, 1);
-    },1000);
+    
+    ctx.font = '120px Ionicons';
+    ctx.fillStyle = color;
+    ctx.textAlign = "center";
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+    ctx.shadowBlur = 8;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.scale(1, 1);
+
+    console.log("icon" + icon);
+    if(icon == 'music'){
+        ctx.fillText('\uf20c', canvas.width/2, canvas.height/2); // ionicons music
+    }else if(icon == 'play'){
+       ctx.fillText('\uf215', canvas.width/2, canvas.height/2); // ionicons play       
+    }else if(icon == 'stop'){
+       ctx.fillText('\uf210', canvas.width/2, canvas.height/2); // ionicons play
+    }else if(icon == 'twitter'){
+       ctx.fillText('\uf243', canvas.width/2, canvas.height/2); // ionicons play
+    }else{
+       ctx.fillText('\uf14b', canvas.width/2, canvas.height/2); // ionicons play
+    }
+
+    },500); // callback when font is loaded needed
 
 }
 
@@ -308,7 +298,7 @@ AFRAME.registerComponent('gui-icon-button', {
         el.setAttribute('material', 'color', 'red');
         this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
 
-        drawIcon(ctx, canvas, data.icon, '150px' + data.fontFamily, data.fontColor, 1);
+        drawIcon(ctx, canvas, data.icon, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
@@ -353,11 +343,11 @@ AFRAME.registerComponent('gui-icon-button', {
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
 
-            if(toggle){
-                drawText(ctx, canvas, data.iconActive, '150px' + data.fontFamily, data.fontColor);
-            }else{
-                drawText(ctx, canvas, data.icon, '150px' + data.fontFamily, data.fontColor);                
-            }
+            // if(toggle){
+            //     drawIcon(ctx, canvas, data.iconActive, '150px' + data.fontFamily, data.fontColor);
+            // }else{
+            //     drawIcon(ctx, canvas, data.icon, '150px' + data.fontFamily, data.fontColor);                
+            // }
 
         });
 
