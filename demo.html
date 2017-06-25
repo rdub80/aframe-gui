@@ -46,12 +46,6 @@
 	</style>
 </head>
 <body>
-<ul>
-	<li></li>
-	<li></li>
-	<li></li>
-	<li></li>
-</ul>
 	<a-scene>
 		<a-assets>
 			<!-- Text Canvas -->
@@ -77,63 +71,156 @@
 		
 		<a-sky src="#gradient"></a-sky>
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
-		<a-entity gui-item="type: flex-container; width: 5; height: 3;"
+
+		<a-entity id="music_type_panel" gui-item="type: flex-container; width: 4; height: 4;"
 			gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-			position="-0.5 1.5 -3"
-			rotation="0 0 0"
+			position="-5.5 1.5 -1.5"
+			rotation="0 45 0"
 		 >
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
-					   gui-interactable="clickAction: testButtonAction;"
+					   gui-interactable="clickAction: selectCinematic;"
 					geometry="primitive: plane;"
 					gui-button="
-				text:label copy;
+				text:Cinematic;
 				fontFamily:'Fira Sans';
 			"
 					material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
+			</a-entity>
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: selectClassicRock;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:Classic Rock;
+				fontFamily:'Fira Sans';
+			"
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
+			</a-entity>
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: selectModernFolk;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:Modern Folk;
+				fontFamily:'Fira Sans';
+			"
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
+			</a-entity>
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: select90sPop;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:90's Pop;
+				fontFamily:'Fira Sans';
+			"
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
+			</a-entity>
+		</a-entity>
+
+		<a-entity id="music_length_panel" gui-item="type: flex-container; width: 4; height: 4;"
+				  gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+				  position="-0.5 1.5 -3"
+				  rotation="0 0 0"
+		>
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: select5Seconds;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:5 seconds;
+				fontFamily:'Fira Sans';
+			"
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
+			</a-entity>
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: select10Seconds;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:10 seconds;
+				fontFamily:'Fira Sans';
+			"
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
+			</a-entity>
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: select15Seconds;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:15 seconds;
+				fontFamily:'Fira Sans';
+			"
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
+			</a-entity>
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: submitMusicCreate;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:Gimme Music;
+				fontFamily:'Fira Sans';
+			"
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
+			</a-entity>
+		</a-entity>
+
+		<a-entity id="music_player_panel" id="music_type_panel" gui-item="type: flex-container; width: 5; height: 4;"
+				  gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+				  position="4.5 1.5 -1.5"
+				  rotation="0 -45 0"
+		>
+			<a-entity gui-item="type: toggle; width: 2.5; height: 0.75;"
+					  gui-interactable="clickAction: testToggleAction;"
+					  geometry="primitive: plane;"
+					  gui-toggle="
+				text:Auto Play;
+				backgroundColor: black;
+				opacity: 1;
+				fontColor: white;
+				fontFamily:'Fira Sans';
+			"
+					  material="shader: flat; transparent: true; opacity: 1; side:double;"
 			>
 			</a-entity>
 			<a-entity gui-item="type: toggle; width: 2.5; height: 0.75;"
 					  gui-interactable="clickAction: testToggleAction;"
-					geometry="primitive: plane;"
-					gui-toggle="
-				text:label copy;
-				backgroundColor: red;
+					  geometry="primitive: plane;"
+					  gui-toggle="
+				text:Loop;
+				backgroundColor: black;
 				opacity: 1;
+				fontColor: white;
 				fontFamily:'Fira Sans';
 			"
-					material="shader: flat; transparent: true; opacity: 1; side:double;"
+					  material="shader: flat; transparent: true; opacity: 1; side:double;"
 			>
 			</a-entity>
-
-			<a-entity id="playbtn" gui-item="type: icon-button; height: 0.75;"
-					   gui-interactable="clickAction: testButtonAction;"
-					geometry="primitive: plane;"
-					gui-icon-button="
-				fontFamily:'Ionicons';
-				icon:'\f20c';
-				iconActive:'\f20c';
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: select15Seconds;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:Pause;
+				fontFamily:'Fira Sans';
 			"
-					material="shader: flat; transparent: true; opacity: 1; side:double;"
-				>
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
 			</a-entity>
-
-			<a-entity id="musicbtn" gui-item="type: icon-button; height: 0.75;"
-					   gui-interactable="clickAction: testButtonAction;"
-					geometry="primitive: plane;"
-					gui-icon-button="
-				fontFamily:'Ionicons';
-				icon:'\f215';
-				iconActive:'\f20c';
+			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
+					   gui-interactable="clickAction: submitMusicCreate;"
+					   geometry="primitive: plane;"
+					   gui-button="
+				text:Play;
+				fontFamily:'Fira Sans';
 			"
-					material="shader: flat; transparent: true; opacity: 1; side:double;"
-				>
+					   material="shader: flat; transparent: true; opacity: 1; side:double;"
+			>
 			</a-entity>
-
 		</a-entity>
 
-
 		<!-- Camera + cursor. -->
-		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
+		<a-entity camera="userHeight: 2.0" look-controls="" wasd-controls>
 
 			<a-entity id="cursor"
 					  raycaster="interval: 1000; objects: [gui-interactable]"
