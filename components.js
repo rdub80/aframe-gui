@@ -162,8 +162,6 @@ AFRAME.registerComponent('gui-button', {
     schema: {
         on: {default: 'click'},
 //    	emit: {default:null},
-        targetFg: {type: 'selector', default: '#canvasObjFront'},
-        targetBg: {type: 'selector', default: '#canvasObjBack'},
         text: {type: 'string', default: 'text'},
         fontColor: {type: 'string', default: 'rgba(0,0,0,1)'},
         borderColor: {type: 'string', default: 'rgba(0,0,0,1)'},
@@ -244,9 +242,6 @@ AFRAME.registerComponent('gui-button', {
 AFRAME.registerComponent('gui-toggle', {
     schema: {
         on: {default: 'click'},
-//    	emit: {default:null},
-        targetFg: {type: 'selector', default: '#canvasObjFront'},
-        targetBg: {type: 'selector', default: '#canvasObjBack'},
         text: {type: 'string', default: 'text'},
         fontColor: {type: 'string', default: 'black'},
         borderColor: {type: 'string', default: 'black'},
@@ -267,38 +262,27 @@ AFRAME.registerComponent('gui-toggle', {
         var canvasHeight = guiItem.height*multiplier;
 
 
-        var canvasBg = document.createElement("canvas");
-        this.canvasBg = canvasBg
-        canvasBg.setAttribute('width', canvasWidth);
-        canvasBg.setAttribute('height', canvasHeight);
-        canvasBg.id = getUniqueId('canvasObjBack');
-        document.body.appendChild(canvasBg);
+        var labelCanvas = document.createElement("canvas");
+        this.labelCanvas = labelCanvas
+        labelCanvas.setAttribute('width', canvasWidth);
+        labelCanvas.setAttribute('height', canvasHeight);
+        labelCanvas.id = getUniqueId('canvas');
+        document.body.appendChild(labelCanvas);
 
-        var canvasFg = document.createElement("canvas");
-        this.canvasFg = canvasFg
-        canvasFg.setAttribute('width', canvasWidth);
-        canvasFg.setAttribute('height', canvasHeight);
-        canvasFg.id = getUniqueId('canvasObjFront');
-        document.body.appendChild(canvasFg);
+        var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
 
-        var ctxFg = this.ctxFg = canvasFg.getContext('2d');
-        var ctxBg = this.ctxBg = canvasBg.getContext('2d');
+        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px Arial', this.data.fontColor);
+
 
         el.setAttribute('material', 'color', data.backgroundColor);
         el.setAttribute('geometry', 'width', guiItem.width);
         el.setAttribute('geometry', 'height', guiItem.height);
 
-        var bgEntity = document.createElement("a-entity");
-        bgEntity.setAttribute('material', `shader: flat; src: #${canvasBg.id}; transparent: true; opacity: 1; side:double;`);
-        bgEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
-        bgEntity.setAttribute('position', '0 0 0.001');
-        this.el.appendChild(bgEntity);
-
-        var fgEntity = document.createElement("a-entity");
-        fgEntity.setAttribute('material', `shader: flat; src: #${canvasFg.id}; transparent: true; opacity: 1; side:double;`);
-        fgEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
-        fgEntity.setAttribute('position', '0 0 0.002');
-        this.el.appendChild(fgEntity);
+        var labelEntity = document.createElement("a-entity");
+        labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:double;`);
+        labelEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
+        labelEntity.setAttribute('position', '0 0 0.02');
+        this.el.appendChild(labelEntity);
 
         this.updateToggle(data.active);
 
@@ -312,6 +296,8 @@ AFRAME.registerComponent('gui-toggle', {
 
         el.addEventListener(data.on, function (evt) {
             console.log('I was clicked at: ', evt.detail.intersection.point);
+            document.querySelector('#togglebox').emit('toggleAnimation');
+            document.querySelector('#togglehandle').emit('toggleAnimation');
         });
 
     },
@@ -324,16 +310,8 @@ AFRAME.registerComponent('gui-toggle', {
     updateToggle: function(active){
 
         if(active){
-            roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, this.canvasBg.height/4 + 20  - this.data.borderWidth/2, this.canvasBg.height/2 - 40 + this.data.borderWidth, this.canvasBg.height/2 - 40 + this.data.borderWidth, 20, this.data.borderColor, this.data.borderWidth);
-            roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/2 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleOnColor);
-            roundedRect(this.ctxBg, this.canvasBg.height/4 + 20, this.canvasBg.height/4 + 20, this.canvasBg.height/4 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleColor);
-            drawLabel(this.ctxFg, this.canvasFg, this.data.text, '100px Arial', this.data.fontColor, 1);
 
         }else{
-            roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, this.canvasBg.height/4 + 20  - this.data.borderWidth/2, this.canvasBg.height/2 - 40 + this.data.borderWidth, this.canvasBg.height/2 - 40 + this.data.borderWidth, 20, this.data.borderColor, this.data.borderWidth);
-            roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/2 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleOffColor);
-            roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/4 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleColor);
-            drawLabel(this.ctxFg, this.canvasFg, this.data.text, '100px Arial', this.data.fontColor, 1);
         }
 
     }
