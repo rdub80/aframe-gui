@@ -15,34 +15,6 @@
 			font-style:normal
 		}
 		body{font-family:Ionicons;} 
-		#playbtn, 
-		#musicbtn{font-family:Ionicons;}
-		ul li{
-		    position: relative;
-		    z-index: 0;
-		    display: inline-block;
-		    padding: 22px;
-		    width: 42px;
-		    border-radius: 4px;
-		    list-style: none;
-		    text-align: center;
-		    font-weight: normal;
-		    font-size: 32px;
-		    cursor: pointer;
-
-		}
-		li:nth-child(1):before {
-    		content: "\f215"; //play
-		}
-		li:nth-child(2):before {
-    		content: "\f210"; //pause
-		}
-		li:nth-child(3):before {
-    		content: "\f20c"; //music
-		}
-		
-
-
 	</style>
 
 	<script type="text/javascript">
@@ -189,48 +161,38 @@
 					  gui-interactable="clickAction: testToggleAction;"
 					  geometry="primitive: plane;"
 					  gui-toggle="
-				text:Auto Play;
-				backgroundColor: black;
-				opacity: 1;
-				fontColor: white;
-				fontFamily:'Fira Sans';
-			"
-					  material="shader: flat; transparent: true; opacity: 1; side:double;"
+							text:Loop;
+							fontFamily:'Fira Sans';
+						"
 			>
 			</a-entity>
-			<a-entity gui-item="type: toggle; width: 2.5; height: 0.75;"
-					  gui-interactable="clickAction: testToggleAction;"
-					  geometry="primitive: plane;"
-					  gui-toggle="
-				text:Loop;
-				backgroundColor: black;
-				opacity: 1;
-				fontColor: white;
-				fontFamily:'Fira Sans';
-			"
-					  material="shader: flat; transparent: true; opacity: 1; side:double;"
-			>
+
+			<a-entity gui-item="type: icon-button; height: 0.75;"
+					   gui-interactable="clickAction: testButtonAction;"
+					geometry="primitive: plane;"
+					gui-icon-button="
+						icon:play;
+						iconActive:stop;
+					"
+				>
 			</a-entity>
-			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
-					   gui-interactable="clickAction: select15Seconds;"
-					   geometry="primitive: plane;"
-					   gui-button="
-				text:Pause;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
-			>
+			<a-entity gui-item="type: icon-button; height: 0.75;"
+					   gui-interactable="clickAction: testButtonAction;"
+					geometry="primitive: plane;"
+					gui-icon-button="
+						icon:stop;
+					"
+				>
 			</a-entity>
-			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
-					   gui-interactable="clickAction: playMusic;"
-					   geometry="primitive: plane;"
-					   gui-button="
-				text:Play;
-				fontFamily:'Fira Sans';
-			"
-					   material="shader: flat; transparent: true; opacity: 1; side:double;"
-			>
+			<a-entity gui-item="type: icon-button; height: 0.75;"
+					   gui-interactable="clickAction: testButtonAction;"
+					geometry="primitive: plane;"
+					gui-icon-button="
+						icon:twitter;
+					"
+				>
 			</a-entity>
+
 		</a-entity>
 		<a-entity id="musicPlayer" geometry="primitive: plane" material="color: blue"
 				  position="0 0 0" scale="0.001 0.001 0.001" sound="src: #classicRock; autoplay: false;"></a-entity>
