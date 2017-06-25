@@ -12,6 +12,7 @@
 			<!-- Text Canvas -->
 			<!--<canvas id="canvasObjBack" crossorigin="anonymous" webkit-playsinline=""></canvas>
 			<canvas id="canvasObjFront" crossorigin="anonymous" webkit-playsinline=""></canvas> -->
+			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
 
 			<img id="gradient" src="assets/gradient.png">
 			<img id="ground" src="assets/ground.png">
@@ -39,8 +40,6 @@
 			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
 					geometry="primitive: plane;"
 					gui-button="
-				targetBg:#canvasObjBack;
-				targetFg:#canvasObjFront;
 				text:label copy;
 				fontColor:white;
 				backgroundColor:gray;
@@ -50,19 +49,31 @@
 					position="0 1.5 -1.5"
 			>
 			</a-entity>
-			<a-entity  gui-item="type: toggle; width: 2.5; height: 0.75;"
+			<a-entity gui-item="type: toggle; width: 2.5; height: 1.0;"
 					geometry="primitive: plane;"
 					gui-toggle="
-				targetBg:#canvasObjBack;
-				targetFg:#canvasObjFront;
 				text:label copy;
-				borderWidth:5;
+				fontColor:white;
+				backgroundColor:gray;
 			"
 					material="shader: flat; transparent: true; opacity: 1; side:double;"
-					opacity="1"
-					scale="1 1 1"
 					position="0 1.5 -1.5" rotation="0 0 0"
 			>
+				<!--<a-entity id="text"
+						  material="shader: flat; src: #canvasObj; transparent: false; opacity: 1; side:double;"
+						  geometry="primitive: plane; width: 2.25; height: 1"
+						  opacity="1"
+						  scale="1 1 1"
+						  position="0.75 0 0.002"
+				></a-entity> -->
+
+				<a-box id="togglebox" width="0.75" height="0.5" depth="0.01" material="color:white" position="-1 0 0">
+					<a-animation begin="toggleAnimation" direction="alternate" attribute="material.color" from="white" to="green" dur="500" easing="ease-in-out-cubic"></a-animation>
+					<a-box id="togglehandle" width="0.15" height="0.45" depth="0.02" material="color:grey"  position="-0.25 0 0">
+						<a-animation begin="toggleAnimation" direction="alternate" attribute="position" from="-0.25 0 0" to="0.25 0 0" dur="500" easing="ease-in-out-cubic"></a-animation>
+					</a-box>
+				</a-box>
+
 			</a-entity>
 			<a-entity gui-item="type: rectangle;  height: 0.5; width: 1;"
 					geometry="primitive: plane; height: 0.5; width: 1;"
