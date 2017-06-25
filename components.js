@@ -318,7 +318,7 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var ctx = this.ctx = canvas.getContext('2d');
 
-        el.setAttribute('material', 'color', 'red');
+        el.setAttribute('material', 'transparent', 'true');
         this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
 
         drawIcon(ctx, canvas, data.icon, data.fontColor, 1);
@@ -389,11 +389,12 @@ AFRAME.registerComponent('gui-toggle', {
         fontFamily: {type: 'string', default: 'Arial'},
         borderColor: {type: 'string', default: key_grey},
         borderWidth: {type: 'number', default: 1},
-        toggleColor: {type: 'string', default: key_grey},
+        toggleColor: {type: 'string', default: key_offwhite},
         toggleOnColor: {type: 'string', default: key_orange},
-        toggleOffColor: {type: 'string', default: key_grey_light},
-        hoverColor: {type: 'string', default: key_offwhite},
+        toggleOffColor: {type: 'string', default: key_grey_dark},
+        hoverColor: {type: 'string', default: key_grey_light},
         backgroundColor: {type: 'string', default: key_offwhite},
+        activeColor: {type: 'string', default: key_orange},
         opacity: {type: 'number', default: 1.0},
         active: {type: 'boolean', default: true}
     },
@@ -403,7 +404,7 @@ AFRAME.registerComponent('gui-toggle', {
         var guiItem = el.getAttribute("gui-item");
         var data = this.data;
 
-        el.setAttribute('material', `shader: flat; color: ${this.data.backgroundColor}; transparent: true; opacity: ${this.data.opacity}; side:double;`);
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:double;`);
         el.setAttribute('geometry', 'width', guiItem.width);
         el.setAttribute('geometry', 'height', guiItem.height);
 
@@ -413,7 +414,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.setAttribute('width', `${toggleBoxWidth}`);
         toggleBox.setAttribute('height', '0.35');
         toggleBox.setAttribute('depth', '0.01');
-        toggleBox.setAttribute('material', `color:${key_grey_light}; shader: flat;`);
+        toggleBox.setAttribute('material', `color:${data.toggleOffColor}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
         this.el.appendChild(toggleBox);
 
@@ -421,8 +422,8 @@ AFRAME.registerComponent('gui-toggle', {
         toggleColorAnimation.setAttribute('begin', 'toggleAnimation');
         toggleColorAnimation.setAttribute('direction', 'alternate');
         toggleColorAnimation.setAttribute('attribute', 'material.color');
-        toggleColorAnimation.setAttribute('from', 'gray');
-        toggleColorAnimation.setAttribute('to', 'green');
+        toggleColorAnimation.setAttribute('from', `${data.toggleOffColor}`);
+        toggleColorAnimation.setAttribute('to', `${data.toggleOnColor}`);
         toggleColorAnimation.setAttribute('dur', '500');
         toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
         toggleBox.appendChild(toggleColorAnimation);
@@ -433,7 +434,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('width', `${toggleHandleWidth}`);
         toggleHandle.setAttribute('height', '0.30');
         toggleHandle.setAttribute('depth', '0.02');
-        toggleHandle.setAttribute('material', 'color:grey');
+        toggleHandle.setAttribute('material', `color:${data.toggleColor}`);
         toggleHandle.setAttribute('position', `${toggleHandleX} 0 0`);
         toggleBox.appendChild(toggleHandle);
 
@@ -469,30 +470,15 @@ AFRAME.registerComponent('gui-toggle', {
         labelEntity.setAttribute('position', '0 0 0.02');
         this.el.appendChild(labelEntity);
 
-        /*
-
-         <a-box id="togglebox" width="0.75" height="0.5" depth="0.01" material="color:white" position="-1 0 0">
-         <a-animation begin="toggleAnimation" direction="alternate" attribute="material.color" from="white" to="green"
-         dur="500" easing="ease-in-out-cubic"></a-animation>
-         <a-box id="togglehandle" width="0.15" height="0.45" depth="0.02" material="color:grey"  position="-0.25 0 0">
-         <a-animation begin="toggleAnimation" direction="alternate" attribute="position" from="-0.25 0 0"
-         to="0.25 0 0" dur="500" easing="ease-in-out-cubic"></a-animation>
-         </a-box>
-         </a-box>
-
-         */
-
-
-
 
         this.updateToggle(data.active);
 
         el.addEventListener('mouseenter', function () {
-            el.setAttribute('material', 'color', data.hoverColor);
+            toggleHandle.setAttribute('material', 'color', data.hoverColor);
         });
 
         el.addEventListener('mouseleave', function () {
-            el.setAttribute('material', 'color', data.backgroundColor);
+            toggleHandle.setAttribute('material', 'color', data.toggleColor);
         });
 
         el.addEventListener(data.on, function (evt) {
