@@ -4,7 +4,7 @@
   	<meta charset="utf-8">
   	<title>A-Frame GUI</title>
     <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
-    <script src="components.js"></script>
+    <script src="/js/components.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 	<style type="text/css">
 		@font-face{
@@ -28,6 +28,37 @@
             musicPlayer.components.sound.pauseSound();
         }
 
+        window.submitMusicCreate = function() {
+            var musicPlayer = document.getElementById("musicPlayer");
+            musicPlayer.components.sound.pauseSound();
+        }
+
+        function amperCreateRequest(descriptor, time) {
+            console.log("in amperCreateRequest, descriptor: "+descriptor+", time: "+time);
+            return new Promise(function (resolve, reject) {
+                console.log("submitting amperCreateRequest");
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function(){
+                    if(request.readyState == 4){
+                        try {
+                            var resp = JSON.parse(request.response);
+                            resolve(request.response);
+                        } catch (e){
+                            var resp = {
+                                status: 'error',
+                                data: 'Error calling amperCreateRequest: [' + request.responseText + ']'
+                            };
+                            reject(resp);
+                        }
+                        console.log(resp.status + ': ' + JSON.stringify(resp.data));
+                    }
+                };
+                console.log("about to send get request");
+                request.open('GET', `/amper/projects/${descriptor}/${time}`);
+                request.setRequestHeader("Content-Type", "application/json");
+                request.send();
+            })
+        }
 	</script>
 </head>
 <body>
