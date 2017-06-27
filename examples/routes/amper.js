@@ -38,23 +38,28 @@ router.get('/render_files/:file_id', function(req, res, next) {
         headers: {
             'Authorization': `Bearer ${AMPER_APP_KEY}`
         },
-        method: 'GET'
+        method: 'GET',
+        followRedirect: false
     };
     request(options, function(error, response, body) {
-        res.status(response.statusCode)
-       /* fs.writeFile('/tmp/test.wav', body, function (err) {
-            if (err) {
-                res.send('error writing file: '+err);
-            } else {
-                res.send("wrote file")
+        if (response.headers.location) {
+            res.redirect(response.headers.location);
+        } else {
+            res.status(response.statusCode)
+            /* fs.writeFile('/tmp/test.wav', body, function (err) {
+             if (err) {
+             res.send('error writing file: '+err);
+             } else {
+             res.send("wrote file")
+             }
+             });
+             */
+            for (let i = 0; i < Object.keys(response.headers).length; i++) {
+                const headerName = Object.keys(response.headers)[i];
+                res.header(headerName, response.headers[headerName])
             }
-        });
-*/
-        for (let i = 0; i < Object.keys(response.headers).length; i++) {
-            const headerName = Object.keys(response.headers)[i];
-            res.header(headerName, response.headers[headerName])
+            res.send(body);
         }
-        res.send(body);
     });
 });
 
@@ -98,7 +103,9 @@ router.post('/projects', function(req, res, next) {
 });
 
 // support GET as well so it's easier to debug
-router.get('/projects', function(req, res, next) {
+router.get('/projects/:descriptor/:time', function(req, res, next) {
+    const descriptor = req.params['descriptor']
+    const time = req.params['time']
 
     const uniqueId = getUniqueId('project_');
     var requestBody = {
@@ -108,11 +115,11 @@ router.get('/projects', function(req, res, next) {
                 {
                     "event": "region",
                     "time": 0,
-                    "descriptor": "happy_modern_folk"
+                    "descriptor": descriptor
                 },
                 {
                     "event": "silence",
-                    "time": 10
+                    "time": Number(time)
                 }
             ]
         }
