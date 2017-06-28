@@ -1,7 +1,7 @@
 var normalYPosition = 1.5;
 var hiddenYPosition = 1000;
 window.selectCinematic = function() {
-    var musicTypePanel = document.getElementById("music_type_panel");
+  /*  var musicTypePanel = document.getElementById("music_type_panel");
     var musicLengthPanel = document.getElementById("music_type_panel");
     var musicPlayerPanel = document.getElementById("music_player_panel");
 
@@ -16,14 +16,34 @@ window.selectCinematic = function() {
     musicTypePanel.setAttribute("visible", `false`);
     musicLengthPanel.setAttribute("visible", `true`);
     musicPlayerPanel.setAttribute("visible", `false`);
-
-    musicType = 'cinematic';
-    console.log("in selectCinematic, musicTypePanel: "+musicTypePanel+", musicLengthPanel: "+musicLengthPanel+", musicPlayerPanel: "+musicPlayerPanel);
-    console.log("musicType position: "+JSON.stringify(musicTypePanel.getAttribute("position")));
+*/
+    window.musicType = 'ambient_tense_high';
+    //console.log("in selectCinematic, musicTypePanel: "+musicTypePanel+", musicLengthPanel: "+musicLengthPanel+", musicPlayerPanel: "+musicPlayerPanel);
+    //console.log("musicType position: "+JSON.stringify(musicTypePanel.getAttribute("position")));
 }
 
-window.testButtonAction = function() {
-    console.log("in testButtonAction");
+window.selectClassicRock = function() {
+    window.musicType = 'driving_classic_rock';
+}
+
+window.selectModernFolk = function() {
+    window.musicType = 'reflective_modern_folk';
+}
+
+window.select90sPop = function() {
+    window.musicType = 'playful_corporate_pop';
+}
+
+window.select5Seconds = function() {
+    window.musicLength = 5;
+}
+
+window.select10Seconds = function() {
+    window.musicLength = 10;
+}
+
+window.select15Seconds = function() {
+    window.musicLength = 15;
 }
 
 //default colors
