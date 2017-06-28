@@ -1,6 +1,3 @@
-window.musicType = '';
-window.musicLength = 0;
-
 var normalYPosition = 1.5;
 var hiddenYPosition = 1000;
 window.selectCinematic = function() {
@@ -364,7 +361,7 @@ AFRAME.registerComponent('gui-icon-button', {
             console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
-            console.log("clickActionFunction: "+clickActionFunction);
+            //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
 

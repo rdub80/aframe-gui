@@ -1,5 +1,4 @@
-window.musicType = '';
-window.musicLength = 0;
+
 
 var normalYPosition = 1.5;
 var hiddenYPosition = 1000;
