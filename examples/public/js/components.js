@@ -1,7 +1,8 @@
 var normalYPosition = 1.5;
 var hiddenYPosition = 1000;
 window.selectCinematic = function() {
-  /*  var musicTypePanel = document.getElementById("music_type_panel");
+
+    /*  var musicTypePanel = document.getElementById("music_type_panel");
     var musicLengthPanel = document.getElementById("music_type_panel");
     var musicPlayerPanel = document.getElementById("music_player_panel");
 
@@ -17,32 +18,83 @@ window.selectCinematic = function() {
     musicLengthPanel.setAttribute("visible", `true`);
     musicPlayerPanel.setAttribute("visible", `false`);
 */
+    var typeCinematic = document.getElementById("type_cinematic");
+    var typeClassicRock = document.getElementById("type_classic_rock");
+    var typeModernFolk = document.getElementById("type_modern_folk");
+    var type90sPop = document.getElementById("type_90s_pop");
+
+    typeClassicRock.components['gui-button'].setActiveState(false);
+    typeModernFolk.components['gui-button'].setActiveState(false);
+    type90sPop.components['gui-button'].setActiveState(false);
     window.musicType = 'ambient_tense_high';
+
     //console.log("in selectCinematic, musicTypePanel: "+musicTypePanel+", musicLengthPanel: "+musicLengthPanel+", musicPlayerPanel: "+musicPlayerPanel);
     //console.log("musicType position: "+JSON.stringify(musicTypePanel.getAttribute("position")));
 }
 
 window.selectClassicRock = function() {
     window.musicType = 'driving_classic_rock';
-}
+
+    var typeCinematic = document.getElementById("type_cinematic");
+    var typeClassicRock = document.getElementById("type_classic_rock");
+    var typeModernFolk = document.getElementById("type_modern_folk");
+    var type90sPop = document.getElementById("type_90s_pop");
+
+    typeCinematic.components['gui-button'].setActiveState(false);
+    typeModernFolk.components['gui-button'].setActiveState(false);
+    type90sPop.components['gui-button'].setActiveState(false);}
 
 window.selectModernFolk = function() {
     window.musicType = 'reflective_modern_folk';
-}
+
+    var typeCinematic = document.getElementById("type_cinematic");
+    var typeClassicRock = document.getElementById("type_classic_rock");
+    var typeModernFolk = document.getElementById("type_modern_folk");
+    var type90sPop = document.getElementById("type_90s_pop");
+
+    typeClassicRock.components['gui-button'].setActiveState(false);
+    typeClassicRock.components['gui-button'].setActiveState(false);
+    type90sPop.components['gui-button'].setActiveState(false);}
 
 window.select90sPop = function() {
     window.musicType = 'playful_corporate_pop';
+
+    var typeCinematic = document.getElementById("type_cinematic");
+    var typeClassicRock = document.getElementById("type_classic_rock");
+    var typeModernFolk = document.getElementById("type_modern_folk");
+    var type90sPop = document.getElementById("type_90s_pop");
+
+    typeClassicRock.components['gui-button'].setActiveState(false);
+    typeModernFolk.components['gui-button'].setActiveState(false);
+    typeCinematic.components['gui-button'].setActiveState(false);
 }
 
 window.select5Seconds = function() {
+    var length5 = document.getElementById("length_5");
+    var length10 = document.getElementById("length_10");
+    var length15 = document.getElementById("length_15");
+
+    length10.components['gui-button'].setActiveState(false);
+    length15.components['gui-button'].setActiveState(false);
     window.musicLength = 5;
 }
 
 window.select10Seconds = function() {
+    var length5 = document.getElementById("length_5");
+    var length10 = document.getElementById("length_10");
+    var length15 = document.getElementById("length_15");
+    length5.components['gui-button'].setActiveState(false);
+    length15.components['gui-button'].setActiveState(false);
     window.musicLength = 10;
 }
 
 window.select15Seconds = function() {
+    var length5 = document.getElementById("length_5");
+    var length10 = document.getElementById("length_10");
+    var length15 = document.getElementById("length_15");
+
+    length5.components['gui-button'].setActiveState(false);
+    length10.components['gui-button'].setActiveState(false);
     window.musicLength = 15;
 }
 
@@ -230,6 +282,7 @@ AFRAME.registerComponent('gui-button', {
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
+        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
@@ -268,6 +321,7 @@ AFRAME.registerComponent('gui-button', {
         buttonEntity.setAttribute('rotation', '0 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
         this.el.appendChild(buttonEntity);
+        this.buttonEntity = buttonEntity;
 
 
         var textEntity = document.createElement("a-entity");
@@ -281,10 +335,13 @@ AFRAME.registerComponent('gui-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            if (!(data.toggle)) {
+                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            }
         });
 
         el.addEventListener(data.on, function (evt) {
+            data.toggle = !(data.toggle);
             buttonEntity.setAttribute('material', 'color', data.activeColor);
             console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
@@ -293,7 +350,7 @@ AFRAME.registerComponent('gui-button', {
             console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
-            console.log("clickActionFunction: "+clickActionFunction);
+            //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
@@ -302,6 +359,19 @@ AFRAME.registerComponent('gui-button', {
     },
     play: function () {
 
+    },
+    update: function (oldData) {
+        console.log("In button update, toggle: "+this.data.toggle);
+
+    },
+    setActiveState: function (activeState) {
+        console.log("in setActiveState function");
+        this.data.toggle = activeState;
+        if (!activeState) {
+            this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
+        } else {
+
+        }
     },
 });
 
@@ -369,12 +439,14 @@ AFRAME.registerComponent('gui-icon-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            if (!(data.toggle)) {
+                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            }
         });
 
         el.addEventListener(data.on, function (evt) {
-            buttonEntity.setAttribute('material', 'color', data.activeColor);
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+             console.log('I was clicked at: ', evt.detail.intersection.point);
+             data.toggle = !(data.toggle);
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
@@ -397,6 +469,8 @@ AFRAME.registerComponent('gui-icon-button', {
     },
     play: function () {
 
+    },
+    update: function (oldData) {
     },
 });
 
