@@ -231,7 +231,7 @@ AFRAME.registerComponent('gui-button', {
 
         var ctx = this.ctx = canvas.getContext('2d');
 
-        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.7; side:double; color:${data.backgroundColor};`);
 
         this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
 
@@ -318,7 +318,7 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var ctx = this.ctx = canvas.getContext('2d');
 
-        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.7; side:double; color:${data.backgroundColor};`);
 
         this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
 
@@ -405,7 +405,7 @@ AFRAME.registerComponent('gui-toggle', {
         var guiItem = el.getAttribute("gui-item");
         var data = this.data;
 
-        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.7; side:double; color:${data.backgroundColor};`);
 
         el.setAttribute('geometry', 'width', guiItem.width);
         el.setAttribute('geometry', 'height', guiItem.height);
