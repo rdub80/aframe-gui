@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI</title>
+    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+
+  <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+  <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
+
+
+    <script src="components.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+	<style type="text/css">
+		@font-face{
+			font-family:"Ionicons";
+			src:url("assets/fonts/ionicons.eot?v=2.0.1");
+			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+			font-weight:normal;
+			font-style:normal
+		}
+		body{font-family:Ionicons;} 
+	</style>
+
+	<script type="text/javascript">
+		window.playMusic = function() {
+		    var musicPlayer = document.getElementById("musicPlayer");
+		    musicPlayer.components.sound.playSound();
+		}
+
+        window.pauseMusic = function() {
+            var musicPlayer = document.getElementById("musicPlayer");
+            musicPlayer.components.sound.pauseSound();
+        }
+
+	</script>
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<img id="gradient" src="assets/gradient.png">
+			<img id="gif" src="https://media.giphy.com/media/3o7buibRMYxNF9MQmI/giphy.gif">
+			<img id="ground" src="assets/ground.png">
+			<audio id="classicRock" src="assets/classicrock_15sec.wav" preload="auto"></audio>
+		</a-assets>
+
+		<a-light type="directional" color="#FFF" intensity="1" position="0 0 -10"></a-light>
+		<a-light type="ambient" color="#ebd9e9"></a-light>
+		<a-sky src="#gradient"></a-sky>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+
+
+  		<a-sphere
+  			material="
+				ambient-occlusion-map: None;
+				ambient-occlusion-map-intensity: 1;
+				ambient-occlusion-texture-offset: 0 0;
+				ambient-occlusion-texture-repeat: 1 1;
+				color: #FFF;
+				displacement-bias: 0.5;
+				displacement-map: None;
+				displacement-scale: 1;
+				displacement-texture-offset: 0 0;
+				displacement-texture-repeat: 1 1;
+				env-map: None;
+				fog: true;
+				height: 256;
+				metalness: 0;
+				normal-map: None;
+				normal-scale: 1 1;
+				normal-texture-offset: 0 0;
+				normal-texture-repeat: 1 1;
+				repeat: 1 1;
+				roughness: 0.5;
+				spherical-env-map: None;
+				shader:gif;
+				src: #gif;
+				width: 512;
+				wireframe: false;
+				wireframe-linewidth: 2;
+			"
+			gif=""
+  			geometry="
+				phi-length: 360;
+				phi-start: 0;
+				radius: 2;
+				segments-height: 10;
+				segments-width: 10;
+				theta-length: 180;
+				theta-start: 0;
+			"
+			position="0 6 -4"
+  		>
+
+			<a-animation attribute="rotation"
+			dur="10000"
+			fill="forwards"
+			to="0 360 0"
+			repeat="indefinite"
+			easing="linear"></a-animation>
+
+
+  			
+  		</a-sphere>
+
+		<a-entity 	id="music_type_panel" gui-item="type: flex-container; width: 4; height: 4;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="-6.5 1.5 -3"
+					rotation="0 45 0"
+		 >
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: selectCinematic;"
+						geometry="primitive: plane;"
+						gui-button="
+							text:Cinematic;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: selectClassicRock;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
+							text:Classic Rock;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: selectModernFolk;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
+							text:Modern Folk;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: select90sPop;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
+							text:90's Pop;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+		</a-entity>
+
+		<a-entity 	id="music_length_panel" gui-item="type: flex-container; width: 4; height: 4;"
+				  	gui-flex-container="flexDirection: column; justifyContent: center; alignItems: stretch; componentPadding: 0.1; opacity: 0.7"
+				 	position="0 1.5 -5"
+				  	rotation="0 0 0"
+		>
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: select5Seconds;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
+							text:5 seconds;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: select10Seconds;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
+							text:10 seconds;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: select15Seconds;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
+							text:15 seconds;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+
+			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+					  	gui-interactable="clickAction: submitMusicCreate;"
+					  	geometry="primitive: plane;"
+					  	gui-icon-button="
+						 	icon:music;
+					  	"
+				>
+			</a-entity>
+
+
+		</a-entity>
+
+		<a-entity id="music_player_panel" id="music_type_panel" gui-item="type: flex-container; width: 5; height: 4;"
+				  gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+				  position="6.5 1.5 -3"
+				  rotation="0 -45 0"
+		>
+			<a-entity gui-item="type: toggle; width: 2.5; height: 0.75;"
+					  gui-interactable="clickAction: toggleLoop;"
+					  geometry="primitive: plane;"
+					  gui-toggle="
+							text:Loop;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+
+			<a-entity gui-item="type: icon-button; height: 0.75;"
+					   gui-interactable="clickAction: playMusic;"
+					geometry="primitive: plane;"
+					gui-icon-button="
+						icon:play;
+						iconActive:stop;
+					"
+				>
+			</a-entity>
+			<a-entity gui-item="type: icon-button; height: 0.75;"
+					   gui-interactable="clickAction: pauseMusic;"
+					geometry="primitive: plane;"
+					gui-icon-button="
+						icon:stop;
+					"
+				>
+			</a-entity>
+			<a-entity gui-item="type: icon-button; height: 0.75;"
+					   gui-interactable="clickAction: testButtonAction;"
+					geometry="primitive: plane;"
+					gui-icon-button="
+						icon:twitter;
+					"
+				>
+			</a-entity>
+
+		</a-entity>
+		<a-entity id="musicPlayer" geometry="primitive: plane" material="color: blue"
+				  position="0 0 0" scale="0.001 0.001 0.001" sound="src: #classicRock; autoplay: false;"></a-entity>
+
+		<!-- Camera + cursor. -->
+		<a-entity camera="userHeight: 2.0" look-controls="" wasd-controls>
+
+			<a-entity id="cursor"
+					  raycaster="interval: 1000; objects: [gui-interactable]"
+					  cursor="fuse: true; fuseTimeout: 2000"
+					  gui-cursor=""
+					  position="0 0 -1"
+					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
+					  material="color: #ffffff; shader: flat"
+			>
+			</a-entity> <!-- /cursor -->
+
+		</a-entity> <!-- /camera -->
+
+	</a-scene>
+</body>
+</html>

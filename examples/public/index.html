@@ -4,17 +4,29 @@
   	<meta charset="utf-8">
   	<title>A-Frame GUI</title>
     <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="js/components.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+	<style type="text/css">
+		@font-face{
+			font-family:"Ionicons";
+			
+			src:url("assets/fonts/ionicons.eot?v=2.0.1");
+			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+			
+			font-weight:normal;
+			font-style:normal
+		}
+		body{font-family:Ionicons;} 
+	</style>
 </head>
 <body>
 	<a-scene>
 		<a-assets>
-	        <!-- Text Canvas -->    
-	        <canvas id="canvasObjBack" crossorigin="anonymous" webkit-playsinline=""></canvas>
-	        <canvas id="canvasObjFront" crossorigin="anonymous" webkit-playsinline=""></canvas>
-
-		    <img id="gradient" src="assets/gradient.png">
-		    <img id="ground" src="assets/ground.png">
-		    <img id="panel" src="assets/settings.png">
+			<!-- Text Canvas -->
+			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
+			<img id="gradient" src="assets/gradient.png">
+			<img id="ground" src="assets/ground.png">
+			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
 		</a-assets>
 
 		<a-light
@@ -25,235 +37,63 @@
 		</a-light>
 		<a-light
 			type="ambient"
-			color="#444">
+			color="#ebd9e9">
 		</a-light>
-
+		
 		<a-sky src="#gradient"></a-sky>
-  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#fff"></a-image>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 
 
-		<a-camera>
-			<a-cursor></a-cursor>
-		</a-camera>
-
-		<a-entity
-			geometry="primitive: plane;" 
-
-			gui-toggle="
-				targetBg:#canvasObjBack; 
-				targetFg:#canvasObjFront; 
-				text:label copy; 
-				borderWidth:5;
-				width:2;
-				height:1;
-			" 
-			material="shader: flat; transparent: true; opacity: 1; side:double;"
-			opacity="1" 
-			scale="1 1 1"
-			position="0 1.5 -1.5" rotation="0 0 0" 
+		<a-entity 	gui-item="type: flex-container; width: 5; height: 3;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="-0.5 1.5 -3"
+					rotation="0 0 0"
 		>
-			<a-entity id="bg"
-				material="shader: flat; src: #canvasObjBack; transparent: true; opacity: 1; side:double;"
-				geometry="primitive: plane; width: 2; height: 1"
-				opacity="1"  
-				scale="1 1 1"
-				position="0 0 0.001"
-			></a-entity>
 
-			<a-entity id="text"
-				material="shader: flat; src: #canvasObjFront; transparent: true; opacity: 1; side:double;"
-				geometry="primitive: plane; width: 2; height: 1" 
-				opacity="1" 
-				scale="1 1 1"
-				position="0 0 0.002" 
-			></a-entity>
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: testButtonAction;"
+						gui-button="
+							text:label copy;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: toggle; width: 2.5; height: 0.75;"
+					  	gui-interactable="clickAction: testToggleAction;"
+						gui-toggle="
+							text:label copy;
+							backgroundColor: red;
+							opacity: 1;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+					   	gui-interactable="clickAction: testButtonAction;"
+						gui-icon-button="
+							icon:music;
+						"
+			>
+			</a-entity>
+
 		</a-entity>
 
 
+		<!-- Camera + cursor. -->
+		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
+
+			<a-entity id="cursor"
+					  raycaster="interval: 1000; objects: [gui-interactable]"
+					  cursor="fuse: true; fuseTimeout: 2000"
+					  gui-cursor=""
+					  position="0 0 -1"
+					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
+					  material="color: #ffffff; shader: flat"
+			>
+			</a-entity> <!-- /cursor -->
+
+		</a-entity> <!-- /camera -->
+
 	</a-scene>
-
-	<script type="text/javascript">
-
-
-
-
-function roundedOutline(ctx, x, y, width, height, radius, color, lineWidth) {
-	ctx.beginPath();
-	ctx.moveTo(x, y + radius);
-	ctx.lineTo(x, y + height - radius);
-	ctx.arcTo(x, y + height, x + radius, y + height, radius);
-	ctx.lineTo(x + width - radius, y + height);
-	ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
-	ctx.lineTo(x + width, y + radius);
-	ctx.arcTo(x + width, y, x + width - radius, y, radius);
-	ctx.lineTo(x + radius, y);
-	ctx.arcTo(x, y, x, y + radius, radius);
-	ctx.strokeStyle = color;
-	ctx.lineWidth = lineWidth;
-	ctx.stroke();
-}
-
-function roundedRect(ctx, x, y, width, height, radius, color) {
-	ctx.beginPath();
-	ctx.moveTo(x, y + radius);
-	ctx.lineTo(x, y + height - radius);
-	ctx.arcTo(x, y + height, x + radius, y + height, radius);
-	ctx.lineTo(x + width - radius, y + height);
-	ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
-	ctx.lineTo(x + width, y + radius);
-	ctx.arcTo(x + width, y, x + width - radius, y, radius);
-	ctx.lineTo(x + radius, y);
-	ctx.arcTo(x, y, x, y + radius, radius);
-	ctx.fillStyle = color;
-	ctx.fill();
-}
-
-function drawText(ctx, canvas, text, font, color, size,) {
-	ctx.font = font;
-	ctx.fillStyle = color;
-	ctx.textAlign = "center";
-	ctx.textBaseline = 'middle';
-	ctx.shadowColor = 'rgba(0,0,0,0.5)';
-	ctx.shadowBlur = 8;
-	ctx.shadowOffsetY = 0;
-	ctx.shadowOffsetX = 0;
-	ctx.scale(1, 1);
-	ctx.fillText(text, canvas.width/2, canvas.height/2, canvas.width); // position x, y 
-}
-
-
-function drawLabel(ctx, canvas, text, font, color, size,) {
-	ctx.font = font;
-	ctx.fillStyle = color;
-	ctx.textAlign = "left";
-	ctx.textBaseline = 'middle';
-	ctx.shadowColor = 'rgba(0,0,0,0.5)';
-	ctx.shadowBlur = 8;
-	ctx.shadowOffsetY = 0;
-	ctx.shadowOffsetX = 0;
-	ctx.scale(1, 1);
-	ctx.fillText(text, canvas.width/2 - canvas.width/4, canvas.height/2, canvas.width - canvas.width/4); // position x, y 
-}
-
-
-AFRAME.registerComponent('gui-toggle', {
-    schema: {
-    	on: {default: 'click'},
-//    	emit: {default:null},
-		targetFg: {type: 'selector', default: '#canvasObjFront'},
-		targetBg: {type: 'selector', default: '#canvasObjBack'},
-      	text: {type: 'string', default: 'text'},
-      	fontColor: {type: 'string', default: 'black'},
-      	borderColor: {type: 'string', default: 'black'},
-      	borderWidth: {type: 'number', default: 1},
-      	toggleColor: {type: 'string', default: 'black'},
-      	toggleOnColor: {type: 'string', default: 'green'},
-      	toggleOffColor: {type: 'string', default: 'grey'},
-      	hoverColor: {type: 'string', default: 'red'},
-      	width: {type: 'number', default: 2},
-      	height: {type: 'number', default: 1},
-      	active: {type: 'boolean', default: true}
-    },
-    init: function() {
-
-        var data = this.data;
-        var multiplier = 350;
-        var canvasWidth = data.width*multiplier;
-        var canvasHeight = data.height*multiplier;
-
-        var el = this.el;
-        var canvasFg = this.canvasFg = data.targetFg;
-        var canvasBg = this.canvasBg = data.targetBg;
-        var ctxFg = this.ctxFg = canvasFg.getContext('2d');
-        var ctxBg = this.ctxBg = canvasBg.getContext('2d');
-
-		el.setAttribute('material', 'color', data.backgroundColor);
-		el.setAttribute('geometry', 'width', data.width);
-		el.setAttribute('geometry', 'height', data.height);
-
-        canvasBg.setAttribute('width', canvasWidth);
-        canvasBg.setAttribute('height', canvasHeight);
-
-        canvasFg.setAttribute('width', canvasWidth);
-        canvasFg.setAttribute('height', canvasHeight);
-
-		this.updateToggle(data.active);
-		
-		el.addEventListener('mouseenter', function () {
-			el.setAttribute('material', 'color', data.hoverColor);
-		});
-		
-		el.addEventListener('mouseleave', function () {
-			el.setAttribute('material', 'color', data.backgroundColor);
-		});
-		
-		el.addEventListener(data.on, function (evt) {
-			console.log('I was clicked at: ', evt.detail.intersection.point);
-		});
-
-	},
-	update: function(){
-        var data = this.data;
-		this.updateToggle(data.active)
-	},
-
-
-	updateToggle: function(active){
-
-		if(active){
-			roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, this.canvasBg.height/4 + 20  - this.data.borderWidth/2, this.canvasBg.height/2 - 40 + this.data.borderWidth, this.canvasBg.height/2 - 40 + this.data.borderWidth, 20, this.data.borderColor, this.data.borderWidth);
-			roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/2 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleOnColor);
-			roundedRect(this.ctxBg, this.canvasBg.height/4 + 20, this.canvasBg.height/4 + 20, this.canvasBg.height/4 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleColor);
-			drawLabel(this.ctxFg, this.canvasFg, this.data.text, '100px Arial', this.data.fontColor, 1);
-
-		}else{
-			roundedOutline(this.ctxBg, 20 - this.data.borderWidth/2, this.canvasBg.height/4 + 20  - this.data.borderWidth/2, this.canvasBg.height/2 - 40 + this.data.borderWidth, this.canvasBg.height/2 - 40 + this.data.borderWidth, 20, this.data.borderColor, this.data.borderWidth);
-			roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/2 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleOffColor);
-			roundedRect(this.ctxBg, 20, this.canvasBg.height/4 + 20, this.canvasBg.height/4 - 40, this.canvasBg.height/2 -40, 20, this.data.toggleColor);
-			drawLabel(this.ctxFg, this.canvasFg, this.data.text, '100px Arial', this.data.fontColor, 1);
-		}
-
-	}
-
-});
-
-
-
-
-		AFRAME.registerComponent('button-text', {
-		    schema: {
-		      targetFg: {type: 'selector', default: '#canvasObjFront'},
-		      targetBg: {type: 'selector', default: '#canvasObjBack'},
-		      text: {type: 'string', default: 'button'},
-		      fontColor: {type: 'string', default: 'rgba(0,0,0,1)'},
-		      borderColor: {type: 'string', default: 'rgba(0,0,0,1)'},
-		      backgroundColor: {type: 'string', default: 'rgba(215,215,215,1)'},
-		      width: {type: 'number', default: 1},
-		      height: {type: 'number', default: 1}
-		    },
-		    init: function() {
-		        var data = this.data;
-		        var el = this.el;
-		        var canvasFg = this.canvasFg = data.targetFg;
-		        var canvasBg = this.canvasBg = data.targetBg;
-		        var ctxFg = this.ctxFg = canvasFg.getContext('2d');
-		        var ctxBg = this.ctxBg = canvasBg.getContext('2d');
-		        var textLayer = document.getElementById('canvasObjFront');
-
-				//roundedOutline(ctxBg, 10, 10, canvasBg.width - 20, canvasBg.height - 20, 5, data.borderColor);
-				roundedRect(ctxBg, 20, 20, canvasBg.width - 40, canvasBg.height - 40, 10, data.backgroundColor);
-				drawText(ctxFg, canvasFg, data.text, '100px Arial', data.fontColor, 1);
-
-
-		    },
-		    update: function () {
-		        // var data = this.data;
-		        // var canvas = this.canvas = data.target;
-		        // var ctx = this.ctx = canvas.getContext('2d');
-		        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-		        // ctx.fillText(data.text, canvas.width/2, canvas.height/2); // position x, y 
-		    }
-		});
-	</script>
-
 </body>
+</html>

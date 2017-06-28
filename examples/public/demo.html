@@ -109,13 +109,10 @@
 	<a-scene>
 		<a-assets>
 			<!-- Text Canvas -->
-			<!--<canvas id="canvasObjBack" crossorigin="anonymous" webkit-playsinline=""></canvas>
-			<canvas id="canvasObjFront" crossorigin="anonymous" webkit-playsinline=""></canvas> -->
 			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
 
 			<img id="gradient" src="assets/gradient.png">
 			<img id="ground" src="assets/ground.png">
-			<img id="panel" src="assets/settings.png">
 			<audio id="classicRock" src="/assets/classicrock_15sec.wav" preload="auto"></audio>
 		</a-assets>
 
@@ -138,37 +135,37 @@
 			position="-5.5 1.5 -1.5"
 			rotation="0 45 0"
 		 >
-			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
-					   gui-interactable="clickAction: selectCinematic;"
-					geometry="primitive: plane;"
-					gui-button="
-						text:Cinematic;
-						fontFamily:'Fira Sans';
-					"
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: selectCinematic;"
+						geometry="primitive: plane;"
+						gui-button="
+							text:Cinematic;
+							fontFamily:'Fira Sans';
+						"
 			>
 			</a-entity>
-			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
-					   gui-interactable="clickAction: selectClassicRock;"
-					   geometry="primitive: plane;"
-					   gui-button="
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: selectClassicRock;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
 							text:Classic Rock;
 							fontFamily:'Fira Sans';
 						"
 			>
 			</a-entity>
-			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
-					   gui-interactable="clickAction: selectModernFolk;"
-					   geometry="primitive: plane;"
-					   gui-button="
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: selectModernFolk;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
 							text:Modern Folk;
 							fontFamily:'Fira Sans';
 						"
 			>
 			</a-entity>
-			<a-entity  gui-item="type: button; width: 2.5; height: 0.75;"
-					   gui-interactable="clickAction: select90sPop;"
-					   geometry="primitive: plane;"
-					   gui-button="
+			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: select90sPop;"
+					   	geometry="primitive: plane;"
+					   	gui-button="
 							text:90's Pop;
 							fontFamily:'Fira Sans';
 						"
@@ -209,22 +206,21 @@
 			>
 			</a-entity>
 
-			<a-entity gui-item="type: icon-button; height: 0.75;"
-					   gui-interactable="clickAction: submitMusicCreate;"
-					geometry="primitive: plane;"
-					gui-icon-button="
-						icon:music;
-					"
+			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+					   	gui-interactable="clickAction: submitMusicCreate;"
+						geometry="primitive: plane;"
+						gui-icon-button="
+							icon:ios-musical-notes;
+						"
 				>
 			</a-entity>
-            <a-entity  gui-item="type: progress-bar; width: 2.5; height: 0.3"
-                    geometry="primitive: plane; width: 2.5; height: 0.3"
-                       material="shader: flat; opacity: 1; side:double; color: black;">
+            <a-entity  	gui-item="type: progress-bar; width: 2.5; height: 0.3"
+                    	geometry="primitive: plane; width: 2.5; height: 0.3"
+                       	material="shader: flat; opacity: 1; side:double; color: black;">
                 <a-entity id="progress_meter"
                           geometry="primitive: plane; width: 0.04; height: 0.3"
                           material="shader: flat; opacity: 1; side:double; color: green;"
-                            position="-1.23 0 0.001">
-
+                          position="-1.23 0 0.001">
                 </a-entity>
             </a-entity>
 
@@ -236,40 +232,40 @@
 				  position="4.5 1.5 -1.5"
 				  rotation="0 -45 0"
 		>
-			<a-entity gui-item="type: toggle; width: 2.5; height: 0.75;"
-					  gui-interactable="clickAction: toggleLoop;"
-					  geometry="primitive: plane;"
-					  gui-toggle="
+			<a-entity 	gui-item="type: toggle; width: 2.5; height: 0.75;"
+					  	gui-interactable="clickAction: toggleLoop;"
+					  	geometry="primitive: plane;"
+					  	gui-toggle="
 							text:Loop;
 							fontFamily:'Fira Sans';
 						"
 			>
 			</a-entity>
 
-			<a-entity gui-item="type: icon-button; height: 0.75;"
-					   gui-interactable="clickAction: playMusic;"
-					geometry="primitive: plane;"
-					gui-icon-button="
-						icon:play;
-						iconActive:stop;
-					"
+			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+					   	gui-interactable="clickAction: playMusic;"
+						geometry="primitive: plane;"
+						gui-icon-button="
+							icon:play;
+							iconActive:stop;
+						"
 				>
 			</a-entity>
-			<a-entity gui-item="type: icon-button; height: 0.75;"
-					   gui-interactable="clickAction: pauseMusic;"
-					geometry="primitive: plane;"
-					gui-icon-button="
-						icon:stop;
-					"
+			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+					   	gui-interactable="clickAction: pauseMusic;"
+						geometry="primitive: plane;"
+						gui-icon-button="
+							icon:stop;
+						"
 				>
 			</a-entity>
-			<a-entity gui-item="type: icon-button; height: 0.75;"
-					   gui-interactable="clickAction: testButtonAction;"
-					geometry="primitive: plane;"
-					gui-icon-button="
-						icon:twitter;
-					"
-				>
+			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+					   	gui-interactable="clickAction: testButtonAction;"
+						geometry="primitive: plane;"
+						gui-icon-button="
+							icon:social-github;
+						"
+			>
 			</a-entity>
 
 		</a-entity>
