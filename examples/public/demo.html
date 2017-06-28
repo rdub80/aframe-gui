@@ -37,10 +37,17 @@
             request.onreadystatechange = function(){
                 if(request.readyState == 4){
                     if (request.status == 200) {
+                        var progressMeter = document.getElementById("progress_meter");
                         try {
                             var resp = JSON.parse(request.response);
                             if (resp.status == 'waiting_create') {
                                 var percentComplete = resp.progress_percent;
+                                var width = percentComplete * 0.01 * 2.5; // TODO: get width dynamically
+                                if (width < 0.1) width = 0.1;
+                                var position = -1.25 + width*0.5;
+                                console.log("width: "+width+", position: "+position);
+                                progressMeter.setAttribute('geometry', 'width', width);
+                                progressMeter.setAttribute('position', 'x', position);
                                 console.log("waiting, percent_complete: "+percentComplete+", project id: "+resp.id);
                                 setTimeout(function() {
                                     console.log("about to call getProjectStatus recursively with projectId: "+resp.id);
@@ -58,7 +65,8 @@
                                         musicPlayer.setAttribute('sound', 'src', fileURL);
                                     }
                                 }
-                                var projectId = resp.id;
+                                progressMeter.setAttribute('geometry', 'width', 2.5);
+                                progressMeter.setAttribute('position', 'x', 0);
                             }
                         } catch (e) {
                             console.log('Error calling getProjecStatus: [' + e.message + ']');
@@ -209,6 +217,16 @@
 					"
 				>
 			</a-entity>
+            <a-entity  gui-item="type: progress-bar; width: 2.5; height: 0.3"
+                    geometry="primitive: plane; width: 2.5; height: 0.3"
+                       material="shader: flat; opacity: 1; side:double; color: black;">
+                <a-entity id="progress_meter"
+                          geometry="primitive: plane; width: 0.04; height: 0.3"
+                          material="shader: flat; opacity: 1; side:double; color: green;"
+                            position="-1.23 0 0.001">
+
+                </a-entity>
+            </a-entity>
 
 
 		</a-entity>
