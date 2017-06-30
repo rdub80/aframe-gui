@@ -113,7 +113,7 @@
 
 			<img id="gradient" src="assets/gradient.png">
 			<img id="ground" src="assets/ground.png">
-			<audio id="classicRock" src="/assets/classicrock_15sec.wav" preload="auto"></audio>
+			<!--<audio id="classicRock" src="/assets/classicrock_15sec.wav" preload="auto"></audio>-->
 		</a-assets>
 
 		<a-light
@@ -232,7 +232,7 @@
 				  position="4.5 1.5 -1.5"
 				  rotation="0 -45 0"
 		>
-			<a-entity 	gui-item="type: toggle; width: 2.5; height: 0.75;"
+			<a-entity 	id="loop_toggle" gui-item="type: toggle; width: 2.5; height: 0.75;"
 					  	gui-interactable="clickAction: toggleLoop;"
 					  	geometry="primitive: plane;"
 					  	gui-toggle="
@@ -270,7 +270,7 @@
 
 		</a-entity>
 		<a-entity id="musicPlayer" geometry="primitive: plane" material="color: blue"
-				  position="0 0 0" scale="0.001 0.001 0.001" sound="src: #classicRock; autoplay: false;"></a-entity>
+				  position="0 0 0" scale="0.001 0.001 0.001" sound=""></a-entity>
 
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 2.0" look-controls="" wasd-controls>
