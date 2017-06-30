@@ -3,7 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI</title>
-    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+	<script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 	<style type="text/css">
 		@font-face{
@@ -216,11 +216,11 @@
 			</a-entity>
             <a-entity  	gui-item="type: progress-bar; width: 2.5; height: 0.3"
                     	geometry="primitive: plane; width: 2.5; height: 0.3"
-                       	material="shader: flat; opacity: 1; side:double; color: black;">
+                       	material="shader: flat; opacity: 1; color: black;">
                 <a-entity id="progress_meter"
-                          geometry="primitive: plane; width: 0.04; height: 0.3"
-                          material="shader: flat; opacity: 1; side:double; color: green;"
-                            position="-1.23  0 0.001">
+                          geometry="primitive: box; width: 0.04; height: 0.3; depth: 0.004;"
+                          material="shader: flat; opacity: 1; color: blue;"
+                            position="-1.23  0 0.0">
                 </a-entity>
             </a-entity>
 
