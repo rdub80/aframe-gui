@@ -293,7 +293,7 @@ AFRAME.registerComponent('gui-icon-button', {
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
         fontColor: {type: 'string', default: key_offwhite},
-        fontFamily: {type: 'string', default: 'Arial'},
+        fontFamily: {type: 'string', default: 'Helvetica'},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
