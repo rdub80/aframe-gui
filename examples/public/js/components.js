@@ -406,28 +406,25 @@ AFRAME.registerComponent('gui-icon-button', {
 
         drawIcon(ctx, canvas, data.icon, data.fontColor, 1);
 
-
-        var textEntity = document.createElement("a-entity");
-        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:double;`);
-        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height}; height: ${guiItem.height};`);
-        textEntity.setAttribute('position', '0 0 0.042');
-        this.el.appendChild(textEntity);
-
         var buttonContainer = document.createElement("a-entity");
-        buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
         buttonContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
+        buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
         buttonContainer.setAttribute('rotation', '90 0 0');
         buttonContainer.setAttribute('position', '0 0 0.01');
         this.el.appendChild(buttonContainer);
 
         var buttonEntity = document.createElement("a-entity");
-        buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.backgroundColor}`);
         buttonEntity.setAttribute('geometry', `primitive: cylinder; radius: ${(guiItem.height/2.05)}; height: 0.04;`);
+        buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.backgroundColor}`);
         buttonEntity.setAttribute('rotation', '90 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
         this.el.appendChild(buttonEntity);
 
-
+        var textEntity = document.createElement("a-entity");
+        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height}; height: ${guiItem.height};`);
+        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+        textEntity.setAttribute('position', '0 0 0.042');
+        this.el.appendChild(textEntity);
 
 
         el.addEventListener('mouseenter', function () {
@@ -553,8 +550,8 @@ AFRAME.registerComponent('gui-toggle', {
         document.body.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-
         drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px'+ data.fontFamily, this.data.fontColor);
+
 
         var labelEntity = document.createElement("a-entity");
         labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:double;`);
