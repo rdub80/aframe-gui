@@ -1,5 +1,6 @@
 var normalYPosition = 1.5;
 var hiddenYPosition = 1000;
+
 window.selectCinematic = function() {
 
     /*  var musicTypePanel = document.getElementById("music_type_panel");
@@ -96,6 +97,18 @@ window.select15Seconds = function() {
     length5.components['gui-button'].setActiveState(false);
     length10.components['gui-button'].setActiveState(false);
     window.musicLength = 15;
+}
+
+window.toggleLoop = function() {
+    var loopToggle = document.getElementById("loop_toggle");
+    console.log("loopToggle: "+loopToggle);
+    var loopToggleComponent = loopToggle.components['gui-toggle'];
+    console.log("loopToggleComponent: "+loopToggleComponent);
+    var musicPlayer = document.getElementById("musicPlayer");
+    var loopToggleComponentChecked = loopToggleComponent.data.checked;
+    console.log("loopToggleComponentChecked: "+loopToggleComponentChecked);
+    musicPlayer.setAttribute('sound', 'loop', loopToggleComponentChecked);
+    console.log("toggled loop, current value: "+musicPlayer.getAttribute('sound', 'loop'));
 }
 
 //default colors
@@ -486,7 +499,8 @@ AFRAME.registerComponent('gui-toggle', {
         backgroundColor: {type: 'string', default: key_offwhite},
         activeColor: {type: 'string', default: key_orange},
         opacity: {type: 'number', default: 1.0},
-        active: {type: 'boolean', default: true}
+        active: {type: 'boolean', default: true},
+        checked: {type: 'boolean', default: false}
     },
     init: function() {
 
@@ -572,6 +586,7 @@ AFRAME.registerComponent('gui-toggle', {
 
         el.addEventListener(data.on, function (evt) {
             console.log('I was clicked at: ', evt.detail.intersection.point);
+            data.checked = !data.checked;
             toggleColorAnimation.emit('toggleAnimation');
             toggleHandleAnimation.emit('toggleAnimation');
             var guiInteractable = el.getAttribute("gui-interactable");
@@ -580,7 +595,7 @@ AFRAME.registerComponent('gui-toggle', {
             console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
-            console.log("clickActionFunction: "+clickActionFunction);
+            //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
@@ -599,7 +614,8 @@ AFRAME.registerComponent('gui-toggle', {
         }else{
         }
 
-    }
+    },
+
 
 });
 

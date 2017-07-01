@@ -3,7 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI</title>
-    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+	<script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 	<style type="text/css">
 		@font-face{
@@ -113,7 +113,7 @@
 
 			<img id="gradient" src="assets/gradient.png">
 			<img id="ground" src="assets/ground.png">
-			<audio id="classicRock" src="/assets/classicrock_15sec.wav" preload="auto"></audio>
+			<!--<audio id="classicRock" src="/assets/classicrock_15sec.wav" preload="auto"></audio>-->
 		</a-assets>
 
 		<a-light
@@ -208,11 +208,11 @@
 			</a-entity>
             <a-entity  	gui-item="type: progress-bar; width: 2.5; height: 0.3"
                     	geometry="primitive: plane; width: 2.5; height: 0.3"
-                       	material="shader: flat; opacity: 1; side:double; color: black;">
+                       	material="shader: flat; opacity: 1; color: black;">
                 <a-entity id="progress_meter"
-                          geometry="primitive: plane; width: 0.04; height: 0.3"
-                          material="shader: flat; opacity: 1; side:double; color: green;"
-                            position="-1.23  0 0.001">
+                          geometry="primitive: box; width: 0.04; height: 0.3; depth: 0.004;"
+                          material="shader: flat; opacity: 1; color: blue;"
+                            position="-1.23  0 0.0">
                 </a-entity>
             </a-entity>
 
@@ -224,7 +224,7 @@
 				  position="4.5 1.5 -1.5"
 				  rotation="0 -45 0"
 		>
-			<a-entity 	gui-item="type: toggle; width: 2.5; height: 0.75;"
+			<a-entity 	id="loop_toggle" gui-item="type: toggle; width: 2.5; height: 0.75;"
 					  	gui-interactable="clickAction: toggleLoop;"
 					  	gui-toggle="
 							text:Loop;
@@ -258,7 +258,7 @@
 
 		</a-entity>
 		<a-entity id="musicPlayer" geometry="primitive: plane" material="color: blue"
-				  position="0 0 0" scale="0.001 0.001 0.001" sound="src: #classicRock; autoplay: false;"></a-entity>
+				  position="0 0 0" scale="0.001 0.001 0.001" sound=""></a-entity>
 
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 2.0" look-controls="" wasd-controls>
