@@ -3,7 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI</title>
-    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
     <script src="js/components.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 	<style type="text/css">
@@ -42,10 +42,15 @@
 		
 		<a-sky src="#gradient"></a-sky>
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
-
-
+<!-- 
+		<a-entity	geometry="primitive: box; width: 5; height: 4; depth:0.025;"
+                   	material="shader: flat; opacity: 0.2; color: red;"
+                   	position="-0.5 2 -3.055"
+		>	
+		</a-entity>
+-->
 		<a-entity 	gui-item="type: flex-container; width: 5; height: 4;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 1"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 					position="-0.5 2 -3"
 					rotation="0 0 0"
 		>
