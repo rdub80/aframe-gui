@@ -71,10 +71,20 @@
 						"
 			>
 			</a-entity>
+
+			<a-entity 	gui-item="type: radio; width: 2.5; height: 0.75;"
+					  	gui-interactable="clickAction: testToggleAction;"
+						gui-radio="
+							text:label copy;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+
 			<a-entity 	gui-item="type: icon-button; height: 0.75;"
-					   	gui-interactable="clickAction: testButtonAction;"
-						gui-icon-button="
-							icon:ios-musical-notes;
+						gui-circle-timer="
+							countDown:5;
+							fontFamily:'Fira Sans';
 						"
 			>
 			</a-entity>
