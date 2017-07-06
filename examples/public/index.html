@@ -39,26 +39,21 @@
 			type="ambient"
 			color="#ebd9e9">
 		</a-light>
-		
+
+
 		<a-sky src="#gradient"></a-sky>
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
-<!-- 
-		<a-entity	geometry="primitive: box; width: 5; height: 4; depth:0.025;"
-                   	material="shader: flat; opacity: 0.2; color: red;"
-                   	position="-0.5 2 -3.055"
-		>	
-		</a-entity>
--->
-		<a-entity 	gui-item="type: flex-container; width: 5; height: 4;"
+
+		<a-entity 	gui-item="type: flex-container; width: 4; height: 4;"
 					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="-0.5 2 -3"
+					position="-2.25 2 -3"
 					rotation="0 0 0"
 		>
 
 			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
 					   	gui-interactable="clickAction: testButtonAction;"
 						gui-button="
-							text:label copy;
+							text:label button;
 							fontFamily:'Fira Sans';
 						"
 			>
@@ -66,22 +61,55 @@
 			<a-entity 	gui-item="type: toggle; width: 2.5; height: 0.75;"
 					  	gui-interactable="clickAction: testToggleAction;"
 						gui-toggle="
-							text:label copy;
+							text:label toggle;
 							fontFamily:'Fira Sans';
 						"
 			>
 			</a-entity>
+
+			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
+					  	gui-interactable="clickAction: testButtonAction;"
+						gui-icon-button="
+							icon:social-twitter;
+						"
+			>
+			</a-entity>
+
+			<a-entity 	gui-item="type: circle-loader; height: 0.75;"
+						gui-circle-loader="
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+
+		</a-entity>
+
+
+		<a-entity 	gui-item="type: flex-container; width: 4; height: 4;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="2.25 2 -3"
+					rotation="0 0 0"
+		>
 
 			<a-entity 	gui-item="type: radio; width: 2.5; height: 0.75;"
 					  	gui-interactable="clickAction: testToggleAction;"
 						gui-radio="
-							text:label copy;
+							text:label radio;
 							fontFamily:'Fira Sans';
 						"
 			>
 			</a-entity>
 
-			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+
+			<a-entity 	gui-item="type: progressbar; width: 2.5; height: 0.25;"
+						gui-progressbar="
+						"
+			>
+			</a-entity>
+
+
+
+			<a-entity 	gui-item="type: circle-timer; height: 0.75;"
 						gui-circle-timer="
 							countDown:5;
 							fontFamily:'Fira Sans';
@@ -90,7 +118,6 @@
 			</a-entity>
 
 		</a-entity>
-
 
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>

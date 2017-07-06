@@ -266,7 +266,7 @@ function drawText(ctx, canvas, text, font, color, size) {
 
 function drawIcon(ctx, canvas, icon, color, size) {
     setTimeout(function(){
-        ctx.font = '120px Ionicons';
+        ctx.font = '240px Ionicons';
         ctx.fillStyle = color;
         ctx.textAlign = "center";
         ctx.textBaseline = 'middle';
@@ -357,9 +357,9 @@ AFRAME.registerComponent('gui-button', {
 
 
         var textEntity = document.createElement("a-entity");
-        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width}; height: ${guiItem.height};`);
-        textEntity.setAttribute('material', `shader: flat; depthTest:false; src: #${canvas.id}; transparent: true; opacity: 1; side:double;`);
-        textEntity.setAttribute('position', '0 0 0.042');
+        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
+        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+        textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
         el.addEventListener('mouseenter', function () {
@@ -458,9 +458,9 @@ AFRAME.registerComponent('gui-icon-button', {
         el.appendChild(buttonEntity);
 
         var textEntity = document.createElement("a-entity");
-        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height}; height: ${guiItem.height};`);
-        textEntity.setAttribute('material', `shader: flat; depthTest:false; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
-        textEntity.setAttribute('position', '0 0 0.042');
+        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/2}; height: ${guiItem.height/2};`);
+        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+        textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
 
@@ -582,8 +582,8 @@ AFRAME.registerComponent('gui-toggle', {
 
 
         var labelEntity = document.createElement("a-entity");
-        labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height};`);
-        labelEntity.setAttribute('material', `shader: flat; depthTest:false; src: #${labelCanvas.id}; transparent: true; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
+        labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height/1.05};`);
+        labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
         labelEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(labelEntity);
 
@@ -737,8 +737,8 @@ AFRAME.registerComponent('gui-radio', {
 
 
         var labelEntity = document.createElement("a-entity");
-        labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height};`);
-        labelEntity.setAttribute('material', `shader: flat; depthTest:false; src: #${labelCanvas.id}; transparent: true; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
+        labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height/1.05};`);
+        labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
         labelEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(labelEntity);
 
@@ -819,7 +819,7 @@ AFRAME.registerComponent('gui-circle-loader', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:back; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.count+'%', '60px ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.count+'%', '110px ' + data.fontFamily, data.fontColor, 1);
 
         var loaderContainer = document.createElement("a-entity");
         loaderContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -840,9 +840,9 @@ AFRAME.registerComponent('gui-circle-loader', {
         el.appendChild(loaderRing);
 
         var countLoaded = document.createElement("a-entity");
-        countLoaded.setAttribute('geometry', `primitive: plane; width: ${guiItem.height}; height: ${guiItem.height};`);
-        countLoaded.setAttribute('material', `shader: flat; depthTest:false; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
-        countLoaded.setAttribute('position', '0 0 0.042');
+        countLoaded.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/1.75}; height: ${guiItem.height/1.75};`);
+        countLoaded.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+        countLoaded.setAttribute('position', '0 0 0.022');
         countLoaded.id = "loader_ring_count";
         el.appendChild(countLoaded);
 
@@ -932,7 +932,7 @@ AFRAME.registerComponent('gui-circle-timer', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:back; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.countDown, '100px ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.countDown, '200px ' + data.fontFamily, data.fontColor, 1);
 
         var timerContainer = document.createElement("a-entity");
         timerContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -989,9 +989,9 @@ AFRAME.registerComponent('gui-circle-timer', {
         el.appendChild(timerRing);
 
         var countDownLabel = document.createElement("a-entity");
-        countDownLabel.setAttribute('geometry', `primitive: plane; width: ${guiItem.height}; height: ${guiItem.height};`);
-        countDownLabel.setAttribute('material', `shader: flat; depthTest:false; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
-        countDownLabel.setAttribute('position', '0 0 0.042');
+        countDownLabel.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/1.75}; height: ${guiItem.height/1.75};`);
+        countDownLabel.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+        countDownLabel.setAttribute('position', '0 0 0.022');
         countDownLabel.id = "loader_ring_count";
         el.appendChild(countDownLabel);
 
