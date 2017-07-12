@@ -18,6 +18,29 @@
 		}
 		body{font-family:Ionicons;} 
 	</style>
+
+    <script src="js/fontfaceobserver.js"></script>
+	<script>
+	(function() {
+
+		// Optimization for Repeat Views
+		if( sessionStorage.criticalFoftFontsLoaded ) {
+			console.log("fonts are already loaded");
+			return;
+		}
+
+		var guiWebFont = new FontFaceObserver('Fira Sans');
+
+		Promise.all([guiWebFont.load()]).then(function () {
+			console.log("fonts are loaded");
+			// Optimization for Repeat Views
+			sessionStorage.criticalFoftFontsLoaded = true;
+		});
+	})();
+	</script>
+
+
+
 </head>
 <body>
 	<a-scene>
@@ -44,7 +67,7 @@
 		<a-sky src="#gradient"></a-sky>
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 
-		<a-entity 	gui-item="type: flex-container; width: 4; height: 4;"
+		<a-entity 	gui-item="type: flex-container; width: 4; height: 5;"
 					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 					position="-2.25 2 -3"
 					rotation="0 0 0"
@@ -53,11 +76,23 @@
 			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
 					   	gui-interactable="clickAction: testButtonAction;"
 						gui-button="
+							text:label button button button button button;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+
+			<a-entity  	gui-item="type: icon-label-button; width: 2.5; height: 0.75;"
+					   	gui-interactable="clickAction: testButtonAction;"
+						gui-icon-label-button="
+							icon:social-github;
 							text:label button;
 							fontFamily:'Fira Sans';
 						"
 			>
 			</a-entity>
+
+
 			<a-entity 	gui-item="type: toggle; width: 2.5; height: 0.75;"
 					  	gui-interactable="clickAction: testToggleAction;"
 						gui-toggle="
@@ -71,6 +106,8 @@
 					  	gui-interactable="clickAction: testButtonAction;"
 						gui-icon-button="
 							icon:social-twitter;
+							text:label toggle;
+							fontFamily:'Fira Sans';
 						"
 			>
 			</a-entity>
@@ -85,7 +122,7 @@
 		</a-entity>
 
 
-		<a-entity 	gui-item="type: flex-container; width: 4; height: 4;"
+		<a-entity 	gui-item="type: flex-container; width: 4; height: 5;"
 					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 					position="2.25 2 -3"
 					rotation="0 0 0"
@@ -113,6 +150,22 @@
 						gui-circle-timer="
 							countDown:5;
 							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+
+			<a-entity 	gui-item="type: slider; width: 2.5; height: 0.75;"
+					  	gui-interactable="clickAction: testSliderAction;"
+						gui-slider="percent:0.29;
+						"
+			>
+			</a-entity>
+
+			<a-entity 	gui-item="type: input; width: 2.5; height: 0.75;"
+						gui-interactable="clickAction: testInputAction;"
+						gui-input="
+							fontFamily:'Fira Sans';
+							inputText:Hello Wor_;
 						"
 			>
 			</a-entity>
