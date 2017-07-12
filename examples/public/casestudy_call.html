@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI</title>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="js/components.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+	<style type="text/css">
+		@font-face{
+			font-family:"Ionicons";
+			
+			src:url("assets/fonts/ionicons.eot?v=2.0.1");
+			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+			
+			font-weight:normal;
+			font-style:normal
+		}
+		body{font-family:Ionicons;} 
+	</style>
+
+    <script src="js/fontfaceobserver.js"></script>
+	<script>
+	(function() {
+
+		// Optimization for Repeat Views
+		if( sessionStorage.criticalFoftFontsLoaded ) {
+			console.log("fonts are already loaded");
+			return;
+		}
+
+		var guiWebFont = new FontFaceObserver('Fira Sans');
+
+		Promise.all([guiWebFont.load()]).then(function () {
+			console.log("fonts are loaded");
+			// Optimization for Repeat Views
+			sessionStorage.criticalFoftFontsLoaded = true;
+		});
+	})();
+	</script>
+
+
+
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<!-- Text Canvas -->
+			<img id="gradient" src="assets/gradient.png">
+			<img id="ground" src="assets/ground.png">
+			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
+		</a-assets>
+
+		<a-light
+			type="directional"
+			color="#FFF"
+			intensity="1"
+			position="-1 1 2">
+		</a-light>
+		<a-light
+			type="ambient"
+			color="#ebd9e9">
+		</a-light>
+
+
+		<a-sky src="#gradient"></a-sky>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+
+		<a-entity 	gui-item="type: flex-container; width: 3; height: 2;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="-1.75 2 -5"
+					rotation="0 0 0"
+		>
+
+
+			<a-entity 	gui-item="type: label; width: 2.5; height: 0.75;"
+						gui-label="
+							text:Call A Friend!;
+							fontFamily:'Fira Sans';
+						"
+			>
+			</a-entity>
+
+			<a-entity 	gui-item="type: input; width: 3; height: 0.75;"
+						gui-input="
+							fontFamily:'Fira Sans';
+							inputText:212 432 1234_;
+						"
+			>
+			</a-entity>
+
+		</a-entity>
+
+
+
+		<a-entity 	gui-item="type: flex-container; width: 1; height: 3.75;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="0.5 1.75 -5"
+					rotation="0 0 0"
+		>
+
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickOne;"
+						gui-button="
+							text:1;
+							fontFamily:'Fira Sans';
+						"
+						position="0 0 0"
+			>	
+			</a-entity>
+
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickFour;"
+						gui-button="
+							text:4;
+							fontFamily:'Fira Sans';
+						"
+						position="0 0 0"
+
+			>	
+			</a-entity>
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickSeven;"
+						gui-button="
+							text:7;
+							fontFamily:'Fira Sans';
+						"
+			>	
+			</a-entity>
+
+			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
+					  	gui-interactable="clickAction: clear;"
+						gui-icon-button="
+							icon:android-delete;
+						"
+			>
+			</a-entity>
+		</a-entity>
+
+		<a-entity 	gui-item="type: flex-container; width: 1; height: 3.75;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="1.5 1.75 -5"
+					rotation="0 0 0"
+		>
+
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickTwo;"
+						gui-button="
+							text:2;
+							fontFamily:'Fira Sans';
+						"
+						position="0 0 0"
+			>	
+			</a-entity>
+
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickFive;"
+						gui-button="
+							text:5;
+							fontFamily:'Fira Sans';
+						"
+						position="0 0 0"
+
+			>	
+			</a-entity>
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickEight;"
+						gui-button="
+							text:8;
+							fontFamily:'Fira Sans';
+						"
+			>	
+			</a-entity>
+
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickZero;"
+						gui-button="
+							text:0;
+							fontFamily:'Fira Sans';
+						"
+			>	
+			</a-entity>
+		</a-entity>
+
+		<a-entity 	gui-item="type: flex-container; width: 1; height: 3.75;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="2.5 1.75 -5"
+					rotation="0 0 0"
+		>
+
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickThree;"
+						gui-button="
+							text:3;
+							fontFamily:'Fira Sans';
+						"
+						position="0 0 0"
+			>	
+			</a-entity>
+
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickSix;"
+						gui-button="
+							text:6;
+							fontFamily:'Fira Sans';
+						"
+						position="0 0 0"
+
+			>	
+			</a-entity>
+			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
+					   	gui-interactable="clickAction: clickNine;"
+						gui-button="
+							text:9;
+							fontFamily:'Fira Sans';
+						"
+			>	
+			</a-entity>
+
+			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
+					  	gui-interactable="clickAction: call;"
+						gui-icon-button="
+							icon:android-call;
+						"
+			>
+			</a-entity>
+		</a-entity>
+
+
+
+
+		<!-- Camera + cursor. -->
+		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
+
+			<a-entity id="cursor"
+					  raycaster="interval: 1000; objects: [gui-interactable]"
+					  cursor="fuse: true; fuseTimeout: 2000"
+					  gui-cursor=""
+					  position="0 0 -1"
+					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
+					  material="color: #ffffff; shader: flat"
+			>
+			</a-entity> <!-- /cursor -->
+
+		</a-entity> <!-- /camera -->
+
+	</a-scene>
+</body>
+</html>
