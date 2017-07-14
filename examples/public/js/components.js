@@ -170,57 +170,87 @@ AFRAME.registerComponent('gui-flex-container', {
       opacity: { type: 'number', default: 1.0 }
   },
   init: function () {
-	  console.log("in aframe-gui-component init");
-      
+
       this.setPanelBackground();
 
+      console.log("in aframe-gui-component init for: "+this.el.getAttribute("id"));
       var guiItem = this.el.getAttribute("gui-item");
-      console.log("container gui-item: "+guiItem);
+      //console.log("container gui-item: "+guiItem);
       
       this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
       this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; color: ${this.data.backgroundColor}; side:back;`);
 
       var cursorX = 0;
-      var cursorY = guiItem.height*0.5 - this.data.componentPadding
+      var cursorY = 0;
       if (this.data.flexDirection == 'column') {
+          var cursorY = guiItem.height*0.5 - this.data.componentPadding; // TODO: need to take alignItems into account as well
           if (this.data.justifyContent == 'center') {
               cursorX = 0; // centered implies cursor X  is 0
           } else if (this.data.justifyContent == 'left') {
               cursorX = -guiItem.width*0.5 + this.data.componentPadding;
           }
+      } else if (this.data.flexDirection == 'row') {
+          var cursorX = -guiItem.width*0.5 + this.data.componentPadding; // TODO: need to take alignItems into account as well
+          if (this.data.alignItems == 'center') {
+              cursorY = 0; // centered implies cursor Y  is 0
+          } else if (this.data.justifyContent == 'left') {
+              cursorY = -guiItem.height*0.5 + this.data.componentPadding;
+          }
       }
-      console.log("initial cursor position: "+`${cursorX} ${cursorY} 0.01`)
+      console.log(`initial cursor position for ${this.el.getAttribute("id")}: ${cursorX} ${cursorY} 0.01`)
 
 	  this.children = this.el.getChildEntities();
 	  console.log("childElements: "+this.children);
+      console.log("num child Elements: "+this.children.length);
 	  for (var i = 0; i < this.children.length; i++) {
           var childElement = this.children[i];
+          /* var allAttributes = childElement.attributes
+          console.log("allAttributes for child element: "+JSON.stringify(allAttributes));
+          Array.prototype.slice.call(childElement.attributes).forEach(function(item) {
+              console.log(item.name + ': '+ item.value);
+          }); */
           // TODO: change this to call gedWidth() and setWidth() of component
           var childPositionX = 0;
           var childPositionY = 0;
           var childPositionZ = 0.01;
           var childGuiItem = childElement.getAttribute("gui-item");
+          //console.log("childElement: "+childElement);
+          //console.log("childGuiItem: "+childGuiItem);
 		  //console.log("childElement button-text: "+ childElement.getAttribute("button-text"));
           //console.log("childElement data width: "+ childElement.getAttribute("button-text").width);
 		  // get object position
-          if (this.data.flexDirection == 'column') {
-              if (this.data.justifyContent == 'center') {
-                  childPositionX = 0; // child position is always 0 to center
-              } else if (this.data.justifyContent == 'left') {
-                  childPositionX = cursorX + childGuiItem.width*0.5;
+          if (childGuiItem) {
+              if (this.data.flexDirection == 'column') {
+                  if (this.data.justifyContent == 'center') {
+                      childPositionX = cursorX; // child position is always 0 to center
+                      // TODO: change this in case where child items wrap to 2nd column?
+                  } else if (this.data.justifyContent == 'left') {
+                      childPositionX = cursorX + childGuiItem.width * 0.5;
+                  }
+                  var childPositionY = cursorY - childGuiItem.height * 0.5
+                  // disable stretch for now
+                  /* if (this.data.alignItems == 'stretch') {
+                   // stretch width since we are laying out in column
+                   childGuiItem.width = guiItem.width - this.data.componentPadding*2;
+                   console.log("childElementWidth: "+childGuiItem.width);
+                   // TODO: change this to call setWidth() of component
+                   } */
+                  // going down column so advance cursorY
+                  cursorY = cursorY - childGuiItem.height - this.data.componentPadding;
+              } else if (this.data.flexDirection == 'row') {
+                  if (this.data.alignItems == 'center') {
+                      //childPositionY = cursorY; // child position is always 0 for center vertical alignment
+                      childPositionY = cursorY + childGuiItem.height * 0.5;
+                  } else if (this.data.alignItems == 'top') {
+                      childPositionY = cursorY + childGuiItem.height * 0.5;
+                  }
+                  var childPositionX = cursorX + childGuiItem.width * 0.5
+                  cursorX = cursorX + childGuiItem.width + this.data.componentPadding;
               }
-              var childPositionY = cursorY - childGuiItem.height*0.5
-              if (this.data.alignItems == 'stretch') {
-                  // stretch width since we are laying out in column
-                  childGuiItem.width = guiItem.width - this.data.componentPadding*2;
-                  console.log("childElementWidth: "+childGuiItem.width);
-                  // TODO: change this to call setWidth() of component
-              }
-              // going down column so advance cursorY
-              cursorY = cursorY - childGuiItem.height - this.data.componentPadding;
+              console.log(`child element position for ${childElement.id}: ${childPositionX} ${childPositionY} ${childPositionZ}`)
+              childElement.setAttribute('position', `${childPositionX} ${childPositionY} ${childPositionZ}`)
+              childElement.setAttribute('geometry', `primitive: plane; height: ${childGuiItem.height}; width: ${childGuiItem.width};`)
           }
-          childElement.setAttribute('position', `${childPositionX} ${childPositionY} ${childPositionZ}`)
-          childElement.setAttribute('geometry', `primitive: plane; height: ${childGuiItem.height}; width: ${childGuiItem.width};`)
 	  }      
 
   },

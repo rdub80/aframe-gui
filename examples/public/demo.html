@@ -199,7 +199,7 @@
 			>
 			</a-entity>
 
-			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+			<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75;"
 					   	gui-interactable="clickAction: submitMusicCreate;"
 						gui-icon-button="
 							icon:ios-musical-notes;
@@ -214,12 +214,12 @@
 
 		</a-entity>
 
-		<a-entity id="music_player_panel" id="music_type_panel" gui-item="type: flex-container; width: 5; height: 4;"
-				  gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+		<a-entity id="music_player_panel" gui-item="type: flex-container; width: 5; height: 4;"
+				  gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.5; opacity: 0.7"
 				  position="4.5 1.5 -1.5"
 				  rotation="0 -45 0"
 		>
-			<a-entity 	id="loop_toggle" gui-item="type: toggle; width: 2.5; height: 0.75;"
+			<a-entity id="loop_toggle" gui-item="type: toggle; width: 2.5; height: 0.75;"
 					  	gui-interactable="clickAction: toggleLoop;"
 					  	gui-toggle="
 							text:Loop;
@@ -228,29 +228,32 @@
 			>
 			</a-entity>
 
-			<a-entity 	gui-item="type: icon-button; height: 0.75;"
+			<a-entity id="horizontal_button_row"
+					  gui-item="type: flex-container; width: 3; height: 1;"
+					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; componentPadding: 0.15; opacity: 0.0">
+				<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75;"
 					   	gui-interactable="clickAction: playMusic;"
 						gui-icon-button="
 							icon:play;
 							iconActive:stop;
 						"
 				>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button; height: 0.75;"
-					   	gui-interactable="clickAction: pauseMusic;"
-						gui-icon-button="
-							icon:stop;
-						"
+				</a-entity>
+				<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75;"
+							gui-interactable="clickAction: pauseMusic;"
+							gui-icon-button="
+								icon:stop;
+							"
+					>
+				</a-entity>
+				<a-entity 	gui-item="type: icon-button; height: 0.75;"
+							gui-interactable="clickAction: testButtonAction;"
+							gui-icon-button="
+								icon:social-github;
+							"
 				>
+				</a-entity>
 			</a-entity>
-			<a-entity 	gui-item="type: icon-button; height: 0.75;"
-					   	gui-interactable="clickAction: testButtonAction;"
-						gui-icon-button="
-							icon:social-github;
-						"
-			>
-			</a-entity>
-
 		</a-entity>
 		<a-entity id="musicPlayer" geometry="primitive: plane" material="color: blue"
 				  position="0 0 0" scale="0.001 0.001 0.001" sound=""></a-entity>
