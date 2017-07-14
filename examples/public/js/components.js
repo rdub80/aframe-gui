@@ -308,9 +308,9 @@ function drawIcon(ctx, canvas, icon, color, size) {
 
         console.log("icon" + icon); 
         if(icon_font[icon]){
-            ctx.fillText(icon_font[icon], canvas.width/2, canvas.height/2); // ionicons music
+            ctx.fillText(icon_font[icon], canvas.width/2, canvas.height/2);
         }else{
-            ctx.fillText('?', canvas.width/2, canvas.height/2); // ionicons music
+            ctx.fillText('?', canvas.width/2, canvas.height/2);
         }
 
     },500); // callback when font is loaded needed
@@ -338,6 +338,7 @@ function drawLabel(ctx, canvas, text, font, color, size,) {
 AFRAME.registerComponent('gui-label', {
     schema: {
         text: {type: 'string', default: 'label text'},
+        labelFor: {type: 'selector', default: null},
         fontColor: {type: 'string', default: key_grey_dark},
         fontFamily: {type: 'string', default: 'Helvetica'},
         backgroundColor: {type: 'string', default: key_offwhite},
@@ -370,9 +371,18 @@ AFRAME.registerComponent('gui-label', {
         textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
         textEntity.setAttribute('position', '0 0 0.001');
         el.appendChild(textEntity);
+
+        ////WAI ARIA Support
+        
+        if(labelFor){         
+            // el.setAttribute('role', 'button');
+        }
+
+
     },
 });
 
+//  <span class="visuallyhidden">Aria description of element</span>
 
 
 AFRAME.registerComponent('gui-button', {
@@ -431,6 +441,11 @@ AFRAME.registerComponent('gui-button', {
         textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
+
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
+
 
         el.addEventListener('mouseenter', function () {
             buttonEntity.setAttribute('material', 'color', data.hoverColor);
