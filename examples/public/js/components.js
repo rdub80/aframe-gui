@@ -142,7 +142,7 @@ AFRAME.registerComponent('gui-item', {
     schema: {
         type: {type: 'string'},
         width: {type: 'number', default: 1},
-        height: {type: 'number', default: 1}
+        height: {type: 'number', default: 1},
     },
     init: function () {
     },
@@ -164,21 +164,23 @@ AFRAME.registerComponent('gui-flex-container', {
       justifyContent: { type: 'string' },
       alignItems: { type: 'string' },
       componentPadding: { type: 'number' },
+      opacity: { type: 'number', default: 0.0 },
       fontColor: {type: 'string', default: key_offwhite},
       borderColor: {type: 'string', default: key_offwhite},
       backgroundColor: {type: 'string', default: key_grey},
-      opacity: { type: 'number', default: 1.0 }
+      isTopContainer: {type: 'boolean', default: false},
   },
   init: function () {
-
-      this.setPanelBackground();
-
       console.log("in aframe-gui-component init for: "+this.el.getAttribute("id"));
       var guiItem = this.el.getAttribute("gui-item");
+
+      if (this.data.isTopContainer) {
+          this.setBackground();
+      }
       //console.log("container gui-item: "+guiItem);
       
       this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
-      this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; color: ${this.data.backgroundColor}; side:back;`);
+      this.el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.0; color: ${this.data.backgroundColor}; side:back;`);
 
       var cursorX = 0;
       var cursorY = 0;
@@ -239,8 +241,7 @@ AFRAME.registerComponent('gui-flex-container', {
                   cursorY = cursorY - childGuiItem.height - this.data.componentPadding;
               } else if (this.data.flexDirection == 'row') {
                   if (this.data.alignItems == 'center') {
-                      //childPositionY = cursorY; // child position is always 0 for center vertical alignment
-                      childPositionY = cursorY + childGuiItem.height * 0.5;
+                      childPositionY = cursorY; // child position is always 0 for center vertical alignment
                   } else if (this.data.alignItems == 'top') {
                       childPositionY = cursorY + childGuiItem.height * 0.5;
                   }
@@ -250,6 +251,10 @@ AFRAME.registerComponent('gui-flex-container', {
               console.log(`child element position for ${childElement.id}: ${childPositionX} ${childPositionY} ${childPositionZ}`)
               childElement.setAttribute('position', `${childPositionX} ${childPositionY} ${childPositionZ}`)
               childElement.setAttribute('geometry', `primitive: plane; height: ${childGuiItem.height}; width: ${childGuiItem.width};`)
+              var childFlexContainer = childElement.components['gui-flex-container']
+              if (childFlexContainer) {
+                  childFlexContainer.setBackground();
+              }
           }
 	  }      
 
@@ -259,20 +264,22 @@ AFRAME.registerComponent('gui-flex-container', {
   remove: function () {},
   pause: function () {},
   play: function () {},
-  setPanelBackground: function () {
-    
-    console.log("panel position: " + JSON.stringify(this.el.getAttribute("position")));
-    var guiItem = this.el.getAttribute("gui-item"),
-        panelBackground = document.createElement("a-entity");
-    
-    panelBackground.setAttribute('geometry', `primitive: box; height: ${guiItem.height}; width: ${guiItem.width}; depth:0.025;`);
-    panelBackground.setAttribute('material', `shader: standard; depthTest: true; opacity: ${this.data.opacity}; color: ${this.data.backgroundColor};`);
-    panelBackground.setAttribute('position', this.el.getAttribute("position").x +' '+ this.el.getAttribute("position").y +' '+(this.el.getAttribute("position").z-0.0125) );
-    panelBackground.setAttribute('rotation', this.el.getAttribute("rotation").x +' '+ this.el.getAttribute("rotation").y +' '+this.el.getAttribute("rotation").z );
-    this.el.parentNode.insertBefore(panelBackground, this.el); 
+  getElementSize: function () {},
+    setBackground: function () {
+      if (this.data.opacity > 0) {
+          console.log("panel position: " + JSON.stringify(this.el.getAttribute("position")));
+          var guiItem = this.el.getAttribute("gui-item");
+          panelBackground = document.createElement("a-entity");
 
-  },
-  getElementSize: function () {}
+          panelBackground.setAttribute('geometry', `primitive: box; height: ${guiItem.height}; width: ${guiItem.width}; depth:0.025;`);
+          console.log("about to set panel background color to: : " + this.data.backgroundColor);
+          panelBackground.setAttribute('material', `shader: standard; depthTest: true; opacity: ${this.data.opacity}; color: ${this.data.backgroundColor};`);
+          panelBackground.setAttribute('position', this.el.getAttribute("position").x + ' ' + this.el.getAttribute("position").y + ' ' + (this.el.getAttribute("position").z - 0.0125));
+          panelBackground.setAttribute('rotation', this.el.getAttribute("rotation").x + ' ' + this.el.getAttribute("rotation").y + ' ' + this.el.getAttribute("rotation").z);
+          this.el.parentNode.insertBefore(panelBackground, this.el);
+      }
+
+    },
 });
 
 
