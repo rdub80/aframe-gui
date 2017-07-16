@@ -1,18 +1,43 @@
 {
-  "name": "test",
-  "version": "0.0.0",
-  "private": true,
+  "name": "aframe-guid",
+  "version": "0.0.1",
+  "description": "A-Frame GUI components",
+  "author": "Leonardo Malave <leo@malave.tech>",
+  "license": "MIT",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node ./examples/bin/www"
+    "dist": "webpack",
+    "dist-min": "webpack -p --config webpack.config.babelmin.js",
+    "dist-example": "webpack --config webpack.config.example.js",
+    "dist-example-min": "webpack -p --config webpack.config.examplemin.js",
+    "minify": "minify -o dist/aframe-gui.min.js dist/aframe-gui.js"
   },
-  "dependencies": {
-    "body-parser": "~1.17.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.3",
-    "express": "~4.15.2",
-    "hbs": "~4.0.1",
-    "morgan": "~1.8.1",
-    "node-sass-middleware": "0.9.8",
-    "serve-favicon": "~2.4.2"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmarcos/aframe-motion-capture-components.git"
+  },
+  "keywords": [
+    "aframe",
+    "a-frame",
+    "aframe-component",
+    "aframe-vr",
+    "vr",
+    "webgl",
+    "webvr",
+    "mozvr"
+  ],
+  "bugs": {
+    "url": "https://github.com/rdub80/aframe-gui/issues"
+  },
+  "homepage": "https://github.com/rdub80/aframe-gui#readme",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.18.0",
+    "minifier": "^0.8.1",
+    "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony",
+    "webpack": "2.2.1",
+    "webpack-dev-server": "^1.16.2"
   }
 }

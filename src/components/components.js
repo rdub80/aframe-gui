@@ -113,7 +113,7 @@ AFRAME.registerComponent('gui-flex-container', {
                   var childGuiItem = childElement.getAttribute("gui-item");
                   rowWidth = rowWidth + childGuiItem.width;
               }
-              cursorX = rowWidth / 2.0
+              cursorX = -rowWidth / 2.0
           }
           if (this.data.alignItems == 'center') {
               cursorY = 0; // centered implies cursor Y  is 0
@@ -185,7 +185,7 @@ AFRAME.registerComponent('gui-flex-container', {
       if (this.data.opacity > 0) {
           console.log("panel position: " + JSON.stringify(this.el.getAttribute("position")));
           var guiItem = this.el.getAttribute("gui-item");
-          panelBackground = document.createElement("a-entity");
+          var panelBackground = document.createElement("a-entity");
 
           panelBackground.setAttribute('geometry', `primitive: box; height: ${guiItem.height}; width: ${guiItem.width}; depth:0.025;`);
           console.log("about to set panel background color to: : " + this.data.backgroundColor);
@@ -239,8 +239,7 @@ function drawIcon(ctx, canvas, icon, color, size) {
     },500); // callback when font is loaded needed
 }
 
-
-function drawLabel(ctx, canvas, text, font, color, size,) {
+function drawLabel(ctx, canvas, text, font, color, size) {
     setTimeout(function(){
 
     ctx.font = font;

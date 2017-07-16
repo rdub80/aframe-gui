@@ -17,7 +17,7 @@
 	</style>
 
 	<script src="/js/demo.js"></script>
-    <script src="/js/components.js"></script>
+    <script src="/js/aframe-gui.min.js"></script>
 </head>
 <body>
 	<a-scene>
@@ -144,7 +144,7 @@
 			</a-entity>
 
 			<a-entity id="horizontal_icon_button_row"
-					  gui-item="type: flex-container; width: 3; height: 1;"
+					  gui-item="type: flex-container; width: 4; height: 1;"
 					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; itemPadding: 0.1; opacity: 0.0;">
 				<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75; opacity: 0.3"
 					   	gui-interactable="clickAction: playMusic;"
@@ -170,8 +170,8 @@
 				</a-entity>
 			</a-entity>
 			<a-entity id="horizontal_button_row"
-					  gui-item="type: flex-container; width: 3; height: 1; opacity: 0.0"
-					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; itemPadding: 0.15;">
+					  gui-item="type: flex-container; width: 4; height: 1; opacity: 0.0"
+					  gui-flex-container="flexDirection: row; justifyContent: center ; alignItems: center; itemPadding: 0.15;">
 				<a-entity   id="type_cinematic" gui-item="type: button; width: 0.75; height: 0.75;"
 							gui-interactable="clickAction: selectCinematic;"
 							gui-button="
