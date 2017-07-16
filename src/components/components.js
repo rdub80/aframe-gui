@@ -81,7 +81,7 @@ AFRAME.registerComponent('gui-flex-container', {
       if (this.data.flexDirection == 'column') {
           if (this.data.justifyContent == 'flexStart') {
               cursorY = guiItem.height*0.5 - this.data.itemPadding;
-          } else if (this.data.justifyContent == 'center') {
+          } else if (this.data.justifyContent == 'center' || this.data.justifyContent == 'flexEnd') {
               var columnHeight = 0;
               for (var i = 0; i < this.children.length; i++) {
                   if (i > 0) {
@@ -91,7 +91,11 @@ AFRAME.registerComponent('gui-flex-container', {
                   var childGuiItem = childElement.getAttribute("gui-item");
                   columnHeight = columnHeight + childGuiItem.height;
               }
-              cursorY = columnHeight / 2.0
+              if (this.data.justifyContent == 'center') {
+                  cursorY = columnHeight / 2.0;
+              } else if (this.data.justifyContent == 'flexEnd') {
+                  cursorY = -guiItem.height*0.5 + columnHeight;
+              }
           }
           if (this.data.alignItems == 'flexStart') {
               // TODO: if alignItems is anything but "center", cursorX will change meaning to be left (flex start) of column instead of center of column.
@@ -103,7 +107,7 @@ AFRAME.registerComponent('gui-flex-container', {
       } else if (this.data.flexDirection == 'row') {
           if (this.data.justifyContent == 'flexStart') {
               cursorX = -guiItem.width*0.5 + this.data.itemPadding;
-          } else if (this.data.justifyContent == 'center') {
+          } else if (this.data.justifyContent == 'center' || this.data.justifyContent == 'flexEnd') {
               var rowWidth = 0;
               for (var i = 0; i < this.children.length; i++) {
                   if (i > 0) {
@@ -113,7 +117,11 @@ AFRAME.registerComponent('gui-flex-container', {
                   var childGuiItem = childElement.getAttribute("gui-item");
                   rowWidth = rowWidth + childGuiItem.width;
               }
-              cursorX = -rowWidth / 2.0
+              if (this.data.justifyContent == 'center') {
+                  cursorX = -rowWidth / 2.0;
+              } else if (this.data.justifyContent == 'flexEnd') {
+                  cursorX = guiItem.width*0.5 - rowWidth;
+              }
           }
           if (this.data.alignItems == 'center') {
               cursorY = 0; // centered implies cursor Y  is 0
