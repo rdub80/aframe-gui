@@ -67,8 +67,7 @@ AFRAME.registerComponent('gui-flex-container', {
       if (this.data.isTopContainer) {
           this.setBackground();
       }
-      //console.log("container gui-item: "+guiItem);
-      
+
       this.el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
       this.el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.0; color: ${this.data.backgroundColor}; side:back;`);
 
@@ -78,33 +77,8 @@ AFRAME.registerComponent('gui-flex-container', {
 
       var cursorX = 0;
       var cursorY = 0;
-      if (this.data.flexDirection == 'column') {
-          if (this.data.justifyContent == 'flexStart') {
-              cursorY = guiItem.height*0.5 - this.data.itemPadding;
-          } else if (this.data.justifyContent == 'center' || this.data.justifyContent == 'flexEnd') {
-              var columnHeight = 0;
-              for (var i = 0; i < this.children.length; i++) {
-                  if (i > 0) {
-                      columnHeight = columnHeight + this.data.itemPadding;
-                  }
-                  var childElement = this.children[i];
-                  var childGuiItem = childElement.getAttribute("gui-item");
-                  columnHeight = columnHeight + childGuiItem.height;
-              }
-              if (this.data.justifyContent == 'center') {
-                  cursorY = columnHeight / 2.0;
-              } else if (this.data.justifyContent == 'flexEnd') {
-                  cursorY = -guiItem.height*0.5 + columnHeight;
-              }
-          }
-          if (this.data.alignItems == 'flexStart') {
-              // TODO: if alignItems is anything but "center", cursorX will change meaning to be left (flex start) of column instead of center of column.
-              // TODO: (cont.) this way when we introduce wrapping it will really be the offset for the next column.
-              cursorX = -guiItem.width*0.5 + this.data.itemPadding;
-          } else if (this.data.alignItems == 'center') {
-              cursorX = 0; // centered implies cursor X  is 0
-          }
-      } else if (this.data.flexDirection == 'row') {
+      if (this.data.flexDirection == 'row') {
+          // first figure out cursor position on main X axis
           if (this.data.justifyContent == 'flexStart') {
               cursorX = -guiItem.width*0.5 + this.data.itemPadding;
           } else if (this.data.justifyContent == 'center' || this.data.justifyContent == 'flexEnd') {
@@ -123,16 +97,46 @@ AFRAME.registerComponent('gui-flex-container', {
                   cursorX = guiItem.width*0.5 - rowWidth;
               }
           }
+          // then figure out cursor position on cross Y axis
           if (this.data.alignItems == 'center') {
               cursorY = 0; // centered implies cursor Y  is 0
           } else if (this.data.alignItems == 'flexStart') {
-              // TODO: if alignItems is anything but "center", cursorY will change meaning to be top of row instead of center of row.
-              // TODO: (cont.) this way when we introduce wrapping it will really be the offset for the next row.
+              cursorY = guiItem.height*0.5 - this.data.itemPadding;
+          } else if (this.data.alignItems == 'flexEnd') {
               cursorY = -guiItem.height*0.5 + this.data.itemPadding;
+          }
+      } else if (this.data.flexDirection == 'column') {
+          // first figure out cursor position on main Y axis
+          if (this.data.justifyContent == 'flexStart') {
+              cursorY = guiItem.height*0.5 - this.data.itemPadding;
+          } else if (this.data.justifyContent == 'center' || this.data.justifyContent == 'flexEnd') {
+              var columnHeight = 0;
+              for (var i = 0; i < this.children.length; i++) {
+                  if (i > 0) {
+                      columnHeight = columnHeight + this.data.itemPadding;
+                  }
+                  var childElement = this.children[i];
+                  var childGuiItem = childElement.getAttribute("gui-item");
+                  columnHeight = columnHeight + childGuiItem.height;
+              }
+              if (this.data.justifyContent == 'center') {
+                  cursorY = columnHeight / 2.0;
+              } else if (this.data.justifyContent == 'flexEnd') {
+                  cursorY = -guiItem.height*0.5 + columnHeight;
+              }
+          }
+          // then figure out cursor position on cross X axis
+          if (this.data.alignItems == 'flexStart') {
+              cursorX = -guiItem.width*0.5 + this.data.itemPadding;
+          } else if (this.data.alignItems == 'center') {
+              cursorX = 0; // centered implies cursor X  is 0
+          } else if (this.data.alignItems == 'flexEnd') {
+              cursorX = guiItem.width*0.5 - this.data.itemPadding;
           }
       }
       console.log(`initial cursor position for ${this.el.getAttribute("id")}: ${cursorX} ${cursorY} 0.01`)
 
+      // not that cursor positions are determined, loop through and lay out items
 	  for (var i = 0; i < this.children.length; i++) {
           var childElement = this.children[i];
           // TODO: change this to call gedWidth() and setWidth() of component
@@ -140,37 +144,32 @@ AFRAME.registerComponent('gui-flex-container', {
           var childPositionY = 0;
           var childPositionZ = 0.01;
           var childGuiItem = childElement.getAttribute("gui-item");
-          //console.log("childElement: "+childElement);
-          //console.log("childGuiItem: "+childGuiItem);
-		  //console.log("childElement button-text: "+ childElement.getAttribute("button-text"));
-          //console.log("childElement data width: "+ childElement.getAttribute("button-text").width);
-		  // get object position
+
+ 		  // get object position
           if (childGuiItem) {
-              if (this.data.flexDirection == 'column') {
-                  if (this.data.justifyContent == 'center') {
-                      childPositionX = cursorX; // child position is always 0 to center
-                      // TODO: change this in case where child items wrap to 2nd column?
-                  } else if (this.data.justifyContent == 'left') {
-                      childPositionX = cursorX + childGuiItem.width * 0.5;
-                  }
-                  var childPositionY = cursorY - childGuiItem.height * 0.5
-                  // disable stretch for now
-                  /* if (this.data.alignItems == 'stretch') {
-                   // stretch width since we are laying out in column
-                   childGuiItem.width = guiItem.width - this.data.componentPadding*2;
-                   console.log("childElementWidth: "+childGuiItem.width);
-                   // TODO: change this to call setWidth() of component
-                   } */
-                  // going down column so advance cursorY
-                  cursorY = cursorY - childGuiItem.height - this.data.itemPadding;
-              } else if (this.data.flexDirection == 'row') {
+              if (this.data.flexDirection == 'row') {
                   if (this.data.alignItems == 'center') {
                       childPositionY = cursorY; // child position is always 0 for center vertical alignment
-                  } else if (this.data.alignItems == 'top') {
+                  } else if (this.data.alignItems == 'flexStart') {
+                      childPositionY = cursorY - childGuiItem.height * 0.5;
+                  } else if (this.data.alignItems == 'flexEnd') {
                       childPositionY = cursorY + childGuiItem.height * 0.5;
                   }
-                  var childPositionX = cursorX + childGuiItem.width * 0.5
+                  childPositionX = cursorX + childGuiItem.width * 0.5
                   cursorX = cursorX + childGuiItem.width + this.data.itemPadding;
+                  // cursorY doesn't change until we implement wrapping
+              } else if (this.data.flexDirection == 'column') {
+                  if (this.data.alignItems == 'center') {
+                      childPositionX = cursorX; // child position is always 0 to center
+                      // TODO: change this in case where child items wrap to 2nd column?
+                  } else if (this.data.alignItems == 'flexStart') {
+                      childPositionX = cursorX + childGuiItem.width * 0.5;
+                  } else if (this.data.alignItems == 'flexEnd') {
+                      childPositionX = cursorX - childGuiItem.width * 0.5;
+                  }
+                  childPositionY = cursorY - childGuiItem.height * 0.5
+                  cursorY = cursorY - childGuiItem.height - this.data.itemPadding;
+                  // cursorX doesn't change until we implement wrapping
               }
               console.log(`child element position for ${childElement.id}: ${childPositionX} ${childPositionY} ${childPositionZ}`)
               childElement.setAttribute('position', `${childPositionX} ${childPositionY} ${childPositionZ}`)
