@@ -45,9 +45,9 @@
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 
 		<a-entity id="music_type_panel" gui-item="type: flex-container; width: 4; height: 4;"
-			gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7;"
-			position="-5.5 1.5 -1.5"
-			rotation="0 45 0"
+			gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center; itemPadding: 0.1; opacity: 0.7;"
+			position="-4.0 2.0 -1.5"
+			rotation="0 60 0"
 		 >
 			<a-entity   id="type_cinematic" gui-item="type: button; width: 2.5; height: 0.75;"
 					   gui-interactable="clickAction: selectCinematic;"
@@ -83,9 +83,10 @@
 			</a-entity>
 		</a-entity>
 
-		<a-entity id="music_length_panel" gui-item="type: flex-container; width: 4; height: 4;"
-				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1;   opacity: 0.7;"
-				  position="-0.5 1.5 -3"
+		<a-entity id="music_length_panel"
+				  gui-item="type: flex-container; width: 4; height: 4;"
+				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center; itemPadding: 0.1;  opacity: 0.7;"
+				  position="0.0 2.0 -3"
 				  rotation="0 0 0"
 		>
 			<a-entity  id="length_5" gui-item="type: button; width: 2.5; height: 0.6;"
@@ -128,10 +129,10 @@
 
 		</a-entity>
 
-		<a-entity id="music_player_panel" gui-item="type: flex-container; width: 5; height: 4;"
-				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.2; opacity: 0.7;"
-				  position="4.5 2 -1.5"
-				  rotation="0 -45 0"
+		<a-entity id="music_player_panel" gui-item="type: flex-container; width: 4; height: 4;"
+				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center; itemPadding: 0.2; opacity: 0.7;"
+				  position="4.0 2.0 -1.5"
+				  rotation="0 -60 0"
 		>
 			<a-entity id="loop_toggle" gui-item="type: toggle; width: 2.5; height: 0.75;"
 					  	gui-interactable="clickAction: toggleLoop;"
@@ -144,7 +145,7 @@
 
 			<a-entity id="horizontal_icon_button_row"
 					  gui-item="type: flex-container; width: 3; height: 1;"
-					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; componentPadding: 0.1; opacity: 0.0;">
+					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; itemPadding: 0.1; opacity: 0.0;">
 				<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75; opacity: 0.3"
 					   	gui-interactable="clickAction: playMusic;"
 						gui-icon-button="
@@ -170,7 +171,7 @@
 			</a-entity>
 			<a-entity id="horizontal_button_row"
 					  gui-item="type: flex-container; width: 3; height: 1; opacity: 0.0"
-					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; componentPadding: 0.15;">
+					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; itemPadding: 0.15;">
 				<a-entity   id="type_cinematic" gui-item="type: button; width: 0.75; height: 0.75;"
 							gui-interactable="clickAction: selectCinematic;"
 							gui-button="
