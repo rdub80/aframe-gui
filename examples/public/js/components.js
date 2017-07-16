@@ -1,116 +1,6 @@
 var normalYPosition = 1.5;
 var hiddenYPosition = 1000;
 
-window.selectCinematic = function() {
-
-    /*  var musicTypePanel = document.getElementById("music_type_panel");
-    var musicLengthPanel = document.getElementById("music_type_panel");
-    var musicPlayerPanel = document.getElementById("music_player_panel");
-
-    musicTypePanel.setAttribute("position", `-0.5 1000 -3`);
-    musicLengthPanel.setAttribute("position", `-0.5 1.5 -3`);
-    musicPlayerPanel.setAttribute("position", `-0.5 1000 -3`);
-
-    musicTypePanel.setAttribute("scale", `0.001 0.001 0.001`);
-    musicLengthPanel.setAttribute("scale", `1 1 1`);
-    musicPlayerPanel.setAttribute("scale", `0.001 0.001 0.001`);
-
-    musicTypePanel.setAttribute("visible", `false`);
-    musicLengthPanel.setAttribute("visible", `true`);
-    musicPlayerPanel.setAttribute("visible", `false`);
-*/
-    var typeCinematic = document.getElementById("type_cinematic");
-    var typeClassicRock = document.getElementById("type_classic_rock");
-    var typeModernFolk = document.getElementById("type_modern_folk");
-    var type90sPop = document.getElementById("type_90s_pop");
-
-    typeClassicRock.components['gui-button'].setActiveState(false);
-    typeModernFolk.components['gui-button'].setActiveState(false);
-    type90sPop.components['gui-button'].setActiveState(false);
-    window.musicType = 'ambient_tense_high';
-
-    //console.log("in selectCinematic, musicTypePanel: "+musicTypePanel+", musicLengthPanel: "+musicLengthPanel+", musicPlayerPanel: "+musicPlayerPanel);
-    //console.log("musicType position: "+JSON.stringify(musicTypePanel.getAttribute("position")));
-}
-
-window.selectClassicRock = function() {
-    window.musicType = 'driving_classic_rock';
-
-    var typeCinematic = document.getElementById("type_cinematic");
-    var typeClassicRock = document.getElementById("type_classic_rock");
-    var typeModernFolk = document.getElementById("type_modern_folk");
-    var type90sPop = document.getElementById("type_90s_pop");
-
-    typeCinematic.components['gui-button'].setActiveState(false);
-    typeModernFolk.components['gui-button'].setActiveState(false);
-    type90sPop.components['gui-button'].setActiveState(false);}
-
-window.selectModernFolk = function() {
-    window.musicType = 'reflective_modern_folk';
-
-    var typeCinematic = document.getElementById("type_cinematic");
-    var typeClassicRock = document.getElementById("type_classic_rock");
-    var typeModernFolk = document.getElementById("type_modern_folk");
-    var type90sPop = document.getElementById("type_90s_pop");
-
-    typeClassicRock.components['gui-button'].setActiveState(false);
-    typeClassicRock.components['gui-button'].setActiveState(false);
-    type90sPop.components['gui-button'].setActiveState(false);}
-
-window.select90sPop = function() {
-    window.musicType = 'playful_corporate_pop';
-
-    var typeCinematic = document.getElementById("type_cinematic");
-    var typeClassicRock = document.getElementById("type_classic_rock");
-    var typeModernFolk = document.getElementById("type_modern_folk");
-    var type90sPop = document.getElementById("type_90s_pop");
-
-    typeClassicRock.components['gui-button'].setActiveState(false);
-    typeModernFolk.components['gui-button'].setActiveState(false);
-    typeCinematic.components['gui-button'].setActiveState(false);
-}
-
-window.select5Seconds = function() {
-    var length5 = document.getElementById("length_5");
-    var length10 = document.getElementById("length_10");
-    var length15 = document.getElementById("length_15");
-
-    length10.components['gui-button'].setActiveState(false);
-    length15.components['gui-button'].setActiveState(false);
-    window.musicLength = 5;
-}
-
-window.select10Seconds = function() {
-    var length5 = document.getElementById("length_5");
-    var length10 = document.getElementById("length_10");
-    var length15 = document.getElementById("length_15");
-    length5.components['gui-button'].setActiveState(false);
-    length15.components['gui-button'].setActiveState(false);
-    window.musicLength = 10;
-}
-
-window.select15Seconds = function() {
-    var length5 = document.getElementById("length_5");
-    var length10 = document.getElementById("length_10");
-    var length15 = document.getElementById("length_15");
-
-    length5.components['gui-button'].setActiveState(false);
-    length10.components['gui-button'].setActiveState(false);
-    window.musicLength = 15;
-}
-
-window.toggleLoop = function() {
-    var loopToggle = document.getElementById("loop_toggle");
-    console.log("loopToggle: "+loopToggle);
-    var loopToggleComponent = loopToggle.components['gui-toggle'];
-    console.log("loopToggleComponent: "+loopToggleComponent);
-    var musicPlayer = document.getElementById("musicPlayer");
-    var loopToggleComponentChecked = loopToggleComponent.data.checked;
-    console.log("loopToggleComponentChecked: "+loopToggleComponentChecked);
-    musicPlayer.setAttribute('sound', 'loop', loopToggleComponentChecked);
-    console.log("toggled loop, current value: "+musicPlayer.getAttribute('sound', 'loop'));
-}
-
 //default colors
 var key_orange       = '#ed5b21' // rgb(237, 91, 33) Light orange
 var key_orange_light = '#ef8c60' // rgb (239, 140, 96) Extra Light Orange
@@ -160,7 +50,7 @@ AFRAME.registerComponent('gui-item', {
 
 AFRAME.registerComponent('gui-flex-container', {
   schema: {
-      flexDirection: { type: 'string' },
+      flexDirection: { type: 'string', default: 'row' },
       justifyContent: { type: 'string' },
       alignItems: { type: 'string' },
       componentPadding: { type: 'number' },
@@ -185,17 +75,30 @@ AFRAME.registerComponent('gui-flex-container', {
       var cursorX = 0;
       var cursorY = 0;
       if (this.data.flexDirection == 'column') {
-          var cursorY = guiItem.height*0.5 - this.data.componentPadding; // TODO: need to take alignItems into account as well
-          if (this.data.justifyContent == 'center') {
-              cursorX = 0; // centered implies cursor X  is 0
-          } else if (this.data.justifyContent == 'left') {
+          var cursorY = guiItem.height*0.5 - this.data.componentPadding;
+          if (this.data.justifyContent = 'flexStart') {
+              var cursorY = guiItem.height*0.5 - this.data.componentPadding;
+          } else if (this.data.justifycontent == 'center') {
+              // TODO: calculate height of entire column to determine cursorY start
+          }
+          if (this.data.alignItems == 'flexStart') {
+              // TODO: if alignItems is anything but "center", cursorX will change meaning to be left (flex start) of column instead of center of column.
+              // TODO: (cont.) this way when we introduce wrapping it will really be the offset for the next column.
               cursorX = -guiItem.width*0.5 + this.data.componentPadding;
+          } else if (this.data.alignItems == 'center') {
+              cursorX = 0; // centered implies cursor X  is 0
           }
       } else if (this.data.flexDirection == 'row') {
-          var cursorX = -guiItem.width*0.5 + this.data.componentPadding; // TODO: need to take alignItems into account as well
+          if (this.data.justifyContent = 'flexStart') {
+              var cursorX = -guiItem.width*0.5 + this.data.componentPadding;
+          } else if (this.data.justifycontent == 'center') {
+              // TODO: calculate width of entire row to determine cursorX start
+          }
           if (this.data.alignItems == 'center') {
               cursorY = 0; // centered implies cursor Y  is 0
-          } else if (this.data.justifyContent == 'left') {
+          } else if (this.data.alignItems == 'flexStart') {
+              // TODO: if alignItems is anything but "center", cursorY will change meaning to be top of row instead of center of row.
+              // TODO: (cont.) this way when we introduce wrapping it will really be the offset for the next row.
               cursorY = -guiItem.height*0.5 + this.data.componentPadding;
           }
       }
