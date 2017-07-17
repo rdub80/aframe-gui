@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>A-Frame Gui Amper Music Visualization</title>
+    <meta property="og:image" content="https://raw.githubusercontent.com/ngokevin/kframe/master/components/audioanalyser/examples/levels/preview.gif"></meta>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="third-party/build.js"></script>
+    <script src="third-party/components/audioanalyser-levels-scale.js"></script>
+    <script src="third-party/components/scale-y-color.js"></script>
+  </head>
+  <body>
+    <a-scene antialias="true">
+      <a-assets>
+        <a-mixin id="bar"
+          geometry="primitive: sphere"
+          material="color: white"
+          scale-y-color="from: 0 0 0; to: 237 91 33; maxScale: 10"
+        ></a-mixin>
+        <audio id="song" autoplay loop src="yourhandinmine.mp3"></audio>
+      </a-assets>
+
+      <a-entity
+        audioanalyser="src: #song; smoothingTimeConstant: 0.9"
+        audioanalyser-levels-scale="max: 12; multiplier: 0.06"
+        entity-generator="mixin: bar; num: 30"
+        layout="type: circle; radius: 10"
+        rotation="0 180 0"
+      ></a-entity>
+
+      <a-light type="ambient" color="#22252a"></a-light>
+      <a-light type="point" position="0 1 0" intensity="2"></a-light>
+      <a-circle color="#22252a" opacity="0.7" rotation="-90 0 0" radius="12"
+        roughness="1"></a-circle>
+      <a-sky color="#2c3037"></a-sky>
+
+      <a-camera>
+        <a-cursor></a-cursor>
+      </a-camera>
+
+
+    </a-scene>
+  </body>
+</html>
