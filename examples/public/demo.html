@@ -44,12 +44,14 @@
 		<a-sky src="#gradient"></a-sky>
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 
-		<a-entity id="music_type_panel" gui-item="type: flex-container; width: 4; height: 4;"
-			gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center; itemPadding: 0.1; opacity: 0.7;"
+		<a-entity id="music_type_panel"
+				  gui-item="type: flex-container; width: 4; height: 4;"
+			gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center; opacity: 0.7;"
 			position="-4.0 2.0 -1.5"
 			rotation="0 60 0"
 		 >
-			<a-entity   id="type_cinematic" gui-item="type: button; width: 2.5; height: 0.75;"
+			<a-entity   id="type_cinematic"
+						gui-item="type: button; width: 2.5; height: 0.75; margin: 0 0 0.1 0;"
 					   gui-interactable="clickAction: selectCinematic;"
 					gui-button="
 						text:Cinematic;
@@ -57,7 +59,8 @@
 					"
 			>
 			</a-entity>
-			<a-entity   id="type_classic_rock" gui-item="type: button; width: 2.5; height: 0.75;"
+			<a-entity   id="type_classic_rock"
+						gui-item="type: button; width: 2.5; height: 0.75;  margin: 0 0 0.1 0;"
 					   gui-interactable="clickAction: selectClassicRock;"
 					   gui-button="
 							text:Classic Rock;
@@ -65,7 +68,8 @@
 						"
 			>
 			</a-entity>
-			<a-entity  id="type_modern_folk" gui-item="type: button; width: 2.5; height: 0.75;"
+			<a-entity  id="type_modern_folk"
+					   gui-item="type: button; width: 2.5; height: 0.75; margin: 0 0 0.1 0;"
 					   gui-interactable="clickAction: selectModernFolk;"
 					   gui-button="
 							text:Modern Folk;
@@ -73,7 +77,8 @@
 						"
 			>
 			</a-entity>
-			<a-entity  id="type_90s_pop" gui-item="type: button; width: 2.5; height: 0.75;"
+			<a-entity  id="type_90s_pop"
+					   gui-item="type: button; width: 2.5; height: 0.75; margin: 0 0 0 0;"
 					   gui-interactable="clickAction: select90sPop;"
 					   gui-button="
 							text:90's Pop;
@@ -85,11 +90,12 @@
 
 		<a-entity id="music_length_panel"
 				  gui-item="type: flex-container; width: 4; height: 4;"
-				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: flexEnd; itemPadding: 0.1;  opacity: 0.7;"
+				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center;  opacity: 0.7;"
 				  position="0.0 2.0 -3"
 				  rotation="0 0 0"
 		>
-			<a-entity  id="length_5" gui-item="type: button; width: 2.5; height: 0.6;"
+			<a-entity  id="length_5"
+					   gui-item="type: button; width: 2.5; height: 0.6; margin: 0 0 0.1 0;"
 					   gui-interactable="clickAction: select5Seconds;"
 					   gui-button="
 							text:5 seconds;
@@ -97,7 +103,8 @@
 						"
 			>
 			</a-entity>
-			<a-entity  id="length_10" gui-item="type: button; width: 2.5; height: 0.6;"
+			<a-entity  id="length_10"
+					   gui-item="type: button; width: 2.5; height: 0.6; margin: 0 0 0.1 0;"
 					   gui-interactable="clickAction: select10Seconds;"
 					   gui-button="
 							text:10 seconds;
@@ -105,7 +112,8 @@
 						"
 			>
 			</a-entity>
-			<a-entity  id="length_15" gui-item="type: button; width: 2.5; height: 0.6;"
+			<a-entity  id="length_15"
+					   gui-item="type: button; width: 2.5; height: 0.6; margin: 0 0 0.1 0;"
 					   gui-interactable="clickAction: select15Seconds;"
 					   gui-button="
 							text:15 seconds;
@@ -114,7 +122,7 @@
 			>
 			</a-entity>
 
-			<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75;"
+			<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75;  margin: 0 0 0.1 0;"
 					   	gui-interactable="clickAction: submitMusicCreate;"
 						gui-icon-button="
 							icon:ios-musical-notes;
@@ -130,11 +138,12 @@
 		</a-entity>
 
 		<a-entity id="music_player_panel" gui-item="type: flex-container; width: 4; height: 4;"
-				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center; itemPadding: 0.2; opacity: 0.7;"
+				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center; opacity: 0.7;"
 				  position="4.0 2.0 -1.5"
 				  rotation="0 -60 0"
 		>
-			<a-entity id="loop_toggle" gui-item="type: toggle; width: 2.5; height: 0.75;"
+			<a-entity id="loop_toggle"
+					  gui-item="type: toggle; width: 2.5; height: 0.75; margin: 0 0 0.3 0;"
 					  	gui-interactable="clickAction: toggleLoop;"
 					  	gui-toggle="
 							text:Loop;
@@ -145,8 +154,8 @@
 
 			<a-entity id="horizontal_icon_button_row"
 					  gui-item="type: flex-container; width: 4; height: 1;"
-					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; itemPadding: 0.1; opacity: 0.0;">
-				<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75; opacity: 0.3"
+					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: center; opacity: 0.0;">
+				<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75; opacity: 0.3;  margin: 0 0.1 0 0;"
 					   	gui-interactable="clickAction: playMusic;"
 						gui-icon-button="
 							icon:play;
@@ -169,10 +178,11 @@
 				>
 				</a-entity>
 			</a-entity>
-			<a-entity id="horizontal_button_row"
-					  gui-item="type: flex-container; width: 4; height: 1.5;"
-					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: flexEnd; itemPadding: 0.15; opacity: 0.3;">
-				<a-entity   id="type_cinematic" gui-item="type: button; width: 0.75; height: 0.75;"
+			<!--<a-entity id="horizontal_button_row"
+					  gui-item="type: flex-container; width: 3.8; height: 1.5;"
+					  gui-flex-container="flexDirection: row; justifyContent: center; alignItems: flexEnd; opacity: 0.3;">
+				<a-entity   id="type_cinematic"
+							gui-item="type: button; width: 0.75; height: 0.75; margin: 0 0.1 0 0.1"
 							gui-interactable="clickAction: selectCinematic;"
 							gui-button="
 						text:A;
@@ -180,7 +190,8 @@
 					"
 				>
 				</a-entity>
-				<a-entity   id="type_classic_rock" gui-item="type: button; width: 0.75; height: 0.75;"
+				<a-entity   id="type_classic_rock"
+							gui-item="type: button; width: 0.75; height: 0.75; margin: 0 0.1 0 0.1"
 							gui-interactable="clickAction: selectClassicRock;"
 							gui-button="
 							text:B;
@@ -188,7 +199,8 @@
 						"
 				>
 				</a-entity>
-				<a-entity  id="type_modern_folk" gui-item="type: button; width: 0.75; height: 0.75;"
+				<a-entity  id="type_modern_folk"
+						   gui-item="type: button; width: 0.75; height: 0.75; margin: 0 0.1 0 0.1"
 						   gui-interactable="clickAction: selectModernFolk;"
 						   gui-button="
 							text:C;
@@ -196,7 +208,7 @@
 						"
 				>
 				</a-entity>
-			</a-entity>
+			</a-entity> -->
 		</a-entity>
 		<a-entity id="musicPlayer" geometry="primitive: plane" material="color: blue"
 				  position="0 0 0" scale="0.001 0.001 0.001" sound=""></a-entity>
