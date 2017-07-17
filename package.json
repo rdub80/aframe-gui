@@ -10,7 +10,7 @@
     "dist-min": "webpack -p --config webpack.config.babelmin.js",
     "dist-example": "webpack --config webpack.config.example.js",
     "dist-example-min": "webpack -p --config webpack.config.examplemin.js",
-    "minify": "minify -o dist/aframe-gui.min.js dist/aframe-gui.js"
+    "start": "webpack-dev-server --content-base examples/"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,6 @@
     "minifier": "^0.8.1",
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony",
     "webpack": "2.2.1",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "1.16.5"
   }
 }

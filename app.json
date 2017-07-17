@@ -1,8 +1,0 @@
-{
-  "name": "aframe-gui",
-  "description": "Demo site for aframe-gui",
-  "repository": "https://github.com/rdub80/aframe-gui",
-  "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["node", "express", "static"],
-  "image": "heroku/nodejs"
-}
