@@ -214,7 +214,7 @@ function drawText(ctx, canvas, text, font, color, size) {
     ctx.shadowOffsetX = 0;
     ctx.scale(1, 1);
     ctx.fillText(text, canvas.width/2, canvas.height/2); // position x, y
-    
+
     },500); // callback when font is loaded needed
 
 }
@@ -231,7 +231,7 @@ function drawIcon(ctx, canvas, icon, color, size) {
         ctx.shadowOffsetX = 0;
         ctx.scale(1, 1);
 
-        console.log("icon" + icon); 
+        console.log("icon" + icon);
         if(icon_font[icon]){
             ctx.fillText(icon_font[icon], canvas.width/2, canvas.height/2);
         }else{

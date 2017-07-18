@@ -6,7 +6,7 @@ module.exports = {
     },
     output: {
         path: __dirname,
-        filename: './examples/public/js/aframe-gui.js'
+        filename: './examples/js/aframe-gui.js'
     },
     module: {
         rules: [
