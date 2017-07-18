@@ -3,7 +3,7 @@ Graphical User Interface framework for A-Frame VR
 
 ## Use in your AFrame project
 
-Include the following Javascript in the <head> of the page containing your AFrame scene:
+Include the following Javascript in the head of the page containing your AFrame scene:
 
 `https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js
 `

@@ -3,6 +3,13 @@
   "version": "0.0.1",
   "description": "A-Frame GUI components",
   "author": "Leonardo Malave <leo@malave.tech>",
+  "contributors": [
+    {
+      "name": "Roland Dubois",
+      "email": "rdub80@gmail.com"
+    }
+  ]
+  ,
   "license": "MIT",
   "main": "src/index.js",
   "scripts": {
