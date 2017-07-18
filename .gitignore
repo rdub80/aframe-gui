@@ -57,7 +57,7 @@ typings/
 # dotenv environment variables file
 .env
 
-.DS_Store
+*.DS_Store
 .babel_cache/
 .idea/aframe-gui.iml
 .idea/modules.xml
@@ -65,3 +65,5 @@ typings/
 .idea/workspace.xml
 examples/images/
 examples/public/images/
+
+.idea/
