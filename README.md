@@ -1,11 +1,25 @@
 # aframe-gui
-Graphical User Interface for A-Frame VR
+Graphical User Interface framework for A-Frame VR
 
-## Running on you computer
+## Use in your AFrame project
 
-On Mac, run the following command: 
-python -m SimpleHTTPServer 8888
+Include the following Javascript in the <head> of the page containing your AFrame scene:
 
-The demo page will then be available at:
-http://localhost:8888
+`https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js
+`
+## Building
+
+Run the following to build to the examples/js folder:
+
+`npm run example`
+
+`npm run example-min`
+
+## Run locally
+
+Run the following start the webpack-dev-server:
+
+`npm start`
+
+The webpack-dev-server should now be running at http://localhost:8080
 
