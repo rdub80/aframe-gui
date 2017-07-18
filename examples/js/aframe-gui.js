@@ -736,7 +736,7 @@ AFRAME.registerComponent('gui-flex-container', {
                     if (this.data.alignItems == 'center') {
                         childPositionX = 0; // child position is always 0 to center
                     } else if (this.data.alignItems == 'flexStart') {
-                        childPositionX = -containerGuiItem.width + childGuiItem.margin.w + childGuiItem.width * 0.5;
+                        childPositionX = -containerGuiItem.width * 0.5 + childGuiItem.margin.w + childGuiItem.width * 0.5;
                     } else if (this.data.alignItems == 'flexEnd') {
                         childPositionX = containerGuiItem.width * 0.5 - childGuiItem.margin.y - childGuiItem.width * 0.5;
                     }
