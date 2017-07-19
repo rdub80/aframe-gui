@@ -357,7 +357,7 @@ AFRAME.registerComponent('gui-label', {
 
         ////WAI ARIA Support
 
-        if (labelFor) {
+        if (data.labelFor) {
             // el.setAttribute('role', 'button');
         }
     }
