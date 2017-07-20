@@ -61,7 +61,7 @@
 		<a-assets>
 			<!-- Text Canvas -->
 			<a-asset-item id="theater-obj" src="assets/theater.obj"></a-asset-item>
-	        <video id="film" src="assets/minority.mp4" autoplay loop="true"></video>
+	        <video id="film" src="assets/minority.mp4"></video>
 
 			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
 			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
@@ -81,10 +81,11 @@
 			position="-1 1.6 -4.8"
 		></a-video>
 
-		<a-entity 	gui-item="type: flex-container; width: 1; height: 3.75;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="2.5 1.55 -4"
+		<a-entity 	gui-item="type: flex-container; width: 5; height: 1;"
+					gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="-3 0.45 -4"
 					rotation="0 0 0"
+					scale="0.5 0.5 0.5"
 		>
 
 
@@ -140,8 +141,16 @@
 	</a-scene>
 
 	<script type="text/javascript">
+	    var video_el = document.getElementById("film");
+
 		function togglePlayback () {
 			console.log('play/pause movie');
+			if(!video_el.paused){
+            	video_el.pause();
+        	}
+        	else {
+            	video_el.play();
+        	}
 
 			// var filmEl = document.getElementById('video')
 			// var material = Object.assign({}, filmEl.getAttribute('material'))
@@ -150,9 +159,17 @@
 		}
 		function stop () {
 			console.log('stop movie');
+			video_el.pause();
 		}
 		function toggleSound () {
 			console.log('toggleSound on/off');
+			if(!video_el.muted){
+            	video_el.muted == true;
+        	}
+        	else {
+            	video_el.muted == false;
+        	}
+
 		}
 		function toggleCaps () {
 			console.log('toggleCaps visible/hidden');			

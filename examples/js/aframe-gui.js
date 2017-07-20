@@ -647,7 +647,7 @@ AFRAME.registerComponent('gui-flex-container', {
         }
 
         this.el.setAttribute('geometry', 'primitive: plane; height: ' + containerGuiItem.height + '; width: ' + containerGuiItem.width + ';');
-        this.el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.0; color: ' + this.data.backgroundColor + '; side:back;');
+        this.el.setAttribute('material', 'shader: flat; transparent: true; opacity: ' + this.data.opacity + '; color: ' + this.data.backgroundColor + '; side:front;');
 
         this.children = this.el.getChildEntities();
         console.log("childElements: " + this.children);
@@ -1598,7 +1598,7 @@ if (cursor) {
     cursor.addEventListener("stateremoved", function (evt) {
         if (evt.detail.state === 'cursor-fusing') {
             AFRAME.utils.entity.setComponentProperty(this, "geometry.thetaLength", 360);
-            AFRAME.utils.entity.setComponentProperty(this, "material.color", "#ffffff");
+            AFRAME.utils.entity.setComponentProperty(this, "material.color", key_white);
             AFRAME.utils.entity.setComponentProperty(this, "scale", "1 1 1");
         }
     });
