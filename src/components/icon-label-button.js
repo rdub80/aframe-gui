@@ -3,7 +3,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         on: {default: 'click'},
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
-        text: {type: 'string', default: 'label'},
+        text: {type: 'string', default: ''},
         fontColor: {type: 'string', default: key_offwhite},
         fontFamily: {type: 'string', default: 'Helvetica'},
         borderColor: {type: 'string', default: key_offwhite},
@@ -17,6 +17,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        var toggleState = this.toggleState = data.toggle;
 
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; side:front; color:${data.backgroundColor};`);
@@ -36,56 +37,97 @@ AFRAME.registerComponent('gui-icon-label-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var multiplier = 350;
+        var buttonAnimation = document.createElement("a-animation");
+        buttonAnimation.setAttribute('attribute', 'material.color');
+        buttonAnimation.setAttribute('begin', 'fadeOut');
+        buttonAnimation.setAttribute('from', data.activeColor);
+        buttonAnimation.setAttribute('to', data.backgroundColor);
+        buttonAnimation.setAttribute('dur', '400');
+        buttonEntity.appendChild(buttonAnimation);
+
+        var multiplier = 550;
+        if(data.text != ''){
+            multiplier = 350;
+        }
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
 
         var iconCanvasWidth = guiItem.height*multiplier; //square
         var iconCanvasHeight = guiItem.height*multiplier;
         var iconCanvas = document.createElement("canvas");
         this.iconCanvas = iconCanvas;
+        iconCanvas.className = "visuallyhidden";
         iconCanvas.setAttribute('width', iconCanvasWidth);
         iconCanvas.setAttribute('height', iconCanvasHeight);
         iconCanvas.id = getUniqueId('canvasIcon');
-        document.body.appendChild(iconCanvas);
+        canvasContainer.appendChild(iconCanvas);
 
         var ctxIcon = this.ctxIcon = iconCanvas.getContext('2d');
         drawIcon(ctxIcon, iconCanvas, data.icon, data.fontColor, 1);
 
-        var iconEntityX = -guiItem.width*0.5 + guiItem.height*0.5;
+        var iconEntityX = 0;
+        if(data.text != ''){
+            iconEntityX = -guiItem.width*0.5 + guiItem.height*0.5;
+        }
+
         var iconEntity = document.createElement("a-entity");
-        iconEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/2}; height: ${guiItem.height/2};`);
+
+        if(data.text != ''){
+            iconEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/2}; height: ${guiItem.height/2};`);
+        }else{
+            iconEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/2}; height: ${guiItem.height/2};`);
+        }
         iconEntity.setAttribute('material', `shader: flat; src: #${iconCanvas.id}; transparent: true; opacity: 1; side:front;`);
         iconEntity.setAttribute('position', `${iconEntityX} 0 0.041`);
         el.appendChild(iconEntity);
 
-        var labelWidth = guiItem.width - guiItem.height;
-        var canvasWidth = labelWidth*multiplier;
-        var canvasHeight = guiItem.height*multiplier;
-        var labelCanvas = document.createElement("canvas");
-        this.labelCanvas = labelCanvas;
-        labelCanvas.setAttribute('width', canvasWidth);
-        labelCanvas.setAttribute('height', canvasHeight);
-        labelCanvas.id = getUniqueId('canvasLabel');
-        document.body.appendChild(labelCanvas);
+        if(data.text != ''){
 
-        var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, data.text, '100px '+ data.fontFamily, data.fontColor);
+            var labelWidth = guiItem.width - guiItem.height;
+            var canvasWidth = labelWidth*multiplier;
+            var canvasHeight = guiItem.height*multiplier;
+            var labelCanvas = document.createElement("canvas");
+            this.labelCanvas = labelCanvas;
+            labelCanvas.setAttribute('width', canvasWidth);
+            labelCanvas.setAttribute('height', canvasHeight);
+            labelCanvas.id = getUniqueId('canvasLabel');
+            canvasContainer.appendChild(labelCanvas);
 
-        var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
-        var labelEntity = document.createElement("a-entity");
-        labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height/1.05};`);
-        labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:front;`);
-        labelEntity.setAttribute('position', `${labelEntityX} 0 0.041`);
-        el.appendChild(labelEntity);
+            var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
+            drawLabel(this.ctxLabel, this.labelCanvas, data.text, '100px '+ data.fontFamily, data.fontColor);
+
+            var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
+            var labelEntity = document.createElement("a-entity");
+            labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height/1.05};`);
+            labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:front;`);
+            labelEntity.setAttribute('position', `${labelEntityX} 0 0.041`);
+            el.appendChild(labelEntity);
+
+        }
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
 
         el.addEventListener('mouseenter', function () {
             buttonEntity.setAttribute('material', 'color', data.hoverColor);
         });
 
         el.addEventListener('mouseleave', function () {
-            buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            if (this.toggleState) {
+                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            }
         });
 
-        el.addEventListener(data.on, function (evt) {
+        el.addEventListener(data.on, function (evt) {            
+            if (!(data.toggle)) { // if not toggling flashing active state
+                buttonEntity.emit('fadeOut');
+            }else{
+                buttonEntity.setAttribute('material', 'color', data.activeColor);
+            }
+            this.toggleState = !(this.toggleState);
+
             console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
@@ -104,7 +146,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
 
     },
     update: function (oldData) {
-
+        console.log("In button update, toggle: "+this.toggleState);
     },
 });
 

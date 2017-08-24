@@ -4,11 +4,8 @@ AFRAME.registerComponent('gui-interactable', {
         hoverAction: {type: 'string'},
     },
     init: function () {
-
     },
     update: function () {
-
-
     },
     tick: function () {
     },
@@ -17,5 +14,8 @@ AFRAME.registerComponent('gui-interactable', {
     pause: function () {
     },
     play: function () {
+    },
+    setClickAction: function (action) {
+        this.data.clickAction = action;
     },
 });

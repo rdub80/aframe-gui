@@ -15,12 +15,17 @@ AFRAME.registerComponent('gui-label', {
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 

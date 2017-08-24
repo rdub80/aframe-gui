@@ -20,12 +20,17 @@ AFRAME.registerComponent('gui-input', {
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -62,6 +67,8 @@ AFRAME.registerComponent('gui-input', {
         borderRightEntity.setAttribute('position', `${(guiItem.width/2)-0.025} 0 0.01`);
         el.appendChild(borderRightEntity);
 
+        ////WAI ARIA Support
+        el.setAttribute('role', 'input');
 
         el.addEventListener('mouseenter', function () {
             el.setAttribute('material', 'color', data.hoverColor);

@@ -19,13 +19,19 @@ AFRAME.registerComponent('gui-icon-button', {
         var multiplier = 350;
         var canvasWidth = guiItem.height*multiplier; //square
         var canvasHeight = guiItem.height*multiplier;
+        var toggleState = this.toggleState = data.toggle;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
 
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvasIcon');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -54,20 +60,24 @@ AFRAME.registerComponent('gui-icon-button', {
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-
-        el.addEventListener('mouseenter', function () {
-            buttonEntity.setAttribute('material', 'color', data.hoverColor);
-        });
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
 
         el.addEventListener('mouseleave', function () {
-            if (!(data.toggle)) {
+            if (this.toggleState) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });
 
         el.addEventListener(data.on, function (evt) {
+            if (!(data.toggle)) { // if not toggling flashing active state
+                buttonEntity.emit('fadeOut');
+            }else{
+                buttonEntity.setAttribute('material', 'color', data.activeColor);
+            }
+            this.toggleState = !(this.toggleState);
+
             console.log('I was clicked at: ', evt.detail.intersection.point);
-            data.toggle = !(data.toggle);
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
@@ -77,7 +87,6 @@ AFRAME.registerComponent('gui-icon-button', {
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
-
         });
 
 
@@ -86,6 +95,7 @@ AFRAME.registerComponent('gui-icon-button', {
 
     },
     update: function (oldData) {
+        console.log("In button update, toggle: "+this.toggleState);
     },
 });
 

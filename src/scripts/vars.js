@@ -30,7 +30,6 @@ window.getTextWidth = function(text, font) {
 
 window.drawText = function(ctx, canvas, text, font, color, size) {
     setTimeout(function(){
-
         ctx.font = font;
         ctx.fillStyle = color;
         ctx.textAlign = "center";
@@ -40,13 +39,19 @@ window.drawText = function(ctx, canvas, text, font, color, size) {
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
         ctx.scale(1, 1);
-        ctx.fillText(text, canvas.width/2, canvas.height/2); // position x, y
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		if (text.match("char#")) {
+			var char = text.substring(text.indexOf('#')+1);
+	       	ctx.fillText(String.fromCharCode(char), canvas.width/2, canvas.height/2); // position x, y
+        }else{
+ 	       	ctx.fillText(text, canvas.width/2, canvas.height/2); // position x, y
+ 	    }
 
     },500); // callback when font is loaded needed
-
 }
 
-window.drawIcon = function(ctx, canvas, icon, color, size) {
+window.drawIcon = function(ctx, canvas, icon, color, size = 1) {
     setTimeout(function(){
         ctx.font = '240px Ionicons';
         ctx.fillStyle = color;
@@ -56,7 +61,9 @@ window.drawIcon = function(ctx, canvas, icon, color, size) {
         ctx.shadowBlur = 8;
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
-        ctx.scale(1, 1);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.scale(size, size);
 
         console.log("icon" + icon);
         if(icon_font[icon]){
@@ -70,7 +77,6 @@ window.drawIcon = function(ctx, canvas, icon, color, size) {
 
 window.drawLabel = function(ctx, canvas, text, font, color, size) {
     setTimeout(function(){
-
         ctx.font = font;
         ctx.fillStyle = color;
         ctx.textAlign = "left";
@@ -79,10 +85,10 @@ window.drawLabel = function(ctx, canvas, text, font, color, size) {
         ctx.shadowBlur = 8;
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         ctx.scale(1, 1);
         ctx.fillText(text, canvas.height/8, canvas.height/2); // position x, y
 
     },500); // callback when font is loaded needed
-
 }
-
