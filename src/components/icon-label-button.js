@@ -115,7 +115,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            if (this.toggleState) {
+            if (this.toggleState == false) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });

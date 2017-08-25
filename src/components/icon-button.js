@@ -53,6 +53,15 @@ AFRAME.registerComponent('gui-icon-button', {
         buttonEntity.setAttribute('rotation', '90 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(buttonEntity);
+        this.buttonEntity = buttonEntity;
+
+        var buttonAnimation = document.createElement("a-animation");
+        buttonAnimation.setAttribute('attribute', 'material.color');
+        buttonAnimation.setAttribute('begin', 'fadeOut');
+        buttonAnimation.setAttribute('from', data.activeColor);
+        buttonAnimation.setAttribute('to', data.backgroundColor);
+        buttonAnimation.setAttribute('dur', '400');
+        buttonEntity.appendChild(buttonAnimation);
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/2}; height: ${guiItem.height/2};`);
@@ -63,13 +72,19 @@ AFRAME.registerComponent('gui-icon-button', {
         ////WAI ARIA Support
         el.setAttribute('role', 'button');
 
+
+
+        el.addEventListener('mouseenter', function () {
+            buttonEntity.setAttribute('material', 'color', data.hoverColor);
+        });
+
         el.addEventListener('mouseleave', function () {
-            if (this.toggleState) {
+            if (this.toggleState == false) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });
 
-        el.addEventListener(data.on, function (evt) {
+        el.addEventListener(data.on, function (evt) {            
             if (!(data.toggle)) { // if not toggling flashing active state
                 buttonEntity.emit('fadeOut');
             }else{
@@ -77,11 +92,11 @@ AFRAME.registerComponent('gui-icon-button', {
             }
             this.toggleState = !(this.toggleState);
 
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+            //console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: "+guiInteractable);
+            //console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: "+clickActionFunctionName);
+            //console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
