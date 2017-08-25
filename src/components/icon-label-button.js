@@ -128,11 +128,11 @@ AFRAME.registerComponent('gui-icon-label-button', {
             }
             this.toggleState = !(this.toggleState);
 
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+//            console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: "+guiInteractable);
+//            console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: "+clickActionFunctionName);
+//            console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
