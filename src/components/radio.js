@@ -92,12 +92,18 @@ AFRAME.registerComponent('gui-radio', {
         var multiplier = 350;
         var canvasWidth = labelWidth*multiplier;
         var canvasHeight = guiItem.height*multiplier;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var labelCanvas = document.createElement("canvas");
-        this.labelCanvas = labelCanvas
+        this.labelCanvas = labelCanvas;
+        labelCanvas.className = "visuallyhidden";
         labelCanvas.setAttribute('width', canvasWidth);
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
-        document.body.appendChild(labelCanvas);
+        canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
         drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px '+ data.fontFamily, this.data.fontColor);

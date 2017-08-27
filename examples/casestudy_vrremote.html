@@ -1,0 +1,645 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI Dropdown</title>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+	<style type="text/css">
+		@font-face{
+			font-family:"Ionicons";
+			
+			src:url("assets/fonts/ionicons.eot?v=2.0.1");
+			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+			
+			font-weight:normal;
+			font-style:normal
+		}
+		body{font-family:Ionicons;} 
+		.visuallyhidden {
+			display: block;
+			border: 0;
+			clip: rect(0 0 0 0);
+			height: 1px;
+			width: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			position: absolute !important;
+		}
+	</style>
+
+    <script src="../dist/aframe-gui.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+	<script>
+	(function() {
+
+		// Optimization for Repeat Views
+		if( sessionStorage.criticalFoftFontsLoaded ) {
+			console.log("fonts are already loaded");
+			return;
+		}
+
+		var guiWebFont = new FontFaceObserver('Fira Sans');
+
+		Promise.all([guiWebFont.load()]).then(function () {
+			console.log("fonts are loaded");
+			// Optimization for Repeat Views
+			sessionStorage.criticalFoftFontsLoaded = true;
+		});
+	})();
+
+
+	</script>
+
+
+
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<!-- Text Canvas -->
+			<img id="gradient" src="assets/gradient.png">
+			<img id="ground" src="assets/ground.png">
+			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
+		</a-assets>
+
+		<a-light type="directional" color="#FFF" intensity="1" position="-1 1 2"> </a-light>
+		<a-light type="ambient" color="#ebd9e9"> </a-light>
+		<a-sky src="#gradient"></a-sky>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+
+
+  		<a-entity id="Kingear_VR3D" position="1.5 2.75 -5" rotation="30 30 0">
+
+	  		<a-entity	id="remotebody"
+	  					position="0 0 0"
+	  					rotation="0 0 0"
+	  		>
+		  		<a-box 
+		  			width="1"
+		  			height="3"
+		  			depth="0.5"
+		  			color="#201D2D"
+		  		>
+		  			<a-cylinder
+			  			height="0.1" 
+			  			radius="0.4"
+		  				color="#8E9EAB" 
+		  				position="0 0.9 0.25"
+		  				rotation="90 0 0"
+		  			>		
+		  			</a-cylinder>
+		  			<a-cylinder
+			  			height="0.1" 
+			  			radius="0.4"
+		  				color="#8E9EAB" 
+		  				position="0 0 0.25"
+		  				rotation="90 0 0"
+		  			>	
+
+			  			<a-cylinder
+				  			height="0.05" 
+				  			radius="0.075"
+			  				color="#EDF1F2" 
+			  				position="0.35 0 -0.45"
+			  			>	
+				  			<a-cylinder id="powerRemoteBtn"
+					  			height="0.1" 
+					  			radius="0.05"
+				  				color="#DC2531" 
+				  				position="0 0 0"
+				  			>		
+				  			</a-cylinder>			  				
+			  			</a-cylinder>
+
+			  			<a-cylinder id="bRemoteBtn"
+				  			height="0.15" 
+				  			radius="0.15"
+			  				color="#41C7A2" 
+			  				position="0 0.05 0.25"
+			  			>		
+			  			</a-cylinder>
+			  			<a-cylinder id="xRemoteBtn"
+				  			height="0.15" 
+				  			radius="0.15"
+			  				color="#6441A5" 
+			  				position="0 0.05 -0.25"
+			  			>		
+			  			</a-cylinder>
+			  			<a-cylinder id="yRemoteBtn"
+				  			height="0.15" 
+				  			radius="0.15"
+			  				color="#EEBB3B" 
+			  				position="0.25 0.05 0"
+			  			>		
+			  			</a-cylinder>
+			  			<a-cylinder id="aRemoteBtn"
+				  			height="0.15" 
+				  			radius="0.15"
+			  				color="#1D689D" 
+			  				position="-0.25 0.05 0"
+			  			>		
+			  			</a-cylinder>
+		  			</a-cylinder>
+
+		  			<a-box id="trigger"
+			  			width="0.9"
+			  			height="0.2"
+			  			depth="0.4"
+			  			color="#DC2531"
+			  			position="0 1.5 0"
+		  			>					
+						<a-animation id="triggerPress" begin="press" attribute="height" dur="200" to="0.05"></a-animation>
+						<a-animation id="triggerRelease" begin="release" attribute="height" dur="200" to="0.2"></a-animation>
+		  			</a-box>  		
+		  		</a-box>
+		  	</a-entity>
+
+	  		<a-entity	id="stick"
+	  					position="0 0.9 0.25"
+	  					rotation="0 0 0"
+	  		>
+	  			<a-cylinder
+		  			height="0.35" 
+		  			radius="0.1"
+	  				color="#201D2D" 
+	  				rotation="90 0 0"
+	  				position="0 0 0"
+	  			>		
+	  				<a-sphere 
+	  					color="#928DAB" 
+	  					radius="0.3"
+	  					position="0 0.25 0"
+	  					scale="1 0.3 1"
+	  				>
+	  					
+	  				</a-sphere>
+	  			</a-cylinder> 
+				<a-animation id="stickUp" begin="up" attribute="rotation" dur="200" to="-30 0 0"></a-animation>
+				<a-animation id="stickDown" begin="down" attribute="rotation" dur="200" to="30 0 0"></a-animation>
+				<a-animation id="stickLeft" begin="left" attribute="rotation" dur="200" to="0 -30 0"></a-animation>
+				<a-animation id="stickRight" begin="right" attribute="rotation" dur="200" to="0 30 0"></a-animation>
+				<a-animation id="stickBack" begin="center" attribute="rotation" dur="200" to="0 0 0"></a-animation>
+	  		</a-entity>
+
+		</a-entity>
+
+
+  		<a-entity id="Magicsee_R1" position="-1.5 2.5 -5" rotation="-20 -40 -30">
+
+	  		<a-entity	id="remotebody2"
+	  					position="0 0 0"
+	  					rotation="0 0 0"
+	  		>
+				<a-torus 
+					color="#201D2D" 
+					arc="220" 
+					radius="0.7" 
+					radius-tubular="0.1.25"
+					rotation="0 -90 90"
+					position="0 0 -0.5"
+				></a-torus>
+
+
+		  		<a-box 
+		  			width="1"
+		  			height="2"
+		  			depth="0.5"
+		  			color="#201D2D"
+		  		>
+			  		<a-box 
+			  			width="0.9"
+			  			height="0.75"
+			  			depth="0.75"
+			  			color="#201D2D"
+			  			position="0 0.625 -0.25"
+			  		>
+			  		</a-box>
+		  			<a-sphere
+			  			radius="0.4"
+		  				color="#8E9EAB" 
+		  				position="0 0.5 0.25"
+		  				rotation="90 0 0"
+		  				scale="1 0.3 1"
+		  			>		
+		  			</a-sphere>
+		  			<a-entity
+		  				position="0 -0.5 0.25"
+		  				rotation="90 0 0"
+		  			>	
+
+			  			<a-cylinder id="aRemoteBtn2"
+				  			height="0.15" 
+				  			radius="0.15"
+			  				color="#1D689D" 
+			  				position="0.2 0 -0.2"
+			  			>		
+			  			</a-cylinder>
+			  			<a-cylinder id="bRemoteBtn2"
+				  			height="0.15" 
+				  			radius="0.15"
+			  				color="#41C7A2" 
+			  				position="-0.2 0 -0.2"
+			  			>		
+			  			</a-cylinder>
+			  			<a-cylinder id="yRemoteBtn2"
+				  			height="0.15" 
+				  			radius="0.15"
+			  				color="#EEBB3B" 
+			  				position="0.2 0 0.2"
+			  			>		
+			  			</a-cylinder>
+			  			<a-cylinder id="xRemoteBtn2"
+				  			height="0.15" 
+				  			radius="0.15"
+			  				color="#6441A5" 
+			  				position="-0.2 0 0.2"
+			  			>		
+			  			</a-cylinder>
+		  			</a-entity>
+
+		  			
+		  			<a-cylinder id="powerRemoteBtn2"
+			  			height="0.2" 
+			  			radius="0.45"
+		  				color="#DC2531" 
+		  				position="0 1 -0.45"
+		  				scale="1 1 0.3"
+		  			>		
+		  			</a-cylinder>			  				
+
+		  			<a-box id="trigger2"
+			  			width="0.9"
+			  			height="0.2"
+			  			depth="0.3"
+			  			color="#DC2531"
+			  			position="0 1 0"
+		  			>					
+						<a-animation id="triggerPress2" begin="press" attribute="height" dur="200" to="0.05"></a-animation>
+						<a-animation id="triggerRelease2" begin="release" attribute="height" dur="200" to="0.2"></a-animation>
+		  			</a-box>  		
+		  		</a-box>
+		  	</a-entity>
+
+	  		<a-entity	id="stick2"
+	  					position="0 0.5 0.25"
+	  					rotation="0 0 0"
+	  		>
+	  			<a-cylinder
+		  			height="0.35" 
+		  			radius="0.1"
+	  				color="#201D2D" 
+	  				rotation="90 0 0"
+	  				position="0 0 0"
+	  			>		
+	  				<a-sphere 
+	  					color="#928DAB" 
+	  					radius="0.3"
+	  					position="0 0.25 0"
+	  					scale="1 0.3 1"
+	  				>
+	  					
+	  				</a-sphere>
+	  			</a-cylinder> 
+				<a-animation id="stickUp2" begin="up" attribute="rotation" dur="200" to="-30 0 0"></a-animation>
+				<a-animation id="stickDown2" begin="down" attribute="rotation" dur="200" to="30 0 0"></a-animation>
+				<a-animation id="stickLeft2" begin="left" attribute="rotation" dur="200" to="0 -30 0"></a-animation>
+				<a-animation id="stickRight2" begin="right" attribute="rotation" dur="200" to="0 30 0"></a-animation>
+				<a-animation id="stickBack2" begin="center" attribute="rotation" dur="200" to="0 0 0"></a-animation>
+	  		</a-entity>
+
+		</a-entity>
+
+
+
+
+
+		<a-entity 	gui-item="type: flex-container; width: 14; height: 0.5;"
+					gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="0 0.85 -6"
+		>
+			<a-entity  	gui-item="type: label; width: 1.5; height: 0.5;"
+						gui-label="text:Press; fontFamily:'Fira Sans';">
+			</a-entity>
+
+			<a-entity  	gui-item="type: button; width: 1.5; height: 0.5;"
+					   	gui-interactable="clickAction: triggerBtn; keyCode:76;"
+						gui-button="text:Trigger(l); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 1.5; height: 0.5;"
+					   	gui-interactable="clickAction: powerBtn; keyCode:79;"
+						gui-button="text:Power(o); fontFamily:'Fira Sans';">
+			</a-entity>
+
+			<a-entity  	gui-item="type: button; width: 0.75; height: 0.5;"
+					   	gui-interactable="clickAction: xBtn; keyCode:89;"
+						gui-button="text:X(y); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 0.75; height: 0.5;"
+					   	gui-interactable="clickAction: yBtn; keyCode:74;"
+						gui-button="text:Y(j); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 0.75; height: 0.5;"
+					   	gui-interactable="clickAction: aBtn; keyCode:72;"
+						gui-button="text:A(h); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 0.75; height: 0.5;"
+					   	gui-interactable="clickAction: bBtn; keyCode:85;"
+						gui-button="text:B(u); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: label; width: 1.75; height: 0.5;"
+						gui-label="text:W/A/D/X; fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:upStick; keyCode:87;"
+						gui-icon-button="
+							icon:android-arrow-up;
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:downStick; keyCode:88;"
+						gui-icon-button="
+							icon:android-arrow-down;
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:leftStick; keyCode:65;"
+						gui-icon-button="
+							icon:android-arrow-back;
+						"
+			>
+			</a-entity>					
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:rightStick; keyCode:68;"
+						gui-icon-button="
+							icon:android-arrow-forward;
+						"
+			>
+			</a-entity>
+		</a-entity>
+
+		<a-entity 	gui-item="type: flex-container; width: 14; height: 0.5;"
+					gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="0 0.25 -6"
+		>
+			<a-entity  	gui-item="type: label; width: 1.5; height: 0.5;"
+						gui-label="text:Release; fontFamily:'Fira Sans';">
+			</a-entity>
+
+			<a-entity  	gui-item="type: button; width: 1.5; height: 0.5;"
+					   	gui-interactable="clickAction: triggerBtnRelease; keyCode:86;"
+						gui-button="text:Trigger(v); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 1.5; height: 0.5;"
+					   	gui-interactable="clickAction: powerBtnRelease; keyCode:71;"
+						gui-button="text:Power(g); fontFamily:'Fira Sans';">
+			</a-entity>
+
+			<a-entity  	gui-item="type: button; width: 0.75; height: 0.5;"
+					   	gui-interactable="clickAction: xBtnRelease; keyCode:84;"
+						gui-button="text:X(t); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 0.75; height: 0.5;"
+					   	gui-interactable="clickAction: yBtnRelease; keyCode:78;"
+						gui-button="text:Y(n); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 0.75; height: 0.5;"
+					   	gui-interactable="clickAction: aBtnRelease; keyCode:82;"
+						gui-button="text:A(r); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: button; width: 0.75; height: 0.5;"
+					   	gui-interactable="clickAction: bBtnRelease; keyCode:70;"
+						gui-button="text:B(f); fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity  	gui-item="type: label; width: 1.75; height: 0.5;"
+						gui-label="text:E/Z/Q/C; fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:centerStick; keyCode:69;"
+						gui-icon-button="
+							icon:android-arrow-up;
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:centerStick; keyCode:90;"
+						gui-icon-button="
+							icon:android-arrow-down;
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:centerStick; keyCode:81;"
+						gui-icon-button="
+							icon:android-arrow-back;
+						"
+			>
+			</a-entity>					
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:centerStick; keyCode:67;"
+						gui-icon-button="
+							icon:android-arrow-forward;
+						"
+			>
+			</a-entity>
+		</a-entity>
+
+
+		<!-- Camera + cursor. -->
+		<a-entity camera="userHeight: 1.6" look-controls="">
+
+			<a-entity id="cursor"
+					  raycaster="interval: 1000; objects: [gui-interactable]"
+					  cursor="fuse: true; fuseTimeout: 2000"
+					  gui-cursor=""
+					  position="0 0 -1"
+					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
+					  material="color: #ffffff; shader: flat"
+			>
+			</a-entity> <!-- /cursor -->
+
+		</a-entity> <!-- /camera -->
+
+	</a-scene>
+
+	<script>
+	
+		window.upStick = function() { // mobile keycode 87 (w) release 69 (e)
+			// var stick = document.getElementById("stick");
+			// stick.setAttribute('rotation', '-30 0 0');
+
+			var stickUp =document.getElementById("stickUp");
+			stickUp.emit('up');
+			var stickUp2 =document.getElementById("stickUp2");
+			stickUp2.emit('up');
+		}
+		window.downStick = function() { // mobile keycode 88 (x) release 90(z)
+			//var stick = document.getElementById("stick");
+			//stick.setAttribute('rotation', '30 0 0');		
+
+			var stickDown =document.getElementById("stickDown");
+			stickDown.emit('down');
+			var stickDown2 =document.getElementById("stickDown2");
+			stickDown2.emit('down');
+		}		
+		window.leftStick = function() { // mobile keycode 65 (a) release 81 (q)
+			//var stick = document.getElementById("stick");
+			//stick.setAttribute('rotation', '0 -30 0');
+		
+			var stickLeft =document.getElementById("stickLeft");
+			stickLeft.emit('left');
+			var stickLeft2 =document.getElementById("stickLeft2");
+			stickLeft2.emit('left');
+		}
+		window.rightStick = function() { // mobile keycode 68 (d) release 67 (c)
+			//var stick = document.getElementById("stick");
+			//stick.setAttribute('rotation', '0 30 0');
+
+			var stickRight =document.getElementById("stickRight");
+			stickRight.emit('right');
+			var stickRight2 =document.getElementById("stickRight2");
+			stickRight2.emit('right');
+		}
+		window.centerStick = function() { 
+			//var stick = document.getElementById("stick");
+			//stick.setAttribute('rotation', '0 0 0');
+
+			var stickBack =document.getElementById("stickBack");
+			stickBack.emit('center');
+			var stickBack2 =document.getElementById("stickBack2");
+			stickBack2.emit('center');
+		}
+
+		window.triggerBtn = function() { // mobile keycode 76 (l)
+			console.log('pressed triggerBtn');
+			//var trigger = document.getElementById("trigger");
+			//trigger.setAttribute('height', '0.05');
+
+			var triggerPress =document.getElementById("triggerPress");
+			triggerPress.emit('press');
+			var triggerPress2 =document.getElementById("triggerPress2");
+			triggerPress2.emit('press');
+		}
+		window.triggerBtnRelease = function() { // mobile keycode 86 (v)
+			console.log('releases triggerBtn');
+			//var trigger = document.getElementById("trigger");
+			//trigger.setAttribute('height', '0.2');
+
+			var triggerRelease =document.getElementById("triggerRelease");
+			triggerRelease.emit('release');
+			var triggerRelease2 =document.getElementById("triggerRelease2");
+			triggerRelease2.emit('release');
+		}
+
+		window.powerBtn = function() { // mobile keycode 79 (o)
+			console.log('pressed powerBtn');
+			var powerRemoteBtn = document.getElementById("powerRemoteBtn");
+			powerRemoteBtn.setAttribute('height', '0.075');
+
+			var powerRemoteBtn2 = document.getElementById("powerRemoteBtn2");
+			powerRemoteBtn2.setAttribute('height', '0.05');
+		}
+		window.powerBtnRelease = function() { // mobile keycode 71 (g)
+			console.log('releases powerBtn');
+			var powerRemoteBtn = document.getElementById("powerRemoteBtn");
+			powerRemoteBtn.setAttribute('height', '0.1');
+			
+			var powerRemoteBtn2 = document.getElementById("powerRemoteBtn2");
+			powerRemoteBtn2.setAttribute('height', '0.2');
+		}
+
+
+		window.xBtn = function() { // mobile keycode 89 (y)
+			console.log('pressed xBtn');
+			var xRemoteBtn = document.getElementById("xRemoteBtn");
+			xRemoteBtn.setAttribute('height', '0.05');
+			var xRemoteBtn2 = document.getElementById("xRemoteBtn2");
+			xRemoteBtn2.setAttribute('height', '0.05');
+		}
+		window.xBtnRelease = function() { // mobile keycode 84 (t)
+			console.log('releases xBtn');
+			var xRemoteBtn = document.getElementById("xRemoteBtn");
+			xRemoteBtn.setAttribute('height', '0.15');
+			var xRemoteBtn2 = document.getElementById("xRemoteBtn2");
+			xRemoteBtn2.setAttribute('height', '0.15');
+		}
+		window.yBtn = function() { // mobile keycode 74 (j)
+			console.log('pressed yBtn');
+			var yRemoteBtn = document.getElementById("yRemoteBtn");
+			yRemoteBtn.setAttribute('height', '0.05');
+			var yRemoteBtn2 = document.getElementById("yRemoteBtn2");
+			yRemoteBtn2.setAttribute('height', '0.05');
+		}
+		window.yBtnRelease = function() { // mobile keycode 78 (n)
+			console.log('releases yBtn');
+			var yRemoteBtn = document.getElementById("yRemoteBtn");
+			yRemoteBtn.setAttribute('height', '0.15');
+			var yRemoteBtn2 = document.getElementById("yRemoteBtn2");
+			yRemoteBtn2.setAttribute('height', '0.15');
+		}
+		window.aBtn = function() { // mobile keycode 72 (h)
+			console.log('pressed aBtn');
+			var aRemoteBtn = document.getElementById("aRemoteBtn");
+			aRemoteBtn.setAttribute('height', '0.05');
+			var aRemoteBtn2 = document.getElementById("aRemoteBtn2");
+			aRemoteBtn2.setAttribute('height', '0.05');
+		}
+		window.aBtnRelease = function() { // mobile keycode 82 (r)
+			console.log('releases aBtn');
+			var aRemoteBtn = document.getElementById("aRemoteBtn");
+			aRemoteBtn.setAttribute('height', '0.15');
+			var aRemoteBtn2 = document.getElementById("aRemoteBtn2");
+			aRemoteBtn2.setAttribute('height', '0.15');
+		}
+		window.bBtn = function() { // mobile keycode 85 (u)
+			console.log('pressed bBtn');
+			var bRemoteBtn = document.getElementById("bRemoteBtn");
+			bRemoteBtn.setAttribute('height', '0.05');
+			var bRemoteBtn2 = document.getElementById("bRemoteBtn2");
+			bRemoteBtn2.setAttribute('height', '0.05');
+		}
+		window.bBtnRelease = function() { // mobile keycode 70 (f)
+			console.log('releases bBtn');
+			var bRemoteBtn = document.getElementById("bRemoteBtn");
+			bRemoteBtn.setAttribute('height', '0.15');
+			var bRemoteBtn2 = document.getElementById("bRemoteBtn2");
+			bRemoteBtn2.setAttribute('height', '0.15');
+		}
+
+/*
+		window.addEventListener("keyup", function (event) {
+			if (event.defaultPrevented) {
+				return; // Do nothing if the event was already processed
+			}
+			switch (event.keyCode) {
+				case 69: // release stick from up
+					console.log('stick release 69 (e)');
+				  	window.centerStick();
+				  	break;
+				case 90: // release stick from down
+					console.log('stick release 90 (z)');
+				  	window.centerStick();
+				  	break;
+				case 81: // release stick from left
+					console.log('stick release 81 (q)');
+				  	window.centerStick();
+				  	break;
+				case 67: // release stick from right
+					console.log('stick release 67 (c)');
+				  	window.centerStick();
+				  	break;
+				default:
+				  	return; // Quit when this doesn't handle the key event.
+				}
+			event.preventDefault();
+		}, true);
+*/
+
+	</script>
+
+</body>
+</html>

@@ -18,12 +18,18 @@ AFRAME.registerComponent('gui-circle-loader', {
         var canvasWidth = guiItem.height*multiplier; //square
         var canvasHeight = guiItem.height*multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
+        canvas.className = 'visuallyhidden';
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 

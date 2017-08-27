@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI</title>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+	<style type="text/css">
+		@font-face{
+			font-family:"Ionicons";
+			
+			src:url("assets/fonts/ionicons.eot?v=2.0.1");
+			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+			
+			font-weight:normal;
+			font-style:normal
+		}
+		body{font-family:Ionicons;} 
+		.visuallyhidden {
+			display: block;
+			border: 0;
+			clip: rect(0 0 0 0);
+			height: 1px;
+			width: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			position: absolute !important;
+		}
+	</style>
+
+    <script src="../dist/aframe-gui.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+	<script>
+	(function() {
+
+		// Optimization for Repeat Views
+		if( sessionStorage.criticalFoftFontsLoaded ) {
+			console.log("fonts are already loaded");
+			return;
+		}
+
+		var guiWebFont = new FontFaceObserver('Fira Sans');
+
+		Promise.all([guiWebFont.load()]).then(function () {
+			console.log("fonts are loaded");
+			// Optimization for Repeat Views
+			sessionStorage.criticalFoftFontsLoaded = true;
+		});
+	})();
+	</script>
+
+
+
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<!-- Text Canvas -->
+			<img id="gradient" src="assets/gradient.png">
+			<img id="ground" src="assets/ground.png">
+		    <img id="snellen_chart" src="assets/snellen_chart.png">
+			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
+		</a-assets>
+
+		<a-light type="directional" color="#FFF" intensity="1" position="-1 1 2"> </a-light>
+		<a-light type="ambient" color="#ebd9e9"> </a-light>
+		<a-sky src="#gradient"></a-sky>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+
+
+		<a-entity 	gui-item="type: flex-container; width: 1; height: 2.25;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="2 1.6 -4"
+					rotation="0 0 0"
+		>
+			<a-entity  	gui-item="type: label; width: 1; height: 0.5;"
+						gui-label="text:Size; fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:sizeUp; keyCode:87;"
+						gui-icon-button="
+							icon:android-arrow-up;
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:sizeDown; keyCode:88;"
+						gui-icon-button="
+							icon:android-arrow-down;
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:sizeSubmit; keyCode:76;"
+						gui-icon-button="
+							icon:checkmark;
+						"
+			>
+			</a-entity>
+		</a-entity>
+
+		<a-entity 	gui-item="type: flex-container; width: 1; height: 1.75;"
+					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+					position="-2 0.75 -4"
+					rotation="-45 0 0"
+		>
+			<a-entity  	gui-item="type: label; width: 1; height: 0.5;"
+						gui-label="text:Dist.; fontFamily:'Fira Sans';">
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:backDown; keyCode:68;"
+						gui-icon-button="
+							icon:android-arrow-up;
+						"
+			>
+			</a-entity>
+			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+					  	gui-interactable="clickAction:closeUp; keyCode:65;"
+						gui-icon-button="
+							icon:android-arrow-down;
+						"
+			>
+			</a-entity>
+		</a-entity>		
+
+  		<a-entity 	id="chart"	
+  					geometry="primitive:plane; height:1; width:1;"
+  					material="src:#snellen_chart; transparent:true;"
+  					position="0 1.6 -6" 
+  					rotation="0 0 0"
+  		>
+  			<a-box 	id="size"
+  					width="0.55" height="0.01" depth="0.001" color="#DC2531" position="0 -0.01 -0.01">
+		  			<a-box width="0.04" height="0.04" depth="0.04" color="#DC2531" rotation="0 0 45" position="-0.275 0 0"></a-box>
+		  			<a-box width="0.04" height="0.04" depth="0.04" color="#DC2531" rotation="0 0 45" position="0.275 0 0"></a-box>
+
+		  			<a-box width="0.1" height="0.01" depth="0.04" color="#DC2531" rotation="0 0 0" position="-0.225 0 0"></a-box>
+  			</a-box>
+  		</a-entity>
+  		<!--
+  		<a-box width="1" height="1" depth="0.001" color="blue" position="0 1 -6"></a-box>
+		-->
+
+		<!-- Camera + cursor. -->
+		<a-entity camera="userHeight: 1.6" look-controls="">
+
+			<a-entity id="cursor"
+					  raycaster="interval: 1000; objects: [gui-interactable]"
+					  cursor="fuse: true; fuseTimeout: 2000"
+					  gui-cursor=""
+					  position="0 0 -1"
+					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
+					  material="color: #ffffff; shader: flat"
+			>
+			</a-entity> <!-- /cursor -->
+
+		</a-entity> <!-- /camera -->
+
+	</a-scene>
+	<script>
+		window.value = -6;
+		window.closest = -1;
+		window.farthest = -6;
+		window.increment = 0.2;
+
+		window.position = '0 1.6 -1';
+		var i = 4; // init size center
+
+		window.sizeState = {
+			1:"0 0.192 -0.01", 
+			2:"0 0.1 -0.01", 
+			3:"0 0.04 -0.01", 
+			4:"0 -0.01 -0.01", 
+			5:"0 -0.045 -0.01", 
+			6:"0 -0.07 -0.01", 
+			7:"0 -0.116 -0.01", 
+			8:"0 -0.148 -0.01", 
+			9:"0 -0.185 -0.01", 
+			10:"0 -0.212 -0.01", 
+			11:"0 -0.237 -0.01", 
+		}
+		console.log('Object.keys(window.sizeState).length ' + Object.keys(window.sizeState).length);
+		
+		window.sizeDown = function() { // mobile keycode 87
+			if(i < Object.keys(window.sizeState).length){
+				i++;
+				var size = document.getElementById("size");
+				size.setAttribute('position', window.sizeState[i]);
+			}
+			console.log('pressed sizeDown ' + i);
+		}
+		window.sizeUp = function() { // mobile keycode 88
+			if(i > 1){
+				i--;
+				var size = document.getElementById("size");
+				size.setAttribute('position', window.sizeState[i]);
+			}
+			console.log('pressed sizeUp' + i);
+		}
+		window.sizeSubmit = function() { // mobile keycode 76
+			console.log('pressed sizeSubmit');
+		}
+
+		window.closeUp = function() { // mobile keycode 68
+			if (value <= -1){ 
+				value += increment; 
+				window.position =  '0 1.6 '+value;
+			
+				var chart = document.getElementById("chart");
+				chart.setAttribute('position', window.position );
+			}
+			console.log('pressed closeUp '+window.position);
+		}
+		window.backDown = function() { // mobile keycode 65
+			if (value >= -6){ 
+				value -= increment; 
+				window.position = '0 1.6 '+value;
+
+				var chart = document.getElementById("chart");
+				chart.setAttribute('position', window.position );
+			}
+			console.log('pressed backDown '+window.position);
+		}
+
+	</script>
+</body>
+</html>

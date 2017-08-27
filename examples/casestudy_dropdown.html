@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI Dropdown</title>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+	<style type="text/css">
+		@font-face{
+			font-family:"Ionicons";
+			
+			src:url("assets/fonts/ionicons.eot?v=2.0.1");
+			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+			
+			font-weight:normal;
+			font-style:normal
+		}
+		body{font-family:Ionicons;} 
+		.visuallyhidden {
+			display: block;
+			border: 0;
+			clip: rect(0 0 0 0);
+			height: 1px;
+			width: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			position: absolute !important;
+		}
+	</style>
+
+    <script src="../dist/aframe-gui.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+	<script>
+	(function() {
+
+		// Optimization for Repeat Views
+		if( sessionStorage.criticalFoftFontsLoaded ) {
+			console.log("fonts are already loaded");
+			return;
+		}
+
+		var guiWebFont = new FontFaceObserver('Fira Sans');
+
+		Promise.all([guiWebFont.load()]).then(function () {
+			console.log("fonts are loaded");
+			// Optimization for Repeat Views
+			sessionStorage.criticalFoftFontsLoaded = true;
+		});
+	})();
+
+
+	</script>
+
+
+
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<!-- Text Canvas -->
+			<img id="gradient" src="assets/gradient.png">
+			<img id="ground" src="assets/ground.png">
+			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
+		</a-assets>
+
+		<a-light type="directional" color="#FFF" intensity="1" position="-1 1 2"> </a-light>
+		<a-light type="ambient" color="#ebd9e9"> </a-light>
+		<a-sky src="#gradient"></a-sky>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+
+		<a-torus-knot id="knot" color="#BCC6CD" arc="180" p="2" q="10" radius="4" radius-tubular="0.1" position="-1.5 2 -7" rotation="90 0 0">
+			<a-animation attribute="rotation" dur="10000" fill="forwards" to="90 360 0" repeat="indefinite"></a-animation>
+		</a-torus-knot>
+
+
+  		<a-entity position="2 1.5 -4" rotation="0 0 0">
+	  		<a-entity id="dropdownContainer"  position="0 0 -1">
+				<a-entity 	gui-item="type: flex-container; width: 2.5; height: 0.75;"
+							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0"
+							position="0 0.375 0"
+				>
+
+					<a-entity  	gui-item="type: dropdown; width: 2.5; height: 0.75;"
+							   	gui-interactable="clickAction: openDropdown;"
+								gui-icon-label-button="
+									icon:android-menu;
+									text:dropdown;
+									fontFamily:'Fira Sans';
+								"
+								visible="true"
+					>
+						<a-animation attribute="rotation" id="dropani"
+							begin="opendropdown"
+							dur="1000"
+							fill="forwards"
+							to="180 0 0"></a-animation>
+						<a-animation attribute="visible" id="dropani1"
+							begin="opendropdown"
+							fill="forwards"
+							delay="500"
+							to="false"></a-animation>						
+						<a-animation attribute="rotation" id="dropaniback"
+							begin="closedropdown"
+							dur="1000"
+							fill="forwards"
+							to="0 0 0"></a-animation>
+						<a-animation attribute="visible" id="dropani1back"
+							begin="closedropdown"
+							fill="forwards"
+							delay="500"
+							to="true"></a-animation>	
+
+
+					</a-entity>
+				</a-entity>
+
+				<a-entity 	gui-item="type: flex-container; width: 2.5; height: 0.75;"
+							gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0"
+							position="0 0 -0.15"
+							visible="false" scale="1 0.001 0.001"
+				>
+					<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+							   	gui-interactable="clickAction: red;"
+								gui-button="text:Red; fontFamily:'Fira Sans';">
+					</a-entity>
+					<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+							   	gui-interactable="clickAction: blue;"
+								gui-button="text:Blue; fontFamily:'Fira Sans';">
+					</a-entity>
+					<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+							   	gui-interactable="clickAction: green;"
+								gui-button="text:Green; fontFamily:'Fira Sans';">
+					</a-entity>
+					<a-entity 	gui-item="type: icon-button;  height: 0.5;"
+							  	gui-interactable="clickAction: closeDropdown;"
+								gui-icon-button="
+									icon:android-close;
+								"
+					>
+					</a-entity>
+
+					<a-animation attribute="scale" id="dropvalani"
+						begin="opendropdown"
+						dur="1000"
+						fill="forwards"
+						to="1 1 1"></a-animation>	
+					<a-animation attribute="position" id="dropvalani1"
+						begin="opendropdown"
+						dur="1000"
+						fill="forwards"
+						to="0 0.375 0.15"></a-animation>						
+					<a-animation attribute="visible" id="dropvalani2"
+						begin="opendropdown"
+						fill="forwards"
+						dur="100"						
+						to="true"></a-animation>						
+
+					<a-animation attribute="scale" id="dropvalaniback"
+						begin="closedropdown"
+						dur="1000"
+						fill="forwards"
+						to="1 0.001 0.001"></a-animation>	
+					<a-animation attribute="position" id="dropvalani1back"
+						begin="closedropdown"
+						dur="1000"
+						fill="forwards"
+						to="0 0 -0.15"></a-animation>						
+					<a-animation attribute="visible" id="dropvalani2back"
+						begin="closedropdown"
+						fill="forwards"
+						delay="500"
+						dur="100"						
+						to="false"></a-animation>						
+
+
+				</a-entity>
+
+
+			</a-entity>
+		</a-entity>
+
+
+
+
+		<!-- Camera + cursor. -->
+		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
+
+			<a-entity id="cursor"
+					  raycaster="interval: 1000; objects: [gui-interactable]"
+					  cursor="fuse: true; fuseTimeout: 2000"
+					  gui-cursor=""
+					  position="0 0 -1"
+					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
+					  material="color: #ffffff; shader: flat"
+			>
+			</a-entity> <!-- /cursor -->
+
+		</a-entity> <!-- /camera -->
+
+	</a-scene>
+
+	<script>
+		window.closeDropdown = function() {
+			console.log("closedropdown");
+			var animateDropdown = document.getElementById("dropaniback");
+            animateDropdown.emit('closedropdown');
+			var animateDropdown1 = document.getElementById("dropani1back");
+            animateDropdown1.emit('closedropdown');
+
+			var animateDropdownVal = document.getElementById("dropvalaniback");
+			var animateDropdownVal1 = document.getElementById("dropvalani1back");
+			var animateDropdownVal2 = document.getElementById("dropvalani2back");
+            animateDropdownVal.emit('closedropdown');
+            animateDropdownVal1.emit('closedropdown');
+            animateDropdownVal2.emit('closedropdown');
+
+		}
+		window.openDropdown = function() {
+			console.log("opendropdown");
+			var animateDropdown = document.getElementById("dropani");
+            animateDropdown.emit('opendropdown');
+			var animateDropdown1 = document.getElementById("dropani1");
+            animateDropdown1.emit('opendropdown');
+
+			var animateDropdownVal = document.getElementById("dropvalani");
+			var animateDropdownVal1 = document.getElementById("dropvalani1");
+			var animateDropdownVal2 = document.getElementById("dropvalani2");
+            animateDropdownVal.emit('opendropdown');
+            animateDropdownVal1.emit('opendropdown');
+            animateDropdownVal2.emit('opendropdown');
+		}
+	
+		window.red = function() {
+			var knot = document.getElementById("knot");
+			knot.setAttribute('material', 'color', '#DC2531');
+		}
+		window.green = function() {
+			var knot = document.getElementById("knot");
+			knot.setAttribute('material', 'color', '#69FFD2');		
+		}		
+		window.blue = function() {
+			var knot = document.getElementById("knot");
+			knot.setAttribute('material', 'color', '#1FA4E9');
+		}
+
+
+
+	</script>
+
+</body>
+</html>
