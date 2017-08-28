@@ -9,7 +9,6 @@ AFRAME.registerComponent('gui-cursor', {
     init: function () {
         var cursor = this.cursor = this.el.getAttribute('cursor');
         var fuse = this.fuse = cursor.fuse; // true if cursor fuse is enabled.
-//        var fuse = this.fuse = false; // true if cursor fuse is enabled.
         var fuseTimeout = cursor.fuseTimeout; // animation lenght should be based on this value
 
         var el = this.el;

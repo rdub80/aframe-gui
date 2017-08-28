@@ -23,3 +23,41 @@ Run the following start the webpack-dev-server:
 
 The webpack-dev-server should now be running at http://localhost:8080
 
+
+--- 
+
+
+## <a-gui-cursor> Component
+
+### Properties
+
+| Property    | Description                                               | Default Value |
+| --------    | -------------------------------------------------------   | ------------- |
+| color       |                                                           | key_white     |
+| hoverColor  |                                                           | key_white     |
+| activeColor |                                                           | key_orange    |
+| distance    |                                                           | -1            |
+| design      | choose a design: 'dot', 'ring', 'cross' or 'reticle'      | 'dot'         |
+
+
+```html
+		<!-- Camera + cursor. -->
+		<a-entity camera>
+			<a-entity raycaster="interval: 1000; objects: [gui-interactable]"
+					  cursor="fuse: true; fuseTimeout: 2000"
+					  gui-cursor="design:reticle;" >
+			</a-entity> <!-- /cursor -->
+		</a-entity> <!-- /camera -->
+```
+
+
+
+## <a-gui-button> Component
+
+### Properties
+
+| Property    | Description                                               | Default Value |
+| --------    | -------------------------------------------------------   | ------------- |
+| color       |                                                           | key_white     |
+
+
