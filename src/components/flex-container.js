@@ -1,6 +1,6 @@
 require('../scripts/vars.js')
 
-/*
+/*  //trying to figure out global styles that customize gui items
 var styles = StyleSheet.create({
     fontFamily: {
         type: 'string', 
