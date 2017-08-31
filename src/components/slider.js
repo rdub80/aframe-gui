@@ -1,12 +1,6 @@
 AFRAME.registerComponent('gui-slider', {
     schema: {
         percent: {type: 'number', default: '0.5'},
-        backgroundColor: {type: 'string', default: key_offwhite},
-        barColor: {type: 'string', default: key_grey},
-        activeColor: {type: 'string', default: key_orange},
-        handleContainerColor: {type: 'string', default: key_grey},
-        handleColor: {type: 'string', default: key_white},
-        hoverColor: {type: 'string', default: key_grey_light},
         handleOuterRadius: {type: 'number', default: '0.17'},
         handleInnerRadius: {type: 'number', default: '0.13'},
         handleOuterDepth: {type: 'number', default: '0.04'},
@@ -15,6 +9,12 @@ AFRAME.registerComponent('gui-slider', {
         sliderBarDepth: {type: 'number', default: '0.03'},
         leftRightPadding: {type: 'number', default: '0.25'},
         topBottomPadding: {type: 'number', default: '0.125'},
+
+        borderColor: {type: 'string', default: key_grey},
+        backgroundColor: {type: 'string', default: key_offwhite},
+        hoverColor: {type: 'string', default: key_grey_light},        
+        activeColor: {type: 'string', default: key_orange},
+        handleColor: {type: 'string', default: key_white},
     },
     init: function() {
 
@@ -35,13 +35,13 @@ AFRAME.registerComponent('gui-slider', {
 
         var sliderBar = document.createElement("a-entity");
         sliderBar.setAttribute('geometry', `primitive: box; width: ${sliderWidth - data.percent * sliderWidth}; height: ${data.sliderBarHeight}; depth: ${data.sliderBarDepth};`);
-        sliderBar.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.barColor};`);
+        sliderBar.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor};`);
         sliderBar.setAttribute('position', `${data.percent * sliderWidth * 0.5} 0 ${data.sliderBarDepth - 0.01}`);
         el.appendChild(sliderBar);
 
         var handleContainer = document.createElement("a-entity");
         handleContainer.setAttribute('geometry', `primitive: cylinder; radius: ${data.handleOuterRadius}; height: ${data.handleOuterDepth};`);
-        handleContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.handleContainerColor};`);
+        handleContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor};`);
         handleContainer.setAttribute('rotation', '90 0 0');
         handleContainer.setAttribute('position', `${data.percent*sliderWidth - sliderWidth*0.5} 0 ${data.handleOuterDepth - 0.01}`);
         el.appendChild(handleContainer);

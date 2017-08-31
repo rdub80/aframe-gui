@@ -1,14 +1,15 @@
 AFRAME.registerComponent('gui-button', {
     schema: {
         on: {default: 'click'},
+        toggle: {type: 'boolean', default: false},
         text: {type: 'string', default: 'text'},
-        fontColor: {type: 'string', default: key_offwhite},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
-        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
@@ -76,7 +77,7 @@ AFRAME.registerComponent('gui-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            if (this.toggleState == false) {
+            if (!(data.toggle)) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });
@@ -87,7 +88,7 @@ AFRAME.registerComponent('gui-button', {
             }else{
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-            this.toggleState = !(this.toggleState);
+//            this.toggleState = !(this.toggleState);
 
 //            console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");

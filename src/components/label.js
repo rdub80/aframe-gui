@@ -2,8 +2,9 @@ AFRAME.registerComponent('gui-label', {
     schema: {
         text: {type: 'string', default: 'label text'},
         labelFor: {type: 'selector', default: null},
-        fontColor: {type: 'string', default: key_grey_dark},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_grey_dark},
         backgroundColor: {type: 'string', default: key_offwhite},
     },
     init: function() {
