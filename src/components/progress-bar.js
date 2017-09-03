@@ -3,8 +3,9 @@ AFRAME.registerComponent('gui-progressbar', {
         type: {type: 'string'},
         width: {type: 'number', default: 1},
         height: {type: 'number', default: 1},
+
         backgroundColor: {type: 'string', default: key_grey},
-        activeColor: {type: 'string', default: key_orange}
+        activeColor: {type: 'string', default: key_orange},
     },
     init: function () {
 

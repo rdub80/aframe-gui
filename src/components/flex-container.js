@@ -1,5 +1,38 @@
 require('../scripts/vars.js')
 
+/*  //trying to figure out global styles that customize gui items
+var styles = StyleSheet.create({
+    fontFamily: {
+        type: 'string', 
+        default: 'Helvetica'
+    },
+    fontColor: {
+        type: 'string', 
+        default: key_offwhite
+    },
+    borderColor: {
+        type: 'string', 
+        default: key_offwhite
+    },
+    backgroundColor: {
+        type: 'string', 
+        default: key_grey
+    },
+    hoverColor: {
+        type: 'string', 
+        default: key_grey_dark
+    },
+    activeColor: {
+        type: 'string', 
+        default: key_orange
+    },
+    handleColor: {
+        type: 'string', 
+        default: key_offwhite
+    },            
+});
+*/
+
 AFRAME.registerComponent('gui-flex-container', {
     schema: {
         flexDirection: { type: 'string', default: 'row' },
@@ -7,10 +40,20 @@ AFRAME.registerComponent('gui-flex-container', {
         alignItems: { type: 'string', default: 'flexStart' },
         itemPadding: { type: 'number', default: 0.0 },
         opacity: { type: 'number', default: 0.0 },
-        fontColor: {type: 'string', default: key_offwhite},
-        borderColor: {type: 'string', default: key_offwhite},
-        backgroundColor: {type: 'string', default: key_grey},
         isTopContainer: {type: 'boolean', default: false},
+        panelColor: {type: 'string', default: key_grey},
+
+//global settings for GUI items
+        styles: {
+            fontFamily: {type: 'string', default: 'Helvetica'},
+            fontColor: {type: 'string', default: key_offwhite},
+            borderColor: {type: 'string', default: key_offwhite},
+            backgroundColor: {type: 'string', default: key_grey},
+            hoverColor: {type: 'string', default: key_grey_dark},
+            activeColor: {type: 'string', default: key_orange},
+            handleColor: {type: 'string', default: key_offwhite},            
+        }
+
     },
     init: function () {
         console.log("in aframe-gui-component init for: "+this.el.getAttribute("id"));
@@ -21,7 +64,7 @@ AFRAME.registerComponent('gui-flex-container', {
         }
 
         this.el.setAttribute('geometry', `primitive: plane; height: ${containerGuiItem.height}; width: ${containerGuiItem.width};`);
-        this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; color: ${this.data.backgroundColor}; side:front;`);
+        this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; color: ${this.data.panelColor}; side:front;`);
 
         this.children = this.el.getChildEntities();
         console.log("childElements: "+this.children);
@@ -141,8 +184,8 @@ AFRAME.registerComponent('gui-flex-container', {
             var panelBackground = document.createElement("a-entity");
 
             panelBackground.setAttribute('geometry', `primitive: box; height: ${guiItem.height}; width: ${guiItem.width}; depth:0.025;`);
-            console.log("about to set panel background color to: : " + this.data.backgroundColor);
-            panelBackground.setAttribute('material', `shader: standard; depthTest: true; opacity: ${this.data.opacity}; color: ${this.data.backgroundColor};`);
+            console.log("about to set panel background color to: : " + this.data.panelColor);
+            panelBackground.setAttribute('material', `shader: standard; depthTest: true; opacity: ${this.data.opacity}; color: ${this.data.panelColor};`);
             panelBackground.setAttribute('position', this.el.getAttribute("position").x + ' ' + this.el.getAttribute("position").y + ' ' + (this.el.getAttribute("position").z - 0.0125));
             panelBackground.setAttribute('rotation', this.el.getAttribute("rotation").x + ' ' + this.el.getAttribute("rotation").y + ' ' + this.el.getAttribute("rotation").z);
             this.el.parentNode.insertBefore(panelBackground, this.el);

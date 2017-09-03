@@ -4,13 +4,14 @@ AFRAME.registerComponent('gui-icon-label-button', {
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
         text: {type: 'string', default: ''},
-        fontColor: {type: 'string', default: key_offwhite},
+        toggle: {type: 'boolean', default: false},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
-        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
@@ -115,7 +116,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            if (this.toggleState == false) {
+            if (!(data.toggle)) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });

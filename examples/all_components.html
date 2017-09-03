@@ -78,7 +78,7 @@
 			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
 					   	gui-interactable="clickAction: testButtonAction;"
 						gui-button="
-							text:label button button button button button;
+							text:test button label;
 							fontFamily:'Fira Sans';
 						"
 			>
@@ -165,7 +165,8 @@
 
 			<a-entity 	gui-item="type: slider; width: 2.5; height: 0.75;"
 					  	gui-interactable="clickAction: testSliderAction;"
-						gui-slider="percent:0.29;
+						gui-slider="
+							percent:0.29;
 						"
 			>
 			</a-entity>
@@ -187,10 +188,7 @@
 			<a-entity id="cursor"
 					  raycaster="interval: 1000; objects: [gui-interactable]"
 					  cursor="fuse: true; fuseTimeout: 2000"
-					  gui-cursor=""
-					  position="0 0 -1"
-					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
-					  material="color: #ffffff; shader: flat"
+					  gui-cursor="design:reticle;"
 			>
 			</a-entity> <!-- /cursor -->
 

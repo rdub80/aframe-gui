@@ -1,13 +1,14 @@
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         count: {type: 'number', default: '100'},
-        fontColor: {type: 'string', default: key_grey},
+        toggle: {type: 'boolean', default: false},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
-        borderColor: {type: 'string', default: key_offwhite},
-        backgroundColor: {type: 'string', default: key_grey},
+        fontColor: {type: 'string', default: key_grey},
+        borderColor: {type: 'string', default: key_grey},
+        backgroundColor: {type: 'string', default: key_offwhite},
         hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
-        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
@@ -34,13 +35,13 @@ AFRAME.registerComponent('gui-circle-loader', {
         var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
-        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:back; color:${data.backgroundColor};`);
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:back; color:${data.backgroundColor};`);
 
         drawText(ctx, canvas, data.count+'%', '110px ' + data.fontFamily, data.fontColor, 1);
 
         var loaderContainer = document.createElement("a-entity");
         loaderContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
-        loaderContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
+        loaderContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.backgroundColor}`);
         loaderContainer.setAttribute('rotation', '90 0 0');
         loaderContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(loaderContainer);

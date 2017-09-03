@@ -2,14 +2,15 @@ AFRAME.registerComponent('gui-input', {
     schema: {
         on: {default: 'click'},
         inputText: {type: 'string', default: 'Placeholder'},
-        fontColor: {type: 'string', default: key_grey_dark},
+        toggle: {type: 'boolean', default: false},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_grey_dark},
         borderHoverColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
         hoverColor: {type: 'string', default: key_white},
         activeColor: {type: 'string', default: key_orange},
-        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
