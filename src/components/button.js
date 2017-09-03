@@ -123,3 +123,23 @@ AFRAME.registerComponent('gui-button', {
     },
 });
 
+
+AFRAME.registerPrimitive( 'a-gui-button', {
+    defaultComponents: {
+        'gui-button': {
+
+        }
+    },
+    mappings: {
+        on: 'gui-button.on',
+        text: 'gui-button.text',
+        fontColor: 'gui-button.fontColor',
+        fontFamily: 'gui-button.fontFamily',
+        borderColor: 'gui-button.borderColor',
+        backgroundColor: 'gui-button.backgroundColor',
+        hoverColor: 'gui-button.hoverColor',
+        activeColor: 'gui-button.activeColor',
+        toggle: 'gui-button.toggle'
+    }
+});
+

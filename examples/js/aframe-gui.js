@@ -105,7 +105,6 @@ window.getTextWidth = function (text, font) {
 
 window.drawText = function (ctx, canvas, text, font, color, size) {
     setTimeout(function () {
-
         ctx.font = font;
         ctx.fillStyle = color;
         ctx.textAlign = "center";
@@ -115,11 +114,20 @@ window.drawText = function (ctx, canvas, text, font, color, size) {
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
         ctx.scale(1, 1);
-        ctx.fillText(text, canvas.width / 2, canvas.height / 2); // position x, y
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (text.match("char#")) {
+            var char = text.substring(text.indexOf('#') + 1);
+            ctx.fillText(String.fromCharCode(char), canvas.width / 2, canvas.height / 2); // position x, y
+        } else {
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2); // position x, y
+        }
     }, 500); // callback when font is loaded needed
 };
 
-window.drawIcon = function (ctx, canvas, icon, color, size) {
+window.drawIcon = function (ctx, canvas, icon, color) {
+    var size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
+
     setTimeout(function () {
         ctx.font = '240px Ionicons';
         ctx.fillStyle = color;
@@ -129,7 +137,9 @@ window.drawIcon = function (ctx, canvas, icon, color, size) {
         ctx.shadowBlur = 8;
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
-        ctx.scale(1, 1);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.scale(size, size);
 
         console.log("icon" + icon);
         if (icon_font[icon]) {
@@ -142,7 +152,6 @@ window.drawIcon = function (ctx, canvas, icon, color, size) {
 
 window.drawLabel = function (ctx, canvas, text, font, color, size) {
     setTimeout(function () {
-
         ctx.font = font;
         ctx.fillStyle = color;
         ctx.textAlign = "left";
@@ -151,6 +160,8 @@ window.drawLabel = function (ctx, canvas, text, font, color, size) {
         ctx.shadowBlur = 8;
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         ctx.scale(1, 1);
         ctx.fillText(text, canvas.height / 8, canvas.height / 2); // position x, y
     }, 500); // callback when font is loaded needed
@@ -183,13 +194,18 @@ AFRAME.registerComponent('gui-button', {
         var multiplier = 350;
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
+        var toggleState = this.toggleState = data.toggle;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
 
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -213,6 +229,14 @@ AFRAME.registerComponent('gui-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
+        var buttonAnimation = document.createElement("a-animation");
+        buttonAnimation.setAttribute('attribute', 'material.color');
+        buttonAnimation.setAttribute('begin', 'fadeOut');
+        buttonAnimation.setAttribute('from', data.activeColor);
+        buttonAnimation.setAttribute('to', data.backgroundColor);
+        buttonAnimation.setAttribute('dur', '400');
+        buttonEntity.appendChild(buttonAnimation);
+
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
         textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
@@ -227,17 +251,23 @@ AFRAME.registerComponent('gui-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            if (!data.toggle) {
+            if (this.toggleState == false) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });
 
         el.addEventListener(data.on, function (evt) {
-            data.toggle = !data.toggle;
-            buttonEntity.setAttribute('material', 'color', data.activeColor);
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+            if (!data.toggle) {
+                // if not toggling flashing active state
+                buttonEntity.emit('fadeOut');
+            } else {
+                buttonEntity.setAttribute('material', 'color', data.activeColor);
+            }
+            this.toggleState = !this.toggleState;
+
+            //            console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: " + guiInteractable);
+            //            console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
             console.log("clickActionFunctionName: " + clickActionFunctionName);
             // find object
@@ -249,14 +279,17 @@ AFRAME.registerComponent('gui-button', {
     },
     play: function play() {},
     update: function update(oldData) {
-        console.log("In button update, toggle: " + this.data.toggle);
+        console.log("In button update, toggle: " + this.toggleState);
     },
     setActiveState: function setActiveState(activeState) {
         console.log("in setActiveState function");
-        this.data.toggle = activeState;
+        this.data.toggle = this.toggleState = activeState;
         if (!activeState) {
             this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
         } else {}
+    },
+    setText: function setText(newText) {
+        drawText(this.ctx, this.canvas, newText, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
     }
 });
 
@@ -287,12 +320,18 @@ AFRAME.registerComponent('gui-circle-loader', {
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
+        canvas.className = 'visuallyhidden';
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -357,12 +396,18 @@ AFRAME.registerComponent('gui-circle-timer', {
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
+        canvas.className = 'visuallyhidden';
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -803,13 +848,19 @@ AFRAME.registerComponent('gui-icon-button', {
         var multiplier = 350;
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
+        var toggleState = this.toggleState = data.toggle;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
 
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvasIcon');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -831,6 +882,15 @@ AFRAME.registerComponent('gui-icon-button', {
         buttonEntity.setAttribute('rotation', '90 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(buttonEntity);
+        this.buttonEntity = buttonEntity;
+
+        var buttonAnimation = document.createElement("a-animation");
+        buttonAnimation.setAttribute('attribute', 'material.color');
+        buttonAnimation.setAttribute('begin', 'fadeOut');
+        buttonAnimation.setAttribute('from', data.activeColor);
+        buttonAnimation.setAttribute('to', data.backgroundColor);
+        buttonAnimation.setAttribute('dur', '400');
+        buttonEntity.appendChild(buttonAnimation);
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
@@ -838,23 +898,33 @@ AFRAME.registerComponent('gui-icon-button', {
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
+
         el.addEventListener('mouseenter', function () {
             buttonEntity.setAttribute('material', 'color', data.hoverColor);
         });
 
         el.addEventListener('mouseleave', function () {
-            if (!data.toggle) {
+            if (this.toggleState == false) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });
 
         el.addEventListener(data.on, function (evt) {
-            console.log('I was clicked at: ', evt.detail.intersection.point);
-            data.toggle = !data.toggle;
+            if (!data.toggle) {
+                // if not toggling flashing active state
+                buttonEntity.emit('fadeOut');
+            } else {
+                buttonEntity.setAttribute('material', 'color', data.activeColor);
+            }
+            this.toggleState = !this.toggleState;
+
+            //console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: " + guiInteractable);
+            //console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: " + clickActionFunctionName);
+            //console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -863,7 +933,9 @@ AFRAME.registerComponent('gui-icon-button', {
         });
     },
     play: function play() {},
-    update: function update(oldData) {}
+    update: function update(oldData) {
+        console.log("In button update, toggle: " + this.toggleState);
+    }
 });
 
 /***/ }),
@@ -878,7 +950,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         on: { default: 'click' },
         icon: { type: 'string', default: '' },
         iconActive: { type: 'string', default: '' },
-        text: { type: 'string', default: 'label' },
+        text: { type: 'string', default: '' },
         fontColor: { type: 'string', default: key_offwhite },
         fontFamily: { type: 'string', default: 'Helvetica' },
         borderColor: { type: 'string', default: key_offwhite },
@@ -892,6 +964,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        var toggleState = this.toggleState = data.toggle;
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; side:front; color:' + data.backgroundColor + ';');
@@ -911,61 +984,102 @@ AFRAME.registerComponent('gui-icon-label-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var multiplier = 350;
+        var buttonAnimation = document.createElement("a-animation");
+        buttonAnimation.setAttribute('attribute', 'material.color');
+        buttonAnimation.setAttribute('begin', 'fadeOut');
+        buttonAnimation.setAttribute('from', data.activeColor);
+        buttonAnimation.setAttribute('to', data.backgroundColor);
+        buttonAnimation.setAttribute('dur', '400');
+        buttonEntity.appendChild(buttonAnimation);
+
+        var multiplier = 550;
+        if (data.text != '') {
+            multiplier = 350;
+        }
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
 
         var iconCanvasWidth = guiItem.height * multiplier; //square
         var iconCanvasHeight = guiItem.height * multiplier;
         var iconCanvas = document.createElement("canvas");
         this.iconCanvas = iconCanvas;
+        iconCanvas.className = "visuallyhidden";
         iconCanvas.setAttribute('width', iconCanvasWidth);
         iconCanvas.setAttribute('height', iconCanvasHeight);
         iconCanvas.id = getUniqueId('canvasIcon');
-        document.body.appendChild(iconCanvas);
+        canvasContainer.appendChild(iconCanvas);
 
         var ctxIcon = this.ctxIcon = iconCanvas.getContext('2d');
         drawIcon(ctxIcon, iconCanvas, data.icon, data.fontColor, 1);
 
-        var iconEntityX = -guiItem.width * 0.5 + guiItem.height * 0.5;
+        var iconEntityX = 0;
+        if (data.text != '') {
+            iconEntityX = -guiItem.width * 0.5 + guiItem.height * 0.5;
+        }
+
         var iconEntity = document.createElement("a-entity");
-        iconEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
+
+        if (data.text != '') {
+            iconEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
+        } else {
+            iconEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 2 + '; height: ' + guiItem.height / 2 + ';');
+        }
         iconEntity.setAttribute('material', 'shader: flat; src: #' + iconCanvas.id + '; transparent: true; opacity: 1; side:front;');
         iconEntity.setAttribute('position', iconEntityX + ' 0 0.041');
         el.appendChild(iconEntity);
 
-        var labelWidth = guiItem.width - guiItem.height;
-        var canvasWidth = labelWidth * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-        var labelCanvas = document.createElement("canvas");
-        this.labelCanvas = labelCanvas;
-        labelCanvas.setAttribute('width', canvasWidth);
-        labelCanvas.setAttribute('height', canvasHeight);
-        labelCanvas.id = getUniqueId('canvasLabel');
-        document.body.appendChild(labelCanvas);
+        if (data.text != '') {
 
-        var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, data.text, '100px ' + data.fontFamily, data.fontColor);
+            var labelWidth = guiItem.width - guiItem.height;
+            var canvasWidth = labelWidth * multiplier;
+            var canvasHeight = guiItem.height * multiplier;
+            var labelCanvas = document.createElement("canvas");
+            this.labelCanvas = labelCanvas;
+            labelCanvas.setAttribute('width', canvasWidth);
+            labelCanvas.setAttribute('height', canvasHeight);
+            labelCanvas.id = getUniqueId('canvasLabel');
+            canvasContainer.appendChild(labelCanvas);
 
-        var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
-        var labelEntity = document.createElement("a-entity");
-        labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
-        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
-        labelEntity.setAttribute('position', labelEntityX + ' 0 0.041');
-        el.appendChild(labelEntity);
+            var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
+            drawLabel(this.ctxLabel, this.labelCanvas, data.text, '100px ' + data.fontFamily, data.fontColor);
+
+            var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
+            var labelEntity = document.createElement("a-entity");
+            labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
+            labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
+            labelEntity.setAttribute('position', labelEntityX + ' 0 0.041');
+            el.appendChild(labelEntity);
+        }
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
 
         el.addEventListener('mouseenter', function () {
             buttonEntity.setAttribute('material', 'color', data.hoverColor);
         });
 
         el.addEventListener('mouseleave', function () {
-            buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            if (this.toggleState == false) {
+                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            }
         });
 
         el.addEventListener(data.on, function (evt) {
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+            if (!data.toggle) {
+                // if not toggling flashing active state
+                buttonEntity.emit('fadeOut');
+            } else {
+                buttonEntity.setAttribute('material', 'color', data.activeColor);
+            }
+            this.toggleState = !this.toggleState;
+
+            //            console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: " + guiInteractable);
+            //            console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: " + clickActionFunctionName);
+            //            console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -974,7 +1088,9 @@ AFRAME.registerComponent('gui-icon-label-button', {
         });
     },
     play: function play() {},
-    update: function update(oldData) {}
+    update: function update(oldData) {
+        console.log("In button update, toggle: " + this.toggleState);
+    }
 });
 
 /***/ }),
@@ -1006,12 +1122,17 @@ AFRAME.registerComponent('gui-input', {
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -1046,6 +1167,9 @@ AFRAME.registerComponent('gui-input', {
         borderRightEntity.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
         borderRightEntity.setAttribute('position', guiItem.width / 2 - 0.025 + ' 0 0.01');
         el.appendChild(borderRightEntity);
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'input');
 
         el.addEventListener('mouseenter', function () {
             el.setAttribute('material', 'color', data.hoverColor);
@@ -1090,14 +1214,32 @@ AFRAME.registerComponent('gui-input', {
 AFRAME.registerComponent('gui-interactable', {
     schema: {
         clickAction: { type: 'string' },
-        hoverAction: { type: 'string' }
+        hoverAction: { type: 'string' },
+        keyCode: { type: 'number', default: null }
     },
-    init: function init() {},
+    init: function init() {
+        var _this = this;
+        var data = this.data;
+        var el = this.el;
+
+        if (data.keyCode) {
+            window.addEventListener("keydown", function (event) {
+                if (event.keyCode == data.keyCode) {
+                    console.log("key press by gui-interactable : " + data.keyCode);
+                    el.emit('click');
+                }
+                event.preventDefault();
+            }, true);
+        }
+    },
     update: function update() {},
     tick: function tick() {},
     remove: function remove() {},
     pause: function pause() {},
-    play: function play() {}
+    play: function play() {},
+    setClickAction: function setClickAction(action) {
+        this.data.clickAction = action; //change function dynamically
+    }
 });
 
 /***/ }),
@@ -1146,12 +1288,17 @@ AFRAME.registerComponent('gui-label', {
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -1319,12 +1466,18 @@ AFRAME.registerComponent('gui-radio', {
         var multiplier = 350;
         var canvasWidth = labelWidth * multiplier;
         var canvasHeight = guiItem.height * multiplier;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var labelCanvas = document.createElement("canvas");
         this.labelCanvas = labelCanvas;
+        labelCanvas.className = "visuallyhidden";
         labelCanvas.setAttribute('width', canvasWidth);
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
-        document.body.appendChild(labelCanvas);
+        canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
         drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px ' + data.fontFamily, this.data.fontColor);
@@ -1558,12 +1711,18 @@ AFRAME.registerComponent('gui-toggle', {
         var multiplier = 350;
         var canvasWidth = labelWidth * multiplier;
         var canvasHeight = guiItem.height * multiplier;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var labelCanvas = document.createElement("canvas");
         this.labelCanvas = labelCanvas;
+        labelCanvas.className = "visuallyhidden";
         labelCanvas.setAttribute('width', canvasWidth);
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
-        document.body.appendChild(labelCanvas);
+        canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
         drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px ' + data.fontFamily, this.data.fontColor);
