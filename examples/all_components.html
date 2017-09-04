@@ -29,7 +29,7 @@
 		} 
 	</style>
 
-    <script src="../dist/aframe-gui.js"></script>
+    <script src="/js/aframe-gui.js"></script>
     <script src="js/fontfaceobserver.js"></script>
 	<script>
 	(function() {
@@ -75,15 +75,21 @@
 					rotation="0 0 0"
 		>
 
-			<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
+			<!--<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
 					   	gui-interactable="clickAction: testButtonAction;"
 						gui-button="
 							text:test button label;
 							fontFamily:'Fira Sans';
 						"
 			>
-			</a-entity>
-
+			</a-entity>-->
+			<a-gui-button width="2.5"
+						  height="0.75"
+						  margin="0 0 0.1 0"
+						  click-action="testButtonAction"
+						  key-code="32"
+						  button-text="test primitive"
+						  font-family="Fira Sans"></a-gui-button>
 			<a-entity  	gui-item="type: icon-label-button; width: 2.5; height: 0.75;"
 					   	gui-interactable="clickAction: testButtonAction;"
 						gui-icon-label-button="

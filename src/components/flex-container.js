@@ -194,3 +194,28 @@ AFRAME.registerComponent('gui-flex-container', {
     },
 });
 
+AFRAME.registerPrimitive( 'a-gui-flex-container', {
+    defaultComponents: {
+        'gui-item': { type: 'flex-container' },
+        'gui-flex-container': { }
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'flex-direction': 'gui-flex-container.flexDirection',
+        'justify-content': 'gui-flex-container.justifyContent',
+        'align-items': 'gui-flex-container.alignItems',
+        'item-padding': 'gui-flex-container.itemPadding',
+        'opacity': 'gui-flex-container.opacity',
+        'is-top-container': 'gui-flex-container.isTopContainer',
+        'panel-color': 'gui-flex-container.panelColor',
+        'font-family': 'gui-flex-container.style.fontFamily',
+        'font-color': 'gui-flex-container.style.fontColor',
+        'border-color': 'gui-flex-container.style.borderColor',
+        'background-color': 'gui-flex-container.style.backgroundColor',
+        'hover-color': 'gui-flex-container.style.hoverColor',
+        'active-color': 'gui-flex-container.style.activeColor',
+        'handle-color': 'gui-flex-container.style.handleColor',
+    }
+});

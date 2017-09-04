@@ -3,7 +3,6 @@ AFRAME.registerComponent('gui-button', {
         on: {default: 'click'},
         toggle: {type: 'boolean', default: false},
         text: {type: 'string', default: 'text'},
-
         fontFamily: {type: 'string', default: 'Helvetica'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
@@ -16,6 +15,9 @@ AFRAME.registerComponent('gui-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        console.log("in button, guiItem: "+JSON.stringify(guiItem));
+        var guiInteractable = el.getAttribute("gui-interactable");
+        console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 350;
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
@@ -24,7 +26,7 @@ AFRAME.registerComponent('gui-button', {
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
-
+        console.log("in gui-button init, data: "+JSON.stringify(data));
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
         canvas.setAttribute('width', canvasWidth);
@@ -91,10 +93,8 @@ AFRAME.registerComponent('gui-button', {
 //            this.toggleState = !(this.toggleState);
 
 //            console.log('I was clicked at: ', evt.detail.intersection.point);
-            var guiInteractable = el.getAttribute("gui-interactable");
-//            console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: "+clickActionFunctionName);
+            console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -127,20 +127,26 @@ AFRAME.registerComponent('gui-button', {
 
 AFRAME.registerPrimitive( 'a-gui-button', {
     defaultComponents: {
-        'gui-button': {
-
-        }
+        'gui-interactable': { },
+        'gui-item': { type: 'button' },
+        'gui-button': { }
     },
     mappings: {
-        on: 'gui-button.on',
-        text: 'gui-button.text',
-        fontColor: 'gui-button.fontColor',
-        fontFamily: 'gui-button.fontFamily',
-        borderColor: 'gui-button.borderColor',
-        backgroundColor: 'gui-button.backgroundColor',
-        hoverColor: 'gui-button.hoverColor',
-        activeColor: 'gui-button.activeColor',
-        toggle: 'gui-button.toggle'
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-button.on',
+        'button-text': 'gui-button.text',
+        'font-color': 'gui-button.fontColor',
+        'font-family': 'gui-button.fontFamily',
+        'border-color': 'gui-button.borderColor',
+        'background-color': 'gui-button.backgroundColor',
+        'hover-color': 'gui-button.hoverColor',
+        'active-color': 'gui-button.activeColor',
+        'toggle': 'gui-button.toggle'
     }
 });
 
