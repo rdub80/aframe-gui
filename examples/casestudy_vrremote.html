@@ -312,147 +312,154 @@
 
 		</a-entity>
 
-
-
-
-
-		<a-entity 	gui-item="type: flex-container; width: 14; height: 0.5;"
-					gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="0 0.85 -6"
+		<a-gui-flex-container
+			flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="12.5" height="0.5"
+			position="0 0.85 -6" rotation="0 0 0"
 		>
-			<a-entity  	gui-item="type: label; width: 1.5; height: 0.5;"
-						gui-label="text:Press; fontFamily:'Fira Sans';">
-			</a-entity>
+			<a-gui-label
+				width="1.75" height="0.5"
+				label-text="Press" font-family="Fira Sans">
+			</a-gui-label>
+			<a-gui-button
+				width="1.5" height="0.5"
+				click-action="triggerBtn" key-code="76"
+				button-text="Trigger(l)" font-family="Fira Sans">
+			</a-gui-button>
+			<a-gui-button  	
+				width="1.5" height="0.5"
+				click-action="powerBtn" key-code="79"
+				button-text="Power(o)" font-family="Fira Sans">
+			</a-gui-button>
+			<a-gui-button
+				width="0.75" height="0.5"
+				click-action="xBtn" key-code="89"
+				button-text="X(y)" font-family="Fira Sans">
+			</a-gui-button>
+			<a-gui-button
+				width="0.75" height="0.5"
+				click-action="yBtn" key-code="74"
+				button-text="Y(j)" font-family="Fira Sans">
+			</a-gui-button>
+			<a-gui-button
+				width="0.75" height="0.5"
+				click-action="aBtn" key-code="72"
+				button-text="A(h)" font-family="Fira Sans">
+			</a-gui-button>
+			<a-gui-button
+				width="0.75" height="0.5"
+				click-action="bBtn" key-code="85"
+				button-text="B(u)" font-family="Fira Sans">
+			</a-gui-button>
+			<a-gui-label
+				width="1.75" height="0.5"
+				label-text="W/A/D/X" font-family="Fira Sans">
+			</a-gui-label>
 
-			<a-gui-button  	width="1.5" height="0.5"
-					   	click-action="triggerBtn" key-code="76"
-						button-text="Trigger(l)" font-family="Fira Sans">
-			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="powerBtn" key-code="79"
-							 button-text="Power(o)" font-family="Fira Sans">
-			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="xBtn" key-code="89"
-							 button-text="X(y)" font-family="Fira Sans">
-			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="yBtn" key-code="74"
-							 button-text="Y(j)" font-family="Fira Sans">
-			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="aBtn" key-code="72"
-							 button-text="A(h)" font-family="Fira Sans">
-			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="bBtn" key-code="85"
-							 button-text="B(u)" font-family="Fira Sans">
-			</a-gui-button>
-			<a-entity  	gui-item="type: label; width: 1.75; height: 0.5;"
-						gui-label="text:W/A/D/X; fontFamily:'Fira Sans';">
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:upStick; keyCode:87;"
-						gui-icon-button="
-							icon:android-arrow-up;
-						"
+			<a-gui-icon-button
+				width="0.75" height="0.5"
+				click-action="upStick" key-code="87"
+				icon="android-arrow-up"
 			>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:downStick; keyCode:88;"
-						gui-icon-button="
-							icon:android-arrow-down;
-						"
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.5"
+				click-action="downStick" key-code="88"
+				icon="android-arrow-down"
 			>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:leftStick; keyCode:65;"
-						gui-icon-button="
-							icon:android-arrow-back;
-						"
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.5"
+				click-action="leftStick" key-code="65"
+				icon="android-arrow-back"
 			>
-			</a-entity>					
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:rightStick; keyCode:68;"
-						gui-icon-button="
-							icon:android-arrow-forward;
-						"
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.5"
+				click-action="rightStick" key-code="68"
+				icon="android-arrow-forward"
 			>
-			</a-entity>
-		</a-entity>
+			</a-gui-icon-button>
+		</a-gui-flex-container>
 
-		<a-entity 	gui-item="type: flex-container; width: 14; height: 0.5;"
-					gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="0 0.25 -6"
+		<a-gui-flex-container
+			flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="12.5" height="0.5"
+			position="0 0.25 -6" rotation="0 0 0"
 		>
-			<a-entity  	gui-item="type: label; width: 1.5; height: 0.5;"
-						gui-label="text:Release; fontFamily:'Fira Sans';">
-			</a-entity>
-
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="triggerBtnRelease" key-code="86"
-							 button-text="Trigger(v)" font-family="Fira Sans">
+			<a-gui-label
+				width="1.75" height="0.5"
+				label-text="Release" font-family="Fira Sans">
+			</a-gui-label>
+			<a-gui-button
+				width="1.5" height="0.5"
+				click-action="triggerBtnRelease" key-code="86"
+				button-text="Trigger(v)" font-family="Fira Sans">
 			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="powerBtnRelease" key-code="71"
-							 button-text="Power(g)" font-family="Fira Sans">
+			<a-gui-button
+				width="1.5" height="0.5"
+				click-action="powerBtnRelease" key-code="71"
+				button-text="Power(g)" font-family="Fira Sans">
 			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="yBtnRelease" key-code="78"
-							 button-text="Y(n)" font-family="Fira Sans">
+			<a-gui-button
+				width="0.75" height="0.5"
+				click-action="yBtnRelease" key-code="84"
+				button-text="X(t)" font-family="Fira Sans">
 			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="aBtnRelease" key-code="82"
-							 button-text="A(r)" font-family="Fira Sans">
+			<a-gui-button
+				width="0.75" height="0.5"
+				click-action="yBtnRelease" key-code="78"
+				button-text="Y(n)" font-family="Fira Sans">
 			</a-gui-button>
-			<a-gui-button  	width="1.5" height="0.5"
-							 click-action="bBtnRelease" key-code="70"
-							 button-text="B(f)" font-family="Fira Sans">
+			<a-gui-button
+				width="0.75" height="0.5"
+				click-action="aBtnRelease" key-code="82"
+				button-text="A(r)" font-family="Fira Sans">
 			</a-gui-button>
-			<a-entity  	gui-item="type: label; width: 1.75; height: 0.5;"
-						gui-label="text:E/Z/Q/C; fontFamily:'Fira Sans';">
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:centerStick; keyCode:69;"
-						gui-icon-button="
-							icon:android-arrow-up;
-						"
+			<a-gui-button
+				width="0.75" height="0.5"
+				click-action="bBtnRelease" key-code="70"
+				button-text="B(f)" font-family="Fira Sans">
+			</a-gui-button>
+			<a-gui-label
+				width="1.75" height="0.5"
+				label-text="E/Z/Q/C" font-family="Fira Sans">
+			</a-gui-label>
+			<a-gui-icon-button
+				width="0.75" height="0.5"
+				click-action="centerStick" key-code="69"
+				icon="android-arrow-up"
 			>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:centerStick; keyCode:90;"
-						gui-icon-button="
-							icon:android-arrow-down;
-						"
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.5"
+				click-action="centerStick" key-code="90"
+				icon="android-arrow-down"
 			>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:centerStick; keyCode:81;"
-						gui-icon-button="
-							icon:android-arrow-back;
-						"
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.5"
+				click-action="centerStick" key-code="81"
+				icon="android-arrow-back"
 			>
-			</a-entity>					
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:centerStick; keyCode:67;"
-						gui-icon-button="
-							icon:android-arrow-forward;
-						"
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.5"
+				click-action="centerStick" key-code="67"
+				icon="android-arrow-forward"
 			>
-			</a-entity>
-		</a-entity>
+			</a-gui-icon-button>
+		</a-gui-flex-container>
 
 
 		<!-- Camera + cursor. -->
-		<a-entity camera="userHeight: 1.6" look-controls="">
-
-			<a-entity id="cursor"
-					  raycaster="interval: 1000; objects: [gui-interactable]"
-					  cursor="fuse: true; fuseTimeout: 2000"
-					  gui-cursor=""
+		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
+			<a-gui-cursor id="cursor"
+				raycaster="interval: 1000; objects: [gui-interactable]"
+				fuse="true" fuseTimeout="2000"
+				design="dot"
 			>
-			</a-entity> <!-- /cursor -->
-
+			</a-gui-cursor> <!-- /cursor -->
 		</a-entity> <!-- /camera -->
 
 	</a-scene>
