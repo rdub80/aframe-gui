@@ -108,3 +108,23 @@ AFRAME.registerComponent('gui-circle-timer', {
     update: function (oldData) {
     },
 });
+
+AFRAME.registerPrimitive( 'a-gui-circle-timer', {
+    defaultComponents: {
+        'gui-item': { type: 'circle-timer' },
+        'gui-circle-timer': { }
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'count-down': 'gui-circle-timer.countDown',
+        'toggle': 'gui-circle-timer.toggle',
+        'font-family': 'gui-circle-timer.fontFamily',
+        'font-color': 'gui-circle-timer.fontColor',
+        'border-color': 'gui-circle-timer.borderColor',
+        'background-color': 'gui-circle-timer.backgroundColor',
+        'hover-color': 'gui-circle-timer.hoverColor',
+        'active-color': 'gui-circle-timer.activeColor'
+    }
+});

@@ -783,3 +783,15 @@ AFRAME.registerComponent('gui-cursor', {
     }
 });
 
+AFRAME.registerPrimitive( 'a-gui-cursor', {
+    defaultComponents: {
+        'gui-cursor': { }
+    },
+    mappings: {
+        'color': 'gui-cursor.color',
+        'hover-color': 'gui-cursor.hoverColor',
+        'active-color': 'gui-cursor.activeColor',
+        'distance': 'gui-cursor.distance',
+        'design': 'gui-cursor.design'
+    }
+});

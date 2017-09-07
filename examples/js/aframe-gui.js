@@ -330,7 +330,6 @@ AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         count: { type: 'number', default: '100' },
         toggle: { type: 'boolean', default: false },
-
         fontFamily: { type: 'string', default: 'Helvetica' },
         fontColor: { type: 'string', default: key_grey },
         borderColor: { type: 'string', default: key_grey },
@@ -394,6 +393,26 @@ AFRAME.registerComponent('gui-circle-loader', {
     },
     play: function play() {},
     update: function update(oldData) {}
+});
+
+AFRAME.registerPrimitive('a-gui-circle-loader', {
+    defaultComponents: {
+        'gui-item': { type: 'circle-loader' },
+        'gui-circle-loader': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'count': 'gui-circle-loader.count',
+        'toggle': 'gui-circle-loader.toggle',
+        'font-family': 'gui-circle-loader.fontFamily',
+        'font-color': 'gui-circle-loader.fontColor',
+        'border-color': 'gui-circle-loader.borderColor',
+        'background-color': 'gui-circle-loader.backgroundColor',
+        'hover-color': 'gui-circle-loader.hoverColor',
+        'active-color': 'gui-circle-loader.activeColor'
+    }
 });
 
 /***/ }),
@@ -504,6 +523,26 @@ AFRAME.registerComponent('gui-circle-timer', {
     },
     play: function play() {},
     update: function update(oldData) {}
+});
+
+AFRAME.registerPrimitive('a-gui-circle-timer', {
+    defaultComponents: {
+        'gui-item': { type: 'circle-timer' },
+        'gui-circle-timer': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'count-down': 'gui-circle-timer.countDown',
+        'toggle': 'gui-circle-timer.toggle',
+        'font-family': 'gui-circle-timer.fontFamily',
+        'font-color': 'gui-circle-timer.fontColor',
+        'border-color': 'gui-circle-timer.borderColor',
+        'background-color': 'gui-circle-timer.backgroundColor',
+        'hover-color': 'gui-circle-timer.hoverColor',
+        'active-color': 'gui-circle-timer.activeColor'
+    }
 });
 
 /***/ }),
@@ -1273,6 +1312,19 @@ AFRAME.registerComponent('gui-cursor', {
     }
 });
 
+AFRAME.registerPrimitive('a-gui-cursor', {
+    defaultComponents: {
+        'gui-cursor': {}
+    },
+    mappings: {
+        'color': 'gui-cursor.color',
+        'hover-color': 'gui-cursor.hoverColor',
+        'active-color': 'gui-cursor.activeColor',
+        'distance': 'gui-cursor.distance',
+        'design': 'gui-cursor.design'
+    }
+});
+
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1490,13 +1542,13 @@ AFRAME.registerPrimitive('a-gui-flex-container', {
         'opacity': 'gui-flex-container.opacity',
         'is-top-container': 'gui-flex-container.isTopContainer',
         'panel-color': 'gui-flex-container.panelColor',
-        'font-family': 'gui-flex-container.style.fontFamily',
-        'font-color': 'gui-flex-container.style.fontColor',
-        'border-color': 'gui-flex-container.style.borderColor',
-        'background-color': 'gui-flex-container.style.backgroundColor',
-        'hover-color': 'gui-flex-container.style.hoverColor',
-        'active-color': 'gui-flex-container.style.activeColor',
-        'handle-color': 'gui-flex-container.style.handleColor'
+        'font-family': 'gui-flex-container.styles.fontFamily',
+        'font-color': 'gui-flex-container.styles.fontColor',
+        'border-color': 'gui-flex-container.styles.borderColor',
+        'background-color': 'gui-flex-container.styles.backgroundColor',
+        'hover-color': 'gui-flex-container.styles.hoverColor',
+        'active-color': 'gui-flex-container.styles.activeColor',
+        'handle-color': 'gui-flex-container.styles.handleColor'
     }
 });
 
@@ -1616,6 +1668,32 @@ AFRAME.registerComponent('gui-icon-button', {
     play: function play() {},
     update: function update(oldData) {
         console.log("In button update, toggle: " + this.toggleState);
+    }
+});
+
+AFRAME.registerPrimitive('a-gui-icon-button', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'icon-button' },
+        'gui-icon-button': {}
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-icon-button.on',
+        'font-color': 'gui-icon-button.fontColor',
+        'font-family': 'gui-icon-button.fontFamily',
+        'border-color': 'gui-icon-button.borderColor',
+        'background-color': 'gui-icon-button.backgroundColor',
+        'hover-color': 'gui-icon-button.hoverColor',
+        'active-color': 'gui-icon-button.activeColor',
+        'toggle': 'gui-icon-button.toggle',
+        'icon': 'gui-icon-button.icon',
+        'icon-active': 'gui-icon-button.iconActive'
     }
 });
 
@@ -1775,6 +1853,33 @@ AFRAME.registerComponent('gui-icon-label-button', {
     }
 });
 
+AFRAME.registerPrimitive('a-gui-icon-label-button', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'icon-label-button' },
+        'gui-icon-label-button': {}
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-icon-label-button.on',
+        'font-color': 'gui-icon-label-button.fontColor',
+        'font-family': 'gui-icon-label-button.fontFamily',
+        'border-color': 'gui-icon-label-button.borderColor',
+        'background-color': 'gui-icon-label-button.backgroundColor',
+        'hover-color': 'gui-icon-label-button.hoverColor',
+        'active-color': 'gui-icon-label-button.activeColor',
+        'toggle': 'gui-icon-label-button.toggle',
+        'icon': 'gui-icon-label-button.icon',
+        'icon-active': 'gui-icon-label-button.iconActive',
+        'button-text': 'gui-icon-label-button.text'
+    }
+});
+
 /***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1885,6 +1990,32 @@ AFRAME.registerComponent('gui-input', {
     },
     play: function play() {},
     update: function update(oldData) {}
+});
+
+AFRAME.registerPrimitive('a-gui-input', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'input' },
+        'gui-input': {}
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-input.on',
+        'input-text': 'gui-input.inputText',
+        'toggle': 'gui-input.toggle',
+        'font-color': 'gui-input.fontColor',
+        'font-family': 'gui-input.fontFamily',
+        'border-color': 'gui-input.borderColor',
+        'border-hover-color': 'gui-input.borderHoverColor',
+        'background-color': 'gui-input.backgroundColor',
+        'hover-color': 'gui-input.hoverColor',
+        'active-color': 'gui-input.activeColor'
+    }
 });
 
 /***/ }),
@@ -2005,6 +2136,24 @@ AFRAME.registerComponent('gui-label', {
     }
 });
 
+AFRAME.registerPrimitive('a-gui-label', {
+    defaultComponents: {
+        'gui-item': { type: 'label' },
+        'gui-label': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-button.on',
+        'label-text': 'gui-label.text',
+        'label-for': 'gui-label.labelFor',
+        'font-color': 'gui-label.fontColor',
+        'font-family': 'gui-label.fontFamily',
+        'background-color': 'gui-label.backgroundColor'
+    }
+});
+
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2014,10 +2163,6 @@ AFRAME.registerComponent('gui-label', {
 
 AFRAME.registerComponent('gui-progressbar', {
     schema: {
-        type: { type: 'string' },
-        width: { type: 'number', default: 1 },
-        height: { type: 'number', default: 1 },
-
         backgroundColor: { type: 'string', default: key_grey },
         activeColor: { type: 'string', default: key_orange }
     },
@@ -2048,6 +2193,20 @@ AFRAME.registerComponent('gui-progressbar', {
     remove: function remove() {},
     pause: function pause() {},
     play: function play() {}
+});
+
+AFRAME.registerPrimitive('a-gui-progressbar', {
+    defaultComponents: {
+        'gui-item': { type: 'progressbar' },
+        'gui-progressbar': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'background-color': 'gui-progressbar.backgroundColor',
+        'active-color': 'gui-progressbar.activeColor'
+    }
 });
 
 /***/ }),
@@ -2211,6 +2370,33 @@ AFRAME.registerComponent('gui-radio', {
 
 });
 
+AFRAME.registerPrimitive('a-gui-radio', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'radio' },
+        'gui-radio': {}
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-radio.on',
+        'label-text': 'gui-radio.text',
+        'active': 'gui-radio.active',
+        'checked': 'gui-radio.checked',
+        'font-color': 'gui-radio.fontColor',
+        'font-family': 'gui-radio.fontFamily',
+        'border-color': 'gui-radio.borderColor',
+        'background-color': 'gui-radio.backgroundColor',
+        'hover-color': 'gui-radio.hoverColor',
+        'active-color': 'gui-radio.activeColor',
+        'handle-color': 'gui-radio.handleColor'
+    }
+});
+
 /***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -2315,6 +2501,36 @@ AFRAME.registerComponent('gui-slider', {
     remove: function remove() {},
     pause: function pause() {},
     play: function play() {}
+});
+
+AFRAME.registerPrimitive('a-gui-slider', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'slider' },
+        'gui-slider': {}
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'percent': 'gui-slider.percent',
+        'handle-outer-radius': 'gui-slider.handleOuterRadius',
+        'handle-inner-radius': 'gui-slider.handleInnerRadius',
+        'handle-outer-depth': 'gui-slider.handleOuterDepth',
+        'handle-inner-depth': 'gui-slider.handleInnerDepth',
+        'slider-bar-height': 'gui-slider.sliderBarHeight',
+        'slider-bar-depth': 'gui-slider.sliderBarDepth',
+        'left-right-padding': 'gui-slider.leftRightPadding',
+        'top-bottom-padding': 'gui-slider.topBottomPadding',
+        'border-color': 'gui-slider.borderColor',
+        'background-color': 'gui-slider.backgroundColor',
+        'hover-color': 'gui-slider.hoverColor',
+        'active-color': 'gui-slider.activeColor',
+        'handle-color': 'gui-slider.handleColor'
+    }
 });
 
 /***/ }),
@@ -2451,6 +2667,34 @@ AFRAME.registerComponent('gui-toggle', {
     updateToggle: function updateToggle(active) {
 
         if (active) {} else {}
+    }
+});
+
+AFRAME.registerPrimitive('a-gui-toggle', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'toggle' },
+        'gui-toggle': {}
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-toggle.on',
+        'active': 'gui-toggle.active',
+        'checked': 'gui-toggle.checked',
+        'label-text': 'gui-toggle.text',
+        'font-color': 'gui-toggle.fontColor',
+        'font-family': 'gui-toggle.fontFamily',
+        'border-width': 'gui-toggle.borderWidth',
+        'border-color': 'gui-toggle.borderColor',
+        'background-color': 'gui-toggle.backgroundColor',
+        'hover-color': 'gui-toggle.hoverColor',
+        'active-color': 'gui-toggle.activeColor',
+        'handle-color': 'gui-toggle.handleColor'
     }
 });
 

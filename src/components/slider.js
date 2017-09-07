@@ -105,3 +105,33 @@ AFRAME.registerComponent('gui-slider', {
     play: function () {
     },
 });
+
+AFRAME.registerPrimitive( 'a-gui-slider', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'slider' },
+        'gui-slider': { }
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'percent': 'gui-slider.percent',
+        'handle-outer-radius': 'gui-slider.handleOuterRadius',
+        'handle-inner-radius': 'gui-slider.handleInnerRadius',
+        'handle-outer-depth': 'gui-slider.handleOuterDepth',
+        'handle-inner-depth': 'gui-slider.handleInnerDepth',
+        'slider-bar-height': 'gui-slider.sliderBarHeight',
+        'slider-bar-depth': 'gui-slider.sliderBarDepth',
+        'left-right-padding': 'gui-slider.leftRightPadding',
+        'top-bottom-padding': 'gui-slider.topBottomPadding',
+        'border-color': 'gui-slider.borderColor',
+        'background-color': 'gui-slider.backgroundColor',
+        'hover-color': 'gui-slider.hoverColor',
+        'active-color': 'gui-slider.activeColor',
+        'handle-color': 'gui-slider.handleColor'
+    }
+});

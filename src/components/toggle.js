@@ -134,3 +134,31 @@ AFRAME.registerComponent('gui-toggle', {
     },
 });
 
+AFRAME.registerPrimitive( 'a-gui-toggle', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'toggle' },
+        'gui-toggle': { }
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-toggle.on',
+        'active': 'gui-toggle.active',
+        'checked': 'gui-toggle.checked',
+        'label-text': 'gui-toggle.text',
+        'font-color': 'gui-toggle.fontColor',
+        'font-family': 'gui-toggle.fontFamily',
+        'border-width': 'gui-toggle.borderWidth',
+        'border-color': 'gui-toggle.borderColor',
+        'background-color': 'gui-toggle.backgroundColor',
+        'hover-color': 'gui-toggle.hoverColor',
+        'active-color': 'gui-toggle.activeColor',
+        'handle-color': 'gui-toggle.handleColor'
+    }
+});
+

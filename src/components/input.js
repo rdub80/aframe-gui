@@ -109,3 +109,29 @@ AFRAME.registerComponent('gui-input', {
 
     },
 });
+
+AFRAME.registerPrimitive( 'a-gui-input', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'input' },
+        'gui-input': { }
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-input.on',
+        'input-text': 'gui-input.inputText',
+        'toggle': 'gui-input.toggle',
+        'font-color': 'gui-input.fontColor',
+        'font-family': 'gui-input.fontFamily',
+        'border-color': 'gui-input.borderColor',
+        'border-hover-color': 'gui-input.borderHoverColor',
+        'background-color': 'gui-input.backgroundColor',
+        'hover-color': 'gui-input.hoverColor',
+        'active-color': 'gui-input.activeColor',
+    }
+});

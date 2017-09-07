@@ -160,3 +160,29 @@ AFRAME.registerComponent('gui-radio', {
 
 });
 
+AFRAME.registerPrimitive( 'a-gui-radio', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'radio' },
+        'gui-radio': { }
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-radio.on',
+        'label-text': 'gui-radio.text',
+        'active': 'gui-radio.active',
+        'checked': 'gui-radio.checked',
+        'font-color': 'gui-radio.fontColor',
+        'font-family': 'gui-radio.fontFamily',
+        'border-color': 'gui-radio.borderColor',
+        'background-color': 'gui-radio.backgroundColor',
+        'hover-color': 'gui-radio.hoverColor',
+        'active-color': 'gui-radio.activeColor',
+        'handle-color': 'gui-radio.handleColor'
+    }
+});

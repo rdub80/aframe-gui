@@ -51,3 +51,20 @@ AFRAME.registerComponent('gui-label', {
     },
 });
 
+AFRAME.registerPrimitive( 'a-gui-label', {
+    defaultComponents: {
+        'gui-item': { type: 'label' },
+        'gui-label': { }
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-button.on',
+        'label-text': 'gui-label.text',
+        'label-for': 'gui-label.labelFor',
+        'font-color': 'gui-label.fontColor',
+        'font-family': 'gui-label.fontFamily',
+        'background-color': 'gui-label.backgroundColor'
+    }
+});

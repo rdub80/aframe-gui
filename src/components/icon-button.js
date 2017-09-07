@@ -115,3 +115,28 @@ AFRAME.registerComponent('gui-icon-button', {
     },
 });
 
+AFRAME.registerPrimitive( 'a-gui-icon-button', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'icon-button' },
+        'gui-icon-button': { }
+    },
+    mappings: {
+        'click-action': 'gui-interactable.clickAction',
+        'hover-action': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-icon-button.on',
+        'font-color': 'gui-icon-button.fontColor',
+        'font-family': 'gui-icon-button.fontFamily',
+        'border-color': 'gui-icon-button.borderColor',
+        'background-color': 'gui-icon-button.backgroundColor',
+        'hover-color': 'gui-icon-button.hoverColor',
+        'active-color': 'gui-icon-button.activeColor',
+        'toggle': 'gui-icon-button.toggle',
+        'icon': 'gui-icon-button.icon',
+        'icon-active': 'gui-icon-button.iconActive',
+    }
+});

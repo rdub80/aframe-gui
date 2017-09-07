@@ -69,8 +69,8 @@
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 
 
-		<a-entity 	gui-item="type: flex-container; width: 4; height: 5.5;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+		<a-gui-flex-container width="4" height="5.5"
+					flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7"
 					position="-2.25 3 -3"
 					rotation="0 0 0"
 		>
@@ -90,113 +90,93 @@
 						  key-code="32"
 						  button-text="test primitive"
 						  font-family="Fira Sans"></a-gui-button>
-			<a-entity  	gui-item="type: icon-label-button; width: 2.5; height: 0.75;"
-					   	gui-interactable="clickAction: testButtonAction;"
-						gui-icon-label-button="
-							icon:social-github;
-							text:label button;
-							fontFamily:'Fira Sans';
-						"
+
+			<a-gui-icon-label-button  width="2.5" height="0.75"
+					   	click-action="testButtonAction"
+						icon="social-github"
+						button-text="label button"
+						font-family="Fira Sans"
 			>
-			</a-entity>
+			</a-gui-icon-label-button>
 
 
-			<a-entity 	gui-item="type: toggle; width: 2.5; height: 0.75;"
-					  	gui-interactable="clickAction: testToggleAction;"
-						gui-toggle="
-							text:label toggle;
-							fontFamily:'Fira Sans';
-						"
+			<a-gui-toggle width="2.5" height="0.75"
+					  	click-action="testToggleAction"
+						label-text="label toggle"
+						  font-family="Fira Sans"
 			>
-			</a-entity>
+			</a-gui-toggle>
 
-			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
-					  	gui-interactable="clickAction: testButtonAction;"
-						gui-icon-button="
-							icon:social-twitter;
-						"
+			<a-gui-icon-button 	height="0.75"
+					  	click-action="testButtonAction"
+						icon="social-twitter"
 			>
-			</a-entity>
+			</a-gui-icon-button>
 
-			<a-entity 	gui-item="type: circle-loader; height: 0.75;"
-						gui-circle-loader="
-							fontFamily:'Fira Sans';
-						"
+			<a-gui-circle-loader height="0.75"
+						font-family="Fira Sans"
+
 			>
-			</a-entity>
+			</a-gui-circle-loader>
 
-		</a-entity>
+		</a-gui-flex-container>
 
 
-		<a-entity 	gui-item="type: flex-container; width: 4; height: 5.5;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
+		<a-gui-flex-container width="4" height="5.5"
+					flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7"
 					position="2.25 3 -3"
 					rotation="0 0 0"
 		>
 
 
-			<a-entity 	gui-item="type: label; width: 2.5; height: 0.75;"
-						gui-label="
-							text:label text;
-							fontFamily:'Fira Sans';
-						"
+			<a-gui-label width="2.5" height="0.75"
+						label-text="label text"
+						font-family="Fira Sans"
 			>
-			</a-entity>
+			</a-gui-label>
 
-			<a-entity 	gui-item="type: radio; width: 2.5; height: 0.75;"
-					  	gui-interactable="clickAction: testToggleAction;"
-						gui-radio="
-							text:label radio;
-							fontFamily:'Fira Sans';
-						"
+			<a-gui-radio width="2.5" height="0.75"
+					  	click-action="testToggleAction"
+						label-text="label radio"
+						font-family="Fira Sans"
 			>
-			</a-entity>
+			</a-gui-radio>
 
 
-			<a-entity 	gui-item="type: progressbar; width: 2.5; height: 0.25;"
-						gui-progressbar="
-						"
+			<a-gui-progressbar width="2.5" height="0.25"
 			>
-			</a-entity>
+			</a-gui-progressbar>
 
-
-
-			<a-entity 	gui-item="type: circle-timer; height: 0.75;"
-						gui-circle-timer="
-							countDown:5;
-							fontFamily:'Fira Sans';
-						"
+			<a-gui-circle-timer height="0.75"
+						count-down="5"
+						font-family="Fira Sans"
 			>
-			</a-entity>
+			</a-gui-circle-timer>
 
-			<a-entity 	gui-item="type: slider; width: 2.5; height: 0.75;"
-					  	gui-interactable="clickAction: testSliderAction;"
-						gui-slider="
-							percent:0.29;
-						"
+			<a-gui-slider 	width="2.5" height="0.75"
+					  	click-action="testSliderAction"
+						percent="0.29"
 			>
-			</a-entity>
+			</a-gui-slider>
 
-			<a-entity 	gui-item="type: input; width: 2.5; height: 0.75;"
-						gui-interactable="clickAction: testInputAction;"
-						gui-input="
-							fontFamily:'Fira Sans';
-							inputText:Hello Wor_;
-						"
+			<a-gui-input width="2.5" height="0.75"
+						click-action="testInputAction"
+						font-family="Fira Sans"
+						input-text="Hello Wor_"
 			>
-			</a-entity>
+			</a-gui-input>
 
-		</a-entity>
+		</a-gui-flex-container>
 
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
 
-			<a-entity id="cursor"
+			<a-gui-cursor id="cursor"
 					  raycaster="interval: 1000; objects: [gui-interactable]"
 					  cursor="fuse: true; fuseTimeout: 2000"
-					  gui-cursor="design:reticle;"
+					  design="reticle"
 			>
-			</a-entity> <!-- /cursor -->
+			</a-gui-cursor> <!-- /cursor -->
 
 		</a-entity> <!-- /camera -->
 
