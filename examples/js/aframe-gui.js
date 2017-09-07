@@ -1314,9 +1314,12 @@ AFRAME.registerComponent('gui-cursor', {
 
 AFRAME.registerPrimitive('a-gui-cursor', {
     defaultComponents: {
+        'cursor': {},
         'gui-cursor': {}
     },
     mappings: {
+        'fuse': 'cursor.fuse',
+        'fuse-timeout': 'cursor.fuseTimeout',
         'color': 'gui-cursor.color',
         'hover-color': 'gui-cursor.hoverColor',
         'active-color': 'gui-cursor.activeColor',
