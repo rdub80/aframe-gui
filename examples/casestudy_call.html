@@ -2,7 +2,7 @@
 <html>
 <head>
   	<meta charset="utf-8">
-  	<title>A-Frame GUI</title>
+  	<title>A-Frame GUI Call</title>
     <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 	<style type="text/css">
@@ -78,179 +78,138 @@
 		<a-sky src="#gradient"></a-sky>
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 
-		<a-entity 	gui-item="type: flex-container; width: 3; height: 2;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="-1.75 2 -5"
-					rotation="0 0 0"
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="3" height="2"
+			position="-1.75 2 -5" rotation="0 0 0"
 		>
-
-
-			<a-entity 	gui-item="type: label; width: 2.5; height: 0.75;"
-						gui-label="
-							text:Call A Friend!;
-							fontFamily:'Fira Sans';
-						"
+			<a-gui-label width="2.5" height="0.75"
+						label-text="Call A Friend!"
+						font-family="Fira Sans"
 			>
-			</a-entity>
-
-			<a-entity 	gui-item="type: input; width: 3; height: 0.75;"
-						gui-input="
-							fontFamily:'Fira Sans';
-							inputText:212 432 1234_;
-						"
+			</a-gui-label>
+			<a-gui-input width="3" height="0.75"
+						click-action="testInputAction"
+						font-family="Fira Sans"
+						input-text="212 432 1234_"
 			>
-			</a-entity>
-
-		</a-entity>
-
+			</a-gui-input>
+		</a-gui-flex-container>
 
 
-		<a-entity 	gui-item="type: flex-container; width: 1; height: 3.75;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="0.5 1.75 -5"
-					rotation="0 0 0"
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="0.75" height="3"
+			position="0.75 1.75 -5" rotation="0 0 0"
 		>
-
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickOne;"
-						gui-button="
-							text:1;
-							fontFamily:'Fira Sans';
-						"
-						position="0 0 0"
-			>	
-			</a-entity>
-
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickFour;"
-						gui-button="
-							text:4;
-							fontFamily:'Fira Sans';
-						"
-						position="0 0 0"
-
-			>	
-			</a-entity>
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickSeven;"
-						gui-button="
-							text:7;
-							fontFamily:'Fira Sans';
-						"
-			>	
-			</a-entity>
-
-			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
-					  	gui-interactable="clickAction: clear;"
-						gui-icon-button="
-							icon:android-delete;
-						"
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickOne"
+				button-text="1"
+				font-family="Fira Sans"
 			>
-			</a-entity>
-		</a-entity>
-
-		<a-entity 	gui-item="type: flex-container; width: 1; height: 3.75;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="1.5 1.75 -5"
-					rotation="0 0 0"
-		>
-
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickTwo;"
-						gui-button="
-							text:2;
-							fontFamily:'Fira Sans';
-						"
-						position="0 0 0"
-			>	
-			</a-entity>
-
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickFive;"
-						gui-button="
-							text:5;
-							fontFamily:'Fira Sans';
-						"
-						position="0 0 0"
-
-			>	
-			</a-entity>
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickEight;"
-						gui-button="
-							text:8;
-							fontFamily:'Fira Sans';
-						"
-			>	
-			</a-entity>
-
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickZero;"
-						gui-button="
-							text:0;
-							fontFamily:'Fira Sans';
-						"
-			>	
-			</a-entity>
-		</a-entity>
-
-		<a-entity 	gui-item="type: flex-container; width: 1; height: 3.75;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="2.5 1.75 -5"
-					rotation="0 0 0"
-		>
-
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickThree;"
-						gui-button="
-							text:3;
-							fontFamily:'Fira Sans';
-						"
-						position="0 0 0"
-			>	
-			</a-entity>
-
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickSix;"
-						gui-button="
-							text:6;
-							fontFamily:'Fira Sans';
-						"
-						position="0 0 0"
-
-			>	
-			</a-entity>
-			<a-entity 	gui-item="type: button; width: 0.75; height: 0.75;"
-					   	gui-interactable="clickAction: clickNine;"
-						gui-button="
-							text:9;
-							fontFamily:'Fira Sans';
-						"
-			>	
-			</a-entity>
-
-			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
-					  	gui-interactable="clickAction: call;"
-						gui-icon-button="
-							icon:android-call;
-						"
+			</a-gui-button>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickFour"
+				button-text="4"
+				font-family="Fira Sans"
 			>
-			</a-entity>
-		</a-entity>
+			</a-gui-button>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickSeven"
+				button-text="7"
+				font-family="Fira Sans"
+			>
+			</a-gui-button>
+			<a-gui-icon-button
+				height="0.75"
+				click-action="clear"
+				icon="android-delete"
+			>
+			</a-gui-icon-button>
+		</a-gui-flex-container>
 
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="0.75" height="3"
+			position="1.5 1.75 -5" rotation="0 0 0"
+		>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickTwo"
+				button-text="2"
+				font-family="Fira Sans"
+			>
+			</a-gui-button>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickFive"
+				button-text="5"
+				font-family="Fira Sans"
+			>
+			</a-gui-button>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickEight"
+				button-text="8"
+				font-family="Fira Sans"
+			>
+			</a-gui-button>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickZero"
+				button-text="0"
+				font-family="Fira Sans"
+			>
+			</a-gui-button>
+		</a-gui-flex-container>
 
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="0.75" height="3"
+			position="2.25 1.75 -5" rotation="0 0 0"
+		>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickThree"
+				button-text="3"
+				font-family="Fira Sans"
+			>
+			</a-gui-button>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickSix"
+				button-text="6"
+				font-family="Fira Sans"
+			>
+			</a-gui-button>
+			<a-gui-button 
+				width="0.75" height="0.75"
+				click-action="clickNine"
+				button-text="9"
+				font-family="Fira Sans"
+			>
+			</a-gui-button>
+			<a-gui-icon-button
+				height="0.75"
+				click-action="call"
+				icon="android-call"
+			>
+			</a-gui-icon-button>
+		</a-gui-flex-container>
 
 
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
-
-			<a-entity id="cursor"
-					  raycaster="interval: 1000; objects: [gui-interactable]"
-					  cursor="fuse: true; fuseTimeout: 2000"
-					  gui-cursor=""
+			<a-gui-cursor id="cursor"
+				raycaster="interval: 1000; objects: [gui-interactable]"
+				fuse="true" fuseTimeout="2000"
+				design="dot"
 			>
-			</a-entity> <!-- /cursor -->
-
+			</a-gui-cursor> <!-- /cursor -->
 		</a-entity> <!-- /camera -->
 
 	</a-scene>

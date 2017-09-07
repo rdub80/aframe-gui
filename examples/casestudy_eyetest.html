@@ -2,7 +2,7 @@
 <html>
 <head>
   	<meta charset="utf-8">
-  	<title>A-Frame GUI</title>
+  	<title>A-Frame GUI Eye Test</title>
     <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
 	<style type="text/css">
@@ -70,61 +70,6 @@
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 
 
-		<a-entity 	gui-item="type: flex-container; width: 1; height: 2.25;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="2 1.6 -4"
-					rotation="0 0 0"
-		>
-			<a-entity  	gui-item="type: label; width: 1; height: 0.5;"
-						gui-label="text:Size; fontFamily:'Fira Sans';">
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:sizeUp; keyCode:87;"
-						gui-icon-button="
-							icon:android-arrow-up;
-						"
-			>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:sizeDown; keyCode:88;"
-						gui-icon-button="
-							icon:android-arrow-down;
-						"
-			>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:sizeSubmit; keyCode:76;"
-						gui-icon-button="
-							icon:checkmark;
-						"
-			>
-			</a-entity>
-		</a-entity>
-
-		<a-entity 	gui-item="type: flex-container; width: 1; height: 1.75;"
-					gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="-2 0.75 -4"
-					rotation="-45 0 0"
-		>
-			<a-entity  	gui-item="type: label; width: 1; height: 0.5;"
-						gui-label="text:Dist.; fontFamily:'Fira Sans';">
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:backDown; keyCode:68;"
-						gui-icon-button="
-							icon:android-arrow-up;
-						"
-			>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-					  	gui-interactable="clickAction:closeUp; keyCode:65;"
-						gui-icon-button="
-							icon:android-arrow-down;
-						"
-			>
-			</a-entity>
-		</a-entity>		
-
   		<a-entity 	id="chart"	
   					geometry="primitive:plane; height:1; width:1;"
   					material="src:#snellen_chart; transparent:true;"
@@ -139,20 +84,70 @@
 		  			<a-box width="0.1" height="0.01" depth="0.04" color="#DC2531" rotation="0 0 0" position="-0.225 0 0"></a-box>
   			</a-box>
   		</a-entity>
-  		<!--
-  		<a-box width="1" height="1" depth="0.001" color="blue" position="0 1 -6"></a-box>
-		-->
+
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="1" height="2.25"
+			position="2 1.6 -4" rotation="0 0 0"
+		>
+			<a-gui-label width="1" height="0.5"
+						label-text="Size"
+						font-family="Fira Sans"
+			>
+			</a-gui-label>
+			<a-gui-icon-button
+				width="0.5" height="0.5"
+				click-action="sizeUp" key-code="87"
+				icon="android-arrow-up"
+			>
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.5" height="0.5"
+				click-action="sizeDown" key-code="88"
+				icon="android-arrow-down"
+			>
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.5" height="0.5"
+				click-action="sizeSubmit" key-code="76"
+				icon="checkmark"
+			>
+			</a-gui-icon-button>
+		</a-gui-flex-container>
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="1" height="1.75"
+			position="-2 0.75 -4" rotation="-45 0 0"
+		>
+			<a-gui-label width="1" height="0.5"
+						label-text="Dist."
+						font-family="Fira Sans"
+			>
+			</a-gui-label>
+			<a-gui-icon-button
+				width="0.5" height="0.5"
+				click-action="backDown" key-code="68"
+				icon="android-arrow-up"
+			>
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.5" height="0.5"
+				click-action="closeUp" key-code="65"
+				icon="android-arrow-down"
+			>
+			</a-gui-icon-button>
+		</a-gui-flex-container>		
 
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 1.6" look-controls="">
-
-			<a-entity id="cursor"
-					  raycaster="interval: 1000; objects: [gui-interactable]"
-					  cursor="fuse: true; fuseTimeout: 2000"
-					  gui-cursor=""
+			<a-gui-cursor id="cursor"
+				raycaster="interval: 1000; objects: [gui-interactable]"
+				fuse="true" fuseTimeout="2000"
+				design="ring"
 			>
-			</a-entity> <!-- /cursor -->
-
+			</a-gui-cursor> <!-- /cursor -->
 		</a-entity> <!-- /camera -->
 
 	</a-scene>
