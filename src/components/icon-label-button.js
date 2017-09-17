@@ -158,8 +158,8 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'gui-icon-label-button': { }
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
@@ -174,6 +174,6 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'toggle': 'gui-icon-label-button.toggle',
         'icon': 'gui-icon-label-button.icon',
         'icon-active': 'gui-icon-label-button.iconActive',
-        'button-text': 'gui-icon-label-button.text'
+        'value': 'gui-icon-label-button.text'
     }
 });

@@ -115,12 +115,12 @@ window.drawText = function (ctx, canvas, text, font, color, size) {
         ctx.shadowOffsetX = 0;
         ctx.scale(1, 1);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        if (text.match("char#")) {
-            var char = text.substring(text.indexOf('#') + 1);
+        var textString = text + '';
+        if (textString.match("char#")) {
+            var char = textString.substring(textString.indexOf('#') + 1);
             ctx.fillText(String.fromCharCode(char), canvas.width / 2, canvas.height / 2); // position x, y
         } else {
-            ctx.fillText(text, canvas.width / 2, canvas.height / 2); // position x, y
+            ctx.fillText(textString, canvas.width / 2, canvas.height / 2); // position x, y
         }
     }, 500); // callback when font is loaded needed
 };
@@ -301,14 +301,14 @@ AFRAME.registerPrimitive('a-gui-button', {
         'gui-button': {}
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-button.on',
-        'button-text': 'gui-button.text',
+        'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
         'font-family': 'gui-button.fontFamily',
         'border-color': 'gui-button.borderColor',
@@ -1681,8 +1681,8 @@ AFRAME.registerPrimitive('a-gui-icon-button', {
         'gui-icon-button': {}
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
@@ -1863,8 +1863,8 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
         'gui-icon-label-button': {}
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
@@ -1879,7 +1879,7 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
         'toggle': 'gui-icon-label-button.toggle',
         'icon': 'gui-icon-label-button.icon',
         'icon-active': 'gui-icon-label-button.iconActive',
-        'button-text': 'gui-icon-label-button.text'
+        'value': 'gui-icon-label-button.text'
     }
 });
 
@@ -2002,14 +2002,14 @@ AFRAME.registerPrimitive('a-gui-input', {
         'gui-input': {}
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-input.on',
-        'input-text': 'gui-input.inputText',
+        'value': 'gui-input.inputText',
         'toggle': 'gui-input.toggle',
         'font-color': 'gui-input.fontColor',
         'font-family': 'gui-input.fontFamily',
@@ -2149,7 +2149,7 @@ AFRAME.registerPrimitive('a-gui-label', {
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-button.on',
-        'label-text': 'gui-label.text',
+        'value': 'gui-label.text',
         'label-for': 'gui-label.labelFor',
         'font-color': 'gui-label.fontColor',
         'font-family': 'gui-label.fontFamily',
@@ -2380,14 +2380,14 @@ AFRAME.registerPrimitive('a-gui-radio', {
         'gui-radio': {}
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-radio.on',
-        'label-text': 'gui-radio.text',
+        'value': 'gui-radio.text',
         'active': 'gui-radio.active',
         'checked': 'gui-radio.checked',
         'font-color': 'gui-radio.fontColor',
@@ -2513,8 +2513,8 @@ AFRAME.registerPrimitive('a-gui-slider', {
         'gui-slider': {}
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
@@ -2680,8 +2680,8 @@ AFRAME.registerPrimitive('a-gui-toggle', {
         'gui-toggle': {}
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
@@ -2689,7 +2689,7 @@ AFRAME.registerPrimitive('a-gui-toggle', {
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
-        'label-text': 'gui-toggle.text',
+        'value': 'gui-toggle.text',
         'font-color': 'gui-toggle.fontColor',
         'font-family': 'gui-toggle.fontFamily',
         'border-width': 'gui-toggle.borderWidth',

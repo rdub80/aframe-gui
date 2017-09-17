@@ -132,14 +132,14 @@ AFRAME.registerPrimitive( 'a-gui-button', {
         'gui-button': { }
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-button.on',
-        'button-text': 'gui-button.text',
+        'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
         'font-family': 'gui-button.fontFamily',
         'border-color': 'gui-button.borderColor',

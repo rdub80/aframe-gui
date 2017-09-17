@@ -40,12 +40,12 @@ window.drawText = function(ctx, canvas, text, font, color, size) {
         ctx.shadowOffsetX = 0;
         ctx.scale(1, 1);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-		if (text.match("char#")) {
-			var char = text.substring(text.indexOf('#')+1);
+        var textString = text + ''
+		if (textString.match("char#")) {
+			var char = textString.substring(textString.indexOf('#')+1);
 	       	ctx.fillText(String.fromCharCode(char), canvas.width/2, canvas.height/2); // position x, y
         }else{
- 	       	ctx.fillText(text, canvas.width/2, canvas.height/2); // position x, y
+ 	       	ctx.fillText(textString, canvas.width/2, canvas.height/2); // position x, y
  	    }
 
     },500); // callback when font is loaded needed

@@ -141,8 +141,8 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'gui-toggle': { }
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
@@ -150,7 +150,7 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
-        'label-text': 'gui-toggle.text',
+        'value': 'gui-toggle.text',
         'font-color': 'gui-toggle.fontColor',
         'font-family': 'gui-toggle.fontFamily',
         'border-width': 'gui-toggle.borderWidth',

@@ -167,14 +167,14 @@ AFRAME.registerPrimitive( 'a-gui-radio', {
         'gui-radio': { }
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-radio.on',
-        'label-text': 'gui-radio.text',
+        'value': 'gui-radio.text',
         'active': 'gui-radio.active',
         'checked': 'gui-radio.checked',
         'font-color': 'gui-radio.fontColor',

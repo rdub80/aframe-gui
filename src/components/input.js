@@ -117,14 +117,14 @@ AFRAME.registerPrimitive( 'a-gui-input', {
         'gui-input': { }
     },
     mappings: {
-        'click-action': 'gui-interactable.clickAction',
-        'hover-action': 'gui-interactable.hoverAction',
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-input.on',
-        'input-text': 'gui-input.inputText',
+        'value': 'gui-input.inputText',
         'toggle': 'gui-input.toggle',
         'font-color': 'gui-input.fontColor',
         'font-family': 'gui-input.fontFamily',
