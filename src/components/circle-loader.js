@@ -1,12 +1,9 @@
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         count: {type: 'number', default: '100'},
-        toggle: {type: 'boolean', default: false},
         fontFamily: {type: 'string', default: 'Helvetica'},
         fontColor: {type: 'string', default: key_grey},
-        borderColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
-        hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
     },
     init: function() {
@@ -82,12 +79,9 @@ AFRAME.registerPrimitive( 'a-gui-circle-loader', {
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'count': 'gui-circle-loader.count',
-        'toggle': 'gui-circle-loader.toggle',
         'font-family': 'gui-circle-loader.fontFamily',
         'font-color': 'gui-circle-loader.fontColor',
-        'border-color': 'gui-circle-loader.borderColor',
         'background-color': 'gui-circle-loader.backgroundColor',
-        'hover-color': 'gui-circle-loader.hoverColor',
         'active-color': 'gui-circle-loader.activeColor'
     }
 });

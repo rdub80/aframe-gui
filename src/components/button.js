@@ -133,7 +133,7 @@ AFRAME.registerPrimitive( 'a-gui-button', {
     },
     mappings: {
         'onclick': 'gui-interactable.clickAction',
-        'onhover': 'gui-interactable.hoverAction',
+        'onhover': 'gui-intexractable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',

@@ -302,7 +302,7 @@ AFRAME.registerPrimitive('a-gui-button', {
     },
     mappings: {
         'onclick': 'gui-interactable.clickAction',
-        'onhover': 'gui-interactable.hoverAction',
+        'onhover': 'gui-intexractable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
@@ -329,12 +329,9 @@ AFRAME.registerPrimitive('a-gui-button', {
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         count: { type: 'number', default: '100' },
-        toggle: { type: 'boolean', default: false },
         fontFamily: { type: 'string', default: 'Helvetica' },
         fontColor: { type: 'string', default: key_grey },
-        borderColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
-        hoverColor: { type: 'string', default: key_grey_dark },
         activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
@@ -405,12 +402,9 @@ AFRAME.registerPrimitive('a-gui-circle-loader', {
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'count': 'gui-circle-loader.count',
-        'toggle': 'gui-circle-loader.toggle',
         'font-family': 'gui-circle-loader.fontFamily',
         'font-color': 'gui-circle-loader.fontColor',
-        'border-color': 'gui-circle-loader.borderColor',
         'background-color': 'gui-circle-loader.backgroundColor',
-        'hover-color': 'gui-circle-loader.hoverColor',
         'active-color': 'gui-circle-loader.activeColor'
     }
 });
@@ -425,13 +419,10 @@ AFRAME.registerPrimitive('a-gui-circle-loader', {
 AFRAME.registerComponent('gui-circle-timer', {
     schema: {
         countDown: { type: 'number', default: '10' },
-        toggle: { type: 'boolean', default: false },
-
         fontFamily: { type: 'string', default: 'Helvetica' },
         fontColor: { type: 'string', default: key_grey },
         borderColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
-        hoverColor: { type: 'string', default: key_grey_dark },
         activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
@@ -535,12 +526,10 @@ AFRAME.registerPrimitive('a-gui-circle-timer', {
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'count-down': 'gui-circle-timer.countDown',
-        'toggle': 'gui-circle-timer.toggle',
         'font-family': 'gui-circle-timer.fontFamily',
         'font-color': 'gui-circle-timer.fontColor',
         'border-color': 'gui-circle-timer.borderColor',
         'background-color': 'gui-circle-timer.backgroundColor',
-        'hover-color': 'gui-circle-timer.hoverColor',
         'active-color': 'gui-circle-timer.activeColor'
     }
 });

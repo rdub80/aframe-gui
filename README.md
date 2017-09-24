@@ -3,7 +3,7 @@
 A graphical User Interface framework for [A-Frame](https://aframe.io).
 
 
-![](https://lmalave.github.io/aframe-speech-command-component/examples/images/show_hide_menu.png)
+![](https://rawgit.com/rdub80/aframe-gui/master/examples/images/all_components.png)
 
 The `aframe-gui` components provide layout and gui widgets that can be used
 to create a user interface in an A-Frame scene. 
@@ -28,6 +28,13 @@ The `dist/aframe-gui.js` file defines the following components:
 | gui-slider            |  a-gui-slider            | Slider component   |
 | gui-toggle            |  a-gui-toggle            |  Toggle button  |
 
+
+## Examples
+
+Examples are available at:
+
+[https://rawgit.com/rdub80/aframe-gui/master/examples/index.html](https://rawgit.com/rdub80/aframe-gui/master/examples/index.html)
+ 
 
 ## Use in your AFrame project
 
@@ -57,22 +64,44 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 ### <a-gui-button> Component
 
+        
 #### Properties
 
-| Property    | Description                                               | Default Value |
-| --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
-
+| Property           | Description                                               | Default Value |
+| --------           | -------------------------------------------------------   | ------------- |
+| active-color       | Background color when button is pressed down              | #ed5b21       |
+| background-color   | Background color of button                                | #22252a       |
+| border-color       | Border color of button                                    | #d3d3d4       |
+| font-color         | Text color for button label                               | #d3d3d4       |
+| font-family        | Font family for button                                    | Helvetica     |
+| height             | Height of item                                          | 1             |
+| hover-color        | Background color when button is in hover state            | #2c3037       |
+| key-code           | Key shortcut to trigger onclick action                    |               |
+| margin             | Margin around button                                      | 0 0 0 0       |
+| on                 | Event that triggers onclick action                        | click         |
+| onclick            | Javascript function to execute on click                   |               |
+| onhover            | Javascript function to execute on click                   |               |
+| toggle             | If true, button acts as toggle button with on/off state   | false         |
+| value              | Text of button label                                      |               |
+| width              | Width of item                                           | 1             |
 
 
 
 ### <a-gui-circle-loader> Component
 
+
 #### Properties
 
-| Property    | Description                                               | Default Value |
-| --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+| Property           | Description                                               | Default Value |
+| --------           | -------------------------------------------------------   | ------------- |
+| active-color       | Color of ring that indicates loading progress             | #ed5b21       |
+| background-color   | Background color of item                         | #22252a       |
+| count              | Initial percentage progress value                         | #22252a       |
+| font-color         | Text color for progress percentage text                   | #d3d3d4       |
+| font-family        | Font family for progress percentage text                  | Helvetica     |
+| height             | Height of item                                 | 1             |
+| margin             | Margin around item                               | 0 0 0 0       |
+| width              | Width of item                                    | 1             |
 
 
 
@@ -80,9 +109,17 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 #### Properties
 
-| Property    | Description                                               | Default Value |
-| --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+| Property           | Description                                               | Default Value |
+| --------           | -------------------------------------------------------   | ------------- |
+| active-color       | Color of ring that indicates countdown progress           | #ed5b21       |
+| background-color   | Background color of item                                  | #22252a       |
+| border-color       | Color of indicators that show 25/50/75/100 progress       | #22252a       |
+| count-down         | Initial countdown value in seconds                        | #22252a       |
+| font-color         | Text color for progress countdown text                    | #d3d3d4       |
+| font-family        | Font family for progress countdown text                   | Helvetica     |
+| height             | Height of item                                            | 1             |
+| margin             | Margin around item                                        | 0 0 0 0       |
+| width              | Width of item                                             | 1             |
 
 
 
@@ -116,7 +153,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 
 
 
@@ -126,7 +163,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 
 
 
@@ -136,7 +173,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 
 
 
@@ -146,7 +183,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 
 
 ### <a-gui-label> Component
@@ -155,7 +192,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 
 
 ### <a-gui-progress-bar> Component
@@ -164,7 +201,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 
 
 ### <a-gui-radio> Component
@@ -173,7 +210,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 
 ### <a-gui-slider> Component
 
@@ -181,7 +218,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 
 
 ### <a-gui-toggle> Component
@@ -190,5 +227,5 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property    | Description                                               | Default Value |
 | --------    | -------------------------------------------------------   | ------------- |
-| color       |                                                           | key_white     |
+|             |                                                           |               |
 

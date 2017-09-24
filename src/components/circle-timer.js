@@ -1,13 +1,10 @@
 AFRAME.registerComponent('gui-circle-timer', {
     schema: {
         countDown: {type: 'number', default: '10'},
-        toggle: {type: 'boolean', default: false},
-
         fontFamily: {type: 'string', default: 'Helvetica'},
         fontColor: {type: 'string', default: key_grey},
         borderColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
-        hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
     },
     init: function() {
@@ -119,12 +116,10 @@ AFRAME.registerPrimitive( 'a-gui-circle-timer', {
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'count-down': 'gui-circle-timer.countDown',
-        'toggle': 'gui-circle-timer.toggle',
         'font-family': 'gui-circle-timer.fontFamily',
         'font-color': 'gui-circle-timer.fontColor',
         'border-color': 'gui-circle-timer.borderColor',
         'background-color': 'gui-circle-timer.backgroundColor',
-        'hover-color': 'gui-circle-timer.hoverColor',
         'active-color': 'gui-circle-timer.activeColor'
     }
 });
