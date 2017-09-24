@@ -3,7 +3,7 @@
 A graphical User Interface framework for [A-Frame](https://aframe.io).
 
 
-![](https://rawgit.com/rdub80/aframe-gui/master/examples/images/all_components.png)
+![](https://rdub80.github.io/aframe-gui/examples/images/all_components.png)
 
 The `aframe-gui` components provide layout and gui widgets that can be used
 to create a user interface in an A-Frame scene. 
@@ -33,7 +33,7 @@ The `dist/aframe-gui.js` file defines the following components:
 
 Examples are available at:
 
-[https://rawgit.com/rdub80/aframe-gui/master/examples/index.html](https://rawgit.com/rdub80/aframe-gui/master/examples/index.html)
+[https://rdub80.github.io/aframe-gui/examples/index.html](https://rdub80.github.io/aframe-gui/examples/index.html)
  
 
 ## Use in your AFrame project
