@@ -63,7 +63,5 @@ typings/
 .idea/modules.xml
 .idea/watcherTasks.xml
 .idea/workspace.xml
-examples/images/
-examples/public/images/
 
 .idea/

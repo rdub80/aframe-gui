@@ -65,7 +65,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ## Components
 
 
-### <a-gui-flex-container> Component
+### a-gui-flex-container Component
 
 #### Properties
 
@@ -90,7 +90,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-cursor> Component
+### a-gui-cursor Component
 
 
 #### Properties
@@ -115,7 +115,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-button> Component
+### a-gui-button Component
 
         
 #### Properties
@@ -152,7 +152,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-circle-loader> Component
+### a-gui-circle-loader Component
 
 
 #### Properties
@@ -178,7 +178,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-circle-timer> Component
+### a-gui-circle-timer Component
 
 #### Properties
 
@@ -205,7 +205,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 </a-gui-circle-timer>
 ```
 
-### <a-gui-icon-button> Component
+### a-gui-icon-button Component
 
 #### Properties
 
@@ -237,7 +237,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-icon-label-button> Component
+### a-gui-icon-label-button Component
 
 #### Properties
 
@@ -272,7 +272,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-input> Component
+### a-gui-input Component
 
 #### Properties
 
@@ -306,7 +306,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-label> Component
+### a-gui-label Component
 
 #### Properties
 
@@ -333,7 +333,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-progress-bar> Component
+### a-gui-progress-bar Component
 
 #### Properties
 
@@ -355,7 +355,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-radio> Component
+### a-gui-radio Component
 
 #### Properties
 
@@ -389,7 +389,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-slider> Component
+### a-gui-slider Component
 
 #### Properties
 
@@ -425,7 +425,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 ```
 
 
-### <a-gui-toggle> Component
+### a-gui-toggle Component
 
 #### Properties
 
