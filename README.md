@@ -15,9 +15,7 @@ The `dist/aframe-gui.js` file defines the following components:
 | gui-flex-container    | a-gui-flex-container     | Layout container with flexbox-inspired                   |
 | gui-item              | <none>                   | Used by other components for common properties like height and width    |
 | gui-interactable      | <none>                   | Used by other components to define onclick behavior      |
-
 | gui-cursor            | a-gui-cursor             | Cursor used to interact with GUI elements.               |
-
 | gui-button            | a-gui-button             | Standard button component with text label                |
 | gui-icon-button       | a-gui-icon-button        | Button with icon label instead of text                   |
 | gui-icon-label-button | a-gui-icon-label-button  | Button with both icon and text labels                    |
@@ -25,7 +23,6 @@ The `dist/aframe-gui.js` file defines the following components:
 | gui-toggle            | a-gui-toggle             | Toggle button                                            |
 | gui-slider            | a-gui-slider             | Slider component                                         |
 | gui-input             | a-gui-input              | Text input field                                         |
-
 | gui-label             | a-gui-label              | Text label                                               |
 | gui-progress-bar      | a-gui-progress-bar       | Progress bar                                             |
 | gui-circle-loader     | a-gui-circle-loader      | Circular progress meter                                  |
