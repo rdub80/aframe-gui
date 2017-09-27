@@ -30,7 +30,7 @@
 		}
 	</style>
 
-    <script src="../dist/aframe-gui.js"></script>
+	<script src="js/aframe-gui.js"></script>
     <script src="js/fontfaceobserver.js"></script>
 	<script>
 	(function() {
@@ -79,61 +79,51 @@
 			position="-1 1.6 -4.8"
 		></a-video>
 
-		<a-entity 	gui-item="type: flex-container; width: 5; height: 1;"
-					gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
-					position="-3 0.45 -4"
-					rotation="0 0 0"
-					scale="0.5 0.5 0.5"
+
+
+		<a-gui-flex-container
+			flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="5" height="1"
+			position="0 0.45 -4" rotation="0 0 0" scale="0.5 0.5 0.5"
 		>
-
-
-			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
-					  	gui-interactable="clickAction: togglePlayback;"
-						gui-icon-button="
-							icon:ios-play;
-						"
+			<a-gui-icon-button
+				width="0.75" height="0.75"
+				onclick="togglePlayback"
+				icon="ios-play"
 			>
-			</a-entity>
-			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
-					  	gui-interactable="clickAction: stop;"
-						gui-icon-button="
-							icon:stop;
-						"
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.75"
+				onclick="stop"
+				icon="stop"
 			>
-			</a-entity>			
-			<a-entity 	gui-item="type: icon-button;  height: 0.75;"
-					  	gui-interactable="clickAction: toggleSound;"
-						gui-icon-button="
-							icon:music-note;
-						"
+			</a-gui-icon-button>
+			<a-gui-icon-button
+				width="0.75" height="0.75"
+				onclick="toggleSound"
+				icon="music-note"
 			>
-			</a-entity>
-			<a-entity 	gui-item="type: toggle; width: 2.5; height: 0.75;"
-					  	gui-interactable="clickAction: toggleCaps;"
-						gui-toggle="
-							text:Captions;
-							fontFamily:'Fira Sans';
-						"
+			</a-gui-icon-button>
+			<a-gui-toggle 
+				width="2.5" height="0.75"
+				onclick="toggleCaps"
+				value="Captions"
+				font-family="Arial"
 			>
-			</a-entity>			
-
-		</a-entity>
+			</a-gui-toggle>
+		</a-gui-flex-container>
 
 
 		<a-sky color="#222"></a-sky>
+
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
-
-			<a-entity id="cursor"
-					  raycaster="interval: 1000; objects: [gui-interactable]"
-					  cursor="fuse: true; fuseTimeout: 2000"
-					  gui-cursor=""
-					  position="0 0 -1"
-					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
-					  material="color: #ffffff; shader: flat"
+			<a-gui-cursor id="cursor"
+				raycaster="interval: 1000; objects: [gui-interactable]"
+				fuse="true" fuseTimeout="2000"
+				design="ring"
 			>
-			</a-entity> <!-- /cursor -->
-
+			</a-gui-cursor> <!-- /cursor -->
 		</a-entity> <!-- /camera -->
 
 	</a-scene>

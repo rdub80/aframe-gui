@@ -29,7 +29,7 @@
 		}
 	</style>
 
-    <script src="../dist/aframe-gui.js"></script>
+    <script src="js/aframe-gui.js"></script>
     <script src="js/fontfaceobserver.js"></script>
 	<script>
 	(function() {
@@ -76,20 +76,20 @@
 
 
   		<a-entity position="2 1.5 -4" rotation="0 0 0">
-	  		<a-entity id="dropdownContainer"  position="0 0 -1">
-				<a-entity 	gui-item="type: flex-container; width: 2.5; height: 0.75;"
-							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0"
-							position="0 0.375 0"
-				>
+	  		<a-entity id="dropdownContainer" position="0 0 -1">
 
-					<a-entity  	gui-item="type: dropdown; width: 2.5; height: 0.75;"
-							   	gui-interactable="clickAction: openDropdown;"
-								gui-icon-label-button="
-									icon:android-menu;
-									text:dropdown;
-									fontFamily:'Fira Sans';
-								"
-								visible="true"
+				<a-gui-flex-container
+					flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1" 
+					opacity="0" width="2.5" height="0.75"
+					position="0 0.375 0" rotation="0 0 0"
+				>
+					<a-gui-icon-label-button
+						width="2.5" height="0.75"
+						onclick="openDropdown"
+						icon="android-menu"
+						value="dropdown"
+						font-family="Arial"
+						visible="true"
 					>
 						<a-animation attribute="rotation" id="dropani"
 							begin="opendropdown"
@@ -111,35 +111,42 @@
 							fill="forwards"
 							delay="500"
 							to="true"></a-animation>	
-
-
-					</a-entity>
-				</a-entity>
-
-				<a-entity 	gui-item="type: flex-container; width: 2.5; height: 0.75;"
-							gui-flex-container="flexDirection: column; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0"
-							position="0 0 -0.15"
-							visible="false" scale="1 0.001 0.001"
+					</a-gui-icon-label-button>				
+				</a-gui-flex-container>
+				
+				<a-gui-flex-container
+					flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+					opacity="0" width="2.5" height="0.75"
+					position="0 0 -0.15" rotation="0 0 0" scale="1 0.001 0.001"
+					visible="false" 
 				>
-					<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
-							   	gui-interactable="clickAction: red;"
-								gui-button="text:Red; fontFamily:'Fira Sans';">
-					</a-entity>
-					<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
-							   	gui-interactable="clickAction: blue;"
-								gui-button="text:Blue; fontFamily:'Fira Sans';">
-					</a-entity>
-					<a-entity  	gui-item="type: button; width: 2.5; height: 0.75;"
-							   	gui-interactable="clickAction: green;"
-								gui-button="text:Green; fontFamily:'Fira Sans';">
-					</a-entity>
-					<a-entity 	gui-item="type: icon-button;  height: 0.5;"
-							  	gui-interactable="clickAction: closeDropdown;"
-								gui-icon-button="
-									icon:android-close;
-								"
+					<a-gui-button 
+						width="2.5" height="0.75"
+						onclick="red"
+						value="Red"
+						font-family="Arial"
 					>
-					</a-entity>
+					</a-gui-button>
+					<a-gui-button 
+						width="2.5" height="0.75"
+						onclick="blue"
+						value="Blue"
+						font-family="Arial"
+					>
+					</a-gui-button>
+					<a-gui-button 
+						width="2.5" height="0.75"
+						onclick="green"
+						value="Green"
+						font-family="Arial"
+					>
+					</a-gui-button>
+					<a-gui-icon-button
+						width="0.5" height="0.5"
+						onclick="closeDropdown"
+						icon="android-close"
+					>
+					</a-gui-icon-button>
 
 					<a-animation attribute="scale" id="dropvalani"
 						begin="opendropdown"
@@ -173,30 +180,21 @@
 						delay="500"
 						dur="100"						
 						to="false"></a-animation>						
-
-
-				</a-entity>
+				</a-gui-flex-container>
 
 
 			</a-entity>
 		</a-entity>
 
 
-
-
 		<!-- Camera + cursor. -->
 		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
-
-			<a-entity id="cursor"
-					  raycaster="interval: 1000; objects: [gui-interactable]"
-					  cursor="fuse: true; fuseTimeout: 2000"
-					  gui-cursor=""
-					  position="0 0 -1"
-					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
-					  material="color: #ffffff; shader: flat"
+			<a-gui-cursor id="cursor"
+				raycaster="interval: 1000; objects: [gui-interactable]"
+				fuse="true" fuseTimeout="2000"
+				design="ring"
 			>
-			</a-entity> <!-- /cursor -->
-
+			</a-gui-cursor> <!-- /cursor -->
 		</a-entity> <!-- /camera -->
 
 	</a-scene>

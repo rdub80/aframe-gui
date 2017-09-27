@@ -3,13 +3,14 @@ AFRAME.registerComponent('gui-icon-button', {
         on: {default: 'click'},
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
-        fontColor: {type: 'string', default: key_offwhite},
+        toggle: {type: 'boolean', default: false},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
-        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
@@ -79,7 +80,7 @@ AFRAME.registerComponent('gui-icon-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            if (this.toggleState == false) {
+            if (!(data.toggle)) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });
@@ -114,3 +115,28 @@ AFRAME.registerComponent('gui-icon-button', {
     },
 });
 
+AFRAME.registerPrimitive( 'a-gui-icon-button', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'icon-button' },
+        'gui-icon-button': { }
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-icon-button.on',
+        'font-color': 'gui-icon-button.fontColor',
+        'font-family': 'gui-icon-button.fontFamily',
+        'border-color': 'gui-icon-button.borderColor',
+        'background-color': 'gui-icon-button.backgroundColor',
+        'hover-color': 'gui-icon-button.hoverColor',
+        'active-color': 'gui-icon-button.activeColor',
+        'toggle': 'gui-icon-button.toggle',
+        'icon': 'gui-icon-button.icon',
+        'icon-active': 'gui-icon-button.iconActive',
+    }
+});

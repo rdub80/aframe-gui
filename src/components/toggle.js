@@ -2,19 +2,17 @@ AFRAME.registerComponent('gui-toggle', {
     schema: {
         on: {default: 'click'},
         text: {type: 'string', default: 'text'},
-        fontColor: {type: 'string', default: key_grey_dark},
-        fontFamily: {type: 'string', default: 'Helvetica'},
-        borderColor: {type: 'string', default: key_grey},
-        borderWidth: {type: 'number', default: 1},
-        toggleColor: {type: 'string', default: key_offwhite},
-        toggleOnColor: {type: 'string', default: key_orange},
-        toggleOffColor: {type: 'string', default: key_grey_dark},
-        hoverColor: {type: 'string', default: key_grey_light},
-        backgroundColor: {type: 'string', default: key_offwhite},
-        activeColor: {type: 'string', default: key_orange},
-        opacity: {type: 'number', default: 1.0},
         active: {type: 'boolean', default: true},
-        checked: {type: 'boolean', default: false}
+        checked: {type: 'boolean', default: false},
+        borderWidth: {type: 'number', default: 1},
+
+        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_grey_dark},
+        borderColor: {type: 'string', default: key_grey},
+        backgroundColor: {type: 'string', default: key_offwhite},
+        hoverColor: {type: 'string', default: key_grey_light},
+        activeColor: {type: 'string', default: key_orange},
+        handleColor: {type: 'string', default: key_offwhite},
     },
     init: function() {
 
@@ -31,7 +29,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.setAttribute('width', `${toggleBoxWidth}`);
         toggleBox.setAttribute('height', '0.35');
         toggleBox.setAttribute('depth', '0.01');
-        toggleBox.setAttribute('material', `color:${data.toggleOffColor}; shader: flat;`);
+        toggleBox.setAttribute('material', `color:${data.borderColor}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
         el.appendChild(toggleBox);
 
@@ -39,8 +37,8 @@ AFRAME.registerComponent('gui-toggle', {
         toggleColorAnimation.setAttribute('begin', 'toggleAnimation');
         toggleColorAnimation.setAttribute('direction', 'alternate');
         toggleColorAnimation.setAttribute('attribute', 'material.color');
-        toggleColorAnimation.setAttribute('from', `${data.toggleOffColor}`);
-        toggleColorAnimation.setAttribute('to', `${data.toggleOnColor}`);
+        toggleColorAnimation.setAttribute('from', `${data.borderColor}`);
+        toggleColorAnimation.setAttribute('to', `${data.activeColor}`);
         toggleColorAnimation.setAttribute('dur', '500');
         toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
         toggleBox.appendChild(toggleColorAnimation);
@@ -52,7 +50,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('width', `${toggleHandleWidth}`);
         toggleHandle.setAttribute('height', '0.3');
         toggleHandle.setAttribute('depth', '0.02');
-        toggleHandle.setAttribute('material', `color:${data.toggleColor}`);
+        toggleHandle.setAttribute('material', `color:${data.handleColor}`);
         toggleHandle.setAttribute('position', `${toggleHandleXStart} 0 0.02`);
         toggleBox.appendChild(toggleHandle);
 
@@ -100,7 +98,7 @@ AFRAME.registerComponent('gui-toggle', {
         });
 
         el.addEventListener('mouseleave', function () {
-            toggleHandle.setAttribute('material', 'color', data.toggleColor);
+            toggleHandle.setAttribute('material', 'color', data.handleColor);
         });
 
         el.addEventListener(data.on, function (evt) {
@@ -134,5 +132,33 @@ AFRAME.registerComponent('gui-toggle', {
         }
 
     },
+});
+
+AFRAME.registerPrimitive( 'a-gui-toggle', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'toggle' },
+        'gui-toggle': { }
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-toggle.on',
+        'active': 'gui-toggle.active',
+        'checked': 'gui-toggle.checked',
+        'value': 'gui-toggle.text',
+        'font-color': 'gui-toggle.fontColor',
+        'font-family': 'gui-toggle.fontFamily',
+        'border-width': 'gui-toggle.borderWidth',
+        'border-color': 'gui-toggle.borderColor',
+        'background-color': 'gui-toggle.backgroundColor',
+        'hover-color': 'gui-toggle.hoverColor',
+        'active-color': 'gui-toggle.activeColor',
+        'handle-color': 'gui-toggle.handleColor'
+    }
 });
 

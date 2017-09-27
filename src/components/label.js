@@ -2,8 +2,9 @@ AFRAME.registerComponent('gui-label', {
     schema: {
         text: {type: 'string', default: 'label text'},
         labelFor: {type: 'selector', default: null},
-        fontColor: {type: 'string', default: key_grey_dark},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_grey_dark},
         backgroundColor: {type: 'string', default: key_offwhite},
     },
     init: function() {
@@ -50,3 +51,20 @@ AFRAME.registerComponent('gui-label', {
     },
 });
 
+AFRAME.registerPrimitive( 'a-gui-label', {
+    defaultComponents: {
+        'gui-item': { type: 'label' },
+        'gui-label': { }
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-button.on',
+        'value': 'gui-label.text',
+        'label-for': 'gui-label.labelFor',
+        'font-color': 'gui-label.fontColor',
+        'font-family': 'gui-label.fontFamily',
+        'background-color': 'gui-label.backgroundColor'
+    }
+});

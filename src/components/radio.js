@@ -2,16 +2,16 @@ AFRAME.registerComponent('gui-radio', {
     schema: {
         on: {default: 'click'},
         text: {type: 'string', default: 'text'},
-        fontColor: {type: 'string', default: key_grey_dark},
+        active: {type: 'boolean', default: true},
+        checked: {type: 'boolean', default: false},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
-        hoverColor: {type: 'string', default: key_grey_light},
-        color: {type: 'string', default: key_grey},
+        fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_white},
         backgroundColor: {type: 'string', default: key_offwhite},
+        hoverColor: {type: 'string', default: key_grey_light},
         activeColor: {type: 'string', default: key_orange},
-        opacity: {type: 'number', default: 1.0},
-        active: {type: 'boolean', default: true},
-        checked: {type: 'boolean', default: false}
+        handleColor: {type: 'string', default: key_grey},
     },
     init: function() {
 
@@ -28,7 +28,7 @@ AFRAME.registerComponent('gui-radio', {
         radioBox.setAttribute('radius', '0.17');
         radioBox.setAttribute('height', '0.01');
         radioBox.setAttribute('rotation', '90 0 0');
-        radioBox.setAttribute('material', `color:${data.color}; shader: flat;`);
+        radioBox.setAttribute('material', `color:${data.handleColor}; shader: flat;`);
         radioBox.setAttribute('position', `${radioBoxX} 0 0`);
         el.appendChild(radioBox);
 
@@ -43,14 +43,14 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('radius', '0.15');
         radioCenter.setAttribute('height', '0.02');
         radioCenter.setAttribute('rotation', '0 0 0');
-        radioCenter.setAttribute('material', `color:${data.color}; shader: flat;`);
+        radioCenter.setAttribute('material', `color:${data.handleColor}; shader: flat;`);
         radioBox.appendChild(radioCenter);
 
         var radioColorAnimation = document.createElement("a-animation");
         radioColorAnimation.setAttribute('begin', 'radioAnimation');
         radioColorAnimation.setAttribute('direction', 'alternate');
         radioColorAnimation.setAttribute('attribute', 'material.color');
-        radioColorAnimation.setAttribute('from', `${data.color}`);
+        radioColorAnimation.setAttribute('from', `${data.handleColor}`);
         radioColorAnimation.setAttribute('to', `${data.activeColor}`);
         radioColorAnimation.setAttribute('dur', '500');
         radioColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
@@ -160,3 +160,29 @@ AFRAME.registerComponent('gui-radio', {
 
 });
 
+AFRAME.registerPrimitive( 'a-gui-radio', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'radio' },
+        'gui-radio': { }
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-radio.on',
+        'value': 'gui-radio.text',
+        'active': 'gui-radio.active',
+        'checked': 'gui-radio.checked',
+        'font-color': 'gui-radio.fontColor',
+        'font-family': 'gui-radio.fontFamily',
+        'border-color': 'gui-radio.borderColor',
+        'background-color': 'gui-radio.backgroundColor',
+        'hover-color': 'gui-radio.hoverColor',
+        'active-color': 'gui-radio.activeColor',
+        'handle-color': 'gui-radio.handleColor'
+    }
+});

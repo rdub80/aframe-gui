@@ -5,6 +5,7 @@ if (typeof AFRAME === 'undefined') {
 // Components
 require('./scripts/vars.js');
 require('./components/item.js');
+require('./components/interactable.js');
 require('./components/flex-container.js');
 require('./components/label.js');
 require('./components/button.js');
@@ -18,5 +19,4 @@ require('./components/circle-timer.js');
 require('./components/slider.js');
 require('./components/input.js');
 require('./components/cursor.js');
-require('./components/interactable.js');
 require('./scripts/reset-cursor.js');

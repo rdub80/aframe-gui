@@ -4,13 +4,14 @@ AFRAME.registerComponent('gui-icon-label-button', {
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
         text: {type: 'string', default: ''},
-        fontColor: {type: 'string', default: key_offwhite},
+        toggle: {type: 'boolean', default: false},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
-        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
@@ -115,7 +116,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            if (this.toggleState == false) {
+            if (!(data.toggle)) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });
@@ -150,3 +151,29 @@ AFRAME.registerComponent('gui-icon-label-button', {
     },
 });
 
+AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'icon-label-button' },
+        'gui-icon-label-button': { }
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-icon-label-button.on',
+        'font-color': 'gui-icon-label-button.fontColor',
+        'font-family': 'gui-icon-label-button.fontFamily',
+        'border-color': 'gui-icon-label-button.borderColor',
+        'background-color': 'gui-icon-label-button.backgroundColor',
+        'hover-color': 'gui-icon-label-button.hoverColor',
+        'active-color': 'gui-icon-label-button.activeColor',
+        'toggle': 'gui-icon-label-button.toggle',
+        'icon': 'gui-icon-label-button.icon',
+        'icon-active': 'gui-icon-label-button.iconActive',
+        'value': 'gui-icon-label-button.text'
+    }
+});

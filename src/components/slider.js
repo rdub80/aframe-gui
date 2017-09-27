@@ -1,12 +1,6 @@
 AFRAME.registerComponent('gui-slider', {
     schema: {
         percent: {type: 'number', default: '0.5'},
-        backgroundColor: {type: 'string', default: key_offwhite},
-        barColor: {type: 'string', default: key_grey},
-        activeColor: {type: 'string', default: key_orange},
-        handleContainerColor: {type: 'string', default: key_grey},
-        handleColor: {type: 'string', default: key_white},
-        hoverColor: {type: 'string', default: key_grey_light},
         handleOuterRadius: {type: 'number', default: '0.17'},
         handleInnerRadius: {type: 'number', default: '0.13'},
         handleOuterDepth: {type: 'number', default: '0.04'},
@@ -15,6 +9,12 @@ AFRAME.registerComponent('gui-slider', {
         sliderBarDepth: {type: 'number', default: '0.03'},
         leftRightPadding: {type: 'number', default: '0.25'},
         topBottomPadding: {type: 'number', default: '0.125'},
+
+        borderColor: {type: 'string', default: key_grey},
+        backgroundColor: {type: 'string', default: key_offwhite},
+        hoverColor: {type: 'string', default: key_grey_light},        
+        activeColor: {type: 'string', default: key_orange},
+        handleColor: {type: 'string', default: key_white},
     },
     init: function() {
 
@@ -35,13 +35,13 @@ AFRAME.registerComponent('gui-slider', {
 
         var sliderBar = document.createElement("a-entity");
         sliderBar.setAttribute('geometry', `primitive: box; width: ${sliderWidth - data.percent * sliderWidth}; height: ${data.sliderBarHeight}; depth: ${data.sliderBarDepth};`);
-        sliderBar.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.barColor};`);
+        sliderBar.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor};`);
         sliderBar.setAttribute('position', `${data.percent * sliderWidth * 0.5} 0 ${data.sliderBarDepth - 0.01}`);
         el.appendChild(sliderBar);
 
         var handleContainer = document.createElement("a-entity");
         handleContainer.setAttribute('geometry', `primitive: cylinder; radius: ${data.handleOuterRadius}; height: ${data.handleOuterDepth};`);
-        handleContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.handleContainerColor};`);
+        handleContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor};`);
         handleContainer.setAttribute('rotation', '90 0 0');
         handleContainer.setAttribute('position', `${data.percent*sliderWidth - sliderWidth*0.5} 0 ${data.handleOuterDepth - 0.01}`);
         el.appendChild(handleContainer);
@@ -104,4 +104,34 @@ AFRAME.registerComponent('gui-slider', {
     },
     play: function () {
     },
+});
+
+AFRAME.registerPrimitive( 'a-gui-slider', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'slider' },
+        'gui-slider': { }
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'percent': 'gui-slider.percent',
+        'handle-outer-radius': 'gui-slider.handleOuterRadius',
+        'handle-inner-radius': 'gui-slider.handleInnerRadius',
+        'handle-outer-depth': 'gui-slider.handleOuterDepth',
+        'handle-inner-depth': 'gui-slider.handleInnerDepth',
+        'slider-bar-height': 'gui-slider.sliderBarHeight',
+        'slider-bar-depth': 'gui-slider.sliderBarDepth',
+        'left-right-padding': 'gui-slider.leftRightPadding',
+        'top-bottom-padding': 'gui-slider.topBottomPadding',
+        'border-color': 'gui-slider.borderColor',
+        'background-color': 'gui-slider.backgroundColor',
+        'hover-color': 'gui-slider.hoverColor',
+        'active-color': 'gui-slider.activeColor',
+        'handle-color': 'gui-slider.handleColor'
+    }
 });

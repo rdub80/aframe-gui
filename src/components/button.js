@@ -1,20 +1,23 @@
 AFRAME.registerComponent('gui-button', {
     schema: {
         on: {default: 'click'},
+        toggle: {type: 'boolean', default: false},
         text: {type: 'string', default: 'text'},
-        fontColor: {type: 'string', default: key_offwhite},
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
-        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        console.log("in button, guiItem: "+JSON.stringify(guiItem));
+        var guiInteractable = el.getAttribute("gui-interactable");
+        console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 350;
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
@@ -23,7 +26,7 @@ AFRAME.registerComponent('gui-button', {
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
-
+        console.log("in gui-button init, data: "+JSON.stringify(data));
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
         canvas.setAttribute('width', canvasWidth);
@@ -76,7 +79,7 @@ AFRAME.registerComponent('gui-button', {
         });
 
         el.addEventListener('mouseleave', function () {
-            if (this.toggleState == false) {
+            if (!(data.toggle)) {
                 buttonEntity.setAttribute('material', 'color', data.backgroundColor);
             }
         });
@@ -87,13 +90,11 @@ AFRAME.registerComponent('gui-button', {
             }else{
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-            this.toggleState = !(this.toggleState);
+//            this.toggleState = !(this.toggleState);
 
 //            console.log('I was clicked at: ', evt.detail.intersection.point);
-            var guiInteractable = el.getAttribute("gui-interactable");
-//            console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: "+clickActionFunctionName);
+            console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -121,5 +122,31 @@ AFRAME.registerComponent('gui-button', {
     setText: function (newText) {
         drawText(this.ctx, this.canvas, newText, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
     },
+});
+
+
+AFRAME.registerPrimitive( 'a-gui-button', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'button' },
+        'gui-button': { }
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-intexractable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-button.on',
+        'value': 'gui-button.text',
+        'font-color': 'gui-button.fontColor',
+        'font-family': 'gui-button.fontFamily',
+        'border-color': 'gui-button.borderColor',
+        'background-color': 'gui-button.backgroundColor',
+        'hover-color': 'gui-button.hoverColor',
+        'active-color': 'gui-button.activeColor',
+        'toggle': 'gui-button.toggle'
+    }
 });
 

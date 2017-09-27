@@ -27,8 +27,8 @@
 		}
 	</style>
 
-	<script src="/js/demo.js"></script>
-    <script src="/js/aframe-gui.min.js"></script>
+	<script src="js/demo.js"></script>
+	<script src="js/aframe-gui.js"></script>
 </head>
 <body>
 	<a-scene>
@@ -55,83 +55,70 @@
 		<a-sky src="#gradient"></a-sky>
   		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
 
-		<a-entity id="music_type_panel"
-				  gui-item="type: flex-container; width: 4; height: 4;"
-			gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center; opacity: 0.7;"
-			position="-4.0 2.0 -1.5"
-			rotation="0 60 0"
-		 >
-			<a-entity   id="type_cinematic"
-						gui-item="type: button; width: 2.5; height: 0.75; margin: 0 0 0.1 0;"
-					   gui-interactable="clickAction: selectCinematic;"
-					gui-button="
-						text:Cinematic;
-						fontFamily:'Fira Sans';
-					"
-			>
-			</a-entity>
-			<a-entity   id="type_classic_rock"
-						gui-item="type: button; width: 2.5; height: 0.75;  margin: 0 0 0.1 0;"
-					   gui-interactable="clickAction: selectClassicRock;"
-					   gui-button="
-							text:Classic Rock;
-							fontFamily:'Fira Sans';
-						"
-			>
-			</a-entity>
-			<a-entity  id="type_modern_folk"
-					   gui-item="type: button; width: 2.5; height: 0.75; margin: 0 0 0.1 0;"
-					   gui-interactable="clickAction: selectModernFolk;"
-					   gui-button="
-							text:Modern Folk;
-							fontFamily:'Fira Sans';
-						"
-			>
-			</a-entity>
-			<a-entity  id="type_90s_pop"
-					   gui-item="type: button; width: 2.5; height: 0.75; margin: 0 0 0 0;"
-					   gui-interactable="clickAction: select90sPop;"
-					   gui-button="
-							text:90's Pop;
-							fontFamily:'Fira Sans';
-						"
-			>
-			</a-entity>
-		</a-entity>
 
-		<a-entity id="music_length_panel"
-				  gui-item="type: flex-container; width: 4; height: 4;"
-				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: center; alignItems: center;  opacity: 0.7;"
-				  position="0.0 2.0 -3"
-				  rotation="0 0 0"
+			<a-gui-flex-container id="music_type_panel"
+					  width="4" height="4"
+					  is-top-container="true" flex-direction="column" justify-content="center" align-items="center" opacity="0.7"
+					  position="-4.0 2.0 -1.5"
+					  rotation="0 60 0"
+			>
+				<a-gui-button   id="type_cinematic"
+						width="2.5" height="0.75" margin="0 0 0.1 0"
+					   onclick="selectCinematic"
+					value="Cinematic"
+						font-family="Arial"
+			>
+			</a-gui-button>
+			<a-gui-button   id="type_classic_rock"
+							width="2.5" height="0.75" margin="0 0 0.1 0"
+							onclick="selectClassicRock"
+							value="Rock"
+							font-family="Arial"
+			>
+			</a-gui-button>
+			<a-gui-button   id="type_modern_folk"
+							width="2.5" height="0.75" margin="0 0 0.1 0"
+							onclick="selectModernFolk"
+							value="Modern Folk"
+							font-family="Arial"
+			>
+			</a-gui-button>
+			<a-gui-button   id="type_90s_pop"
+							width="2.5" height="0.75" margin="0 0 0.1 0"
+							onclick="select90sPop"
+							value="90's Pop"
+							font-family="Arial"
+			>
+			</a-gui-button>
+		</a-gui-flex-container>
+
+		<a-gui-flex-container id="music_length_panel"
+							  width="4" height="4"
+							  is-top-container="true" flex-direction="column" justify-content="center" align-items="center" opacity="0.7"
+							  position="0.0 2.0 -3"
+							  rotation="0 0 0"
 		>
-			<a-entity  id="length_5"
-					   gui-item="type: button; width: 2.5; height: 0.6; margin: 0 0 0.1 0;"
-					   gui-interactable="clickAction: select5Seconds;"
-					   gui-button="
-							text:5 seconds;
-							fontFamily:'Fira Sans';
-						"
-			>
-			</a-entity>
-			<a-entity  id="length_10"
-					   gui-item="type: button; width: 2.5; height: 0.6; margin: 0 0 0.1 0;"
-					   gui-interactable="clickAction: select10Seconds;"
-					   gui-button="
-							text:10 seconds;
-							fontFamily:'Fira Sans';
-						"
-			>
-			</a-entity>
-			<a-entity  id="length_15"
-					   gui-item="type: button; width: 2.5; height: 0.6; margin: 0 0 0.1 0;"
-					   gui-interactable="clickAction: select15Seconds;"
-					   gui-button="
-							text:15 seconds;
-							fontFamily:'Fira Sans';
-						"
-			>
-			</a-entity>
+			<a-gui-button id="length_5"
+						  width="2.5" height="0.6" margin="0 0 0.1 0"
+						  onclick="select5Seconds"
+						  value="5 seconds"
+						  font-family="Arial">
+
+			</a-gui-button>
+			<a-gui-button id="length_10"
+						  width="2.5" height="0.6" margin="0 0 0.1 0"
+						  onclick="select10Seconds"
+						  value="10 seconds"
+						  font-family="Arial">
+
+			</a-gui-button>
+			<a-gui-button id="length_15"
+						  width="2.5" height="0.6" margin="0 0 0.1 0"
+						  onclick="select15Seconds"
+						  value="15 seconds"
+						  font-family="Arial">
+
+			</a-gui-button>
 
 			<a-entity 	gui-item="type: icon-button; width: 0.75; height: 0.75;  margin: 0 0 0.1 0;"
 					   	gui-interactable="clickAction: submitMusicCreate;"
@@ -146,12 +133,13 @@
             </a-entity>
 
 
-		</a-entity>
+		</a-gui-flex-container>
 
-		<a-entity id="music_player_panel" gui-item="type: flex-container; width: 4; height: 4;"
-				  gui-flex-container="isTopContainer: true; flexDirection: column; justifyContent: flexStart; alignItems: flexEnd; opacity: 0.7;"
-				  position="4.0 2.0 -1.5"
-				  rotation="0 -60 0"
+		<a-gui-flex-container id="music_player_panel"
+							  width="4" height="4"
+							  is-top-container="true" flex-direction="column" justify-content="center" align-items="center" opacity="0.7"
+							  position="4.0 2.0 -1.5"
+							  rotation="0 -60 0"
 		>
 			<a-entity id="loop_toggle"
 					  gui-item="type: toggle; width: 2.5; height: 0.75; margin: 0 0 0.3 0;"
@@ -220,7 +208,7 @@
 				>
 				</a-entity>
 			</a-entity> -->
-		</a-entity>
+		</a-gui-flex-container>
 		<a-entity id="musicPlayer" geometry="primitive: plane" material="color: blue"
 				  position="0 0 0" scale="0.001 0.001 0.001" sound=""></a-entity>
 
@@ -231,9 +219,6 @@
 					  raycaster="interval: 1000; objects: [gui-interactable]"
 					  cursor="fuse: true; fuseTimeout: 2000"
 					  gui-cursor=""
-					  position="0 0 -1"
-					  geometry="primitive: ring; radiusInner:0.000001; radiusOuter:0.025"
-					  material="color: #ffffff; shader: flat"
 			>
 			</a-entity> <!-- /cursor -->
 

@@ -2,14 +2,15 @@ AFRAME.registerComponent('gui-input', {
     schema: {
         on: {default: 'click'},
         inputText: {type: 'string', default: 'Placeholder'},
-        fontColor: {type: 'string', default: key_grey_dark},
+        toggle: {type: 'boolean', default: false},
+
         fontFamily: {type: 'string', default: 'Helvetica'},
+        fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_grey_dark},
         borderHoverColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
         hoverColor: {type: 'string', default: key_white},
         activeColor: {type: 'string', default: key_orange},
-        toggle: {type: 'boolean', default: false},
     },
     init: function() {
 
@@ -107,4 +108,30 @@ AFRAME.registerComponent('gui-input', {
     update: function (oldData) {
 
     },
+});
+
+AFRAME.registerPrimitive( 'a-gui-input', {
+    defaultComponents: {
+        'gui-interactable': { },
+        'gui-item': { type: 'input' },
+        'gui-input': { }
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-input.on',
+        'value': 'gui-input.inputText',
+        'toggle': 'gui-input.toggle',
+        'font-color': 'gui-input.fontColor',
+        'font-family': 'gui-input.fontFamily',
+        'border-color': 'gui-input.borderColor',
+        'border-hover-color': 'gui-input.borderHoverColor',
+        'background-color': 'gui-input.backgroundColor',
+        'hover-color': 'gui-input.hoverColor',
+        'active-color': 'gui-input.activeColor',
+    }
 });
