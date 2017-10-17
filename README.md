@@ -3,7 +3,7 @@
 A graphical User Interface framework for [A-Frame](https://aframe.io).
 
 
-![](https://rdub80.github.io/aframe-gui/examples/images/all_components.png)
+![](examples/images/all_components.png)
 
 The `aframe-gui` components provide layout and gui widgets that can be used
 to create a user interface in an A-Frame scene. 
