@@ -105,7 +105,6 @@ window.getTextWidth = function (text, font) {
 
 window.drawText = function (ctx, canvas, text, font, color, size) {
     setTimeout(function () {
-
         ctx.font = font;
         ctx.fillStyle = color;
         ctx.textAlign = "center";
@@ -115,11 +114,20 @@ window.drawText = function (ctx, canvas, text, font, color, size) {
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
         ctx.scale(1, 1);
-        ctx.fillText(text, canvas.width / 2, canvas.height / 2); // position x, y
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var textString = text + '';
+        if (textString.match("char#")) {
+            var char = textString.substring(textString.indexOf('#') + 1);
+            ctx.fillText(String.fromCharCode(char), canvas.width / 2, canvas.height / 2); // position x, y
+        } else {
+            ctx.fillText(textString, canvas.width / 2, canvas.height / 2); // position x, y
+        }
     }, 500); // callback when font is loaded needed
 };
 
-window.drawIcon = function (ctx, canvas, icon, color, size) {
+window.drawIcon = function (ctx, canvas, icon, color) {
+    var size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
+
     setTimeout(function () {
         ctx.font = '240px Ionicons';
         ctx.fillStyle = color;
@@ -129,7 +137,9 @@ window.drawIcon = function (ctx, canvas, icon, color, size) {
         ctx.shadowBlur = 8;
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
-        ctx.scale(1, 1);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.scale(size, size);
 
         console.log("icon" + icon);
         if (icon_font[icon]) {
@@ -142,7 +152,6 @@ window.drawIcon = function (ctx, canvas, icon, color, size) {
 
 window.drawLabel = function (ctx, canvas, text, font, color, size) {
     setTimeout(function () {
-
         ctx.font = font;
         ctx.fillStyle = color;
         ctx.textAlign = "left";
@@ -151,6 +160,8 @@ window.drawLabel = function (ctx, canvas, text, font, color, size) {
         ctx.shadowBlur = 8;
         ctx.shadowOffsetY = 0;
         ctx.shadowOffsetX = 0;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
         ctx.scale(1, 1);
         ctx.fillText(text, canvas.height / 8, canvas.height / 2); // position x, y
     }, 500); // callback when font is loaded needed
@@ -166,30 +177,38 @@ window.drawLabel = function (ctx, canvas, text, font, color, size) {
 AFRAME.registerComponent('gui-button', {
     schema: {
         on: { default: 'click' },
+        toggle: { type: 'boolean', default: false },
         text: { type: 'string', default: 'text' },
-        fontColor: { type: 'string', default: key_offwhite },
         fontFamily: { type: 'string', default: 'Helvetica' },
+        fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
         hoverColor: { type: 'string', default: key_grey_dark },
-        activeColor: { type: 'string', default: key_orange },
-        toggle: { type: 'boolean', default: false }
+        activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
 
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        console.log("in button, guiItem: " + JSON.stringify(guiItem));
+        var guiInteractable = el.getAttribute("gui-interactable");
+        console.log("in button, guiInteractable: " + JSON.stringify(guiInteractable));
         var multiplier = 350;
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
+        var toggleState = this.toggleState = data.toggle;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+        console.log("in gui-button init, data: " + JSON.stringify(data));
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -213,6 +232,14 @@ AFRAME.registerComponent('gui-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
+        var buttonAnimation = document.createElement("a-animation");
+        buttonAnimation.setAttribute('attribute', 'material.color');
+        buttonAnimation.setAttribute('begin', 'fadeOut');
+        buttonAnimation.setAttribute('from', data.activeColor);
+        buttonAnimation.setAttribute('to', data.backgroundColor);
+        buttonAnimation.setAttribute('dur', '400');
+        buttonEntity.appendChild(buttonAnimation);
+
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
         textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
@@ -233,13 +260,17 @@ AFRAME.registerComponent('gui-button', {
         });
 
         el.addEventListener(data.on, function (evt) {
-            data.toggle = !data.toggle;
-            buttonEntity.setAttribute('material', 'color', data.activeColor);
-            console.log('I was clicked at: ', evt.detail.intersection.point);
-            var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: " + guiInteractable);
+            if (!data.toggle) {
+                // if not toggling flashing active state
+                buttonEntity.emit('fadeOut');
+            } else {
+                buttonEntity.setAttribute('material', 'color', data.activeColor);
+            }
+            //            this.toggleState = !(this.toggleState);
+
+            //            console.log('I was clicked at: ', evt.detail.intersection.point);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: " + clickActionFunctionName);
+            console.log("in button, clickActionFunctionName: " + clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -249,14 +280,42 @@ AFRAME.registerComponent('gui-button', {
     },
     play: function play() {},
     update: function update(oldData) {
-        console.log("In button update, toggle: " + this.data.toggle);
+        console.log("In button update, toggle: " + this.toggleState);
     },
     setActiveState: function setActiveState(activeState) {
         console.log("in setActiveState function");
-        this.data.toggle = activeState;
+        this.data.toggle = this.toggleState = activeState;
         if (!activeState) {
             this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
         } else {}
+    },
+    setText: function setText(newText) {
+        drawText(this.ctx, this.canvas, newText, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
+    }
+});
+
+AFRAME.registerPrimitive('a-gui-button', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'button' },
+        'gui-button': {}
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-intexractable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-button.on',
+        'value': 'gui-button.text',
+        'font-color': 'gui-button.fontColor',
+        'font-family': 'gui-button.fontFamily',
+        'border-color': 'gui-button.borderColor',
+        'background-color': 'gui-button.backgroundColor',
+        'hover-color': 'gui-button.hoverColor',
+        'active-color': 'gui-button.activeColor',
+        'toggle': 'gui-button.toggle'
     }
 });
 
@@ -270,13 +329,10 @@ AFRAME.registerComponent('gui-button', {
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         count: { type: 'number', default: '100' },
-        fontColor: { type: 'string', default: key_grey },
         fontFamily: { type: 'string', default: 'Helvetica' },
-        borderColor: { type: 'string', default: key_offwhite },
-        backgroundColor: { type: 'string', default: key_grey },
-        hoverColor: { type: 'string', default: key_grey_dark },
-        activeColor: { type: 'string', default: key_orange },
-        toggle: { type: 'boolean', default: false }
+        fontColor: { type: 'string', default: key_grey },
+        backgroundColor: { type: 'string', default: key_offwhite },
+        activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
 
@@ -287,23 +343,29 @@ AFRAME.registerComponent('gui-circle-loader', {
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
+        canvas.className = 'visuallyhidden';
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:back; color:' + data.backgroundColor + ';');
+        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
 
         drawText(ctx, canvas, data.count + '%', '110px ' + data.fontFamily, data.fontColor, 1);
 
         var loaderContainer = document.createElement("a-entity");
         loaderContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
-        loaderContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
+        loaderContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.backgroundColor);
         loaderContainer.setAttribute('rotation', '90 0 0');
         loaderContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(loaderContainer);
@@ -330,6 +392,23 @@ AFRAME.registerComponent('gui-circle-loader', {
     update: function update(oldData) {}
 });
 
+AFRAME.registerPrimitive('a-gui-circle-loader', {
+    defaultComponents: {
+        'gui-item': { type: 'circle-loader' },
+        'gui-circle-loader': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'count': 'gui-circle-loader.count',
+        'font-family': 'gui-circle-loader.fontFamily',
+        'font-color': 'gui-circle-loader.fontColor',
+        'background-color': 'gui-circle-loader.backgroundColor',
+        'active-color': 'gui-circle-loader.activeColor'
+    }
+});
+
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -340,13 +419,11 @@ AFRAME.registerComponent('gui-circle-loader', {
 AFRAME.registerComponent('gui-circle-timer', {
     schema: {
         countDown: { type: 'number', default: '10' },
-        fontColor: { type: 'string', default: key_grey },
         fontFamily: { type: 'string', default: 'Helvetica' },
-        borderColor: { type: 'string', default: key_offwhite },
-        backgroundColor: { type: 'string', default: key_grey },
-        hoverColor: { type: 'string', default: key_grey_dark },
-        activeColor: { type: 'string', default: key_orange },
-        toggle: { type: 'boolean', default: false }
+        fontColor: { type: 'string', default: key_grey },
+        borderColor: { type: 'string', default: key_grey },
+        backgroundColor: { type: 'string', default: key_offwhite },
+        activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
 
@@ -357,29 +434,35 @@ AFRAME.registerComponent('gui-circle-timer', {
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
+        canvas.className = 'visuallyhidden';
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:back; color:' + data.backgroundColor + ';');
+        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
 
         drawText(ctx, canvas, data.countDown, '200px ' + data.fontFamily, data.fontColor, 1);
 
         var timerContainer = document.createElement("a-entity");
         timerContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
-        timerContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
+        timerContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.backgroundColor);
         timerContainer.setAttribute('rotation', '90 0 0');
         timerContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(timerContainer);
 
         var timerIndicator1 = document.createElement("a-ring");
-        timerIndicator1.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.backgroundColor);
+        timerIndicator1.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
         timerIndicator1.setAttribute('radius-inner', '' + guiItem.height / 3);
         timerIndicator1.setAttribute('radius-outer', '' + guiItem.height / 2);
         timerIndicator1.setAttribute('theta-start', '-1');
@@ -387,7 +470,7 @@ AFRAME.registerComponent('gui-circle-timer', {
         timerIndicator1.setAttribute('position', '0 0 0.04');
         el.appendChild(timerIndicator1);
         var timerIndicator2 = document.createElement("a-ring");
-        timerIndicator2.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.backgroundColor);
+        timerIndicator2.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
         timerIndicator2.setAttribute('radius-inner', '' + guiItem.height / 3);
         timerIndicator2.setAttribute('radius-outer', '' + guiItem.height / 2);
         timerIndicator2.setAttribute('theta-start', '89');
@@ -395,7 +478,7 @@ AFRAME.registerComponent('gui-circle-timer', {
         timerIndicator2.setAttribute('position', '0 0 0.04');
         el.appendChild(timerIndicator2);
         var timerIndicator3 = document.createElement("a-ring");
-        timerIndicator3.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.backgroundColor);
+        timerIndicator3.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
         timerIndicator3.setAttribute('radius-inner', '' + guiItem.height / 3);
         timerIndicator3.setAttribute('radius-outer', '' + guiItem.height / 2);
         timerIndicator3.setAttribute('theta-start', '179');
@@ -403,7 +486,7 @@ AFRAME.registerComponent('gui-circle-timer', {
         timerIndicator3.setAttribute('position', '0 0 0.04');
         el.appendChild(timerIndicator3);
         var timerIndicator4 = document.createElement("a-ring");
-        timerIndicator4.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.backgroundColor);
+        timerIndicator4.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
         timerIndicator4.setAttribute('radius-inner', '' + guiItem.height / 3);
         timerIndicator4.setAttribute('radius-outer', '' + guiItem.height / 2);
         timerIndicator4.setAttribute('theta-start', '269');
@@ -433,6 +516,24 @@ AFRAME.registerComponent('gui-circle-timer', {
     update: function update(oldData) {}
 });
 
+AFRAME.registerPrimitive('a-gui-circle-timer', {
+    defaultComponents: {
+        'gui-item': { type: 'circle-timer' },
+        'gui-circle-timer': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'count-down': 'gui-circle-timer.countDown',
+        'font-family': 'gui-circle-timer.fontFamily',
+        'font-color': 'gui-circle-timer.fontColor',
+        'border-color': 'gui-circle-timer.borderColor',
+        'background-color': 'gui-circle-timer.backgroundColor',
+        'active-color': 'gui-circle-timer.activeColor'
+    }
+});
+
 /***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -442,178 +543,777 @@ AFRAME.registerComponent('gui-circle-timer', {
 
 AFRAME.registerComponent('gui-cursor', {
     schema: {
-        cursorColor: { type: 'string', default: key_white },
-        cursorActiveColor: { type: 'string', default: key_orange_light }
+        color: { type: 'string', default: key_white },
+        hoverColor: { type: 'string', default: key_white },
+        activeColor: { type: 'string', default: key_orange },
+        distance: { type: 'number', default: -1 },
+        design: { type: 'string', default: 'dot' }
     },
     init: function init() {
         var cursor = this.cursor = this.el.getAttribute('cursor');
-        var fuse = cursor.fuse; // true if cursor fuse is enabled.
+        var fuse = this.fuse = cursor.fuse; // true if cursor fuse is enabled.
         var fuseTimeout = cursor.fuseTimeout; // animation lenght should be based on this value
-        var defaultHoverAnimationDuration = 400;
-        console.log("fuse: " + fuse + ", fuseTimeout: " + fuseTimeout);
 
         var el = this.el;
-        /*
-         var cursorShadow = document.createElement("a-entity");
-         cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.5;');
-         cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.025; radiusOuter:0.03');
-         this.el.appendChild(cursorShadow);
-          var hoverGuiAnimationShadow = document.createElement("a-animation");
-         hoverGuiAnimationShadow.setAttribute('begin', 'hovergui');
-         hoverGuiAnimationShadow.setAttribute('easing', 'linear');
-         hoverGuiAnimationShadow.setAttribute('attribute', 'geometry.radiusInner');
-         hoverGuiAnimationShadow.setAttribute('fill', 'forwards');
-         hoverGuiAnimationShadow.setAttribute('from', '0.025');
-         hoverGuiAnimationShadow.setAttribute('to', '0.035');
-         hoverGuiAnimationShadow.setAttribute('dur', `${defaultHoverAnimationDuration}`);
-         cursorShadow.appendChild(hoverGuiAnimationShadow);
-         */
-
-        var hoverGuiAnimation = document.createElement("a-animation");
-        hoverGuiAnimation.setAttribute('begin', 'hovergui');
-        hoverGuiAnimation.setAttribute('easing', 'linear');
-        hoverGuiAnimation.setAttribute('attribute', 'geometry.radiusInner');
-        hoverGuiAnimation.setAttribute('fill', 'forwards');
-        hoverGuiAnimation.setAttribute('from', '0.000001');
-        hoverGuiAnimation.setAttribute('to', '0.025');
-        hoverGuiAnimation.setAttribute('dur', '' + defaultHoverAnimationDuration);
-        this.el.appendChild(hoverGuiAnimation);
-
-        var hoverGuiAnimation2 = document.createElement("a-animation");
-        hoverGuiAnimation2.setAttribute('begin', 'hovergui');
-        hoverGuiAnimation2.setAttribute('easing', 'linear');
-        hoverGuiAnimation2.setAttribute('attribute', 'geometry.radiusOuter');
-        hoverGuiAnimation2.setAttribute('fill', 'forwards');
-        hoverGuiAnimation2.setAttribute('from', '0.025');
-        hoverGuiAnimation2.setAttribute('to', '0.035');
-        hoverGuiAnimation2.setAttribute('dur', '' + defaultHoverAnimationDuration);
-        this.el.appendChild(hoverGuiAnimation2);
-
-        var leaveGuiAnimation = document.createElement("a-animation");
-        leaveGuiAnimation.setAttribute('begin', 'leavegui');
-        leaveGuiAnimation.setAttribute('easing', 'linear');
-        leaveGuiAnimation.setAttribute('attribute', 'geometry.radiusInner');
-        leaveGuiAnimation.setAttribute('fill', 'forwards');
-        leaveGuiAnimation.setAttribute('from', '0.02');
-        leaveGuiAnimation.setAttribute('to', '0.000001');
-        leaveGuiAnimation.setAttribute('dur', '' + defaultHoverAnimationDuration);
-        this.el.appendChild(leaveGuiAnimation);
-
-        var leaveGuiAnimation2 = document.createElement("a-animation");
-        leaveGuiAnimation2.setAttribute('begin', 'leavegui');
-        leaveGuiAnimation2.setAttribute('easing', 'linear');
-        leaveGuiAnimation2.setAttribute('attribute', 'geometry.radiusOuter');
-        leaveGuiAnimation2.setAttribute('fill', 'forwards');
-        leaveGuiAnimation2.setAttribute('from', '0.035');
-        leaveGuiAnimation2.setAttribute('to', '0.025');
-        leaveGuiAnimation2.setAttribute('dur', '' + defaultHoverAnimationDuration);
-        this.el.appendChild(leaveGuiAnimation2);
-
-        var leaveGuiAnimation3 = document.createElement("a-animation");
-        leaveGuiAnimation3.setAttribute('begin', 'leavegui');
-        leaveGuiAnimation3.setAttribute('easing', 'linear');
-        leaveGuiAnimation3.setAttribute('attribute', 'material.color');
-        leaveGuiAnimation3.setAttribute('fill', 'forwards');
-        leaveGuiAnimation3.setAttribute('from', this.data.cursorActiveColor);
-        leaveGuiAnimation3.setAttribute('to', this.data.cursorColor);
-        leaveGuiAnimation3.setAttribute('dur', '0');
-        this.el.appendChild(leaveGuiAnimation3);
-
-        var leaveGuiAnimation4 = document.createElement("a-animation");
-        leaveGuiAnimation4.setAttribute('begin', 'leavegui');
-        leaveGuiAnimation4.setAttribute('easing', 'linear');
-        leaveGuiAnimation4.setAttribute('attribute', 'scale');
-        leaveGuiAnimation4.setAttribute('fill', 'forwards');
-        leaveGuiAnimation4.setAttribute('to', '1 1 1');
-        leaveGuiAnimation4.setAttribute('dur', '0');
-        this.el.appendChild(leaveGuiAnimation4);
-
-        var leaveGuiAnimation5 = document.createElement("a-animation");
-        leaveGuiAnimation5.setAttribute('begin', 'leavegui');
-        leaveGuiAnimation5.setAttribute('easing', 'linear');
-        leaveGuiAnimation5.setAttribute('attribute', 'geometry.thetaLength');
-        leaveGuiAnimation5.setAttribute('fill', 'forwards');
-        leaveGuiAnimation5.setAttribute('to', '360');
-        leaveGuiAnimation5.setAttribute('dur', '0');
-        this.el.appendChild(leaveGuiAnimation5);
-
-        /*
-         var fuseScaleAnimation = document.createElement("a-animation");
-         fuseScaleAnimation.setAttribute('begin', 'cursor-fusing');
-         fuseScaleAnimation.setAttribute('easing', 'linear');
-         fuseScaleAnimation.setAttribute('attribute', 'scale');
-         fuseScaleAnimation.setAttribute('fill', 'forwards');
-         fuseScaleAnimation.setAttribute('from', '1 1 1');
-         fuseScaleAnimation.setAttribute('to', '2 2 2');
-         fuseScaleAnimation.setAttribute('delay', `${defaultHoverAnimationDuration}`);
-         fuseScaleAnimation.setAttribute('dur', '400');
-         this.el.appendChild(fuseScaleAnimation);
-         */
-
+        var data = this.data;
+        var defaultHoverAnimationDuration = 200;
         var fuseAnimationDuration = fuseTimeout - defaultHoverAnimationDuration;
-        var fuseColorAnimation = document.createElement("a-animation");
-        fuseColorAnimation.setAttribute('begin', 'cursor-fusing');
-        fuseColorAnimation.setAttribute('easing', 'linear');
-        fuseColorAnimation.setAttribute('attribute', 'material.color');
-        fuseColorAnimation.setAttribute('fill', 'forwards');
-        fuseColorAnimation.setAttribute('from', this.data.cursorColor);
-        fuseColorAnimation.setAttribute('to', this.data.cursorActiveColor);
-        fuseColorAnimation.setAttribute('delay', '' + defaultHoverAnimationDuration);
-        fuseColorAnimation.setAttribute('dur', '' + fuseAnimationDuration);
-        this.el.appendChild(fuseColorAnimation);
 
-        var fuseFillAnimation = document.createElement("a-animation");
-        fuseFillAnimation.setAttribute('begin', 'cursor-fusing');
-        fuseFillAnimation.setAttribute('easing', 'linear');
-        fuseFillAnimation.setAttribute('attribute', 'geometry.thetaLength');
-        fuseFillAnimation.setAttribute('fill', 'forwards');
-        fuseFillAnimation.setAttribute('from', '0');
-        fuseFillAnimation.setAttribute('to', '360');
-        fuseFillAnimation.setAttribute('delay', '' + defaultHoverAnimationDuration);
-        fuseFillAnimation.setAttribute('dur', '' + fuseAnimationDuration);
-        this.el.appendChild(fuseFillAnimation);
+        console.log("fuse: " + fuse + ", fuseTimeout: " + fuseTimeout);
 
-        var clickAnimation = document.createElement("a-animation");
-        clickAnimation.setAttribute('begin', 'click');
-        clickAnimation.setAttribute('easing', 'ease-in');
-        clickAnimation.setAttribute('attribute', 'scale');
-        clickAnimation.setAttribute('fill', 'forwards');
-        clickAnimation.setAttribute('from', '1 1 1');
-        clickAnimation.setAttribute('to', '1.25 1.25 1.25');
-        clickAnimation.setAttribute('dur', '300');
-        this.el.appendChild(clickAnimation);
+        if (data.design == 'dot') {
+
+            el.setAttribute('geometry', 'primitive: ring; radiusInner:0.000001; radiusOuter:0.025');
+            el.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            el.setAttribute('position', '0 0 ' + data.distance);
+
+            var hoverAniInner = document.createElement("a-animation");
+            hoverAniInner.setAttribute('begin', 'hovergui');
+            hoverAniInner.setAttribute('easing', 'linear');
+            hoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            hoverAniInner.setAttribute('fill', 'forwards');
+            hoverAniInner.setAttribute('from', '0.000001');
+            hoverAniInner.setAttribute('to', '0.0225');
+            hoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(hoverAniInner);
+
+            var hoverAniOuter = document.createElement("a-animation");
+            hoverAniOuter.setAttribute('begin', 'hovergui');
+            hoverAniOuter.setAttribute('easing', 'linear');
+            hoverAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
+            hoverAniOuter.setAttribute('fill', 'forwards');
+            hoverAniOuter.setAttribute('from', '0.025');
+            hoverAniOuter.setAttribute('to', '0.0275');
+            hoverAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(hoverAniOuter);
+
+            var hoverAniColor = document.createElement("a-animation");
+            hoverAniColor.setAttribute('begin', 'hovergui');
+            hoverAniColor.setAttribute('easing', 'linear');
+            hoverAniColor.setAttribute('attribute', 'material.color');
+            hoverAniColor.setAttribute('fill', 'forwards');
+            hoverAniColor.setAttribute('from', '' + data.color);
+            hoverAniColor.setAttribute('to', '' + data.hoverColor);
+            hoverAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(hoverAniColor);
+
+            var leaveAniInner = document.createElement("a-animation");
+            leaveAniInner.setAttribute('begin', 'leavegui');
+            leaveAniInner.setAttribute('easing', 'linear');
+            leaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            leaveAniInner.setAttribute('fill', 'forwards');
+            leaveAniInner.setAttribute('from', '0.0225');
+            leaveAniInner.setAttribute('to', '0.000001');
+            leaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(leaveAniInner);
+
+            var leaveAniOuter = document.createElement("a-animation");
+            leaveAniOuter.setAttribute('begin', 'leavegui');
+            leaveAniOuter.setAttribute('easing', 'linear');
+            leaveAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
+            leaveAniOuter.setAttribute('fill', 'forwards');
+            leaveAniOuter.setAttribute('from', '0.0275');
+            leaveAniOuter.setAttribute('to', '0.025');
+            leaveAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(leaveAniOuter);
+
+            var leaveAniColor = document.createElement("a-animation");
+            leaveAniColor.setAttribute('begin', 'leavegui');
+            leaveAniColor.setAttribute('easing', 'linear');
+            leaveAniColor.setAttribute('attribute', 'material.color');
+            leaveAniColor.setAttribute('fill', 'forwards');
+            leaveAniColor.setAttribute('from', '' + data.hoverColor);
+            leaveAniColor.setAttribute('to', '' + data.color);
+            leaveAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(leaveAniColor);
+
+            var clickAnimation = document.createElement("a-animation");
+            clickAnimation.setAttribute('begin', 'click');
+            clickAnimation.setAttribute('easing', 'ease-in');
+            clickAnimation.setAttribute('attribute', 'scale');
+            clickAnimation.setAttribute('fill', 'forwards');
+            clickAnimation.setAttribute('from', '1 1 1');
+            clickAnimation.setAttribute('to', '1.25 1.25 1.25');
+            clickAnimation.setAttribute('dur', '200');
+            el.appendChild(clickAnimation);
+
+            var cursorShadow = document.createElement("a-entity");
+            cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.0275; radiusOuter:0.03; thetaLength:360');
+            cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorShadow.setAttribute('position', '0 0 0');
+            el.appendChild(cursorShadow);
+            this.cursorShadow = cursorShadow;
+
+            var shadowHoverAniInner = document.createElement("a-animation");
+            shadowHoverAniInner.setAttribute('begin', 'hovergui');
+            shadowHoverAniInner.setAttribute('easing', 'linear');
+            shadowHoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            shadowHoverAniInner.setAttribute('fill', 'forwards');
+            shadowHoverAniInner.setAttribute('from', '0.0275');
+            shadowHoverAniInner.setAttribute('to', '0.03');
+            shadowHoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(shadowHoverAniInner);
+
+            var shadowHoverAniOuter = document.createElement("a-animation");
+            shadowHoverAniOuter.setAttribute('begin', 'hovergui');
+            shadowHoverAniOuter.setAttribute('easing', 'linear');
+            shadowHoverAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
+            shadowHoverAniOuter.setAttribute('fill', 'forwards');
+            shadowHoverAniOuter.setAttribute('from', '0.03');
+            shadowHoverAniOuter.setAttribute('to', '0.0325');
+            shadowHoverAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(shadowHoverAniOuter);
+
+            var shadowLeaveAniInner = document.createElement("a-animation");
+            shadowLeaveAniInner.setAttribute('begin', 'leavegui');
+            shadowLeaveAniInner.setAttribute('easing', 'linear');
+            shadowLeaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            shadowLeaveAniInner.setAttribute('fill', 'forwards');
+            shadowLeaveAniInner.setAttribute('from', '0.03');
+            shadowLeaveAniInner.setAttribute('to', '0.0275');
+            shadowLeaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(shadowLeaveAniInner);
+
+            var shadowLeaveAniOuter = document.createElement("a-animation");
+            shadowLeaveAniOuter.setAttribute('begin', 'leavegui');
+            shadowLeaveAniOuter.setAttribute('easing', 'linear');
+            shadowLeaveAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
+            shadowLeaveAniOuter.setAttribute('fill', 'forwards');
+            shadowLeaveAniOuter.setAttribute('from', '0.0325');
+            shadowLeaveAniOuter.setAttribute('to', '0.03');
+            shadowLeaveAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(shadowLeaveAniOuter);
+
+            if (fuse) {
+                var fuseLoader = document.createElement("a-entity");
+                fuseLoader.setAttribute('geometry', 'primitive: ring; radiusInner:0.03; radiusOuter:0.0375; thetaLength:0');
+                fuseLoader.setAttribute('material', 'color: ' + data.activeColor + '; shader: flat; opacity:1;');
+                fuseLoader.setAttribute('position', '0 0 0');
+                el.appendChild(fuseLoader);
+                this.fuseLoader = fuseLoader;
+
+                var fuseLoaderFillAni = document.createElement("a-animation");
+                fuseLoaderFillAni.setAttribute('begin', 'start-fusing');
+                fuseLoaderFillAni.setAttribute('easing', 'linear');
+                fuseLoaderFillAni.setAttribute('attribute', 'geometry.thetaLength');
+                fuseLoaderFillAni.setAttribute('fill', 'forwards');
+                fuseLoaderFillAni.setAttribute('from', '0');
+                fuseLoaderFillAni.setAttribute('to', '360');
+                fuseLoaderFillAni.setAttribute('delay', '' + defaultHoverAnimationDuration);
+                fuseLoaderFillAni.setAttribute('dur', '' + fuseAnimationDuration);
+                fuseLoader.appendChild(fuseLoaderFillAni);
+            }
+
+            //end dot design
+        } else if (data.design == 'ring') {
+            el.setAttribute('geometry', 'primitive: ring; radiusInner:0.0225; radiusOuter:0.0275');
+            el.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            el.setAttribute('position', '0 0 ' + data.distance);
+
+            var hoverAniInner = document.createElement("a-animation");
+            hoverAniInner.setAttribute('begin', 'hovergui');
+            hoverAniInner.setAttribute('easing', 'linear');
+            hoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            hoverAniInner.setAttribute('fill', 'forwards');
+            hoverAniInner.setAttribute('from', '0.0225');
+            hoverAniInner.setAttribute('to', '0.025');
+            hoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(hoverAniInner);
+
+            var hoverAniOuter = document.createElement("a-animation");
+            hoverAniOuter.setAttribute('begin', 'hovergui');
+            hoverAniOuter.setAttribute('easing', 'linear');
+            hoverAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
+            hoverAniOuter.setAttribute('fill', 'forwards');
+            hoverAniOuter.setAttribute('from', '0.025');
+            hoverAniOuter.setAttribute('to', '0.0325');
+            hoverAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(hoverAniOuter);
+
+            var hoverAniColor = document.createElement("a-animation");
+            hoverAniColor.setAttribute('begin', 'hovergui');
+            hoverAniColor.setAttribute('easing', 'linear');
+            hoverAniColor.setAttribute('attribute', 'material.color');
+            hoverAniColor.setAttribute('fill', 'forwards');
+            hoverAniColor.setAttribute('from', '' + data.color);
+            hoverAniColor.setAttribute('to', '' + data.hoverColor);
+            hoverAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(hoverAniColor);
+
+            var leaveAniInner = document.createElement("a-animation");
+            leaveAniInner.setAttribute('begin', 'leavegui');
+            leaveAniInner.setAttribute('easing', 'linear');
+            leaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            leaveAniInner.setAttribute('fill', 'forwards');
+            leaveAniInner.setAttribute('from', '0.025');
+            leaveAniInner.setAttribute('to', '0.0225');
+            leaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(leaveAniInner);
+
+            var leaveAniOuter = document.createElement("a-animation");
+            leaveAniOuter.setAttribute('begin', 'leavegui');
+            leaveAniOuter.setAttribute('easing', 'linear');
+            leaveAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
+            leaveAniOuter.setAttribute('fill', 'forwards');
+            leaveAniOuter.setAttribute('from', '0.0325');
+            leaveAniOuter.setAttribute('to', '0.0275');
+            leaveAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(leaveAniOuter);
+
+            var leaveAniColor = document.createElement("a-animation");
+            leaveAniColor.setAttribute('begin', 'leavegui');
+            leaveAniColor.setAttribute('easing', 'linear');
+            leaveAniColor.setAttribute('attribute', 'material.color');
+            leaveAniColor.setAttribute('fill', 'forwards');
+            leaveAniColor.setAttribute('from', '' + data.hoverColor);
+            leaveAniColor.setAttribute('to', '' + data.color);
+            leaveAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(leaveAniColor);
+
+            var clickAnimation = document.createElement("a-animation");
+            clickAnimation.setAttribute('begin', 'click');
+            clickAnimation.setAttribute('easing', 'ease-in');
+            clickAnimation.setAttribute('attribute', 'scale');
+            clickAnimation.setAttribute('fill', 'forwards');
+            clickAnimation.setAttribute('from', '1 1 1');
+            clickAnimation.setAttribute('to', '1.25 1.25 1.25');
+            clickAnimation.setAttribute('dur', '200');
+            el.appendChild(clickAnimation);
+
+            var cursorShadow = document.createElement("a-entity");
+            cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.03; radiusOuter:0.0325; thetaLength:360');
+            cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorShadow.setAttribute('position', '0 0 0');
+            el.appendChild(cursorShadow);
+            this.cursorShadow = cursorShadow;
+
+            var shadowHoverAniInner = document.createElement("a-animation");
+            shadowHoverAniInner.setAttribute('begin', 'hovergui');
+            shadowHoverAniInner.setAttribute('easing', 'linear');
+            shadowHoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            shadowHoverAniInner.setAttribute('fill', 'forwards');
+            shadowHoverAniInner.setAttribute('from', '0.03');
+            shadowHoverAniInner.setAttribute('to', '0.0325');
+            shadowHoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(shadowHoverAniInner);
+
+            var shadowHoverAniOuter = document.createElement("a-animation");
+            shadowHoverAniOuter.setAttribute('begin', 'hovergui');
+            shadowHoverAniOuter.setAttribute('easing', 'linear');
+            shadowHoverAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
+            shadowHoverAniOuter.setAttribute('fill', 'forwards');
+            shadowHoverAniOuter.setAttribute('from', '0.0325');
+            shadowHoverAniOuter.setAttribute('to', '0.0375');
+            shadowHoverAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(shadowHoverAniOuter);
+
+            var shadowLeaveAniInner = document.createElement("a-animation");
+            shadowLeaveAniInner.setAttribute('begin', 'leavegui');
+            shadowLeaveAniInner.setAttribute('easing', 'linear');
+            shadowLeaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            shadowLeaveAniInner.setAttribute('fill', 'forwards');
+            shadowLeaveAniInner.setAttribute('from', '0.0325');
+            shadowLeaveAniInner.setAttribute('to', '0.03');
+            shadowLeaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(shadowLeaveAniInner);
+
+            var shadowLeaveAniOuter = document.createElement("a-animation");
+            shadowLeaveAniOuter.setAttribute('begin', 'leavegui');
+            shadowLeaveAniOuter.setAttribute('easing', 'linear');
+            shadowLeaveAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
+            shadowLeaveAniOuter.setAttribute('fill', 'forwards');
+            shadowLeaveAniOuter.setAttribute('from', '0.0375');
+            shadowLeaveAniOuter.setAttribute('to', '0.0325');
+            shadowLeaveAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(shadowLeaveAniOuter);
+
+            if (fuse) {
+                var fuseLoader = document.createElement("a-entity");
+                fuseLoader.setAttribute('geometry', 'primitive: ring; radiusInner:0.035; radiusOuter:0.0425; thetaLength:0');
+                fuseLoader.setAttribute('material', 'color: ' + data.activeColor + '; shader: flat; opacity:1;');
+                fuseLoader.setAttribute('position', '0 0 0');
+                el.appendChild(fuseLoader);
+                this.fuseLoader = fuseLoader;
+
+                var fuseLoaderFillAni = document.createElement("a-animation");
+                fuseLoaderFillAni.setAttribute('begin', 'start-fusing');
+                fuseLoaderFillAni.setAttribute('easing', 'linear');
+                fuseLoaderFillAni.setAttribute('attribute', 'geometry.thetaLength');
+                fuseLoaderFillAni.setAttribute('fill', 'forwards');
+                fuseLoaderFillAni.setAttribute('from', '0');
+                fuseLoaderFillAni.setAttribute('to', '360');
+                fuseLoaderFillAni.setAttribute('delay', '' + defaultHoverAnimationDuration);
+                fuseLoaderFillAni.setAttribute('dur', '' + fuseAnimationDuration);
+                fuseLoader.appendChild(fuseLoaderFillAni);
+            }
+
+            //end ring design
+        } else if (data.design == 'reticle') {
+            el.setAttribute('geometry', 'primitive: ring; radiusInner:0.000001; radiusOuter:0.0125; thetaLength:180;');
+            el.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            el.setAttribute('position', '0 0 ' + data.distance);
+
+            var hoverAniOpacity = document.createElement("a-animation");
+            hoverAniOpacity.setAttribute('begin', 'hovergui');
+            hoverAniOpacity.setAttribute('easing', 'linear');
+            hoverAniOpacity.setAttribute('attribute', 'material.opacity');
+            hoverAniOpacity.setAttribute('fill', 'forwards');
+            hoverAniOpacity.setAttribute('from', '1');
+            hoverAniOpacity.setAttribute('to', '0');
+            hoverAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(hoverAniOpacity);
+
+            var leaveAniOpacity = document.createElement("a-animation");
+            leaveAniOpacity.setAttribute('begin', 'leavegui');
+            leaveAniOpacity.setAttribute('easing', 'linear');
+            leaveAniOpacity.setAttribute('attribute', 'material.opacity');
+            leaveAniOpacity.setAttribute('fill', 'forwards');
+            leaveAniOpacity.setAttribute('from', '0');
+            leaveAniOpacity.setAttribute('to', '1');
+            leaveAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(leaveAniOpacity);
+
+            var cursorCenter = document.createElement("a-entity");
+            cursorCenter.setAttribute('geometry', 'primitive: ring; radiusInner:0.000001; radiusOuter:0.0125; thetaLength:180; thetaStart:180;');
+            cursorCenter.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorCenter.setAttribute('position', '0 0 0');
+            el.appendChild(cursorCenter);
+            this.cursorCenter = cursorCenter;
+
+            var centerHoverAniOpacity = document.createElement("a-animation");
+            centerHoverAniOpacity.setAttribute('begin', 'hovergui');
+            centerHoverAniOpacity.setAttribute('easing', 'linear');
+            centerHoverAniOpacity.setAttribute('attribute', 'material.opacity');
+            centerHoverAniOpacity.setAttribute('fill', 'forwards');
+            centerHoverAniOpacity.setAttribute('from', '0.25');
+            centerHoverAniOpacity.setAttribute('to', '0');
+            centerHoverAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorCenter.appendChild(centerHoverAniOpacity);
+
+            var centerLeaveAniOpacity = document.createElement("a-animation");
+            centerLeaveAniOpacity.setAttribute('begin', 'leavegui');
+            centerLeaveAniOpacity.setAttribute('easing', 'linear');
+            centerLeaveAniOpacity.setAttribute('attribute', 'material.opacity');
+            centerLeaveAniOpacity.setAttribute('fill', 'forwards');
+            centerLeaveAniOpacity.setAttribute('from', '0');
+            centerLeaveAniOpacity.setAttribute('to', '0.25');
+            centerLeaveAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorCenter.appendChild(centerLeaveAniOpacity);
+
+            var cursorShadow = document.createElement("a-entity");
+            cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.0125; radiusOuter:0.0145');
+            cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorShadow.setAttribute('position', '0 0 0');
+            el.appendChild(cursorShadow);
+            this.cursorShadow = cursorShadow;
+
+            var cursorHoverAniColor = document.createElement("a-animation");
+            cursorHoverAniColor.setAttribute('begin', 'hovergui');
+            cursorHoverAniColor.setAttribute('easing', 'linear');
+            cursorHoverAniColor.setAttribute('attribute', 'material.color');
+            cursorHoverAniColor.setAttribute('fill', 'forwards');
+            cursorHoverAniColor.setAttribute('from', '#000000');
+            cursorHoverAniColor.setAttribute('to', '' + data.color);
+            cursorHoverAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(cursorHoverAniColor);
+
+            var cursorHoverAniOpacity = document.createElement("a-animation");
+            cursorHoverAniOpacity.setAttribute('begin', 'hovergui');
+            cursorHoverAniOpacity.setAttribute('easing', 'linear');
+            cursorHoverAniOpacity.setAttribute('attribute', 'material.opacity');
+            cursorHoverAniOpacity.setAttribute('fill', 'forwards');
+            cursorHoverAniOpacity.setAttribute('from', '0.25');
+            cursorHoverAniOpacity.setAttribute('to', '1');
+            cursorHoverAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(cursorHoverAniOpacity);
+
+            var cursorLeaveAniColor = document.createElement("a-animation");
+            cursorLeaveAniColor.setAttribute('begin', 'leavegui');
+            cursorLeaveAniColor.setAttribute('easing', 'linear');
+            cursorLeaveAniColor.setAttribute('attribute', 'material.color');
+            cursorLeaveAniColor.setAttribute('fill', 'forwards');
+            cursorLeaveAniColor.setAttribute('from', '' + data.color);
+            cursorLeaveAniColor.setAttribute('to', '#000000');
+            cursorLeaveAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(cursorLeaveAniColor);
+
+            var cursorLeaveAniOpacity = document.createElement("a-animation");
+            cursorLeaveAniOpacity.setAttribute('begin', 'leavegui');
+            cursorLeaveAniOpacity.setAttribute('easing', 'linear');
+            cursorLeaveAniOpacity.setAttribute('attribute', 'material.opacity');
+            cursorLeaveAniOpacity.setAttribute('fill', 'forwards');
+            cursorLeaveAniOpacity.setAttribute('from', '1');
+            cursorLeaveAniOpacity.setAttribute('to', '0.25');
+            cursorLeaveAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorShadow.appendChild(cursorLeaveAniOpacity);
+
+            var cursorShadowTL = document.createElement("a-entity");
+            cursorShadowTL.setAttribute('geometry', 'primitive: plane; width:0.005; height:0.005;');
+            cursorShadowTL.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorShadowTL.setAttribute('position', '-0.0325 0.0325 0');
+            el.appendChild(cursorShadowTL);
+            this.cursorShadowTL = cursorShadowTL;
+            var cursorShadowBL = document.createElement("a-entity");
+            cursorShadowBL.setAttribute('geometry', 'primitive: plane; width:0.005; height:0.005;');
+            cursorShadowBL.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorShadowBL.setAttribute('position', '-0.0325 -0.0325 0');
+            el.appendChild(cursorShadowBL);
+            this.cursorShadowBL = cursorShadowBL;
+            var cursorShadowTR = document.createElement("a-entity");
+            cursorShadowTR.setAttribute('geometry', 'primitive: plane; width:0.005; height:0.005;');
+            cursorShadowTR.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorShadowTR.setAttribute('position', '0.0325 0.0325 0');
+            el.appendChild(cursorShadowTR);
+            this.cursorShadowTR = cursorShadowTR;
+            var cursorShadowBR = document.createElement("a-entity");
+            cursorShadowBR.setAttribute('geometry', 'primitive: plane; width:0.005; height:0.005;');
+            cursorShadowBR.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorShadowBR.setAttribute('position', '0.0325 -0.0325 0');
+            el.appendChild(cursorShadowBR);
+            this.cursorShadowBR = cursorShadowBR;
+
+            var cursorBoundTL = document.createElement("a-entity");
+            cursorBoundTL.setAttribute('geometry', 'primitive: plane; width:0.015; height:0.0035;');
+            cursorBoundTL.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorBoundTL.setAttribute('position', '-0.03 0.0375 0');
+            el.appendChild(cursorBoundTL);
+            this.cursorBoundTL = cursorBoundTL;
+            var cursorBoundTL2 = document.createElement("a-entity");
+            cursorBoundTL2.setAttribute('geometry', 'primitive: plane; width:0.0035; height:0.015;');
+            cursorBoundTL2.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorBoundTL2.setAttribute('position', '-0.0375 0.03 0');
+            el.appendChild(cursorBoundTL2);
+            this.cursorBoundTL2 = cursorBoundTL2;
+
+            var cursorBoundTR = document.createElement("a-entity");
+            cursorBoundTR.setAttribute('geometry', 'primitive: plane; width:0.015; height:0.0035;');
+            cursorBoundTR.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorBoundTR.setAttribute('position', '0.03 0.0375 0');
+            el.appendChild(cursorBoundTR);
+            this.cursorBoundTR = cursorBoundTR;
+            var cursorBoundTR2 = document.createElement("a-entity");
+            cursorBoundTR2.setAttribute('geometry', 'primitive: plane; width:0.0035; height:0.015;');
+            cursorBoundTR2.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorBoundTR2.setAttribute('position', '0.0375 0.03 0');
+            el.appendChild(cursorBoundTR2);
+            this.cursorBoundTR2 = cursorBoundTR2;
+
+            var cursorBoundBL = document.createElement("a-entity");
+            cursorBoundBL.setAttribute('geometry', 'primitive: plane; width:0.015; height:0.0035;');
+            cursorBoundBL.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorBoundBL.setAttribute('position', '-0.03 -0.0375 0');
+            el.appendChild(cursorBoundBL);
+            this.cursorBoundBL = cursorBoundBL;
+            var cursorBoundBL2 = document.createElement("a-entity");
+            cursorBoundBL2.setAttribute('geometry', 'primitive: plane; width:0.0035; height:0.015;');
+            cursorBoundBL2.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorBoundBL2.setAttribute('position', '-0.0375 -0.03 0');
+            el.appendChild(cursorBoundBL2);
+            this.cursorBoundBL2 = cursorBoundBL2;
+
+            var cursorBoundBR = document.createElement("a-entity");
+            cursorBoundBR.setAttribute('geometry', 'primitive: plane; width:0.015; height:0.0035;');
+            cursorBoundBR.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorBoundBR.setAttribute('position', '0.03 -0.0375 0');
+            el.appendChild(cursorBoundBR);
+            this.cursorBoundBR = cursorBoundBR;
+            var cursorBoundBR2 = document.createElement("a-entity");
+            cursorBoundBR2.setAttribute('geometry', 'primitive: plane; width:0.0035; height:0.015;');
+            cursorBoundBR2.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorBoundBR2.setAttribute('position', '0.0375 -0.03 0');
+            el.appendChild(cursorBoundBR2);
+            this.cursorBoundBR2 = cursorBoundBR2;
+
+            if (fuse) {
+                var fuseLoader = document.createElement("a-entity");
+                fuseLoader.setAttribute('geometry', 'primitive: plane; width:0.000001; height:0.01;');
+                fuseLoader.setAttribute('material', 'color: ' + data.activeColor + '; shader: flat; opacity:1;');
+                fuseLoader.setAttribute('position', '0 -0.05 0');
+                el.appendChild(fuseLoader);
+                this.fuseLoader = fuseLoader;
+
+                var fuseLoaderFillAni = document.createElement("a-animation");
+                fuseLoaderFillAni.setAttribute('begin', 'start-fusing');
+                fuseLoaderFillAni.setAttribute('easing', 'linear');
+                fuseLoaderFillAni.setAttribute('attribute', 'geometry.width');
+                fuseLoaderFillAni.setAttribute('fill', 'forwards');
+                fuseLoaderFillAni.setAttribute('from', '0');
+                fuseLoaderFillAni.setAttribute('to', '0.075');
+                fuseLoaderFillAni.setAttribute('delay', '' + defaultHoverAnimationDuration);
+                fuseLoaderFillAni.setAttribute('dur', '' + fuseAnimationDuration);
+                fuseLoader.appendChild(fuseLoaderFillAni);
+            }
+
+            //end reticle design
+        } else if (data.design == 'cross') {
+            el.setAttribute('geometry', 'primitive: ring; radiusInner:0.035; radiusOuter:0.0375');
+            el.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            el.setAttribute('position', '0 0 ' + data.distance);
+
+            var hoverAniInner = document.createElement("a-animation");
+            hoverAniInner.setAttribute('begin', 'hovergui');
+            hoverAniInner.setAttribute('easing', 'linear');
+            hoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            hoverAniInner.setAttribute('fill', 'forwards');
+            hoverAniInner.setAttribute('from', '0.035');
+            hoverAniInner.setAttribute('to', '0.0315');
+            hoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(hoverAniInner);
+
+            var leaveAniInner = document.createElement("a-animation");
+            leaveAniInner.setAttribute('begin', 'leavegui');
+            leaveAniInner.setAttribute('easing', 'linear');
+            leaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
+            leaveAniInner.setAttribute('fill', 'forwards');
+            leaveAniInner.setAttribute('from', '0.0315');
+            leaveAniInner.setAttribute('to', '0.035');
+            leaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            el.appendChild(leaveAniInner);
+
+            var cursorShadow = document.createElement("a-entity");
+            cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.0375; radiusOuter:0.04; thetaLength:360');
+            cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
+            cursorShadow.setAttribute('position', '0 0 0');
+            el.appendChild(cursorShadow);
+            this.cursorShadow = cursorShadow;
+
+            var cursorVerticalTop = document.createElement("a-entity");
+            cursorVerticalTop.setAttribute('geometry', 'primitive: plane; width:0.0035; height:0.01875');
+            cursorVerticalTop.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorVerticalTop.setAttribute('position', '0 0.028125 0');
+            el.appendChild(cursorVerticalTop);
+            this.cursorVerticalTop = cursorVerticalTop;
+
+            var hoverAniInner1 = document.createElement("a-animation");
+            hoverAniInner1.setAttribute('begin', 'hovergui');
+            hoverAniInner1.setAttribute('easing', 'linear');
+            hoverAniInner1.setAttribute('attribute', 'geometry.width');
+            hoverAniInner1.setAttribute('fill', 'forwards');
+            hoverAniInner1.setAttribute('from', '0.0035');
+            hoverAniInner1.setAttribute('to', '0.007');
+            hoverAniInner1.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorVerticalTop.appendChild(hoverAniInner1);
+
+            var leaveAniInner1 = document.createElement("a-animation");
+            leaveAniInner1.setAttribute('begin', 'leavegui');
+            leaveAniInner1.setAttribute('easing', 'linear');
+            leaveAniInner1.setAttribute('attribute', 'geometry.width');
+            leaveAniInner1.setAttribute('fill', 'forwards');
+            leaveAniInner1.setAttribute('from', '0.007');
+            leaveAniInner1.setAttribute('to', '0.0035');
+            leaveAniInner1.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorVerticalTop.appendChild(leaveAniInner1);
+
+            var cursorVerticalBottom = document.createElement("a-entity");
+            cursorVerticalBottom.setAttribute('geometry', 'primitive: plane; width:0.0035; height:0.01875');
+            cursorVerticalBottom.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorVerticalBottom.setAttribute('position', '0 -0.028125 0');
+            el.appendChild(cursorVerticalBottom);
+            this.cursorVerticalBottom = cursorVerticalBottom;
+
+            var hoverAniInner2 = document.createElement("a-animation");
+            hoverAniInner2.setAttribute('begin', 'hovergui');
+            hoverAniInner2.setAttribute('easing', 'linear');
+            hoverAniInner2.setAttribute('attribute', 'geometry.width');
+            hoverAniInner2.setAttribute('fill', 'forwards');
+            hoverAniInner2.setAttribute('from', '0.0035');
+            hoverAniInner2.setAttribute('to', '0.007');
+            hoverAniInner2.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorVerticalBottom.appendChild(hoverAniInner2);
+
+            var leaveAniInner2 = document.createElement("a-animation");
+            leaveAniInner2.setAttribute('begin', 'leavegui');
+            leaveAniInner2.setAttribute('easing', 'linear');
+            leaveAniInner2.setAttribute('attribute', 'geometry.width');
+            leaveAniInner2.setAttribute('fill', 'forwards');
+            leaveAniInner2.setAttribute('from', '0.007');
+            leaveAniInner2.setAttribute('to', '0.0035');
+            leaveAniInner2.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorVerticalBottom.appendChild(leaveAniInner2);
+
+            var cursorHorizontalLeft = document.createElement("a-entity");
+            cursorHorizontalLeft.setAttribute('geometry', 'primitive: plane; width:0.01875; height:0.0035');
+            cursorHorizontalLeft.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorHorizontalLeft.setAttribute('position', '-0.028125 0 0');
+            el.appendChild(cursorHorizontalLeft);
+            this.cursorHorizontalLeft = cursorHorizontalLeft;
+
+            var hoverAniInner3 = document.createElement("a-animation");
+            hoverAniInner3.setAttribute('begin', 'hovergui');
+            hoverAniInner3.setAttribute('easing', 'linear');
+            hoverAniInner3.setAttribute('attribute', 'geometry.height');
+            hoverAniInner3.setAttribute('fill', 'forwards');
+            hoverAniInner3.setAttribute('from', '0.0035');
+            hoverAniInner3.setAttribute('to', '0.007');
+            hoverAniInner3.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorHorizontalLeft.appendChild(hoverAniInner3);
+
+            var leaveAniInner3 = document.createElement("a-animation");
+            leaveAniInner3.setAttribute('begin', 'leavegui');
+            leaveAniInner3.setAttribute('easing', 'linear');
+            leaveAniInner3.setAttribute('attribute', 'geometry.height');
+            leaveAniInner3.setAttribute('fill', 'forwards');
+            leaveAniInner3.setAttribute('from', '0.007');
+            leaveAniInner3.setAttribute('to', '0.0035');
+            leaveAniInner3.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorHorizontalLeft.appendChild(leaveAniInner3);
+
+            var cursorHorizontalRight = document.createElement("a-entity");
+            cursorHorizontalRight.setAttribute('geometry', 'primitive: plane; width:0.01875; height:0.0035');
+            cursorHorizontalRight.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
+            cursorHorizontalRight.setAttribute('position', '0.028125 0 0');
+            el.appendChild(cursorHorizontalRight);
+            this.cursorHorizontalRight = cursorHorizontalRight;
+
+            var hoverAniInner4 = document.createElement("a-animation");
+            hoverAniInner4.setAttribute('begin', 'hovergui');
+            hoverAniInner4.setAttribute('easing', 'linear');
+            hoverAniInner4.setAttribute('attribute', 'geometry.height');
+            hoverAniInner4.setAttribute('fill', 'forwards');
+            hoverAniInner4.setAttribute('from', '0.0035');
+            hoverAniInner4.setAttribute('to', '0.007');
+            hoverAniInner4.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorHorizontalRight.appendChild(hoverAniInner4);
+
+            var leaveAniInner4 = document.createElement("a-animation");
+            leaveAniInner4.setAttribute('begin', 'leavegui');
+            leaveAniInner4.setAttribute('easing', 'linear');
+            leaveAniInner4.setAttribute('attribute', 'geometry.height');
+            leaveAniInner4.setAttribute('fill', 'forwards');
+            leaveAniInner4.setAttribute('from', '0.007');
+            leaveAniInner4.setAttribute('to', '0.0035');
+            leaveAniInner4.setAttribute('dur', '' + defaultHoverAnimationDuration);
+            cursorHorizontalRight.appendChild(leaveAniInner4);
+
+            if (fuse) {
+                var fuseLoader = document.createElement("a-entity");
+                fuseLoader.setAttribute('geometry', 'primitive: ring; radiusInner:0.0415; radiusOuter:0.0485; thetaLength:0');
+                fuseLoader.setAttribute('material', 'color: ' + data.activeColor + '; shader: flat; opacity:1;');
+                fuseLoader.setAttribute('position', '0 0 0');
+                el.appendChild(fuseLoader);
+                this.fuseLoader = fuseLoader;
+
+                var fuseLoaderFillAni = document.createElement("a-animation");
+                fuseLoaderFillAni.setAttribute('begin', 'start-fusing');
+                fuseLoaderFillAni.setAttribute('easing', 'linear');
+                fuseLoaderFillAni.setAttribute('attribute', 'geometry.thetaLength');
+                fuseLoaderFillAni.setAttribute('fill', 'forwards');
+                fuseLoaderFillAni.setAttribute('from', '0');
+                fuseLoaderFillAni.setAttribute('to', '360');
+                fuseLoaderFillAni.setAttribute('delay', '' + defaultHoverAnimationDuration);
+                fuseLoaderFillAni.setAttribute('dur', '' + fuseAnimationDuration);
+                fuseLoader.appendChild(fuseLoaderFillAni);
+            }
+
+            //end cross design
+        }
 
         el.addEventListener('mouseenter', function () {
             console.log("in gui-cursor mousenter, el: " + el);
             el.emit('hovergui');
+            if (data.design == 'dot' || data.design == 'ring') {
+                cursorShadow.emit('hovergui');
+            } else if (data.design == 'cross') {
+                cursorShadow.emit('hovergui');
+                cursorVerticalTop.emit('hovergui');
+                cursorVerticalBottom.emit('hovergui');
+                cursorHorizontalLeft.emit('hovergui');
+                cursorHorizontalRight.emit('hovergui');
+            } else if (data.design == 'reticle') {
+                centerHoverAniOpacity.emit('hovergui');
+                cursorHoverAniColor.emit('hovergui');
+                cursorHoverAniOpacity.emit('hovergui');
+            }
         });
 
         el.addEventListener('mouseleave', function () {
             console.log("in gui-cursor mouseleave, el: " + el);
             el.emit('leavegui');
+            if (data.design == 'dot' || data.design == 'ring') {
+                cursorShadow.emit('leavegui');
+            } else if (data.design == 'cross') {
+                cursorVerticalTop.emit('leavegui');
+                cursorVerticalBottom.emit('leavegui');
+                cursorHorizontalLeft.emit('leavegui');
+                cursorHorizontalRight.emit('leavegui');
+            } else if (data.design == 'reticle') {
+                centerHoverAniOpacity.emit('leavegui');
+                cursorHoverAniColor.emit('leavegui');
+                cursorHoverAniOpacity.emit('leavegui');
+            }
+
+            if (fuse) {
+                fuseLoaderFillAni.stop();
+            }
+
+            el.setAttribute('scale', '1 1 1');
         });
 
-        //this.el.addEventListener("mouseenter", this.hovergui());
-        //this.el.addEventListener("mouseleave", this.leavegui());
-        // this.el.addEventListener("stateremoved", this.reset(this.ev));
+        if (fuse) {
+            el.addEventListener('fusing', function () {
+                fuseLoader.emit('start-fusing');
+            });
+        }
+
+        el.addEventListener("stateremoved", function (evt) {
+            console.log("evt.detail.state " + evt.detail.state);
+            if (evt.detail.state === 'cursor-fusing') {
+                if (data.design == 'dot' || data.design == 'ring' || data.design == 'cross') {
+                    if (fuse) {
+                        fuseLoaderFillAni.stop();
+                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.thetaLength', '0');
+                    }
+                } else if (data.design == 'reticle') {
+                    if (fuse) {
+                        fuseLoaderFillAni.stop();
+                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.width', '0.000001');
+                    }
+                }
+            } else if (evt.detail.state === 'cursor-hovering') {
+                if (data.design == 'dot' || data.design == 'ring') {
+                    AFRAME.utils.entity.setComponentProperty(this, 'scale', '1 1 1');
+                    if (fuse) {
+                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.thetaLength', '0');
+                    }
+                } else if (data.design == 'cross') {
+                    if (fuse) {
+                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.thetaLength', '0');
+                    }
+                } else if (data.design == 'reticle') {
+                    if (fuse) {
+                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.width', '0.000001');
+                    }
+                }
+            }
+        });
     },
     update: function update() {},
     tick: function tick() {},
     remove: function remove() {},
     pause: function pause() {},
     play: function play() {},
-    hovergui: function hovergui() {
-        //this.cursor.emit('hovergui');
-    },
-    leavegui: function leavegui(evt) {
-        // this.cursor.emit('leavegui');
-    },
     resetcursor: function resetcursor() {
-        if (evt.detail.state === 'cursor-fusing') {
-            AFRAME.utils.entity.setComponentProperty(this, "geometry.thetaLength", 360);
-            AFRAME.utils.entity.setComponentProperty(this, "material.color", "#ffffff");
-            AFRAME.utils.entity.setComponentProperty(this, "scale", "1 1 1");
-        }
+        // if (evt.detail.state === 'cursor-fusing') {
+        //     AFRAME.utils.entity.setComponentProperty(this, "geometry.thetaLength", 360);
+        //     AFRAME.utils.entity.setComponentProperty(this, "material.color", "#ffffff");
+        //     AFRAME.utils.entity.setComponentProperty(this, "scale", "1 1 1");
+        // }
+    }
+});
+
+AFRAME.registerPrimitive('a-gui-cursor', {
+    defaultComponents: {
+        'cursor': {},
+        'gui-cursor': {}
+    },
+    mappings: {
+        'fuse': 'cursor.fuse',
+        'fuse-timeout': 'cursor.fuseTimeout',
+        'color': 'gui-cursor.color',
+        'hover-color': 'gui-cursor.hoverColor',
+        'active-color': 'gui-cursor.activeColor',
+        'distance': 'gui-cursor.distance',
+        'design': 'gui-cursor.design'
     }
 });
 
@@ -626,6 +1326,39 @@ AFRAME.registerComponent('gui-cursor', {
 
 __webpack_require__(0);
 
+/*  //trying to figure out global styles that customize gui items
+var styles = StyleSheet.create({
+    fontFamily: {
+        type: 'string', 
+        default: 'Helvetica'
+    },
+    fontColor: {
+        type: 'string', 
+        default: key_offwhite
+    },
+    borderColor: {
+        type: 'string', 
+        default: key_offwhite
+    },
+    backgroundColor: {
+        type: 'string', 
+        default: key_grey
+    },
+    hoverColor: {
+        type: 'string', 
+        default: key_grey_dark
+    },
+    activeColor: {
+        type: 'string', 
+        default: key_orange
+    },
+    handleColor: {
+        type: 'string', 
+        default: key_offwhite
+    },            
+});
+*/
+
 AFRAME.registerComponent('gui-flex-container', {
     schema: {
         flexDirection: { type: 'string', default: 'row' },
@@ -633,10 +1366,20 @@ AFRAME.registerComponent('gui-flex-container', {
         alignItems: { type: 'string', default: 'flexStart' },
         itemPadding: { type: 'number', default: 0.0 },
         opacity: { type: 'number', default: 0.0 },
-        fontColor: { type: 'string', default: key_offwhite },
-        borderColor: { type: 'string', default: key_offwhite },
-        backgroundColor: { type: 'string', default: key_grey },
-        isTopContainer: { type: 'boolean', default: false }
+        isTopContainer: { type: 'boolean', default: false },
+        panelColor: { type: 'string', default: key_grey },
+
+        //global settings for GUI items
+        styles: {
+            fontFamily: { type: 'string', default: 'Helvetica' },
+            fontColor: { type: 'string', default: key_offwhite },
+            borderColor: { type: 'string', default: key_offwhite },
+            backgroundColor: { type: 'string', default: key_grey },
+            hoverColor: { type: 'string', default: key_grey_dark },
+            activeColor: { type: 'string', default: key_orange },
+            handleColor: { type: 'string', default: key_offwhite }
+        }
+
     },
     init: function init() {
         console.log("in aframe-gui-component init for: " + this.el.getAttribute("id"));
@@ -647,7 +1390,7 @@ AFRAME.registerComponent('gui-flex-container', {
         }
 
         this.el.setAttribute('geometry', 'primitive: plane; height: ' + containerGuiItem.height + '; width: ' + containerGuiItem.width + ';');
-        this.el.setAttribute('material', 'shader: flat; transparent: true; opacity: ' + this.data.opacity + '; color: ' + this.data.backgroundColor + '; side:front;');
+        this.el.setAttribute('material', 'shader: flat; transparent: true; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + '; side:front;');
 
         this.children = this.el.getChildEntities();
         console.log("childElements: " + this.children);
@@ -766,12 +1509,38 @@ AFRAME.registerComponent('gui-flex-container', {
             var panelBackground = document.createElement("a-entity");
 
             panelBackground.setAttribute('geometry', 'primitive: box; height: ' + guiItem.height + '; width: ' + guiItem.width + '; depth:0.025;');
-            console.log("about to set panel background color to: : " + this.data.backgroundColor);
-            panelBackground.setAttribute('material', 'shader: standard; depthTest: true; opacity: ' + this.data.opacity + '; color: ' + this.data.backgroundColor + ';');
+            console.log("about to set panel background color to: : " + this.data.panelColor);
+            panelBackground.setAttribute('material', 'shader: standard; depthTest: true; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + ';');
             panelBackground.setAttribute('position', this.el.getAttribute("position").x + ' ' + this.el.getAttribute("position").y + ' ' + (this.el.getAttribute("position").z - 0.0125));
             panelBackground.setAttribute('rotation', this.el.getAttribute("rotation").x + ' ' + this.el.getAttribute("rotation").y + ' ' + this.el.getAttribute("rotation").z);
             this.el.parentNode.insertBefore(panelBackground, this.el);
         }
+    }
+});
+
+AFRAME.registerPrimitive('a-gui-flex-container', {
+    defaultComponents: {
+        'gui-item': { type: 'flex-container' },
+        'gui-flex-container': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'flex-direction': 'gui-flex-container.flexDirection',
+        'justify-content': 'gui-flex-container.justifyContent',
+        'align-items': 'gui-flex-container.alignItems',
+        'item-padding': 'gui-flex-container.itemPadding',
+        'opacity': 'gui-flex-container.opacity',
+        'is-top-container': 'gui-flex-container.isTopContainer',
+        'panel-color': 'gui-flex-container.panelColor',
+        'font-family': 'gui-flex-container.styles.fontFamily',
+        'font-color': 'gui-flex-container.styles.fontColor',
+        'border-color': 'gui-flex-container.styles.borderColor',
+        'background-color': 'gui-flex-container.styles.backgroundColor',
+        'hover-color': 'gui-flex-container.styles.hoverColor',
+        'active-color': 'gui-flex-container.styles.activeColor',
+        'handle-color': 'gui-flex-container.styles.handleColor'
     }
 });
 
@@ -787,13 +1556,14 @@ AFRAME.registerComponent('gui-icon-button', {
         on: { default: 'click' },
         icon: { type: 'string', default: '' },
         iconActive: { type: 'string', default: '' },
-        fontColor: { type: 'string', default: key_offwhite },
+        toggle: { type: 'boolean', default: false },
+
         fontFamily: { type: 'string', default: 'Helvetica' },
+        fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
         hoverColor: { type: 'string', default: key_grey_dark },
-        activeColor: { type: 'string', default: key_orange },
-        toggle: { type: 'boolean', default: false }
+        activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
 
@@ -803,13 +1573,19 @@ AFRAME.registerComponent('gui-icon-button', {
         var multiplier = 350;
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
+        var toggleState = this.toggleState = data.toggle;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
 
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvasIcon');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -831,12 +1607,24 @@ AFRAME.registerComponent('gui-icon-button', {
         buttonEntity.setAttribute('rotation', '90 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(buttonEntity);
+        this.buttonEntity = buttonEntity;
+
+        var buttonAnimation = document.createElement("a-animation");
+        buttonAnimation.setAttribute('attribute', 'material.color');
+        buttonAnimation.setAttribute('begin', 'fadeOut');
+        buttonAnimation.setAttribute('from', data.activeColor);
+        buttonAnimation.setAttribute('to', data.backgroundColor);
+        buttonAnimation.setAttribute('dur', '400');
+        buttonEntity.appendChild(buttonAnimation);
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
         textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
 
         el.addEventListener('mouseenter', function () {
             buttonEntity.setAttribute('material', 'color', data.hoverColor);
@@ -849,12 +1637,19 @@ AFRAME.registerComponent('gui-icon-button', {
         });
 
         el.addEventListener(data.on, function (evt) {
-            console.log('I was clicked at: ', evt.detail.intersection.point);
-            data.toggle = !data.toggle;
+            if (!data.toggle) {
+                // if not toggling flashing active state
+                buttonEntity.emit('fadeOut');
+            } else {
+                buttonEntity.setAttribute('material', 'color', data.activeColor);
+            }
+            this.toggleState = !this.toggleState;
+
+            //console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: " + guiInteractable);
+            //console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: " + clickActionFunctionName);
+            //console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -863,7 +1658,35 @@ AFRAME.registerComponent('gui-icon-button', {
         });
     },
     play: function play() {},
-    update: function update(oldData) {}
+    update: function update(oldData) {
+        console.log("In button update, toggle: " + this.toggleState);
+    }
+});
+
+AFRAME.registerPrimitive('a-gui-icon-button', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'icon-button' },
+        'gui-icon-button': {}
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-icon-button.on',
+        'font-color': 'gui-icon-button.fontColor',
+        'font-family': 'gui-icon-button.fontFamily',
+        'border-color': 'gui-icon-button.borderColor',
+        'background-color': 'gui-icon-button.backgroundColor',
+        'hover-color': 'gui-icon-button.hoverColor',
+        'active-color': 'gui-icon-button.activeColor',
+        'toggle': 'gui-icon-button.toggle',
+        'icon': 'gui-icon-button.icon',
+        'icon-active': 'gui-icon-button.iconActive'
+    }
 });
 
 /***/ }),
@@ -878,20 +1701,22 @@ AFRAME.registerComponent('gui-icon-label-button', {
         on: { default: 'click' },
         icon: { type: 'string', default: '' },
         iconActive: { type: 'string', default: '' },
-        text: { type: 'string', default: 'label' },
-        fontColor: { type: 'string', default: key_offwhite },
+        text: { type: 'string', default: '' },
+        toggle: { type: 'boolean', default: false },
+
         fontFamily: { type: 'string', default: 'Helvetica' },
+        fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
         hoverColor: { type: 'string', default: key_grey_dark },
-        activeColor: { type: 'string', default: key_orange },
-        toggle: { type: 'boolean', default: false }
+        activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
 
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        var toggleState = this.toggleState = data.toggle;
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; side:front; color:' + data.backgroundColor + ';');
@@ -911,61 +1736,102 @@ AFRAME.registerComponent('gui-icon-label-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var multiplier = 350;
+        var buttonAnimation = document.createElement("a-animation");
+        buttonAnimation.setAttribute('attribute', 'material.color');
+        buttonAnimation.setAttribute('begin', 'fadeOut');
+        buttonAnimation.setAttribute('from', data.activeColor);
+        buttonAnimation.setAttribute('to', data.backgroundColor);
+        buttonAnimation.setAttribute('dur', '400');
+        buttonEntity.appendChild(buttonAnimation);
+
+        var multiplier = 550;
+        if (data.text != '') {
+            multiplier = 350;
+        }
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
 
         var iconCanvasWidth = guiItem.height * multiplier; //square
         var iconCanvasHeight = guiItem.height * multiplier;
         var iconCanvas = document.createElement("canvas");
         this.iconCanvas = iconCanvas;
+        iconCanvas.className = "visuallyhidden";
         iconCanvas.setAttribute('width', iconCanvasWidth);
         iconCanvas.setAttribute('height', iconCanvasHeight);
         iconCanvas.id = getUniqueId('canvasIcon');
-        document.body.appendChild(iconCanvas);
+        canvasContainer.appendChild(iconCanvas);
 
         var ctxIcon = this.ctxIcon = iconCanvas.getContext('2d');
         drawIcon(ctxIcon, iconCanvas, data.icon, data.fontColor, 1);
 
-        var iconEntityX = -guiItem.width * 0.5 + guiItem.height * 0.5;
+        var iconEntityX = 0;
+        if (data.text != '') {
+            iconEntityX = -guiItem.width * 0.5 + guiItem.height * 0.5;
+        }
+
         var iconEntity = document.createElement("a-entity");
-        iconEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
+
+        if (data.text != '') {
+            iconEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
+        } else {
+            iconEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 2 + '; height: ' + guiItem.height / 2 + ';');
+        }
         iconEntity.setAttribute('material', 'shader: flat; src: #' + iconCanvas.id + '; transparent: true; opacity: 1; side:front;');
         iconEntity.setAttribute('position', iconEntityX + ' 0 0.041');
         el.appendChild(iconEntity);
 
-        var labelWidth = guiItem.width - guiItem.height;
-        var canvasWidth = labelWidth * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-        var labelCanvas = document.createElement("canvas");
-        this.labelCanvas = labelCanvas;
-        labelCanvas.setAttribute('width', canvasWidth);
-        labelCanvas.setAttribute('height', canvasHeight);
-        labelCanvas.id = getUniqueId('canvasLabel');
-        document.body.appendChild(labelCanvas);
+        if (data.text != '') {
 
-        var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, data.text, '100px ' + data.fontFamily, data.fontColor);
+            var labelWidth = guiItem.width - guiItem.height;
+            var canvasWidth = labelWidth * multiplier;
+            var canvasHeight = guiItem.height * multiplier;
+            var labelCanvas = document.createElement("canvas");
+            this.labelCanvas = labelCanvas;
+            labelCanvas.setAttribute('width', canvasWidth);
+            labelCanvas.setAttribute('height', canvasHeight);
+            labelCanvas.id = getUniqueId('canvasLabel');
+            canvasContainer.appendChild(labelCanvas);
 
-        var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
-        var labelEntity = document.createElement("a-entity");
-        labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
-        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
-        labelEntity.setAttribute('position', labelEntityX + ' 0 0.041');
-        el.appendChild(labelEntity);
+            var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
+            drawLabel(this.ctxLabel, this.labelCanvas, data.text, '100px ' + data.fontFamily, data.fontColor);
+
+            var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
+            var labelEntity = document.createElement("a-entity");
+            labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
+            labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
+            labelEntity.setAttribute('position', labelEntityX + ' 0 0.041');
+            el.appendChild(labelEntity);
+        }
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
 
         el.addEventListener('mouseenter', function () {
             buttonEntity.setAttribute('material', 'color', data.hoverColor);
         });
 
         el.addEventListener('mouseleave', function () {
-            buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            if (!data.toggle) {
+                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+            }
         });
 
         el.addEventListener(data.on, function (evt) {
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+            if (!data.toggle) {
+                // if not toggling flashing active state
+                buttonEntity.emit('fadeOut');
+            } else {
+                buttonEntity.setAttribute('material', 'color', data.activeColor);
+            }
+            this.toggleState = !this.toggleState;
+
+            //            console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: " + guiInteractable);
+            //            console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: " + clickActionFunctionName);
+            //            console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -974,7 +1840,36 @@ AFRAME.registerComponent('gui-icon-label-button', {
         });
     },
     play: function play() {},
-    update: function update(oldData) {}
+    update: function update(oldData) {
+        console.log("In button update, toggle: " + this.toggleState);
+    }
+});
+
+AFRAME.registerPrimitive('a-gui-icon-label-button', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'icon-label-button' },
+        'gui-icon-label-button': {}
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-icon-label-button.on',
+        'font-color': 'gui-icon-label-button.fontColor',
+        'font-family': 'gui-icon-label-button.fontFamily',
+        'border-color': 'gui-icon-label-button.borderColor',
+        'background-color': 'gui-icon-label-button.backgroundColor',
+        'hover-color': 'gui-icon-label-button.hoverColor',
+        'active-color': 'gui-icon-label-button.activeColor',
+        'toggle': 'gui-icon-label-button.toggle',
+        'icon': 'gui-icon-label-button.icon',
+        'icon-active': 'gui-icon-label-button.iconActive',
+        'value': 'gui-icon-label-button.text'
+    }
 });
 
 /***/ }),
@@ -988,14 +1883,15 @@ AFRAME.registerComponent('gui-input', {
     schema: {
         on: { default: 'click' },
         inputText: { type: 'string', default: 'Placeholder' },
-        fontColor: { type: 'string', default: key_grey_dark },
+        toggle: { type: 'boolean', default: false },
+
         fontFamily: { type: 'string', default: 'Helvetica' },
+        fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_grey_dark },
         borderHoverColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
         hoverColor: { type: 'string', default: key_white },
-        activeColor: { type: 'string', default: key_orange },
-        toggle: { type: 'boolean', default: false }
+        activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
 
@@ -1006,12 +1902,17 @@ AFRAME.registerComponent('gui-input', {
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -1047,6 +1948,9 @@ AFRAME.registerComponent('gui-input', {
         borderRightEntity.setAttribute('position', guiItem.width / 2 - 0.025 + ' 0 0.01');
         el.appendChild(borderRightEntity);
 
+        ////WAI ARIA Support
+        el.setAttribute('role', 'input');
+
         el.addEventListener('mouseenter', function () {
             el.setAttribute('material', 'color', data.hoverColor);
             borderTopEntity.setAttribute('material', 'color', data.borderHoverColor);
@@ -1080,6 +1984,32 @@ AFRAME.registerComponent('gui-input', {
     update: function update(oldData) {}
 });
 
+AFRAME.registerPrimitive('a-gui-input', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'input' },
+        'gui-input': {}
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-input.on',
+        'value': 'gui-input.inputText',
+        'toggle': 'gui-input.toggle',
+        'font-color': 'gui-input.fontColor',
+        'font-family': 'gui-input.fontFamily',
+        'border-color': 'gui-input.borderColor',
+        'border-hover-color': 'gui-input.borderHoverColor',
+        'background-color': 'gui-input.backgroundColor',
+        'hover-color': 'gui-input.hoverColor',
+        'active-color': 'gui-input.activeColor'
+    }
+});
+
 /***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1090,14 +2020,32 @@ AFRAME.registerComponent('gui-input', {
 AFRAME.registerComponent('gui-interactable', {
     schema: {
         clickAction: { type: 'string' },
-        hoverAction: { type: 'string' }
+        hoverAction: { type: 'string' },
+        keyCode: { type: 'number', default: null }
     },
-    init: function init() {},
+    init: function init() {
+        var _this = this;
+        var data = this.data;
+        var el = this.el;
+
+        if (data.keyCode) {
+            window.addEventListener("keydown", function (event) {
+                if (event.keyCode == data.keyCode) {
+                    console.log("key press by gui-interactable : " + data.keyCode);
+                    el.emit('click');
+                }
+                event.preventDefault();
+            }, true);
+        }
+    },
     update: function update() {},
     tick: function tick() {},
     remove: function remove() {},
     pause: function pause() {},
-    play: function play() {}
+    play: function play() {},
+    setClickAction: function setClickAction(action) {
+        this.data.clickAction = action; //change function dynamically
+    }
 });
 
 /***/ }),
@@ -1133,8 +2081,9 @@ AFRAME.registerComponent('gui-label', {
     schema: {
         text: { type: 'string', default: 'label text' },
         labelFor: { type: 'selector', default: null },
-        fontColor: { type: 'string', default: key_grey_dark },
+
         fontFamily: { type: 'string', default: 'Helvetica' },
+        fontColor: { type: 'string', default: key_grey_dark },
         backgroundColor: { type: 'string', default: key_offwhite }
     },
     init: function init() {
@@ -1146,12 +2095,17 @@ AFRAME.registerComponent('gui-label', {
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
 
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
+        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
-        document.body.appendChild(canvas);
+        canvasContainer.appendChild(canvas);
 
         var ctx = this.ctx = canvas.getContext('2d');
 
@@ -1174,6 +2128,24 @@ AFRAME.registerComponent('gui-label', {
     }
 });
 
+AFRAME.registerPrimitive('a-gui-label', {
+    defaultComponents: {
+        'gui-item': { type: 'label' },
+        'gui-label': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-button.on',
+        'value': 'gui-label.text',
+        'label-for': 'gui-label.labelFor',
+        'font-color': 'gui-label.fontColor',
+        'font-family': 'gui-label.fontFamily',
+        'background-color': 'gui-label.backgroundColor'
+    }
+});
+
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1183,9 +2155,6 @@ AFRAME.registerComponent('gui-label', {
 
 AFRAME.registerComponent('gui-progressbar', {
     schema: {
-        type: { type: 'string' },
-        width: { type: 'number', default: 1 },
-        height: { type: 'number', default: 1 },
         backgroundColor: { type: 'string', default: key_grey },
         activeColor: { type: 'string', default: key_orange }
     },
@@ -1218,6 +2187,20 @@ AFRAME.registerComponent('gui-progressbar', {
     play: function play() {}
 });
 
+AFRAME.registerPrimitive('a-gui-progressbar', {
+    defaultComponents: {
+        'gui-item': { type: 'progressbar' },
+        'gui-progressbar': {}
+    },
+    mappings: {
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'background-color': 'gui-progressbar.backgroundColor',
+        'active-color': 'gui-progressbar.activeColor'
+    }
+});
+
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1229,16 +2212,16 @@ AFRAME.registerComponent('gui-radio', {
     schema: {
         on: { default: 'click' },
         text: { type: 'string', default: 'text' },
-        fontColor: { type: 'string', default: key_grey_dark },
+        active: { type: 'boolean', default: true },
+        checked: { type: 'boolean', default: false },
+
         fontFamily: { type: 'string', default: 'Helvetica' },
-        hoverColor: { type: 'string', default: key_grey_light },
-        color: { type: 'string', default: key_grey },
+        fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_white },
         backgroundColor: { type: 'string', default: key_offwhite },
+        hoverColor: { type: 'string', default: key_grey_light },
         activeColor: { type: 'string', default: key_orange },
-        opacity: { type: 'number', default: 1.0 },
-        active: { type: 'boolean', default: true },
-        checked: { type: 'boolean', default: false }
+        handleColor: { type: 'string', default: key_grey }
     },
     init: function init() {
 
@@ -1255,7 +2238,7 @@ AFRAME.registerComponent('gui-radio', {
         radioBox.setAttribute('radius', '0.17');
         radioBox.setAttribute('height', '0.01');
         radioBox.setAttribute('rotation', '90 0 0');
-        radioBox.setAttribute('material', 'color:' + data.color + '; shader: flat;');
+        radioBox.setAttribute('material', 'color:' + data.handleColor + '; shader: flat;');
         radioBox.setAttribute('position', radioBoxX + ' 0 0');
         el.appendChild(radioBox);
 
@@ -1270,14 +2253,14 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('radius', '0.15');
         radioCenter.setAttribute('height', '0.02');
         radioCenter.setAttribute('rotation', '0 0 0');
-        radioCenter.setAttribute('material', 'color:' + data.color + '; shader: flat;');
+        radioCenter.setAttribute('material', 'color:' + data.handleColor + '; shader: flat;');
         radioBox.appendChild(radioCenter);
 
         var radioColorAnimation = document.createElement("a-animation");
         radioColorAnimation.setAttribute('begin', 'radioAnimation');
         radioColorAnimation.setAttribute('direction', 'alternate');
         radioColorAnimation.setAttribute('attribute', 'material.color');
-        radioColorAnimation.setAttribute('from', '' + data.color);
+        radioColorAnimation.setAttribute('from', '' + data.handleColor);
         radioColorAnimation.setAttribute('to', '' + data.activeColor);
         radioColorAnimation.setAttribute('dur', '500');
         radioColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
@@ -1319,12 +2302,18 @@ AFRAME.registerComponent('gui-radio', {
         var multiplier = 350;
         var canvasWidth = labelWidth * multiplier;
         var canvasHeight = guiItem.height * multiplier;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var labelCanvas = document.createElement("canvas");
         this.labelCanvas = labelCanvas;
+        labelCanvas.className = "visuallyhidden";
         labelCanvas.setAttribute('width', canvasWidth);
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
-        document.body.appendChild(labelCanvas);
+        canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
         drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px ' + data.fontFamily, this.data.fontColor);
@@ -1373,6 +2362,33 @@ AFRAME.registerComponent('gui-radio', {
 
 });
 
+AFRAME.registerPrimitive('a-gui-radio', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'radio' },
+        'gui-radio': {}
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-radio.on',
+        'value': 'gui-radio.text',
+        'active': 'gui-radio.active',
+        'checked': 'gui-radio.checked',
+        'font-color': 'gui-radio.fontColor',
+        'font-family': 'gui-radio.fontFamily',
+        'border-color': 'gui-radio.borderColor',
+        'background-color': 'gui-radio.backgroundColor',
+        'hover-color': 'gui-radio.hoverColor',
+        'active-color': 'gui-radio.activeColor',
+        'handle-color': 'gui-radio.handleColor'
+    }
+});
+
 /***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1383,12 +2399,6 @@ AFRAME.registerComponent('gui-radio', {
 AFRAME.registerComponent('gui-slider', {
     schema: {
         percent: { type: 'number', default: '0.5' },
-        backgroundColor: { type: 'string', default: key_offwhite },
-        barColor: { type: 'string', default: key_grey },
-        activeColor: { type: 'string', default: key_orange },
-        handleContainerColor: { type: 'string', default: key_grey },
-        handleColor: { type: 'string', default: key_white },
-        hoverColor: { type: 'string', default: key_grey_light },
         handleOuterRadius: { type: 'number', default: '0.17' },
         handleInnerRadius: { type: 'number', default: '0.13' },
         handleOuterDepth: { type: 'number', default: '0.04' },
@@ -1396,7 +2406,13 @@ AFRAME.registerComponent('gui-slider', {
         sliderBarHeight: { type: 'number', default: '0.05' },
         sliderBarDepth: { type: 'number', default: '0.03' },
         leftRightPadding: { type: 'number', default: '0.25' },
-        topBottomPadding: { type: 'number', default: '0.125' }
+        topBottomPadding: { type: 'number', default: '0.125' },
+
+        borderColor: { type: 'string', default: key_grey },
+        backgroundColor: { type: 'string', default: key_offwhite },
+        hoverColor: { type: 'string', default: key_grey_light },
+        activeColor: { type: 'string', default: key_orange },
+        handleColor: { type: 'string', default: key_white }
     },
     init: function init() {
 
@@ -1417,13 +2433,13 @@ AFRAME.registerComponent('gui-slider', {
 
         var sliderBar = document.createElement("a-entity");
         sliderBar.setAttribute('geometry', 'primitive: box; width: ' + (sliderWidth - data.percent * sliderWidth) + '; height: ' + data.sliderBarHeight + '; depth: ' + data.sliderBarDepth + ';');
-        sliderBar.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.barColor + ';');
+        sliderBar.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor + ';');
         sliderBar.setAttribute('position', data.percent * sliderWidth * 0.5 + ' 0 ' + (data.sliderBarDepth - 0.01));
         el.appendChild(sliderBar);
 
         var handleContainer = document.createElement("a-entity");
         handleContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + data.handleOuterRadius + '; height: ' + data.handleOuterDepth + ';');
-        handleContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.handleContainerColor + ';');
+        handleContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor + ';');
         handleContainer.setAttribute('rotation', '90 0 0');
         handleContainer.setAttribute('position', data.percent * sliderWidth - sliderWidth * 0.5 + ' 0 ' + (data.handleOuterDepth - 0.01));
         el.appendChild(handleContainer);
@@ -1479,6 +2495,36 @@ AFRAME.registerComponent('gui-slider', {
     play: function play() {}
 });
 
+AFRAME.registerPrimitive('a-gui-slider', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'slider' },
+        'gui-slider': {}
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'percent': 'gui-slider.percent',
+        'handle-outer-radius': 'gui-slider.handleOuterRadius',
+        'handle-inner-radius': 'gui-slider.handleInnerRadius',
+        'handle-outer-depth': 'gui-slider.handleOuterDepth',
+        'handle-inner-depth': 'gui-slider.handleInnerDepth',
+        'slider-bar-height': 'gui-slider.sliderBarHeight',
+        'slider-bar-depth': 'gui-slider.sliderBarDepth',
+        'left-right-padding': 'gui-slider.leftRightPadding',
+        'top-bottom-padding': 'gui-slider.topBottomPadding',
+        'border-color': 'gui-slider.borderColor',
+        'background-color': 'gui-slider.backgroundColor',
+        'hover-color': 'gui-slider.hoverColor',
+        'active-color': 'gui-slider.activeColor',
+        'handle-color': 'gui-slider.handleColor'
+    }
+});
+
 /***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -1490,19 +2536,17 @@ AFRAME.registerComponent('gui-toggle', {
     schema: {
         on: { default: 'click' },
         text: { type: 'string', default: 'text' },
-        fontColor: { type: 'string', default: key_grey_dark },
-        fontFamily: { type: 'string', default: 'Helvetica' },
-        borderColor: { type: 'string', default: key_grey },
-        borderWidth: { type: 'number', default: 1 },
-        toggleColor: { type: 'string', default: key_offwhite },
-        toggleOnColor: { type: 'string', default: key_orange },
-        toggleOffColor: { type: 'string', default: key_grey_dark },
-        hoverColor: { type: 'string', default: key_grey_light },
-        backgroundColor: { type: 'string', default: key_offwhite },
-        activeColor: { type: 'string', default: key_orange },
-        opacity: { type: 'number', default: 1.0 },
         active: { type: 'boolean', default: true },
-        checked: { type: 'boolean', default: false }
+        checked: { type: 'boolean', default: false },
+        borderWidth: { type: 'number', default: 1 },
+
+        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontColor: { type: 'string', default: key_grey_dark },
+        borderColor: { type: 'string', default: key_grey },
+        backgroundColor: { type: 'string', default: key_offwhite },
+        hoverColor: { type: 'string', default: key_grey_light },
+        activeColor: { type: 'string', default: key_orange },
+        handleColor: { type: 'string', default: key_offwhite }
     },
     init: function init() {
 
@@ -1519,7 +2563,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.setAttribute('width', '' + toggleBoxWidth);
         toggleBox.setAttribute('height', '0.35');
         toggleBox.setAttribute('depth', '0.01');
-        toggleBox.setAttribute('material', 'color:' + data.toggleOffColor + '; shader: flat;');
+        toggleBox.setAttribute('material', 'color:' + data.borderColor + '; shader: flat;');
         toggleBox.setAttribute('position', toggleBoxX + ' 0 0');
         el.appendChild(toggleBox);
 
@@ -1527,8 +2571,8 @@ AFRAME.registerComponent('gui-toggle', {
         toggleColorAnimation.setAttribute('begin', 'toggleAnimation');
         toggleColorAnimation.setAttribute('direction', 'alternate');
         toggleColorAnimation.setAttribute('attribute', 'material.color');
-        toggleColorAnimation.setAttribute('from', '' + data.toggleOffColor);
-        toggleColorAnimation.setAttribute('to', '' + data.toggleOnColor);
+        toggleColorAnimation.setAttribute('from', '' + data.borderColor);
+        toggleColorAnimation.setAttribute('to', '' + data.activeColor);
         toggleColorAnimation.setAttribute('dur', '500');
         toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
         toggleBox.appendChild(toggleColorAnimation);
@@ -1540,7 +2584,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('width', '' + toggleHandleWidth);
         toggleHandle.setAttribute('height', '0.3');
         toggleHandle.setAttribute('depth', '0.02');
-        toggleHandle.setAttribute('material', 'color:' + data.toggleColor);
+        toggleHandle.setAttribute('material', 'color:' + data.handleColor);
         toggleHandle.setAttribute('position', toggleHandleXStart + ' 0 0.02');
         toggleBox.appendChild(toggleHandle);
 
@@ -1558,12 +2602,18 @@ AFRAME.registerComponent('gui-toggle', {
         var multiplier = 350;
         var canvasWidth = labelWidth * multiplier;
         var canvasHeight = guiItem.height * multiplier;
+
+        var canvasContainer = document.createElement('div');
+        canvasContainer.setAttribute('class', 'visuallyhidden');
+        document.body.appendChild(canvasContainer);
+
         var labelCanvas = document.createElement("canvas");
         this.labelCanvas = labelCanvas;
+        labelCanvas.className = "visuallyhidden";
         labelCanvas.setAttribute('width', canvasWidth);
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
-        document.body.appendChild(labelCanvas);
+        canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
         drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px ' + data.fontFamily, this.data.fontColor);
@@ -1582,7 +2632,7 @@ AFRAME.registerComponent('gui-toggle', {
         });
 
         el.addEventListener('mouseleave', function () {
-            toggleHandle.setAttribute('material', 'color', data.toggleColor);
+            toggleHandle.setAttribute('material', 'color', data.handleColor);
         });
 
         el.addEventListener(data.on, function (evt) {
@@ -1609,6 +2659,34 @@ AFRAME.registerComponent('gui-toggle', {
     updateToggle: function updateToggle(active) {
 
         if (active) {} else {}
+    }
+});
+
+AFRAME.registerPrimitive('a-gui-toggle', {
+    defaultComponents: {
+        'gui-interactable': {},
+        'gui-item': { type: 'toggle' },
+        'gui-toggle': {}
+    },
+    mappings: {
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'key-code': 'gui-interactable.keyCode',
+        'width': 'gui-item.width',
+        'height': 'gui-item.height',
+        'margin': 'gui-item.margin',
+        'on': 'gui-toggle.on',
+        'active': 'gui-toggle.active',
+        'checked': 'gui-toggle.checked',
+        'value': 'gui-toggle.text',
+        'font-color': 'gui-toggle.fontColor',
+        'font-family': 'gui-toggle.fontFamily',
+        'border-width': 'gui-toggle.borderWidth',
+        'border-color': 'gui-toggle.borderColor',
+        'background-color': 'gui-toggle.backgroundColor',
+        'hover-color': 'gui-toggle.hoverColor',
+        'active-color': 'gui-toggle.activeColor',
+        'handle-color': 'gui-toggle.handleColor'
     }
 });
 
@@ -1645,6 +2723,7 @@ if (typeof AFRAME === 'undefined') {
 // Components
 __webpack_require__(0);
 __webpack_require__(10);
+__webpack_require__(9);
 __webpack_require__(5);
 __webpack_require__(11);
 __webpack_require__(1);
@@ -1658,7 +2737,6 @@ __webpack_require__(3);
 __webpack_require__(14);
 __webpack_require__(8);
 __webpack_require__(4);
-__webpack_require__(9);
 __webpack_require__(16);
 
 /***/ })
