@@ -105,7 +105,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 		<!-- Camera + cursor. -->
 		<a-entity camera>
 			<a-entity raycaster="interval: 1000; objects: [gui-interactable]"
-					  cursor="fuse: true; fuseTimeout: 2000"
+					  cursor="fuse: true; fuse-timeout: 2000"
 					  gui-cursor="design:reticle;" >
 			</a-entity> <!-- /cursor -->
 		</a-entity> <!-- /camera -->
