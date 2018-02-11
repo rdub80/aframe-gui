@@ -33,6 +33,8 @@ AFRAME.registerComponent('gui-label', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; side:front; color:${data.backgroundColor};`);
 
+        this.oldText = data.text;
+
         drawText(ctx, canvas, data.text, '100px ' + data.fontFamily, data.fontColor, 1);
 
         var textEntity = document.createElement("a-entity");
@@ -48,6 +50,12 @@ AFRAME.registerComponent('gui-label', {
         }
 
 
+    },
+
+    tick() {
+        if (this.data.text !== this.oldText) {
+          drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
+        }
     },
 });
 
