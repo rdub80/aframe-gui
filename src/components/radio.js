@@ -4,7 +4,7 @@ AFRAME.registerComponent('gui-radio', {
         text: {type: 'string', default: 'text'},
         active: {type: 'boolean', default: true},
         checked: {type: 'boolean', default: false},
-        radiosizecoef: {type: 'number', default: 1.0},
+        radiosizecoef: {type: 'number', default: 1},
 
 
         fontFamily: {type: 'string', default: 'Helvetica'},
@@ -27,11 +27,7 @@ AFRAME.registerComponent('gui-radio', {
         var radioBoxWidth = 0.50
         var radioBoxX = -guiItem.width*0.5 + guiItem.height*0.5;
         var radioBox = document.createElement("a-cylinder");
-
-        console.log(this.el);
-        console.log(guiItem);
-        console.log(data);
-        radioBox.setAttribute('radius', (0.17*data.radiosizecoef).toString());
+        radioBox.setAttribute('radius', 0.07*data.radiosizecoef);
         radioBox.setAttribute('height', '0.01');
         radioBox.setAttribute('rotation', '90 0 0');
         radioBox.setAttribute('material', `color:${data.handleColor}; shader: flat;`);
@@ -39,14 +35,14 @@ AFRAME.registerComponent('gui-radio', {
         el.appendChild(radioBox);
 
         var radioborder = document.createElement("a-torus");
-        radioborder.setAttribute('radius', (0.16*data.radioSizeCoef).toString());
+        radioborder.setAttribute('radius', 0.06*data.radiosizecoef);
         radioborder.setAttribute('radius-tubular', '0.01');
         radioborder.setAttribute('rotation', '90 0 0');
         radioborder.setAttribute('material', `color:${data.borderColor}; shader: flat;`);
         radioBox.appendChild(radioborder);
 
         var radioCenter = document.createElement("a-cylinder");
-        radioCenter.setAttribute('radius', (0.15*data.radioSizeCoef).toString());
+        radioCenter.setAttribute('radius', 0.05*data.radiosizecoef);
         radioCenter.setAttribute('height', '0.02');
         radioCenter.setAttribute('rotation', '0 0 0');
         radioCenter.setAttribute('material', `color:${data.handleColor}; shader: flat;`);
