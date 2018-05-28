@@ -72,7 +72,7 @@ AFRAME.registerComponent('gui-toggle', {
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
-        
+
         var labelCanvas = document.createElement("canvas");
         this.labelCanvas = labelCanvas;
         labelCanvas.className = "visuallyhidden";
@@ -82,7 +82,7 @@ AFRAME.registerComponent('gui-toggle', {
         canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px '+ data.fontFamily, this.data.fontColor);
+        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.textsize+' '+ data.fontFamily, this.data.fontColor);
 
         var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
         var labelEntity = document.createElement("a-entity");
@@ -147,6 +147,7 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        'textsize': 'gui-item.textsize',
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
@@ -161,4 +162,3 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'handle-color': 'gui-toggle.handleColor'
     }
 });
-
