@@ -106,7 +106,6 @@ AFRAME.registerComponent('gui-radio', {
         canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        alert(guiItem.textsize);
         drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.textsize+' '+ data.fontFamily, this.data.fontColor);
 
         var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
