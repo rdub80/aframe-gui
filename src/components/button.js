@@ -38,11 +38,7 @@ AFRAME.registerComponent('gui-button', {
 
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
-
-        //console.log("**********");
-        console.log(el);
-        console.log(data);
-        console.log(guiItem);
+        
         drawText(ctx, canvas, data.text, guiItem.textsize+' ' + data.fontFamily, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
@@ -143,9 +139,7 @@ AFRAME.registerPrimitive( 'a-gui-button', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-
         'textsize': 'gui-item.textsize',
-
         'on': 'gui-button.on',
         'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
