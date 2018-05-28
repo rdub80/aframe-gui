@@ -33,7 +33,7 @@ AFRAME.registerComponent('gui-circle-loader', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:back; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.count+'%', '110px ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.count+'%', guiItem.textsize+' ' + data.fontFamily, data.fontColor, 1);
 
         var loaderContainer = document.createElement("a-entity");
         loaderContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -78,6 +78,7 @@ AFRAME.registerPrimitive( 'a-gui-circle-loader', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        'textsize': 'gui-item.textsize',
         'count': 'gui-circle-loader.count',
         'font-family': 'gui-circle-loader.fontFamily',
         'font-color': 'gui-circle-loader.fontColor',
