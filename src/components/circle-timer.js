@@ -34,7 +34,7 @@ AFRAME.registerComponent('gui-circle-timer', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:back; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.countDown, '200px ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.countDown, guiItem.textsize+' ' + data.fontFamily, data.fontColor, 1);
 
         var timerContainer = document.createElement("a-entity");
         timerContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -115,6 +115,7 @@ AFRAME.registerPrimitive( 'a-gui-circle-timer', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        'textsize': 'gui-item.textsize',
         'count-down': 'gui-circle-timer.countDown',
         'font-family': 'gui-circle-timer.fontFamily',
         'font-color': 'gui-circle-timer.fontColor',
