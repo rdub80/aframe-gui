@@ -106,7 +106,8 @@ AFRAME.registerComponent('gui-radio', {
         canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px '+ data.fontFamily, this.data.fontColor);
+        alert(guiItem.textsize);
+        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.textsize+' '+ data.fontFamily, this.data.fontColor);
 
         var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
         var labelEntity = document.createElement("a-entity");
@@ -173,6 +174,7 @@ AFRAME.registerPrimitive( 'a-gui-radio', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        'textsize': 'gui-item.textsize',
         'on': 'gui-radio.on',
         'value': 'gui-radio.text',
         'active': 'gui-radio.active',
