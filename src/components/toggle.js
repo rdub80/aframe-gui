@@ -22,6 +22,7 @@ AFRAME.registerComponent('gui-toggle', {
 
         el.setAttribute('material', `shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
+        el.setAttribute("checked", false);
 
         var toggleBoxWidth = guiItem.height/1.75;
         var toggleBoxX = -guiItem.width*0.5 + guiItem.height/2;
@@ -102,8 +103,9 @@ AFRAME.registerComponent('gui-toggle', {
         });
 
         el.addEventListener(data.on, function (evt) {
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+            // console.log('I was clicked at: ', evt.detail.intersection.point);// Commented out to use own made click event without defining detail
             data.checked = !data.checked;
+
             toggleColorAnimation.emit('toggleAnimation');
             toggleHandleAnimation.emit('toggleAnimation');
             var guiInteractable = el.getAttribute("gui-interactable");
