@@ -119,6 +119,7 @@ AFRAME.registerComponent('gui-radio', {
 
 
         this.updateToggle(data.active);
+        el.setAttribute("checked",data.checked);
 
         el.addEventListener('mouseenter', function () {
             radioborder.setAttribute('material', 'color', data.hoverColor);
@@ -129,8 +130,11 @@ AFRAME.registerComponent('gui-radio', {
         });
 
         el.addEventListener(data.on, function (evt) {
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+            // console.log('I was clicked at: ', evt.detail.intersection.point); // Commented out to use own made click event without defining detail
             data.checked = !data.checked;
+            el.setAttribute("checked",data.checked);
+
+
             radioColorAnimation.emit('radioAnimation');
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
