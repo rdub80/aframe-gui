@@ -2343,7 +2343,7 @@ AFRAME.registerComponent('gui-radio', {
                 el.appendChild(labelEntity);
 
                 this.updateToggle(data.active);
-                el.setAttribute("checked", data.checked);
+                el.setAttribute("checked", data.active);
 
                 el.addEventListener('mouseenter', function () {
                         radioborder.setAttribute('material', 'color', data.hoverColor);
@@ -2582,8 +2582,8 @@ AFRAME.registerComponent('gui-toggle', {
                 var toggleBoxWidth = guiItem.height / 1.75;
                 var toggleBoxX = -guiItem.width * 0.5 + guiItem.height / 2;
                 var toggleBox = document.createElement("a-box");
-                toggleBox.setAttribute('width', '' + toggleBoxWidth);
-                toggleBox.setAttribute('height', '0.35');
+                toggleBox.setAttribute('width', toggleBoxWidth);
+                toggleBox.setAttribute('height', toggleBoxWidth);
                 toggleBox.setAttribute('depth', '0.01');
                 toggleBox.setAttribute('material', 'color:' + data.borderColor + '; shader: flat;');
                 toggleBox.setAttribute('position', toggleBoxX + ' 0 0');
@@ -2604,7 +2604,7 @@ AFRAME.registerComponent('gui-toggle', {
                 var toggleHandleXEnd = toggleHandleXStart + toggleBoxWidth - toggleHandleWidth - 0.1;
                 var toggleHandle = document.createElement("a-box");
                 toggleHandle.setAttribute('width', '' + toggleHandleWidth);
-                toggleHandle.setAttribute('height', '0.3');
+                toggleHandle.setAttribute('height', toggleBoxWidth * 0.80);
                 toggleHandle.setAttribute('depth', '0.02');
                 toggleHandle.setAttribute('material', 'color:' + data.handleColor);
                 toggleHandle.setAttribute('position', toggleHandleXStart + ' 0 0.02');
