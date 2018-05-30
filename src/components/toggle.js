@@ -102,6 +102,16 @@ AFRAME.registerComponent('gui-toggle', {
             toggleHandle.setAttribute('material', 'color', data.handleColor);
         });
 
+        el.addEventListener("uncheck", function (evt) { // a switch event to end recursive events (use it to disabled the toggle without calling click)
+            // console.log('I was clicked at: ', evt.detail.intersection.point);// Commented out to use own made click event without defining detail
+
+            if(data.checked){
+              data.checked = !data.checked;
+              toggleColorAnimation.emit('toggleAnimation');
+              toggleHandleAnimation.emit('toggleAnimation');
+            }
+        });
+
         el.addEventListener(data.on, function (evt) {
             // console.log('I was clicked at: ', evt.detail.intersection.point);// Commented out to use own made click event without defining detail
             data.checked = !data.checked;
