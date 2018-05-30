@@ -2573,6 +2573,8 @@ AFRAME.registerComponent('gui-toggle', {
 
                 var data = this.data;
                 var el = this.el;
+                el.setAttribute("locked", false);
+
                 var guiItem = el.getAttribute("gui-item");
 
                 el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
@@ -2595,7 +2597,7 @@ AFRAME.registerComponent('gui-toggle', {
                 toggleColorAnimation.setAttribute('attribute', 'material.color');
                 toggleColorAnimation.setAttribute('from', '' + data.borderColor);
                 toggleColorAnimation.setAttribute('to', '' + data.activeColor);
-                toggleColorAnimation.setAttribute('dur', '500');
+                toggleColorAnimation.setAttribute('dur', '50');
                 toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
                 toggleBox.appendChild(toggleColorAnimation);
 
@@ -2616,7 +2618,7 @@ AFRAME.registerComponent('gui-toggle', {
                 toggleHandleAnimation.setAttribute('attribute', 'position');
                 toggleHandleAnimation.setAttribute('from', toggleHandleXStart + ' 0 0.02');
                 toggleHandleAnimation.setAttribute('to', toggleHandleXEnd + ' 0 0.02');
-                toggleHandleAnimation.setAttribute('dur', '500');
+                toggleHandleAnimation.setAttribute('dur', '50');
                 toggleHandleAnimation.setAttribute('easing', 'ease-in-out-cubic');
                 toggleHandle.appendChild(toggleHandleAnimation);
 
@@ -2657,21 +2659,25 @@ AFRAME.registerComponent('gui-toggle', {
                         toggleHandle.setAttribute('material', 'color', data.handleColor);
                 });
 
+                el.addEventListener("check", function (evt) {
+                        if (!data.checked) {
+                                data.checked = true;
+                                toggleColorAnimation.emit('toggleAnimation');
+                                toggleHandleAnimation.emit('toggleAnimation');
+                        }
+                });
                 el.addEventListener("uncheck", function (evt) {
-                        // a switch event to end recursive events (use it to disabled the toggle without calling click)
-                        // console.log('I was clicked at: ', evt.detail.intersection.point);// Commented out to use own made click event without defining detail
-
+                        // a
                         if (data.checked) {
-                                data.checked = !data.checked;
+                                data.checked = false;
                                 toggleColorAnimation.emit('toggleAnimation');
                                 toggleHandleAnimation.emit('toggleAnimation');
                         }
                 });
 
                 el.addEventListener(data.on, function (evt) {
-                        // console.log('I was clicked at: ', evt.detail.intersection.point);// Commented out to use own made click event without defining detail
+                        console.log('I was clicked at: ', evt.detail.intersection.point);
                         data.checked = !data.checked;
-
                         toggleColorAnimation.emit('toggleAnimation');
                         toggleHandleAnimation.emit('toggleAnimation');
                         var guiInteractable = el.getAttribute("gui-interactable");
