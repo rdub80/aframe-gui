@@ -2356,7 +2356,6 @@ AFRAME.registerComponent('gui-radio', {
                 el.addEventListener(data.on, function (evt) {
                         // console.log('I was clicked at: ', evt.detail.intersection.point); // Commented out to use own made click event without defining detail
                         data.checked = !data.checked;
-                        el.setAttribute("checked", data.checked);
 
                         radioColorAnimation.emit('radioAnimation');
                         var guiInteractable = el.getAttribute("gui-interactable");
@@ -2578,6 +2577,7 @@ AFRAME.registerComponent('gui-toggle', {
 
                 el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
                 el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
+                el.setAttribute("checked", false);
 
                 var toggleBoxWidth = guiItem.height / 1.75;
                 var toggleBoxX = -guiItem.width * 0.5 + guiItem.height / 2;
@@ -2657,9 +2657,22 @@ AFRAME.registerComponent('gui-toggle', {
                         toggleHandle.setAttribute('material', 'color', data.handleColor);
                 });
 
+                el.addEventListener("uncheck", function (evt) {
+                        // a switch event to end recursive events (use it to disabled the toggle without calling click)
+                        // console.log('I was clicked at: ', evt.detail.intersection.point);// Commented out to use own made click event without defining detail
+                        console.log("**** switch event");
+                        if (data.checked) {
+                                data.checked = !data.checked;
+                                // console.log("checked inside switch event: "+data.checked);
+                                toggleColorAnimation.emit('toggleAnimation');
+                                toggleHandleAnimation.emit('toggleAnimation');
+                        }
+                });
+
                 el.addEventListener(data.on, function (evt) {
-                        console.log('I was clicked at: ', evt.detail.intersection.point);
+                        // console.log('I was clicked at: ', evt.detail.intersection.point);// Commented out to use own made click event without defining detail
                         data.checked = !data.checked;
+
                         toggleColorAnimation.emit('toggleAnimation');
                         toggleHandleAnimation.emit('toggleAnimation');
                         var guiInteractable = el.getAttribute("gui-interactable");
