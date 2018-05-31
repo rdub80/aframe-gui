@@ -35,7 +35,7 @@ AFRAME.registerComponent('gui-label', {
 
         this.oldText = data.text;
 
-        drawText(ctx, canvas, data.text, guiItem.textsize+' ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
@@ -68,7 +68,7 @@ AFRAME.registerPrimitive( 'a-gui-label', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'textsize': 'gui-item.textsize',
+        'font-size': 'gui-item.fontSize',
         'on': 'gui-button.on',
         'value': 'gui-label.text',
         'label-for': 'gui-label.labelFor',

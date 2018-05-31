@@ -215,7 +215,7 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:double; color:' + data.backgroundColor + ';');
 
-        drawText(ctx, canvas, data.text, guiItem.textsize + ' ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.text, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', 'primitive: box; width: ' + guiItem.width + '; height: ' + guiItem.height + '; depth: 0.02;');
@@ -291,7 +291,7 @@ AFRAME.registerComponent('gui-button', {
     },
     setText: function setText(newText) {
         var guiItem = this.el.getAttribute("gui-item");
-        drawText(this.ctx, this.canvas, newText, guiItem.textSize + ' ' + this.data.fontFamily, this.data.fontColor, 1);
+        drawText(this.ctx, this.canvas, newText, guiItem.fontSize + ' ' + this.data.fontFamily, this.data.fontColor, 1);
     }
 });
 
@@ -308,7 +308,7 @@ AFRAME.registerPrimitive('a-gui-button', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'textsize': 'gui-item.textsize',
+        'font-size': 'gui-item.fontSize',
         'on': 'gui-button.on',
         'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
@@ -363,7 +363,7 @@ AFRAME.registerComponent('gui-circle-loader', {
                 el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
                 el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
 
-                drawText(ctx, canvas, data.count + '%', guiItem.textsize + ' ' + data.fontFamily, data.fontColor, 1);
+                drawText(ctx, canvas, data.count + '%', guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
 
                 var loaderContainer = document.createElement("a-entity");
                 loaderContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
@@ -403,7 +403,7 @@ AFRAME.registerPrimitive('a-gui-circle-loader', {
                 'width': 'gui-item.width',
                 'height': 'gui-item.height',
                 'margin': 'gui-item.margin',
-                'textsize': 'gui-item.textsize',
+                'font-size': 'gui-item.fontSize',
                 'count': 'gui-circle-loader.count',
                 'font-family': 'gui-circle-loader.fontFamily',
                 'font-color': 'gui-circle-loader.fontColor',
@@ -455,7 +455,7 @@ AFRAME.registerComponent('gui-circle-timer', {
                 el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
                 el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
 
-                drawText(ctx, canvas, data.countDown, guiItem.textsize + ' ' + data.fontFamily, data.fontColor, 1);
+                drawText(ctx, canvas, data.countDown, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
 
                 var timerContainer = document.createElement("a-entity");
                 timerContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
@@ -528,7 +528,7 @@ AFRAME.registerPrimitive('a-gui-circle-timer', {
                 'width': 'gui-item.width',
                 'height': 'gui-item.height',
                 'margin': 'gui-item.margin',
-                'textsize': 'gui-item.textsize',
+                'font-size': 'gui-item.fontSize',
                 'count-down': 'gui-circle-timer.countDown',
                 'font-family': 'gui-circle-timer.fontFamily',
                 'font-color': 'gui-circle-timer.fontColor',
@@ -1799,7 +1799,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
                         canvasContainer.appendChild(labelCanvas);
 
                         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-                        drawLabel(this.ctxLabel, this.labelCanvas, data.text, guiItem.textsize + ' ' + data.fontFamily, data.fontColor);
+                        drawLabel(this.ctxLabel, this.labelCanvas, data.text, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor);
 
                         var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
                         var labelEntity = document.createElement("a-entity");
@@ -1862,7 +1862,7 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
                 'width': 'gui-item.width',
                 'height': 'gui-item.height',
                 'margin': 'gui-item.margin',
-                'textsize': 'gui-item.textsize',
+                'font-size': 'gui-item.fontSize',
                 'on': 'gui-icon-label-button.on',
                 'font-color': 'gui-icon-label-button.fontColor',
                 'font-family': 'gui-icon-label-button.fontFamily',
@@ -1924,7 +1924,7 @@ AFRAME.registerComponent('gui-input', {
                 el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
                 el.setAttribute('material', 'shader: flat; transparent: false; side:front; color:' + data.backgroundColor + ';');
 
-                drawText(ctx, canvas, data.inputText, guiItem.textsize + ' ' + data.fontFamily, data.fontColor, 1);
+                drawText(ctx, canvas, data.inputText, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
 
                 var inputEntity = document.createElement("a-entity");
                 inputEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
@@ -2002,7 +2002,7 @@ AFRAME.registerPrimitive('a-gui-input', {
                 'width': 'gui-item.width',
                 'height': 'gui-item.height',
                 'margin': 'gui-item.margin',
-                'textsize': 'gui-item.textsize',
+                'font-size': 'gui-item.fontSize',
                 'on': 'gui-input.on',
                 'value': 'gui-input.inputText',
                 'toggle': 'gui-input.toggle',
@@ -2066,7 +2066,7 @@ AFRAME.registerComponent('gui-item', {
         type: { type: 'string' },
         width: { type: 'number', default: 1 },
         height: { type: 'number', default: 1 },
-        textsize: { type: 'string', default: "100px" },
+        fontSize: { type: 'string', default: "100px" },
         margin: { type: 'vec4', default: '0 0 0 0' }
     },
     init: function init() {},
@@ -2121,7 +2121,7 @@ AFRAME.registerComponent('gui-label', {
 
                 this.oldText = data.text;
 
-                drawText(ctx, canvas, data.text, guiItem.textsize + ' ' + data.fontFamily, data.fontColor, 1);
+                drawText(ctx, canvas, data.text, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
 
                 var textEntity = document.createElement("a-entity");
                 textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
@@ -2152,7 +2152,7 @@ AFRAME.registerPrimitive('a-gui-label', {
                 'width': 'gui-item.width',
                 'height': 'gui-item.height',
                 'margin': 'gui-item.margin',
-                'textsize': 'gui-item.textsize',
+                'font-size': 'gui-item.fontSize',
                 'on': 'gui-button.on',
                 'value': 'gui-label.text',
                 'label-for': 'gui-label.labelFor',
@@ -2333,7 +2333,7 @@ AFRAME.registerComponent('gui-radio', {
                 canvasContainer.appendChild(labelCanvas);
 
                 var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-                drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.textsize + ' ' + data.fontFamily, this.data.fontColor);
+                drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.fontSize + ' ' + data.fontFamily, this.data.fontColor);
 
                 var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
                 var labelEntity = document.createElement("a-entity");
@@ -2394,7 +2394,7 @@ AFRAME.registerPrimitive('a-gui-radio', {
                 'width': 'gui-item.width',
                 'height': 'gui-item.height',
                 'margin': 'gui-item.margin',
-                'textsize': 'gui-item.textsize',
+                'font-size': 'gui-item.fontSize',
                 'on': 'gui-radio.on',
                 'value': 'gui-radio.text',
                 'active': 'gui-radio.active',
@@ -2573,8 +2573,6 @@ AFRAME.registerComponent('gui-toggle', {
 
                 var data = this.data;
                 var el = this.el;
-                el.setAttribute("locked", false);
-
                 var guiItem = el.getAttribute("gui-item");
 
                 el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
@@ -2640,7 +2638,7 @@ AFRAME.registerComponent('gui-toggle', {
                 canvasContainer.appendChild(labelCanvas);
 
                 var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-                drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.textsize + ' ' + data.fontFamily, this.data.fontColor);
+                drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.fontSize + ' ' + data.fontFamily, this.data.fontColor);
 
                 var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
                 var labelEntity = document.createElement("a-entity");
@@ -2715,7 +2713,7 @@ AFRAME.registerPrimitive('a-gui-toggle', {
                 'width': 'gui-item.width',
                 'height': 'gui-item.height',
                 'margin': 'gui-item.margin',
-                'textsize': 'gui-item.textsize',
+                'font-size': 'gui-item.fontSize',
                 'on': 'gui-toggle.on',
                 'active': 'gui-toggle.active',
                 'checked': 'gui-toggle.checked',

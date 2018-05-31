@@ -97,7 +97,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
             canvasContainer.appendChild(labelCanvas);
 
             var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-            drawLabel(this.ctxLabel, this.labelCanvas, data.text, guiItem.textsize+' '+ data.fontFamily, data.fontColor);
+            drawLabel(this.ctxLabel, this.labelCanvas, data.text, guiItem.fontSize+' '+ data.fontFamily, data.fontColor);
 
             var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
             var labelEntity = document.createElement("a-entity");
@@ -164,7 +164,7 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'textsize': 'gui-item.textsize',
+        'font-size': 'gui-item.fontSize',
         'on': 'gui-icon-label-button.on',
         'font-color': 'gui-icon-label-button.fontColor',
         'font-family': 'gui-icon-label-button.fontFamily',
