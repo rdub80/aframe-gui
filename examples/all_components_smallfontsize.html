@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI All Compnents</title>
+    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+	<style type="text/css">
+		@font-face{
+			font-family:"Ionicons";
+
+			src:url("assets/fonts/ionicons.eot?v=2.0.1");
+			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+
+			font-weight:normal;
+			font-style:normal
+		}
+		body{font-family:Ionicons;}
+		.visuallyhidden {
+			display: block;
+			border: 0;
+			clip: rect(0 0 0 0);
+			height: 1px;
+			width: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+			position: absolute !important;
+		}
+	</style>
+
+    <script src="js/aframe-gui.js"></script>
+    <script src="js/fontfaceobserver.js"></script>
+	<script>
+	(function() {
+
+		// Optimization for Repeat Views
+		if( sessionStorage.criticalFoftFontsLoaded ) {
+			console.log("fonts are already loaded");
+			return;
+		}
+
+		var guiWebFont = new FontFaceObserver('Fira Sans');
+
+		Promise.all([guiWebFont.load()]).then(function () {
+			console.log("fonts are loaded");
+			// Optimization for Repeat Views
+			sessionStorage.criticalFoftFontsLoaded = true;
+		});
+	})();
+	</script>
+
+
+
+</head>
+<body>
+	<a-scene>
+		<a-assets>
+			<!-- Text Canvas -->
+			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
+			<img id="gradient" src="assets/gradient.png">
+			<img id="ground" src="assets/ground.png">
+			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+		</a-assets>
+
+		<a-light type="directional" color="#FFF" intensity="1" position="-1 1 2"> </a-light>
+		<a-light type="ambient" color="#ebd9e9"> </a-light>
+		<a-sky src="#gradient"></a-sky>
+  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
+
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+			opacity="0.7" width="3.5" height="4.5"
+			position="-2 2.5 -4" rotation="0 0 0"
+		>
+			<a-gui-button
+				width="2.5" height="0.75"
+				onclick="testButtonAction" key-code="32"
+				value="test button X"
+				font-family="Arial"
+        		font-size="50px"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-button>
+
+			<a-gui-icon-label-button
+				width="2.5" height="0.75"
+				onclick="testButtonAction"
+				icon="social-github"
+				value="label button"
+				font-family="Arial"
+				margin="0 0 0.05 0"
+        		font-size="50px"
+			>
+			</a-gui-icon-label-button>
+
+			<a-gui-toggle
+				width="2.5" height="0.75"
+				onclick="testToggleAction"
+				value="label toggle"
+				font-family="Arial"
+				margin="0 0 0.05 0"
+        		font-size="50px"
+			>
+			</a-gui-toggle>
+
+			<a-gui-icon-button
+				height="0.75"
+				onclick="testButtonAction"
+				icon="social-twitter"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-icon-button>
+
+			<a-gui-circle-loader
+				height="0.75"
+				font-family="Arial"
+        		font-size="50px"
+
+			>
+			</a-gui-circle-loader>
+
+		</a-gui-flex-container>
+
+
+
+
+
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7" width="3.5" height="4.5"
+			position="2 2.5 -4" rotation="0 0 0"
+		>
+			<a-gui-label
+				width="2.5" height="0.75"
+				value="label text"
+				font-family="Arial"
+				margin="0 0 0.05 0"
+        		font-size="50px"
+			>
+			</a-gui-label>
+
+			<a-gui-radio
+				width="2.5" height="0.75"
+				onclick="testToggleAction"
+				value="label radio"
+				font-family="Arial"
+				margin="0 0 0.05 0"
+        		font-size="50px"
+        		radiosizecoef="1"
+			>
+			</a-gui-radio>
+
+			<a-gui-progressbar
+				width="2.5" height="0.25"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-progressbar>
+
+			<a-gui-circle-timer
+				height="0.75"
+				count-down="5"
+				font-family="Arial"
+				margin="0 0 0.05 0"
+        		font-size="50px"
+
+			>
+			</a-gui-circle-timer>
+
+			<a-gui-slider
+				width="2.5" height="0.75"
+				onclick="testSliderAction"
+				percent="0.29"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-slider>
+
+			<a-gui-input
+				width="2.5" height="0.75"
+				onclick="testInputAction"
+				font-family="Arial"
+				value="Hello Wor_"
+        		font-size="50px"
+			>
+			</a-gui-input>
+
+		</a-gui-flex-container>
+
+		<!-- Camera + cursor. -->
+		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
+			<a-gui-cursor id="cursor"
+					  raycaster="interval: 1000; objects: [gui-interactable]"
+					  fuse="true" fuse-timeout="2000"
+					  design="dot"
+			>
+			</a-gui-cursor> <!-- /cursor -->
+		</a-entity> <!-- /camera -->
+
+	</a-scene>
+</body>
+</html>

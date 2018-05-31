@@ -38,7 +38,7 @@ AFRAME.registerComponent('gui-input', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: false; side:front; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.inputText, '100px ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.inputText, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
 
 
         var inputEntity = document.createElement("a-entity");
@@ -123,6 +123,7 @@ AFRAME.registerPrimitive( 'a-gui-input', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        'font-size': 'gui-item.fontSize',
         'on': 'gui-input.on',
         'value': 'gui-input.inputText',
         'toggle': 'gui-input.toggle',

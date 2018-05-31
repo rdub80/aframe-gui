@@ -3,6 +3,7 @@ AFRAME.registerComponent('gui-item', {
         type: {type: 'string'},
         width: {type: 'number', default: 1},
         height: {type: 'number', default: 1},
+        fontSize: {type: 'string', default: "100px"},
         margin: { type: 'vec4', default: '0 0 0 0'}
     },
     init: function () {
@@ -18,4 +19,3 @@ AFRAME.registerComponent('gui-item', {
     play: function () {
     },
 });
-

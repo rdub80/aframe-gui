@@ -39,7 +39,7 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.text, '100px ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', `primitive: box; width: ${guiItem.width}; height: ${guiItem.height}; depth: 0.02;`);
@@ -84,7 +84,7 @@ AFRAME.registerComponent('gui-button', {
             }
         });
 
-        el.addEventListener(data.on, function (evt) {            
+        el.addEventListener(data.on, function (evt) {
             if (!(data.toggle)) { // if not toggling flashing active state
                 buttonEntity.emit('fadeOut');
             }else{
@@ -120,7 +120,8 @@ AFRAME.registerComponent('gui-button', {
         }
     },
     setText: function (newText) {
-        drawText(this.ctx, this.canvas, newText, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
+        var guiItem = this.el.getAttribute("gui-item");
+        drawText(this.ctx, this.canvas, newText, guiItem.fontSize+' ' + this.data.fontFamily, this.data.fontColor, 1);
     },
 });
 
@@ -133,11 +134,12 @@ AFRAME.registerPrimitive( 'a-gui-button', {
     },
     mappings: {
         'onclick': 'gui-interactable.clickAction',
-        'onhover': 'gui-intexractable.hoverAction',
+        'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        'font-size': 'gui-item.fontSize',
         'on': 'gui-button.on',
         'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
@@ -149,4 +151,3 @@ AFRAME.registerPrimitive( 'a-gui-button', {
         'toggle': 'gui-button.toggle'
     }
 });
-

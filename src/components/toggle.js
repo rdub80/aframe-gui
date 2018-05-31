@@ -22,12 +22,13 @@ AFRAME.registerComponent('gui-toggle', {
 
         el.setAttribute('material', `shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
+        el.setAttribute("checked", false);
 
         var toggleBoxWidth = guiItem.height/1.75;
         var toggleBoxX = -guiItem.width*0.5 + guiItem.height/2;
         var toggleBox = document.createElement("a-box");
-        toggleBox.setAttribute('width', `${toggleBoxWidth}`);
-        toggleBox.setAttribute('height', '0.35');
+        toggleBox.setAttribute('width', toggleBoxWidth);
+        toggleBox.setAttribute('height', toggleBoxWidth);
         toggleBox.setAttribute('depth', '0.01');
         toggleBox.setAttribute('material', `color:${data.borderColor}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
@@ -39,7 +40,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleColorAnimation.setAttribute('attribute', 'material.color');
         toggleColorAnimation.setAttribute('from', `${data.borderColor}`);
         toggleColorAnimation.setAttribute('to', `${data.activeColor}`);
-        toggleColorAnimation.setAttribute('dur', '500');
+        toggleColorAnimation.setAttribute('dur', '50');
         toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
         toggleBox.appendChild(toggleColorAnimation);
 
@@ -48,7 +49,7 @@ AFRAME.registerComponent('gui-toggle', {
         var toggleHandleXEnd = toggleHandleXStart + toggleBoxWidth - toggleHandleWidth - 0.1;
         var toggleHandle = document.createElement("a-box");
         toggleHandle.setAttribute('width', `${toggleHandleWidth}`);
-        toggleHandle.setAttribute('height', '0.3');
+        toggleHandle.setAttribute('height', toggleBoxWidth*0.80);
         toggleHandle.setAttribute('depth', '0.02');
         toggleHandle.setAttribute('material', `color:${data.handleColor}`);
         toggleHandle.setAttribute('position', `${toggleHandleXStart} 0 0.02`);
@@ -60,7 +61,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandleAnimation.setAttribute('attribute', 'position');
         toggleHandleAnimation.setAttribute('from', `${toggleHandleXStart} 0 0.02`);
         toggleHandleAnimation.setAttribute('to', `${toggleHandleXEnd} 0 0.02`);
-        toggleHandleAnimation.setAttribute('dur', '500');
+        toggleHandleAnimation.setAttribute('dur', '50');
         toggleHandleAnimation.setAttribute('easing', 'ease-in-out-cubic');
         toggleHandle.appendChild(toggleHandleAnimation);
 
@@ -72,7 +73,7 @@ AFRAME.registerComponent('gui-toggle', {
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
-        
+
         var labelCanvas = document.createElement("canvas");
         this.labelCanvas = labelCanvas;
         labelCanvas.className = "visuallyhidden";
@@ -82,7 +83,7 @@ AFRAME.registerComponent('gui-toggle', {
         canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, '100px '+ data.fontFamily, this.data.fontColor);
+        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.fontSize+' '+ data.fontFamily, this.data.fontColor);
 
         var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
         var labelEntity = document.createElement("a-entity");
@@ -101,6 +102,21 @@ AFRAME.registerComponent('gui-toggle', {
             toggleHandle.setAttribute('material', 'color', data.handleColor);
         });
 
+        el.addEventListener("check", function (evt) {
+            if(!data.checked){
+              data.checked = true;
+              toggleColorAnimation.emit('toggleAnimation');
+              toggleHandleAnimation.emit('toggleAnimation');
+            }
+        });
+        el.addEventListener("uncheck", function (evt) { // a
+              if(data.checked){
+                data.checked = false;
+                toggleColorAnimation.emit('toggleAnimation');
+                toggleHandleAnimation.emit('toggleAnimation');
+              }
+        });
+
         el.addEventListener(data.on, function (evt) {
             console.log('I was clicked at: ', evt.detail.intersection.point);
             data.checked = !data.checked;
@@ -115,7 +131,7 @@ AFRAME.registerComponent('gui-toggle', {
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
-        });
+});
 
     },
     update: function(){
@@ -147,6 +163,7 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        'font-size': 'gui-item.fontSize',
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
@@ -161,4 +178,3 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'handle-color': 'gui-toggle.handleColor'
     }
 });
-
