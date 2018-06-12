@@ -22,13 +22,14 @@ AFRAME.registerComponent('gui-toggle', {
 
         el.setAttribute('material', `shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
-        el.setAttribute("checked", false);
 
         var toggleBoxWidth = guiItem.height/1.75;
         var toggleBoxX = -guiItem.width*0.5 + guiItem.height/2;
+
         var toggleBox = document.createElement("a-box");
+
         toggleBox.setAttribute('width', toggleBoxWidth);
-        toggleBox.setAttribute('height', toggleBoxWidth);
+        toggleBox.setAttribute('height', guiItem.height*0.8);
         toggleBox.setAttribute('depth', '0.01');
         toggleBox.setAttribute('material', `color:${data.borderColor}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
@@ -44,12 +45,13 @@ AFRAME.registerComponent('gui-toggle', {
         toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
         toggleBox.appendChild(toggleColorAnimation);
 
-        var toggleHandleWidth = guiItem.height/6;
-        var toggleHandleXStart = -toggleBoxWidth*0.5 + toggleHandleWidth*0.5 + 0.05;
-        var toggleHandleXEnd = toggleHandleXStart + toggleBoxWidth - toggleHandleWidth - 0.1;
+        var toggleHandleWidth = guiItem.height/5;
+        var toggleHandleXStart = -guiItem.height*0.5 + toggleHandleWidth*2;
+        var toggleHandleXEnd = guiItem.height*0.5 - toggleHandleWidth*2;
         var toggleHandle = document.createElement("a-box");
+
         toggleHandle.setAttribute('width', `${toggleHandleWidth}`);
-        toggleHandle.setAttribute('height', toggleBoxWidth*0.80);
+        toggleHandle.setAttribute('height', guiItem.height*0.7);
         toggleHandle.setAttribute('depth', '0.02');
         toggleHandle.setAttribute('material', `color:${data.handleColor}`);
         toggleHandle.setAttribute('position', `${toggleHandleXStart} 0 0.02`);
