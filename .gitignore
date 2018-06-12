@@ -65,3 +65,4 @@ typings/
 .idea/workspace.xml
 
 .idea/
+package-lock.json
