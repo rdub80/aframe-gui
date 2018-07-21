@@ -103,12 +103,32 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 ```html
 		<!-- Camera + cursor. -->
-		<a-entity camera>
-			<a-entity raycaster="interval: 1000; objects: [gui-interactable]"
-					  cursor="fuse: true; fuseTimeout: 2000"
-					  gui-cursor="design:reticle;" >
-			</a-entity> <!-- /cursor -->
-		</a-entity> <!-- /camera -->
+		<a-entity id="cameraRig" position="0 1.6 0">
+			<a-camera look-controls wasd-controls position="0 0 0">
+				<a-gui-cursor id="cursor"
+						  raycaster="objects: [gui-interactable]"
+						  fuse="true" fuse-timeout="2000"
+						  design="ring"
+				>
+				</a-gui-cursor> <!-- /cursor -->
+			</a-camera> <!-- /camera -->
+		</a-entity>
+```
+
+#### Example without fuse/gaze trigger (click trigger):
+
+
+```html
+		<!-- Camera + cursor. -->
+		<a-entity id="cameraRig" position="0 1.6 0">
+			<a-camera look-controls wasd-controls position="0 0 0">
+				<a-gui-cursor id="cursor"
+						  raycaster="objects: [gui-interactable]"
+						  fuse="false"
+				>
+				</a-gui-cursor> <!-- /cursor -->
+			</a-camera> <!-- /camera -->
+		</a-entity>
 ```
 
 
@@ -123,7 +143,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | background-color   | Background color of button                                | #22252a       |
 | border-color       | Border color of button                                    | #d3d3d4       |
 | font-color         | Text color for button label                               | #d3d3d4       |
-| font-family        | Font family for button                                    | 'Helvetica'   |
+| font-family        | Font family for button                                    | 'Arial'       |
+| font-size          | Font size for button                                      | '100px'       |
 | height             | Height of item                                            | 1             |
 | hover-color        | Background color when button is in hover state            | #2c3037       |
 | key-code           | Key shortcut to trigger onclick action                    |               |
@@ -142,7 +163,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 		width="2.5" height="0.75"
 		onclick="buttonActionFunction" key-code="32"
 		value="test button"
-		font-family="Helvetica"
+		font-family="Arial"
 		margin="0 0 0.05 0"
 	>
 	</a-gui-button>
@@ -160,7 +181,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | background-color   | Background color of item                                  | #22252a       |
 | count              | Initial percentage progress value                         | #22252a       |
 | font-color         | Text color for progress percentage text                   | #d3d3d4       |
-| font-family        | Font family for progress percentage text                  | 'Helvetica'   |
+| font-family        | Font family for progress percentage text                  | 'Arial'       |
+| font-size          | Font size for progress percentage text                    | '100px'       |
 | height             | Height of item                                            | 1             |
 | width              | Width of item                                             | 1             |
 | margin             | Margin around item                                        | 0 0 0 0       |
@@ -186,7 +208,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | border-color       | Color of indicators that show 25/50/75/100 progress       | #22252a       |
 | count-down         | Initial countdown value in seconds                        | #22252a       |
 | font-color         | Text color for progress countdown text                    | #d3d3d4       |
-| font-family        | Font family for progress countdown text                   | 'Helvetica'   |
+| font-family        | Font family for progress countdown text                   | 'Arial'       |
+| font-size          | Font size for countdown text                              | '100px'       |
 | height             | Height of item                                            | 1             |
 | width              | Width of item                                             | 1             |
 | margin             | Margin around item                                        | 0 0 0 0       |
@@ -212,7 +235,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | icon               | 			                                                 | ''            |
 | icon-active        | 			                                                 | ''            |
 | toggle             | Toggle status                                             | false         |
-| font-family        | Font family for button                                    | 'Helvetica'   |
+| font-family        | Font family for button                                    | 'Arial'       |
+| font-size          | Font size for button                                      | '100px'       |
 | font-color         | Text color for button label                               | #d3d3d4       |
 | border-color       | Border color of button                                    | #d3d3d4       |
 | background-color   | Background color of item                                  | #22252a       |
@@ -245,7 +269,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | icon-active      |  			                                            | ''            |
 | text             |  			                                            | ''            |
 | toggle           | Toggle status                                          | false         |
-| font-family      | Font family for button                                 | 'Helvetica'   |
+| font-family      | Font family for button                                 | 'Arial'       |
+| font-size        | Font size for button                                   | '100px'       |
 | font-color       | Text color for button label                            | #d3d3d4       |
 | border-color     | Border color of button                                 | #d3d3d4       |
 | background-color | Background color of button                             | #22252a       |
@@ -278,7 +303,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | on                 | Event that triggers onclick action                    | click          |
 | input-text         | Input value                                           | 'Placeholder'  |
 | toggle             | Toggle status                                         | false          |
-| font-family        | Font family for input                                 | 'Helvetica'    |
+| font-family        | Font family for input                                 | 'Arial'        |
+| font-size          | Font size for input                                   | '100px'        |
 | font-color         | Text input color                                      | #2c3037        |
 | border-color       | Border color of input                                 | #2c3037        |
 | border-hover-color | Border color when input is in hover state             | #22252a        |
@@ -311,7 +337,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | --------         | ------------------------------------------------------- | -------------  |
 | text             |  			                                             | 'label text'   |
 | label-for        |  			                                             | null           |
-| font-family      | Font family for input                                   | 'Helvetica'    |
+| font-family      | Font family for input                                   | 'Arial'        |
+| font-size        | Font size for input                                     | '100px'        |
 | font-color       | Text input color                                        | #2c3037        |
 | background-color | Background color of label                               | #d3d3d4        |
 | height           | Height of item                                          | 1              |
@@ -362,7 +389,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | text             |                                                           | 'text'         |
 | active           |                                                           | true           |
 | checked          |                                                           | false          |
-| font-family      | Font family for radio                                     | 'Helvetica'    |
+| font-family      | Font family for radio                                     | 'Arial'        |
+| font-size        | Font size for radio                                       | '100px'        |
 | font-color       | Text radio color                                          | #2c3037        |
 | border-color     | Border color of input                                     | #ffffff        |
 | background-color | Background color of radio                                 | #d3d3d4        |
@@ -433,7 +461,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | active           |                                                           | true           |
 | checked          |                                                           | false          |
 | border-width     |                                                           | 1              |
-| font-family      |                                                           | 'Helvetica'    |
+| font-family      |                                                           | 'Arial'        |
+| font-size        |                                                           | '100px'        |
 | font-color       |                                                           | #2c3037        |
 | border-color     |                                                           | #22252a        |
 | background-color |                                                           | #d3d3d4        |

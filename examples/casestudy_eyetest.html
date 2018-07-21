@@ -106,7 +106,7 @@
   		<a-entity 	id="chart"	
   					geometry="primitive:plane; height:1; width:1;"
   					material="src:#snellen_chart; transparent:true;"
-  					position="0 3 -6" 
+  					position="0 1.6 -6" 
   					rotation="0 0 0"
   		>
   			<a-box 	id="size"
@@ -120,7 +120,7 @@
 
 		<!-- Camera + cursor. -->
 		<a-entity id="cameraRig" position="0 1.6 0">
-			<a-camera look-controls="pointerLockEnabled:true" wasd-controls="enabled:false">
+			<a-camera look-controls="pointerLockEnabled:true" wasd-controls="enabled:false"position="0 0 0">
 				<a-gui-cursor id="cursor"
 						  raycaster="objects: [gui-interactable]"
 						  fuse="false"
@@ -138,7 +138,7 @@
 		window.farthest = -6;
 		window.increment = 0.2;
 
-		window.position = '0 3 -1';
+		window.position = '0 1.6 -1';
 		var i = 4; // init size center
 
 		window.sizeState = {
@@ -179,7 +179,7 @@
 		window.closeUp = function() { // mobile keycode 68
 			if (value <= -1){ 
 				value += increment; 
-				window.position =  '0 3 '+value;
+				window.position =  '0 1.6 '+value;
 			
 				var chart = document.getElementById("chart");
 				chart.setAttribute('position', window.position );
@@ -189,7 +189,7 @@
 		window.backDown = function() { // mobile keycode 65
 			if (value >= -6){ 
 				value -= increment; 
-				window.position = '0 3 '+value;
+				window.position = '0 1.6 '+value;
 
 				var chart = document.getElementById("chart");
 				chart.setAttribute('position', window.position );
