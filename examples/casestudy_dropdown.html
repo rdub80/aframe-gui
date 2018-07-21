@@ -3,8 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI Dropdown</title>
-    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 	<style type="text/css">
 		@font-face{
 			font-family:"Ionicons";
@@ -17,6 +16,7 @@
 		}
 		body{font-family:Ionicons;} 
 		.visuallyhidden {
+			position: absolute;
 			display: block;
 			border: 0;
 			clip: rect(0 0 0 0);
@@ -25,34 +25,9 @@
 			margin: -1px;
 			padding: 0;
 			overflow: hidden;
-			position: absolute !important;
 		}
 	</style>
-
     <script src="js/aframe-gui.js"></script>
-    <script src="js/fontfaceobserver.js"></script>
-	<script>
-	(function() {
-
-		// Optimization for Repeat Views
-		if( sessionStorage.criticalFoftFontsLoaded ) {
-			console.log("fonts are already loaded");
-			return;
-		}
-
-		var guiWebFont = new FontFaceObserver('Fira Sans');
-
-		Promise.all([guiWebFont.load()]).then(function () {
-			console.log("fonts are loaded");
-			// Optimization for Repeat Views
-			sessionStorage.criticalFoftFontsLoaded = true;
-		});
-	})();
-
-
-	</script>
-
-
 
 </head>
 <body>
@@ -186,16 +161,17 @@
 			</a-entity>
 		</a-entity>
 
-
 		<!-- Camera + cursor. -->
-		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
-			<a-gui-cursor id="cursor"
-				raycaster="interval: 1000; objects: [gui-interactable]"
-				fuse="true" fuse-timeout="2000"
-				design="ring"
-			>
-			</a-gui-cursor> <!-- /cursor -->
-		</a-entity> <!-- /camera -->
+		<a-entity id="cameraRig" position="0 1.6 0">
+			<a-camera look-controls wasd-controls>
+				<a-gui-cursor id="cursor"
+						  raycaster="objects: [gui-interactable]"
+						  fuse="true" fuse-timeout="2000"
+						  design="ring"
+				>
+				</a-gui-cursor> <!-- /cursor -->
+			</a-camera> <!-- /camera -->
+		</a-entity>
 
 	</a-scene>
 

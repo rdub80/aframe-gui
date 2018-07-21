@@ -16,6 +16,8 @@ AFRAME.registerComponent('gui-cursor', {
         var defaultHoverAnimationDuration = 200;
         var fuseAnimationDuration = fuseTimeout - defaultHoverAnimationDuration;
 
+        AFRAME.utils.entity.setComponentProperty(el, 'raycaster.interval', '500');
+        
         console.log("fuse: "+fuse+", fuseTimeout: "+fuseTimeout);
 
         if(data.design == 'dot'){    
@@ -731,8 +733,8 @@ AFRAME.registerComponent('gui-cursor', {
         }
 
         el.addEventListener("stateremoved", function (evt) {
-            console.log("evt.detail.state " +evt.detail.state)
-            if (evt.detail.state === 'cursor-fusing') {
+            console.log("evt.detail " +evt.detail)
+            if (evt.detail === 'cursor-fusing') {
                 if(data.design == 'dot' || data.design == 'ring' || data.design == 'cross' ){  
                     if(fuse){
                         fuseLoaderFillAni.stop();
@@ -744,7 +746,7 @@ AFRAME.registerComponent('gui-cursor', {
                         AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.width', '0.000001');
                     }                    
                 }
-            }else if(evt.detail.state === 'cursor-hovering') {
+            }else if(evt.detail === 'cursor-hovering') {
                 if(data.design == 'dot' || data.design == 'ring' ){  
                     AFRAME.utils.entity.setComponentProperty(this, 'scale', '1 1 1');
                     if(fuse){
@@ -773,13 +775,6 @@ AFRAME.registerComponent('gui-cursor', {
     pause: function () {
     },
     play: function () {
-    },
-    resetcursor: function(){
-        // if (evt.detail.state === 'cursor-fusing') {
-        //     AFRAME.utils.entity.setComponentProperty(this, "geometry.thetaLength", 360);
-        //     AFRAME.utils.entity.setComponentProperty(this, "material.color", "#ffffff");
-        //     AFRAME.utils.entity.setComponentProperty(this, "scale", "1 1 1");
-        // }
     }
 });
 

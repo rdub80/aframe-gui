@@ -3,8 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI All Compnents</title>
-    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 	<style type="text/css">
 		@font-face{
 			font-family:"Ionicons";
@@ -17,6 +16,7 @@
 		}
 		body{font-family:Ionicons;}
 		.visuallyhidden {
+			position: absolute;
 			display: block;
 			border: 0;
 			clip: rect(0 0 0 0);
@@ -25,32 +25,9 @@
 			margin: -1px;
 			padding: 0;
 			overflow: hidden;
-			position: absolute !important;
 		}
 	</style>
-
     <script src="js/aframe-gui.js"></script>
-    <script src="js/fontfaceobserver.js"></script>
-	<script>
-	(function() {
-
-		// Optimization for Repeat Views
-		if( sessionStorage.criticalFoftFontsLoaded ) {
-			console.log("fonts are already loaded");
-			return;
-		}
-
-		var guiWebFont = new FontFaceObserver('Fira Sans');
-
-		Promise.all([guiWebFont.load()]).then(function () {
-			console.log("fonts are loaded");
-			// Optimization for Repeat Views
-			sessionStorage.criticalFoftFontsLoaded = true;
-		});
-	})();
-	</script>
-
-
 
 </head>
 <body>
@@ -77,7 +54,7 @@
 			<a-gui-button
 				width="2.5" height="0.75"
 				onclick="testButtonAction" key-code="32"
-				value="test button X"
+				value="test button smaller font"
 				font-family="Arial"
         		font-size="50px"
 				margin="0 0 0.05 0"
@@ -88,7 +65,7 @@
 				width="2.5" height="0.75"
 				onclick="testButtonAction"
 				icon="social-github"
-				value="label button"
+				value="label button smaller font"
 				font-family="Arial"
 				margin="0 0 0.05 0"
         		font-size="50px"
@@ -98,7 +75,7 @@
 			<a-gui-toggle
 				width="2.5" height="0.75"
 				onclick="testToggleAction"
-				value="label toggle"
+				value="label toggle smaller font"
 				font-family="Arial"
 				margin="0 0 0.05 0"
         		font-size="50px"
@@ -116,8 +93,7 @@
 			<a-gui-circle-loader
 				height="0.75"
 				font-family="Arial"
-        		font-size="50px"
-
+        		font-size="75px"
 			>
 			</a-gui-circle-loader>
 
@@ -134,7 +110,7 @@
 		>
 			<a-gui-label
 				width="2.5" height="0.75"
-				value="label text"
+				value="label text smaller font"
 				font-family="Arial"
 				margin="0 0 0.05 0"
         		font-size="50px"
@@ -144,7 +120,7 @@
 			<a-gui-radio
 				width="2.5" height="0.75"
 				onclick="testToggleAction"
-				value="label radio"
+				value="label radio smaller font"
 				font-family="Arial"
 				margin="0 0 0.05 0"
         		font-size="50px"
@@ -163,7 +139,7 @@
 				count-down="5"
 				font-family="Arial"
 				margin="0 0 0.05 0"
-        		font-size="50px"
+        		font-size="75px"
 
 			>
 			</a-gui-circle-timer>
@@ -188,14 +164,16 @@
 		</a-gui-flex-container>
 
 		<!-- Camera + cursor. -->
-		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
-			<a-gui-cursor id="cursor"
-					  raycaster="interval: 1000; objects: [gui-interactable]"
-					  fuse="true" fuse-timeout="2000"
-					  design="dot"
-			>
-			</a-gui-cursor> <!-- /cursor -->
-		</a-entity> <!-- /camera -->
+		<a-entity id="cameraRig" position="0 1.6 0">
+			<a-camera look-controls wasd-controls>
+				<a-gui-cursor id="cursor"
+						  raycaster="objects: [gui-interactable]"
+						  fuse="true" fuse-timeout="2000"
+						  design="dot"
+				>
+				</a-gui-cursor> <!-- /cursor -->
+			</a-camera> <!-- /camera -->
+		</a-entity>
 
 	</a-scene>
 </body>

@@ -29,7 +29,7 @@ AFRAME.registerComponent('gui-toggle', {
         var toggleBox = document.createElement("a-box");
 
         toggleBox.setAttribute('width', toggleBoxWidth);
-        toggleBox.setAttribute('height', guiItem.height*0.8);
+        toggleBox.setAttribute('height', guiItem.height*0.5);
         toggleBox.setAttribute('depth', '0.01');
         toggleBox.setAttribute('material', `color:${data.borderColor}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
@@ -51,7 +51,7 @@ AFRAME.registerComponent('gui-toggle', {
         var toggleHandle = document.createElement("a-box");
 
         toggleHandle.setAttribute('width', `${toggleHandleWidth}`);
-        toggleHandle.setAttribute('height', guiItem.height*0.7);
+        toggleHandle.setAttribute('height', guiItem.height*0.4);
         toggleHandle.setAttribute('depth', '0.02');
         toggleHandle.setAttribute('material', `color:${data.handleColor}`);
         toggleHandle.setAttribute('position', `${toggleHandleXStart} 0 0.02`);

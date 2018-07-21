@@ -3,7 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI Keyboard</title>
-    <script src="https://aframe.io/releases/0.6.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
 
 	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
@@ -713,17 +713,18 @@
 		</a-entity>
 
 		<!-- Camera + cursor. -->
-		<a-entity camera="userHeight: 1.6" look-controls="" wasd-controls>
+		<a-entity id="cameraRig" position="0 1.6 0">
+			<a-camera look-controls wasd-controls>
+				<a-gui-cursor id="cursor"
+						  raycaster="objects: [gui-interactable]"
+						  fuse="true" fuse-timeout="2000"
+						  design="ring"
+				>
+				</a-gui-cursor> <!-- /cursor -->
+			</a-camera> <!-- /camera -->
+		</a-entity>
 
-			<a-entity id="cursor"
-					  raycaster="interval: 1000; objects: [gui-interactable]"
-					  cursor="fuse: true; fuse-timeout: 2000"
-					  gui-cursor=""
-			>
-			</a-entity> <!-- /cursor -->
-
-		</a-entity> <!-- /camera -->
-
+		
 		<div style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
 			<div id="htmlElement" style="background: #fff; color:#000; font-size: 60px; width:1500px; height: 600px;"></div>
 		</div>
