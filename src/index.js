@@ -4,6 +4,7 @@ if (typeof AFRAME === 'undefined') {
 
 // Components
 require('./scripts/vars.js');
+require('./scripts/aria.js');
 require('./components/item.js');
 require('./components/interactable.js');
 require('./components/flex-container.js');

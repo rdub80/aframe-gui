@@ -70,6 +70,7 @@ AFRAME.registerComponent('gui-input', {
 
         ////WAI ARIA Support
         el.setAttribute('role', 'input');
+        el.setAttribute('value', data.inputText);
 
         el.addEventListener('mouseenter', function () {
             el.setAttribute('material', 'color', data.hoverColor);

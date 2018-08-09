@@ -18,6 +18,17 @@ AFRAME.registerComponent('gui-interactable', {
                 event.preventDefault();
             }, true);
         }
+        
+
+        // This will add a tabindex to the element if there is none yet, and listen for the mouseenter event.
+        // Once this happens, the element will receive focus.
+        // ARIA Integration: set tabindex
+        console.log(this.el.getAttribute('tabindex'));
+        if(this.el.getAttribute('tabindex') === null) {
+            this.el.setAttribute('tabindex', '-1');
+        }
+        this.el.addEventListener('mouseenter', this.onMouseEnter.bind(this));
+
     },
     update: function () {
     },
@@ -31,5 +42,9 @@ AFRAME.registerComponent('gui-interactable', {
     },
     setClickAction: function (action) {
         this.data.clickAction = action; //change function dynamically
+    },
+    onMouseEnter: function() {
+        console.log('focus');
+        this.el.focus();
     },
 });

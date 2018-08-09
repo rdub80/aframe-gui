@@ -73,6 +73,8 @@ AFRAME.registerComponent('gui-button', {
 
         ////WAI ARIA Support
         el.setAttribute('role', 'button');
+        el.setAttribute('value', data.text);
+        
 
         el.addEventListener('mouseenter', function () {
             buttonEntity.setAttribute('material', 'color', data.hoverColor);
