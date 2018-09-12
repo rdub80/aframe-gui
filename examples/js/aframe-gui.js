@@ -187,7 +187,7 @@ AFRAME.registerComponent('gui-button', {
         activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
-        console.log('in gui button init');
+
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
@@ -2160,7 +2160,7 @@ AFRAME.registerComponent('gui-label', {
     }
   },
   update: function update(oldData) {
-    console.log("In label update, toggle");
+    // console.log("In label update, toggle");
     this.init();
   },
   tick: function tick() {
