@@ -187,7 +187,7 @@ AFRAME.registerComponent('gui-button', {
         activeColor: { type: 'string', default: key_orange }
     },
     init: function init() {
-
+        console.log('in gui button init');
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
@@ -1328,35 +1328,49 @@ __webpack_require__(0);
 /*  //trying to figure out global styles that customize gui items
 var styles = StyleSheet.create({
     fontFamily: {
-        type: 'string', 
+        type: 'string',
         default: 'Helvetica'
     },
     fontColor: {
-        type: 'string', 
+        type: 'string',
         default: key_offwhite
     },
     borderColor: {
-        type: 'string', 
+        type: 'string',
         default: key_offwhite
     },
     backgroundColor: {
-        type: 'string', 
+        type: 'string',
         default: key_grey
     },
     hoverColor: {
-        type: 'string', 
+        type: 'string',
         default: key_grey_dark
     },
     activeColor: {
-        type: 'string', 
+        type: 'string',
         default: key_orange
     },
     handleColor: {
-        type: 'string', 
+        type: 'string',
         default: key_offwhite
-    },            
+    },
 });
 */
+
+var onAppendChildToContainer = function onAppendChildToContainer(elem, f) {
+    // console.log("in onAppend, elem: "+elem);
+    var observer = new MutationObserver(function (mutations, me) {
+        //console.log("in mutationObserver, me: "+me);
+        mutations.forEach(function (m) {
+            console.log(m);
+            if (m.addedNodes.length) {
+                f(m.target, m.addedNodes);
+            }
+        });
+    });
+    observer.observe(elem, { childList: true });
+};
 
 AFRAME.registerComponent('gui-flex-container', {
     schema: {
@@ -1392,8 +1406,8 @@ AFRAME.registerComponent('gui-flex-container', {
         this.el.setAttribute('material', 'shader: flat; transparent: true; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + '; side:front;');
 
         this.children = this.el.getChildEntities();
-        console.log("childElements: " + this.children);
-        console.log("num child Elements: " + this.children.length);
+        //console.log("childElements: "+this.children);
+        //console.log("num child Elements: "+this.children.length);
 
         // coordinate system is 0, 0 in the top left
         var cursorX = 0;
@@ -1431,7 +1445,9 @@ AFRAME.registerComponent('gui-flex-container', {
                 var columnHeight = 0;
                 for (var i = 0; i < this.children.length; i++) {
                     var childElement = this.children[i];
+                    //console.log("childElement: "+childElement);
                     var childGuiItem = childElement.getAttribute("gui-item");
+                    //console.log("childGuiItem: "+childGuiItem);
                     columnHeight = columnHeight + childGuiItem.margin.x + childGuiItem.height + childGuiItem.margin.z;
                 }
                 if (this.data.justifyContent == 'center') {
@@ -1449,7 +1465,7 @@ AFRAME.registerComponent('gui-flex-container', {
                 cursorX = 0; // baseline is right
             }
         }
-        console.log('initial cursor position for ' + this.el.getAttribute("id") + ': ' + cursorX + ' ' + cursorY + ' 0.01');
+        //console.log(`initial cursor position for ${this.el.getAttribute("id")}: ${cursorX} ${cursorY} 0.01`)
 
         // not that cursor positions are determined, loop through and lay out items
         var wrapOffsetX = 0; // not used yet since wrapping isn't supported
@@ -1485,7 +1501,7 @@ AFRAME.registerComponent('gui-flex-container', {
                     childPositionY = containerGuiItem.height * 0.5 - cursorY - -childGuiItem.margin.x - childGuiItem.height * 0.5;
                     cursorY = cursorY + childGuiItem.margin.x + childGuiItem.height + childGuiItem.margin.z;
                 }
-                console.log('child element position for ' + childElement.id + ': ' + childPositionX + ' ' + childPositionY + ' ' + childPositionZ);
+                //console.log(`child element position for ${childElement.id}: ${childPositionX} ${childPositionY} ${childPositionZ}`)
                 childElement.setAttribute('position', childPositionX + ' ' + childPositionY + ' ' + childPositionZ);
                 childElement.setAttribute('geometry', 'primitive: plane; height: ' + childGuiItem.height + '; width: ' + childGuiItem.width + ';');
                 var childFlexContainer = childElement.components['gui-flex-container'];
@@ -1494,6 +1510,19 @@ AFRAME.registerComponent('gui-flex-container', {
                 }
             }
         }
+
+        onAppendChildToContainer(this.el, function (containerElement, addedChildren) {
+            //console.log('****** containerElement: ' + containerElement);
+            //console.log('****** addedChildren: ' + addedChildren.length);
+            // containerElement.components['gui-flex-container'].init();
+            var addedChild = addedChildren[0];
+            addedChildren[0].addEventListener("loaded", function (e) {
+                //console.log('in appended element loaded handler: '+e);
+                //console.log('addedChild: '+addedChild);
+                //console.log('****** containerElement: ' + containerElement);
+                containerElement.components['gui-flex-container'].init();
+            });
+        });
     },
     update: function update() {},
     tick: function tick() {},
@@ -1515,6 +1544,7 @@ AFRAME.registerComponent('gui-flex-container', {
             this.el.parentNode.insertBefore(panelBackground, this.el);
         }
     }
+
 });
 
 AFRAME.registerPrimitive('a-gui-flex-container', {
