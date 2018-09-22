@@ -33,17 +33,8 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.setAttribute('depth', '0.01');
         toggleBox.setAttribute('material', `color:${data.borderColor}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
+        toggleBox.setAttribute('animation__color', `property: material.color; from: ${data.borderColor}; to:${data.activeColor}; dur:50; easing:easeInOutCubic; dir:alternate; startEvents: toggleAnimation`);
         el.appendChild(toggleBox);
-
-        var toggleColorAnimation = document.createElement("a-animation");
-        toggleColorAnimation.setAttribute('begin', 'toggleAnimation');
-        toggleColorAnimation.setAttribute('direction', 'alternate');
-        toggleColorAnimation.setAttribute('attribute', 'material.color');
-        toggleColorAnimation.setAttribute('from', `${data.borderColor}`);
-        toggleColorAnimation.setAttribute('to', `${data.activeColor}`);
-        toggleColorAnimation.setAttribute('dur', '50');
-        toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        toggleBox.appendChild(toggleColorAnimation);
 
         var toggleHandleWidth = guiItem.height/5;
         var toggleHandleXStart = -guiItem.height*0.5 + toggleHandleWidth*2;
@@ -55,17 +46,8 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('depth', '0.02');
         toggleHandle.setAttribute('material', `color:${data.handleColor}`);
         toggleHandle.setAttribute('position', `${toggleHandleXStart} 0 0.02`);
+        toggleHandle.setAttribute('animation__position', `property: position; from: ${toggleHandleXStart} 0 0.02; to:${toggleHandleXEnd} 0 0.02; dur:50; easing:easeInOutCubic; dir:alternate; startEvents: toggleAnimation`);
         toggleBox.appendChild(toggleHandle);
-
-        var toggleHandleAnimation = document.createElement("a-animation");
-        toggleHandleAnimation.setAttribute('begin', 'toggleAnimation');
-        toggleHandleAnimation.setAttribute('direction', 'alternate');
-        toggleHandleAnimation.setAttribute('attribute', 'position');
-        toggleHandleAnimation.setAttribute('from', `${toggleHandleXStart} 0 0.02`);
-        toggleHandleAnimation.setAttribute('to', `${toggleHandleXEnd} 0 0.02`);
-        toggleHandleAnimation.setAttribute('dur', '50');
-        toggleHandleAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        toggleHandle.appendChild(toggleHandleAnimation);
 
         var labelWidth = guiItem.width - guiItem.height;
         var multiplier = 350;
@@ -107,23 +89,23 @@ AFRAME.registerComponent('gui-toggle', {
         el.addEventListener("check", function (evt) {
             if(!data.checked){
               data.checked = true;
-              toggleColorAnimation.emit('toggleAnimation');
-              toggleHandleAnimation.emit('toggleAnimation');
+              toggleBox.emit('toggleAnimation');
+              toggleHandle.emit('toggleAnimation');
             }
         });
         el.addEventListener("uncheck", function (evt) { // a
               if(data.checked){
                 data.checked = false;
-                toggleColorAnimation.emit('toggleAnimation');
-                toggleHandleAnimation.emit('toggleAnimation');
+                toggleBox.emit('toggleAnimation');
+                toggleHandle.emit('toggleAnimation');
               }
         });
 
         el.addEventListener(data.on, function (evt) {
             console.log('I was clicked at: ', evt.detail.intersection.point);
             data.checked = !data.checked;
-            toggleColorAnimation.emit('toggleAnimation');
-            toggleHandleAnimation.emit('toggleAnimation');
+            toggleBox.emit('toggleAnimation');
+            toggleHandle.emit('toggleAnimation');
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;

@@ -53,16 +53,9 @@ AFRAME.registerComponent('gui-button', {
         buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.backgroundColor}`);
         buttonEntity.setAttribute('rotation', '0 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
+        buttonEntity.setAttribute('animation', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; startEvents: fadeOut`);
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
-
-        var buttonAnimation = document.createElement("a-animation");
-        buttonAnimation.setAttribute('attribute', 'material.color');
-        buttonAnimation.setAttribute('begin', 'fadeOut');
-        buttonAnimation.setAttribute('from', data.activeColor);
-        buttonAnimation.setAttribute('to', data.backgroundColor);
-        buttonAnimation.setAttribute('dur', '400');
-        buttonEntity.appendChild(buttonAnimation);
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);

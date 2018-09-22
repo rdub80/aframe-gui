@@ -45,48 +45,11 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('height', '0.02');
         radioCenter.setAttribute('rotation', '0 0 0');
         radioCenter.setAttribute('material', `color:${data.handleColor}; shader: flat;`);
+        radioCenter.setAttribute('animation__color', `property: material.color; from: ${data.handleColor}; to:${data.activeColor}; dur:500; easing:easeInOutCubic; dir:alternate; startEvents: radioAnimation`);
+        radioCenter.setAttribute('animation__rotation', `property: rotation; from: 0 0 0; to:-180 0 0; dur:500; easing:easeInOutCubic; dir:alternate; startEvents: radioAnimation`);
+        radioCenter.setAttribute('animation__positionIn', `property: position; from: 0 0 0; to:0 0.3 0; dur:300; easing:easeInOutCubic; dir:normal; startEvents: radioAnimation`);
+        radioCenter.setAttribute('animation__positionOut', `property: position; from: 0 0.3 0; to:0 0 0; dur:200; easing:easeInOutCubic; dir:normal; delay:300; startEvents: radioAnimation`);
         radioBox.appendChild(radioCenter);
-
-        var radioColorAnimation = document.createElement("a-animation");
-        radioColorAnimation.setAttribute('begin', 'radioAnimation');
-        radioColorAnimation.setAttribute('direction', 'alternate');
-        radioColorAnimation.setAttribute('attribute', 'material.color');
-        radioColorAnimation.setAttribute('from', `${data.handleColor}`);
-        radioColorAnimation.setAttribute('to', `${data.activeColor}`);
-        radioColorAnimation.setAttribute('dur', '500');
-        radioColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        radioCenter.appendChild(radioColorAnimation);
-
-        var radioRotationAnimation = document.createElement("a-animation");
-        radioRotationAnimation.setAttribute('begin', 'radioAnimation');
-        radioRotationAnimation.setAttribute('direction', 'alternate');
-        radioRotationAnimation.setAttribute('attribute', 'rotation');
-        radioRotationAnimation.setAttribute('from', '0 0 0');
-        radioRotationAnimation.setAttribute('to', '-180 0 0');
-        radioRotationAnimation.setAttribute('dur', '500');
-        radioRotationAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        radioCenter.appendChild(radioRotationAnimation);
-
-        var radioShiftOutAnimation = document.createElement("a-animation");
-        radioShiftOutAnimation.setAttribute('begin', 'radioAnimation');
-        radioShiftOutAnimation.setAttribute('direction', 'normal');
-        radioShiftOutAnimation.setAttribute('attribute', 'position');
-        radioShiftOutAnimation.setAttribute('from', '0 0 0');
-        radioShiftOutAnimation.setAttribute('to', '0 0.3 0 ');
-        radioShiftOutAnimation.setAttribute('dur', '300');
-        radioShiftOutAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        radioCenter.appendChild(radioShiftOutAnimation);
-
-        var radioShiftInAnimation = document.createElement("a-animation");
-        radioShiftInAnimation.setAttribute('begin', 'radioAnimation');
-        radioShiftInAnimation.setAttribute('direction', 'normal');
-        radioShiftInAnimation.setAttribute('attribute', 'position');
-        radioShiftInAnimation.setAttribute('from', '0 0.3 0');
-        radioShiftInAnimation.setAttribute('to', '0 0 0 ');
-        radioShiftInAnimation.setAttribute('delay', '300');
-        radioShiftInAnimation.setAttribute('dur', '200');
-        radioShiftInAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        radioCenter.appendChild(radioShiftInAnimation);
 
 //        var labelWidth = guiItem.width - radioBoxWidth;
         var labelWidth = guiItem.width - guiItem.height;
@@ -132,8 +95,7 @@ AFRAME.registerComponent('gui-radio', {
             // console.log('I was clicked at: ', evt.detail.intersection.point); // Commented out to use own made click event without defining detail
             data.checked = !data.checked;
 
-
-            radioColorAnimation.emit('radioAnimation');
+            radioCenter.emit('radioAnimation');
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
