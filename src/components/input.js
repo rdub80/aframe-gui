@@ -38,8 +38,7 @@ AFRAME.registerComponent('gui-input', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: false; side:front; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.inputText, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
-
+        drawText(ctx, canvas, data.inputText, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1,'center','middle');
 
         var inputEntity = document.createElement("a-entity");
         inputEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);

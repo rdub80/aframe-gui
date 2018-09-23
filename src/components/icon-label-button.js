@@ -90,7 +90,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
             canvasContainer.appendChild(labelCanvas);
 
             var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-            drawLabel(this.ctxLabel, this.labelCanvas, data.text, guiItem.fontSize+' '+ data.fontFamily, data.fontColor);
+            drawText(this.ctxLabel, this.labelCanvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1,'left','middle');
 
             var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
             var labelEntity = document.createElement("a-entity");

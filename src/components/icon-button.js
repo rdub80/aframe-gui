@@ -1,10 +1,9 @@
 AFRAME.registerComponent('gui-icon-button', {
     schema: {
         on: {default: 'click'},
+        toggle: {type: 'boolean', default: false},
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
-        toggle: {type: 'boolean', default: false},
-
         fontFamily: {type: 'string', default: 'Helvetica'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
@@ -17,7 +16,7 @@ AFRAME.registerComponent('gui-icon-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        console.log("in button, guiItem: "+JSON.stringify(guiItem));
+        console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
         console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 350;
@@ -28,10 +27,8 @@ AFRAME.registerComponent('gui-icon-button', {
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
-
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
-        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvasIcon');
@@ -69,8 +66,6 @@ AFRAME.registerComponent('gui-icon-button', {
         ////WAI ARIA Support
         el.setAttribute('role', 'button');
 
-
-
         el.addEventListener('mouseenter', function () {
             buttonEntity.setAttribute('material', 'color', data.hoverColor);
         });
@@ -87,13 +82,11 @@ AFRAME.registerComponent('gui-icon-button', {
             }else{
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-            this.toggleState = !(this.toggleState);
+//            this.toggleState = !(this.toggleState);
 
-            //console.log('I was clicked at: ', evt.detail.intersection.point);
-            //var guiInteractable = el.getAttribute("gui-interactable");
-            //console.log("guiInteractable: "+guiInteractable);
+//            console.log('I was clicked at: ', evt.detail.intersection.point);
             var clickActionFunctionName = guiInteractable.clickAction;
-            //console.log("clickActionFunctionName: "+clickActionFunctionName);
+            console.log("in icon button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -108,6 +101,15 @@ AFRAME.registerComponent('gui-icon-button', {
     },
     update: function (oldData) {
         console.log("In button update, toggle: "+this.toggleState);
+    },
+    setActiveState: function (activeState) {
+        console.log("in setActiveState function");
+        this.data.toggle = this.toggleState = activeState;
+        if (!activeState) {
+            this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
+        } else {
+
+        }
     },
 });
 
