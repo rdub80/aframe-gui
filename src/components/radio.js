@@ -5,8 +5,8 @@ AFRAME.registerComponent('gui-radio', {
         active: {type: 'boolean', default: true},
         checked: {type: 'boolean', default: false},
         radiosizecoef: {type: 'number', default: 1},
-        
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontSize: {type: 'string', default: '150px'},
+        fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_white},
         backgroundColor: {type: 'string', default: key_offwhite},
@@ -53,7 +53,7 @@ AFRAME.registerComponent('gui-radio', {
 
 //        var labelWidth = guiItem.width - radioBoxWidth;
         var labelWidth = guiItem.width - guiItem.height;
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = labelWidth*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
@@ -70,7 +70,7 @@ AFRAME.registerComponent('gui-radio', {
         canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawText(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.fontSize+' ' + data.fontFamily, this.data.fontColor, 1,'left','middle');
+        drawText(this.ctxLabel, this.labelCanvas, this.data.text, data.fontSize, data.fontFamily, this.data.fontColor, 1,'left','middle');
 
         var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
         var labelEntity = document.createElement("a-entity");
@@ -139,12 +139,12 @@ AFRAME.registerPrimitive( 'a-gui-radio', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-radio.on',
         'value': 'gui-radio.text',
         'active': 'gui-radio.active',
         'checked': 'gui-radio.checked',
         'font-color': 'gui-radio.fontColor',
+        'font-size': 'gui-radio.fontSize',
         'font-family': 'gui-radio.fontFamily',
         'border-color': 'gui-radio.borderColor',
         'background-color': 'gui-radio.backgroundColor',

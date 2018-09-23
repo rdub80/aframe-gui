@@ -5,8 +5,8 @@ AFRAME.registerComponent('gui-toggle', {
         active: {type: 'boolean', default: true},
         checked: {type: 'boolean', default: false},
         borderWidth: {type: 'number', default: 1},
-
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontSize: {type: 'string', default: '150px'},
+        fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
@@ -50,7 +50,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.appendChild(toggleHandle);
 
         var labelWidth = guiItem.width - guiItem.height;
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = labelWidth*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
@@ -67,7 +67,7 @@ AFRAME.registerComponent('gui-toggle', {
         canvasContainer.appendChild(labelCanvas);
 
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawText(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.fontSize+' ' + data.fontFamily, this.data.fontColor, 1,'left','middle');
+        drawText(this.ctxLabel, this.labelCanvas, this.data.text, data.fontSize, data.fontFamily, this.data.fontColor, 1,'left','middle');
 
         var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
         var labelEntity = document.createElement("a-entity");
@@ -147,13 +147,13 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
         'value': 'gui-toggle.text',
         'font-color': 'gui-toggle.fontColor',
         'font-family': 'gui-toggle.fontFamily',
+        'font-size': 'gui-toggle.fontSize',
         'border-width': 'gui-toggle.borderWidth',
         'border-color': 'gui-toggle.borderColor',
         'background-color': 'gui-toggle.backgroundColor',

@@ -28,12 +28,12 @@ window.getTextWidth = function(text, font) {
     return metrics.width;
 }
 
-window.drawText = function(ctx, canvas, text, font, color, size = 1, align = 'center', baseline = 'middle') {
-	ctx.font = font;
+window.drawText = function(ctx, canvas, text, fontSize, fontFamily, color, scale = 1, align = 'center', baseline = 'middle') {
+	ctx.font = fontSize+' '+fontFamily;
 	ctx.fillStyle = color;
 	ctx.textAlign = align;
 	ctx.textBaseline = baseline;
-	ctx.scale(size, size);
+	ctx.scale(scale, scale);
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	var textString = text + ''
 	if (textString.match("char#")) {
@@ -52,13 +52,13 @@ window.drawText = function(ctx, canvas, text, font, color, size = 1, align = 'ce
 	}
 }
 
-window.drawIcon = function(ctx, canvas, icon, color, size = 1) {
- 	ctx.font = '240px Ionicons';
+window.drawIcon = function(ctx, canvas, iconFontSize, icon, color, scale = 1) {
+ 	ctx.font = iconFontSize+' Ionicons';
  	ctx.fillStyle = color;
  	ctx.textAlign = "center";
  	ctx.textBaseline = 'middle';
  	ctx.clearRect(0, 0, canvas.width, canvas.height);
- 	ctx.scale(size, size);
+ 	ctx.scale(scale, scale);
  	if(icon_font[icon]){
  	    ctx.fillText(icon_font[icon], canvas.width/2, canvas.height/2);
  	}else{

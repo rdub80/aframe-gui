@@ -4,7 +4,9 @@ AFRAME.registerComponent('gui-icon-button', {
         toggle: {type: 'boolean', default: false},
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontFamily: {type: 'string', default: 'Arial'},
+        iconFontSize: {type: 'string', default: '400px'},
+        fontSize: {type: 'string', default: '150px'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
@@ -19,7 +21,7 @@ AFRAME.registerComponent('gui-icon-button', {
         console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
         console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height*multiplier; //square
         var canvasHeight = guiItem.height*multiplier;
         var toggleState = this.toggleState = data.toggle;
@@ -39,7 +41,7 @@ AFRAME.registerComponent('gui-icon-button', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:back; color:${data.backgroundColor};`);
 
-        drawIcon(ctx, canvas, data.icon, data.fontColor, 1);
+        drawIcon(ctx, canvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -135,6 +137,7 @@ AFRAME.registerPrimitive( 'a-gui-icon-button', {
         'active-color': 'gui-icon-button.activeColor',
         'toggle': 'gui-icon-button.toggle',
         'icon': 'gui-icon-button.icon',
+        'icon-font-size': 'gui-icon-button.iconFontSize',
         'icon-active': 'gui-icon-button.iconActive',
     }
 });

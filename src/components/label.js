@@ -2,8 +2,8 @@ AFRAME.registerComponent('gui-label', {
     schema: {
         text: {type: 'string', default: 'label text'},
         labelFor: {type: 'selector', default: null},
-
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontSize: {type: 'string', default: '150px'},
+        fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
         backgroundColor: {type: 'string', default: key_offwhite},
     },
@@ -12,7 +12,7 @@ AFRAME.registerComponent('gui-label', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
@@ -35,7 +35,7 @@ AFRAME.registerComponent('gui-label', {
 
         this.oldText = data.text;
 
-        drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1,'center','middle');
+        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
@@ -68,11 +68,11 @@ AFRAME.registerPrimitive( 'a-gui-label', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-button.on',
         'value': 'gui-label.text',
         'label-for': 'gui-label.labelFor',
         'font-color': 'gui-label.fontColor',
+        'font-size': 'gui-label.fontSize',
         'font-family': 'gui-label.fontFamily',
         'background-color': 'gui-label.backgroundColor'
     }

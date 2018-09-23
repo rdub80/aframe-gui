@@ -3,10 +3,11 @@ AFRAME.registerComponent('gui-icon-label-button', {
         on: {default: 'click'},
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
+        iconFontSize: {type: 'string', default: '400px'},
         text: {type: 'string', default: ''},
         toggle: {type: 'boolean', default: false},
-
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontSize: {type: 'string', default: '150px'},
+        fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
@@ -39,9 +40,9 @@ AFRAME.registerComponent('gui-icon-label-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var multiplier = 550;
+        var multiplier = 1024; // POT conversion
         if(data.text != ''){
-            multiplier = 350;
+            var multiplier = 512;
         }
 
         var canvasContainer = document.createElement('div');
@@ -59,7 +60,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         canvasContainer.appendChild(iconCanvas);
 
         var ctxIcon = this.ctxIcon = iconCanvas.getContext('2d');
-        drawIcon(ctxIcon, iconCanvas, data.icon, data.fontColor, 1);
+        drawIcon(ctxIcon, iconCanvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
         var iconEntityX = 0;
         if(data.text != ''){
@@ -90,7 +91,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
             canvasContainer.appendChild(labelCanvas);
 
             var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-            drawText(this.ctxLabel, this.labelCanvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1,'left','middle');
+            drawText(this.ctxLabel, this.labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'left','middle');
 
             var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
             var labelEntity = document.createElement("a-entity");
@@ -157,10 +158,10 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-icon-label-button.on',
         'font-color': 'gui-icon-label-button.fontColor',
         'font-family': 'gui-icon-label-button.fontFamily',
+        'font-size': 'gui-icon-label-button.fontSize',
         'border-color': 'gui-icon-label-button.borderColor',
         'background-color': 'gui-icon-label-button.backgroundColor',
         'hover-color': 'gui-icon-label-button.hoverColor',
@@ -168,6 +169,7 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'toggle': 'gui-icon-label-button.toggle',
         'icon': 'gui-icon-label-button.icon',
         'icon-active': 'gui-icon-label-button.iconActive',
+        'icon-font-size': 'gui-icon-label-button.iconFontSize',
         'value': 'gui-icon-label-button.text'
     }
 });

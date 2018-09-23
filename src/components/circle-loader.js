@@ -1,7 +1,8 @@
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         count: {type: 'number', default: '100'},
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontFamily: {type: 'string', default: 'Arial'},
+        fontSize: {type: 'string', default: '150px'},
         fontColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
         activeColor: {type: 'string', default: key_orange},
@@ -11,7 +12,7 @@ AFRAME.registerComponent('gui-circle-loader', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height*multiplier; //square
         var canvasHeight = guiItem.height*multiplier;
 
@@ -33,7 +34,7 @@ AFRAME.registerComponent('gui-circle-loader', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:back; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.count+'%', guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1,'center','middle');
+        drawText(ctx, canvas, data.count+'%', data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
 
         var loaderContainer = document.createElement("a-entity");
         loaderContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -41,6 +42,13 @@ AFRAME.registerComponent('gui-circle-loader', {
         loaderContainer.setAttribute('rotation', '90 0 0');
         loaderContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(loaderContainer);
+
+        var countLoaded = document.createElement("a-entity");
+        countLoaded.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/1.5}; height: ${guiItem.height/1.5};`);
+        countLoaded.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+        countLoaded.setAttribute('position', '0 0 0.022');
+        countLoaded.id = "loader_ring_count";
+        el.appendChild(countLoaded);
 
         var loaderRing = document.createElement("a-ring");
         loaderRing.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.activeColor}`);
@@ -52,14 +60,6 @@ AFRAME.registerComponent('gui-circle-loader', {
         loaderRing.setAttribute('position', '0 0 0.04');
         loaderRing.id = "loader_ring";
         el.appendChild(loaderRing);
-
-        var countLoaded = document.createElement("a-entity");
-        countLoaded.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/1.75}; height: ${guiItem.height/1.75};`);
-        countLoaded.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
-        countLoaded.setAttribute('position', '0 0 0.022');
-        countLoaded.id = "loader_ring_count";
-        el.appendChild(countLoaded);
-
 
     },
     play: function () {
@@ -78,8 +78,8 @@ AFRAME.registerPrimitive( 'a-gui-circle-loader', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'count': 'gui-circle-loader.count',
+        'font-size': 'gui-circle-loader.fontSize',
         'font-family': 'gui-circle-loader.fontFamily',
         'font-color': 'gui-circle-loader.fontColor',
         'background-color': 'gui-circle-loader.backgroundColor',

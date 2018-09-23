@@ -3,8 +3,8 @@ AFRAME.registerComponent('gui-input', {
         on: {default: 'click'},
         inputText: {type: 'string', default: 'Placeholder'},
         toggle: {type: 'boolean', default: false},
-
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontSize: {type: 'string', default: '150px'},
+        fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_grey_dark},
         borderHoverColor: {type: 'string', default: key_grey},
@@ -17,7 +17,7 @@ AFRAME.registerComponent('gui-input', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
@@ -38,7 +38,7 @@ AFRAME.registerComponent('gui-input', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: false; side:front; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.inputText, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1,'center','middle');
+        drawText(ctx, canvas, data.inputText, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
 
         var inputEntity = document.createElement("a-entity");
         inputEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
@@ -122,11 +122,11 @@ AFRAME.registerPrimitive( 'a-gui-input', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-input.on',
         'value': 'gui-input.inputText',
         'toggle': 'gui-input.toggle',
         'font-color': 'gui-input.fontColor',
+        'font-size': 'gui-input.fontSize',
         'font-family': 'gui-input.fontFamily',
         'border-color': 'gui-input.borderColor',
         'border-hover-color': 'gui-input.borderHoverColor',
