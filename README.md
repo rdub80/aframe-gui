@@ -179,7 +179,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | --------           | -------------------------------------------------------   | ------------- |
 | active-color       | Color of ring that indicates loading progress             | #ed5b21       |
 | background-color   | Background color of item                                  | #22252a       |
-| count              | Initial percentage progress value                         | #22252a       |
+| count              | Initial percentage progress value                         | 0             |
 | font-color         | Text color for progress percentage text                   | #d3d3d4       |
 | font-family        | Font family for progress percentage text                  | 'Arial'       |
 | font-size          | Font size for progress percentage text                    | '150px'       |
@@ -206,7 +206,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | active-color       | Color of ring that indicates countdown progress           | #ed5b21       |
 | background-color   | Background color of item                                  | #22252a       |
 | border-color       | Color of indicators that show 25/50/75/100 progress       | #22252a       |
-| count-down         | Initial countdown value in seconds                        | #22252a       |
+| count-down         | Initial countdown value in seconds                        | 0             |
+| callback           | callback function that fires when countdown expires       | ''            |
 | font-color         | Text color for progress countdown text                    | #d3d3d4       |
 | font-family        | Font family for progress countdown text                   | 'Arial'       |
 | font-size          | Font size for countdown text                              | '150px'       |
@@ -214,6 +215,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | width              | Width of item                                             | 1             |
 | margin             | Margin around item                                        | 0 0 0 0       |
 
+callback
 
 ```html
 <a-gui-circle-timer 
@@ -363,7 +365,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property         | Description                                               | Default Value |
 | --------         | -------------------------------------------------------   | ------------- |
-| background-color | Background color of progress bar                          | #22252a        |
+| background-color | Background color of progress bar                          | #22252a       |
 | active-color     | Color for indicating progress level                       | #ed5b21       |
 | height           | Height of item                                            | 1             |
 | width            | Width of item                                             | 1             |
