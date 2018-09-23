@@ -33,7 +33,6 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.setAttribute('depth', '0.01');
         toggleBox.setAttribute('material', `color:${data.borderColor}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
-        toggleBox.setAttribute('animation__color', `property: material.color; from: ${data.borderColor}; to:${data.activeColor}; dur:50; easing:easeInOutCubic; dir:alternate; startEvents: toggleAnimation`);
         el.appendChild(toggleBox);
 
         var toggleHandleWidth = guiItem.height/5;
@@ -46,7 +45,6 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('depth', '0.02');
         toggleHandle.setAttribute('material', `color:${data.handleColor}`);
         toggleHandle.setAttribute('position', `${toggleHandleXStart} 0 0.02`);
-        toggleHandle.setAttribute('animation__position', `property: position; from: ${toggleHandleXStart} 0 0.02; to:${toggleHandleXEnd} 0 0.02; dur:50; easing:easeInOutCubic; dir:alternate; startEvents: toggleAnimation`);
         toggleBox.appendChild(toggleHandle);
 
         var labelWidth = guiItem.width - guiItem.height;
@@ -78,34 +76,41 @@ AFRAME.registerComponent('gui-toggle', {
 
         this.updateToggle(data.active);
 
-        el.addEventListener('mouseenter', function () {
-            toggleHandle.setAttribute('material', 'color', data.hoverColor);
-        });
 
-        el.addEventListener('mouseleave', function () {
-            toggleHandle.setAttribute('material', 'color', data.handleColor);
+        el.addEventListener('mouseenter', function() {
+            toggleHandle.removeAttribute('animation__leave');
+            toggleHandle.setAttribute('animation__enter', `property: material.color; from: ${data.handleColor}; to:${data.hoverColor}; dur:200;`);
+        });
+        el.addEventListener('mouseleave', function() {
+            toggleHandle.removeAttribute('animation__enter');
+            toggleHandle.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.handleColor}; dur:200; easing: easeOutQuad;`);
         });
 
         el.addEventListener("check", function (evt) {
             if(!data.checked){
-              data.checked = true;
-              toggleBox.emit('toggleAnimation');
-              toggleHandle.emit('toggleAnimation');
+                data.checked = true;
             }
         });
         el.addEventListener("uncheck", function (evt) { // a
               if(data.checked){
                 data.checked = false;
-                toggleBox.emit('toggleAnimation');
-                toggleHandle.emit('toggleAnimation');
               }
         });
 
         el.addEventListener(data.on, function (evt) {
             console.log('I was clicked at: ', evt.detail.intersection.point);
             data.checked = !data.checked;
-            toggleBox.emit('toggleAnimation');
-            toggleHandle.emit('toggleAnimation');
+            if(data.checked){
+                toggleBox.removeAttribute('animation__colorOut');
+                toggleHandle.removeAttribute('animation__positionOut');
+                toggleBox.setAttribute('animation__colorIn', `property: material.color; from: ${data.borderColor}; to:${data.activeColor}; dur:200; easing:easeInOutCubic;`);
+                toggleHandle.setAttribute('animation__positionIn', `property: position; from: ${toggleHandleXStart} 0 0.02; to:${toggleHandleXEnd} 0 0.02; dur:200; easing:easeInOutCubic;`);
+            }else{
+                toggleBox.removeAttribute('animation__colorIn');
+                toggleHandle.removeAttribute('animation__positionIn');
+                toggleBox.setAttribute('animation__colorOut', `property: material.color; from: ${data.activeColor}; to:${data.borderColor}; dur:200; easing:easeInOutCubic;`);
+                toggleHandle.setAttribute('animation__positionOut', `property: position; from: ${toggleHandleXEnd} 0 0.02; to:${toggleHandleXStart} 0 0.02; dur:200; easing:easeInOutCubic;`);
+            }
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;

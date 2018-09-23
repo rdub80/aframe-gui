@@ -45,10 +45,6 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('height', '0.02');
         radioCenter.setAttribute('rotation', '0 0 0');
         radioCenter.setAttribute('material', `color:${data.handleColor}; shader: flat;`);
-        radioCenter.setAttribute('animation__color', `property: material.color; from: ${data.handleColor}; to:${data.activeColor}; dur:500; easing:easeInOutCubic; dir:alternate; startEvents: radioAnimation`);
-        radioCenter.setAttribute('animation__rotation', `property: rotation; from: 0 0 0; to:-180 0 0; dur:500; easing:easeInOutCubic; dir:alternate; startEvents: radioAnimation`);
-        radioCenter.setAttribute('animation__positionIn', `property: position; from: 0 0 0; to:0 0.3 0; dur:300; easing:easeInOutCubic; dir:normal; startEvents: radioAnimation`);
-        radioCenter.setAttribute('animation__positionOut', `property: position; from: 0 0.3 0; to:0 0 0; dur:200; easing:easeInOutCubic; dir:normal; delay:300; startEvents: radioAnimation`);
         radioBox.appendChild(radioCenter);
 
 //        var labelWidth = guiItem.width - radioBoxWidth;
@@ -83,19 +79,37 @@ AFRAME.registerComponent('gui-radio', {
         this.updateToggle(data.active);
         el.setAttribute("checked",data.active);
 
-        el.addEventListener('mouseenter', function () {
-            radioborder.setAttribute('material', 'color', data.hoverColor);
+        el.addEventListener('mouseenter', function() {
+            radioborder.removeAttribute('animation__leave');
+            radioborder.setAttribute('animation__enter', `property: material.color; from: ${data.borderColor}; to:${data.hoverColor}; dur:200;`);
         });
-
-        el.addEventListener('mouseleave', function () {
-            radioborder.setAttribute('material', 'color', data.borderColor);
+        el.addEventListener('mouseleave', function() {
+            radioborder.removeAttribute('animation__enter');
+            radioborder.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.borderColor}; dur:200; easing: easeOutQuad;`);
         });
-
         el.addEventListener(data.on, function (evt) {
             // console.log('I was clicked at: ', evt.detail.intersection.point); // Commented out to use own made click event without defining detail
             data.checked = !data.checked;
+            if (data.checked) { 
+                radioCenter.removeAttribute('animation__colorOut');
+                radioCenter.removeAttribute('animation__rotationOut');
+                radioCenter.removeAttribute('animation__position1Out');
+                radioCenter.removeAttribute('animation__position2Out');
+                radioCenter.setAttribute('animation__colorIn', `property: material.color; from: ${data.handleColor}; to:${data.activeColor}; dur:500; easing:easeInOutCubic;`);
+                radioCenter.setAttribute('animation__rotationIn', `property: rotation; from: 0 0 0; to:-180 0 0; dur:500; easing:easeInOutCubic;`);
+                radioCenter.setAttribute('animation__position1In', `property: position; from: 0 0 0; to:0 0.3 0; dur:200; easing:easeInOutCubic;`);
+                radioCenter.setAttribute('animation__position2In', `property: position; from: 0 0.3 0; to:0 0 0; dur:200; easing:easeInOutCubic; delay:300;`);
+            }else{
+                radioCenter.removeAttribute('animation__colorIn');
+                radioCenter.removeAttribute('animation__rotationIn');
+                radioCenter.removeAttribute('animation__position1In');
+                radioCenter.removeAttribute('animation__position2In');
+                radioCenter.setAttribute('animation__colorOut', `property: material.color; from: ${data.activeColor}; to:${data.handleColor}; dur:500; easing:easeInOutCubic;`);
+                radioCenter.setAttribute('animation__rotationOut', `property: rotation; from: -180 0 0; to:0 0 0; dur:500; easing:easeInOutCubic;`);
+                radioCenter.setAttribute('animation__position1Out', `property: position; from: 0 0 0; to:0 0.3 0; dur:200; easing:easeInOutCubic; `);
+                radioCenter.setAttribute('animation__position2Out', `property: position; from: 0 0.3 0; to:0 0 0; dur:200; easing:easeInOutCubic; delay:300;`);
+            }
 
-            radioCenter.emit('radioAnimation');
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
@@ -106,6 +120,9 @@ AFRAME.registerComponent('gui-radio', {
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'radio');
 
     },
     update: function(){

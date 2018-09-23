@@ -55,7 +55,6 @@ AFRAME.registerComponent('gui-icon-button', {
         buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.backgroundColor}`);
         buttonEntity.setAttribute('rotation', '90 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
-        buttonEntity.setAttribute('animation', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; startEvents: fadeOut`);
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
@@ -65,36 +64,35 @@ AFRAME.registerComponent('gui-icon-button', {
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-        ////WAI ARIA Support
-        el.setAttribute('role', 'button');
-
-        el.addEventListener('mouseenter', function () {
-            buttonEntity.setAttribute('material', 'color', data.hoverColor);
+        el.addEventListener('mouseenter', function() {
+            buttonEntity.removeAttribute('animation__leave');
+            buttonEntity.setAttribute('animation__enter', `property: material.color; from: ${data.backgroundColor}; to:${data.hoverColor}; dur:200;`);
         });
-
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function() {
             if (!(data.toggle)) {
-                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+                buttonEntity.removeAttribute('animation__click');
             }
+            buttonEntity.removeAttribute('animation__enter');
+            buttonEntity.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.backgroundColor}; dur:200; easing: easeOutQuad;`);
         });
-
-        el.addEventListener(data.on, function (evt) {            
+        el.addEventListener(data.on, function() {
             if (!(data.toggle)) { // if not toggling flashing active state
-                buttonEntity.emit('fadeOut');
+                buttonEntity.setAttribute('animation__click', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; easing: easeOutBack;`);
             }else{
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-//            this.toggleState = !(this.toggleState);
 
-//            console.log('I was clicked at: ', evt.detail.intersection.point);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("in icon button, clickActionFunctionName: "+clickActionFunctionName);
+            console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
 
 
     },
