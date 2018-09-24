@@ -190,7 +190,6 @@ AFRAME.registerComponent('gui-button', {
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(canvas);
-
         var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
@@ -262,7 +261,7 @@ AFRAME.registerComponent('gui-button', {
         } else {}
     },
     setText: function setText(newText) {
-        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1);
+        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, 'center', 'middle');
     }
 });
 
@@ -1835,9 +1834,6 @@ AFRAME.registerComponent('gui-radio', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
 
-        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-
         var radioBoxWidth = 0.50;
         var radioBoxX = -guiItem.width * 0.5 + guiItem.height * 0.5;
         var radioBox = document.createElement("a-cylinder");
@@ -1879,14 +1875,17 @@ AFRAME.registerComponent('gui-radio', {
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(labelCanvas);
-
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawText(this.ctxLabel, this.labelCanvas, this.data.text, data.fontSize, data.fontFamily, this.data.fontColor, 1, 'left', 'middle');
+
+        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
+
+        drawText(ctxLabel, labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'left', 'middle');
 
         var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
         var labelEntity = document.createElement("a-entity");
         labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
-        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
         labelEntity.setAttribute('position', labelEntityX + ' 0 0.02');
         el.appendChild(labelEntity);
 
@@ -2144,12 +2143,8 @@ AFRAME.registerComponent('gui-toggle', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
 
-        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-
         var toggleBoxWidth = guiItem.height / 1.75;
         var toggleBoxX = -guiItem.width * 0.5 + guiItem.height / 2;
-
         var toggleBox = document.createElement("a-box");
 
         toggleBox.setAttribute('width', toggleBoxWidth);
@@ -2187,14 +2182,17 @@ AFRAME.registerComponent('gui-toggle', {
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(labelCanvas);
-
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawText(this.ctxLabel, this.labelCanvas, this.data.text, data.fontSize, data.fontFamily, this.data.fontColor, 1, 'left', 'middle');
+
+        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
+
+        drawText(ctxLabel, labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'left', 'middle');
 
         var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
         var labelEntity = document.createElement("a-entity");
         labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
-        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
         labelEntity.setAttribute('position', labelEntityX + ' 0 0.02');
         el.appendChild(labelEntity);
 

@@ -34,7 +34,6 @@ AFRAME.registerComponent('gui-button', {
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(canvas);
-
         var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
@@ -112,7 +111,7 @@ AFRAME.registerComponent('gui-button', {
         }
     },
     setText: function (newText) {
-        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1);
+        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1,'center','middle');
     },
 });
 

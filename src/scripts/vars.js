@@ -35,7 +35,7 @@ window.drawText = function(ctx, canvas, text, fontSize, fontFamily, color, scale
 	ctx.textBaseline = baseline;
 	ctx.scale(scale, scale);
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	var textString = text + ''
+	var textString = text + '';
 	if (textString.match("char#")) {
 		var char = textString.substring(textString.indexOf('#')+1);
 		if(align == 'left'){
