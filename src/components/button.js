@@ -89,7 +89,6 @@ AFRAME.registerComponent('gui-button', {
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
 
-
         ////WAI ARIA Support
         el.setAttribute('role', 'button');
 

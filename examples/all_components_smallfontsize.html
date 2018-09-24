@@ -120,10 +120,11 @@
 			>
 			</a-gui-progressbar>
 
-			<a-gui-circle-timer
+			<a-gui-circle-timer 
+				id="timer"
 				height="0.75"
-				count-down="5"
-				font-family="Arial"
+				count-down="60"
+				callback="timedout"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-circle-timer>
@@ -161,6 +162,29 @@
 	</a-scene>
 
 	<script type="text/javascript">
+
+		function startTimer(duration, display) {
+		    var timer = duration, minutes, seconds;
+		    setInterval(function () {
+		        seconds = parseInt(timer % 60, 10);
+		        seconds = seconds < 10 ? "0" + seconds : seconds;
+		        display.setAttribute('count-down', seconds);
+		        if (--timer < 0) {
+		            timer = duration;
+		        }
+		    }, 1000);
+		}
+
+		window.onload = function () {
+		    var countDownEntity = document.getElementById("timer"),
+		    	duration = countDownEntity.getAttribute('count-down');
+ 		    	startTimer(duration, countDownEntity);
+		};
+
+		window.timedout = function () {
+			console.log("GUI timer timed out");
+		}
+
 		window.testButtonAction = function () {
 			console.log("clicked GUI");
 		}
