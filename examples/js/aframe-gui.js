@@ -932,35 +932,49 @@ __webpack_require__(0);
 /*  //trying to figure out global styles that customize gui items
 var styles = StyleSheet.create({
     fontFamily: {
-        type: 'string', 
+        type: 'string',
         default: 'Helvetica'
     },
     fontColor: {
-        type: 'string', 
+        type: 'string',
         default: key_offwhite
     },
     borderColor: {
-        type: 'string', 
+        type: 'string',
         default: key_offwhite
     },
     backgroundColor: {
-        type: 'string', 
+        type: 'string',
         default: key_grey
     },
     hoverColor: {
-        type: 'string', 
+        type: 'string',
         default: key_grey_dark
     },
     activeColor: {
-        type: 'string', 
+        type: 'string',
         default: key_orange
     },
     handleColor: {
-        type: 'string', 
+        type: 'string',
         default: key_offwhite
-    },            
+    },
 });
 */
+
+var onAppendChildToContainer = function onAppendChildToContainer(elem, f) {
+    // console.log("in onAppend, elem: "+elem);
+    var observer = new MutationObserver(function (mutations, me) {
+        //console.log("in mutationObserver, me: "+me);
+        mutations.forEach(function (m) {
+            console.log(m);
+            if (m.addedNodes.length) {
+                f(m.target, m.addedNodes);
+            }
+        });
+    });
+    observer.observe(elem, { childList: true });
+};
 
 AFRAME.registerComponent('gui-flex-container', {
     schema: {
@@ -996,8 +1010,8 @@ AFRAME.registerComponent('gui-flex-container', {
         this.el.setAttribute('material', 'shader: flat; transparent: true; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + '; side:front;');
 
         this.children = this.el.getChildEntities();
-        console.log("childElements: " + this.children);
-        console.log("num child Elements: " + this.children.length);
+        //console.log("childElements: "+this.children);
+        //console.log("num child Elements: "+this.children.length);
 
         // coordinate system is 0, 0 in the top left
         var cursorX = 0;
@@ -1035,7 +1049,9 @@ AFRAME.registerComponent('gui-flex-container', {
                 var columnHeight = 0;
                 for (var i = 0; i < this.children.length; i++) {
                     var childElement = this.children[i];
+                    //console.log("childElement: "+childElement);
                     var childGuiItem = childElement.getAttribute("gui-item");
+                    //console.log("childGuiItem: "+childGuiItem);
                     columnHeight = columnHeight + childGuiItem.margin.x + childGuiItem.height + childGuiItem.margin.z;
                 }
                 if (this.data.justifyContent == 'center') {
@@ -1053,7 +1069,7 @@ AFRAME.registerComponent('gui-flex-container', {
                 cursorX = 0; // baseline is right
             }
         }
-        console.log('initial cursor position for ' + this.el.getAttribute("id") + ': ' + cursorX + ' ' + cursorY + ' 0.01');
+        //console.log(`initial cursor position for ${this.el.getAttribute("id")}: ${cursorX} ${cursorY} 0.01`)
 
         // not that cursor positions are determined, loop through and lay out items
         var wrapOffsetX = 0; // not used yet since wrapping isn't supported
@@ -1089,7 +1105,7 @@ AFRAME.registerComponent('gui-flex-container', {
                     childPositionY = containerGuiItem.height * 0.5 - cursorY - -childGuiItem.margin.x - childGuiItem.height * 0.5;
                     cursorY = cursorY + childGuiItem.margin.x + childGuiItem.height + childGuiItem.margin.z;
                 }
-                console.log('child element position for ' + childElement.id + ': ' + childPositionX + ' ' + childPositionY + ' ' + childPositionZ);
+                //console.log(`child element position for ${childElement.id}: ${childPositionX} ${childPositionY} ${childPositionZ}`)
                 childElement.setAttribute('position', childPositionX + ' ' + childPositionY + ' ' + childPositionZ);
                 childElement.setAttribute('geometry', 'primitive: plane; height: ' + childGuiItem.height + '; width: ' + childGuiItem.width + ';');
                 var childFlexContainer = childElement.components['gui-flex-container'];
@@ -1098,6 +1114,19 @@ AFRAME.registerComponent('gui-flex-container', {
                 }
             }
         }
+
+        onAppendChildToContainer(this.el, function (containerElement, addedChildren) {
+            //console.log('****** containerElement: ' + containerElement);
+            //console.log('****** addedChildren: ' + addedChildren.length);
+            // containerElement.components['gui-flex-container'].init();
+            var addedChild = addedChildren[0];
+            addedChildren[0].addEventListener("loaded", function (e) {
+                //console.log('in appended element loaded handler: '+e);
+                //console.log('addedChild: '+addedChild);
+                //console.log('****** containerElement: ' + containerElement);
+                containerElement.components['gui-flex-container'].init();
+            });
+        });
     },
     update: function update() {},
     tick: function tick() {},
@@ -1119,6 +1148,7 @@ AFRAME.registerComponent('gui-flex-container', {
             this.el.parentNode.insertBefore(panelBackground, this.el);
         }
     }
+
 });
 
 AFRAME.registerPrimitive('a-gui-flex-container', {
@@ -1667,88 +1697,9 @@ AFRAME.registerComponent('gui-item', {
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-
-AFRAME.registerComponent('gui-label', {
-    schema: {
-        text: { type: 'string', default: 'label text' },
-        labelFor: { type: 'selector', default: null },
-        fontSize: { type: 'string', default: '150px' },
-        fontFamily: { type: 'string', default: 'Arial' },
-        fontColor: { type: 'string', default: key_grey_dark },
-        backgroundColor: { type: 'string', default: key_offwhite }
-    },
-    init: function init() {
-
-        var data = this.data;
-        var el = this.el;
-        var guiItem = el.getAttribute("gui-item");
-        var multiplier = 512; // POT conversion
-        var canvasWidth = guiItem.width * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        var canvas = document.createElement("canvas");
-        this.canvas = canvas;
-        canvas.className = "visuallyhidden";
-        canvas.setAttribute('width', canvasWidth);
-        canvas.setAttribute('height', canvasHeight);
-        canvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(canvas);
-
-        var ctx = this.ctx = canvas.getContext('2d');
-
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
-        el.setAttribute('material', 'shader: flat; side:front; color:' + data.backgroundColor + ';');
-
-        this.oldText = data.text;
-
-        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
-
-        var textEntity = document.createElement("a-entity");
-        textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
-        textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
-        textEntity.setAttribute('position', '0 0 0.001');
-        el.appendChild(textEntity);
-
-        ////WAI ARIA Support
-
-        if (data.labelFor) {
-            // el.setAttribute('role', 'button');
-        }
-    },
-
-    tick: function tick() {
-        if (this.data.text !== this.oldText) {
-            drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
-        }
-    }
-});
-
-AFRAME.registerPrimitive('a-gui-label', {
-    defaultComponents: {
-        'gui-item': { type: 'label' },
-        'gui-label': {}
-    },
-    mappings: {
-        'width': 'gui-item.width',
-        'height': 'gui-item.height',
-        'margin': 'gui-item.margin',
-        'on': 'gui-button.on',
-        'value': 'gui-label.text',
-        'label-for': 'gui-label.labelFor',
-        'font-color': 'gui-label.fontColor',
-        'font-size': 'gui-label.fontSize',
-        'font-family': 'gui-label.fontFamily',
-        'background-color': 'gui-label.backgroundColor'
-    }
-});
+throw new Error("Module build failed: SyntaxError: Unexpected token (2:0)\n\n\u001b[0m \u001b[90m 1 | \u001b[39m\u001b[33mAFRAME\u001b[39m\u001b[33m.\u001b[39mregisterComponent(\u001b[32m'gui-label'\u001b[39m\u001b[33m,\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 2 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m   | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 3 | \u001b[39m    schema\u001b[33m:\u001b[39m {\n \u001b[90m 4 | \u001b[39m        text\u001b[33m:\u001b[39m {type\u001b[33m:\u001b[39m \u001b[32m'string'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mdefault\u001b[39m\u001b[33m:\u001b[39m \u001b[32m'label text'\u001b[39m}\u001b[33m,\u001b[39m\n \u001b[90m 5 | \u001b[39m        labelFor\u001b[33m:\u001b[39m {type\u001b[33m:\u001b[39m \u001b[32m'selector'\u001b[39m\u001b[33m,\u001b[39m \u001b[36mdefault\u001b[39m\u001b[33m:\u001b[39m \u001b[36mnull\u001b[39m}\u001b[33m,\u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 12 */
