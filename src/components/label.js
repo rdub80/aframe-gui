@@ -1,26 +1,8 @@
 AFRAME.registerComponent('gui-label', {
-<<<<<<< HEAD
-    schema: {
-        text: {type: 'string', default: 'label text'},
-        labelFor: {type: 'selector', default: null},
-        fontSize: {type: 'string', default: '150px'},
-        fontFamily: {type: 'string', default: 'Arial'},
-        fontColor: {type: 'string', default: key_grey_dark},
-        backgroundColor: {type: 'string', default: key_offwhite},
-    },
-    init: function() {
-
-        var data = this.data;
-        var el = this.el;
-        var guiItem = el.getAttribute("gui-item");
-        var multiplier = 512; // POT conversion
-        var canvasWidth = guiItem.width*multiplier;
-        var canvasHeight = guiItem.height*multiplier;
-=======
   schema: {
     text: {type: 'string', default: 'label text'},
     labelFor: {type: 'selector', default: null},
-
+        fontSize: {type: 'string', default: '150px'},
     fontFamily: {type: 'string', default: 'Helvetica'},
     fontColor: {type: 'string', default: key_grey_dark},
     backgroundColor: {type: 'string', default: key_offwhite},
@@ -36,7 +18,6 @@ AFRAME.registerComponent('gui-label', {
     var canvasContainer = document.createElement('div');
     canvasContainer.setAttribute('class', 'visuallyhidden');
     document.body.appendChild(canvasContainer);
->>>>>>> master
 
     var canvas = document.createElement("canvas");
     this.canvas = canvas;
@@ -99,4 +80,4 @@ AFRAME.registerPrimitive( 'a-gui-label', {
     'font-family': 'gui-label.fontFamily',
     'background-color': 'gui-label.backgroundColor'
   }
-});
+ });
