@@ -1737,7 +1737,7 @@ AFRAME.registerComponent('gui-label', {
     var data = this.data;
     var el = this.el;
     var guiItem = el.getAttribute("gui-item");
-    var multiplier = 350;
+    var multiplier = 500;
     var canvasWidth = guiItem.width * multiplier;
     var canvasHeight = guiItem.height * multiplier;
 
@@ -1762,7 +1762,7 @@ AFRAME.registerComponent('gui-label', {
 
     this.oldText = data.text;
 
-    // drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
+    //  drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
 
     drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
@@ -1790,7 +1790,7 @@ AFRAME.registerComponent('gui-label', {
     if (this.data.text !== this.oldText) {
       // console.log('text was changed, about to draw text: ' + this.data.text);
       this.oldText = this.data.text;
-      // drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
+      //  drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
       drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, 'center', 'middle');
     }
   }
