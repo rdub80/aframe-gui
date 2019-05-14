@@ -2,6 +2,7 @@ AFRAME.registerComponent('gui-button', {
     schema: {
         on: {default: 'click'},
         toggle: {type: 'boolean', default: false},
+        toggleState: {type: 'boolean', default: false},
         text: {type: 'string', default: 'text'},
         fontSize: {type: 'string', default: '150px'},
         fontFamily: {type: 'string', default: 'Arial'},
@@ -10,6 +11,7 @@ AFRAME.registerComponent('gui-button', {
         backgroundColor: {type: 'string', default: key_grey},
         hoverColor: {type: 'string', default: key_grey_dark},
         activeColor: {type: 'string', default: key_orange},
+
     },
     init: function() {
 
@@ -22,7 +24,6 @@ AFRAME.registerComponent('gui-button', {
         var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
-        var toggleState = this.toggleState = data.toggle;
 
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
@@ -64,24 +65,29 @@ AFRAME.registerComponent('gui-button', {
 
         el.addEventListener('mouseenter', function() {
             buttonEntity.removeAttribute('animation__leave');
-            buttonEntity.setAttribute('animation__enter', `property: material.color; from: ${data.backgroundColor}; to:${data.hoverColor}; dur:200;`);
+            if (!(data.toggle)) {
+                buttonEntity.setAttribute('animation__enter', `property: material.color; from: ${data.backgroundColor}; to:${data.hoverColor}; dur:200;`);
+            }
         });
         el.addEventListener('mouseleave', function() {
             if (!(data.toggle)) {
                 buttonEntity.removeAttribute('animation__click');
+                buttonEntity.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.backgroundColor}; dur:200; easing: easeOutQuad;`);
             }
             buttonEntity.removeAttribute('animation__enter');
-            buttonEntity.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.backgroundColor}; dur:200; easing: easeOutQuad;`);
         });
         el.addEventListener(data.on, function() {
             if (!(data.toggle)) { // if not toggling flashing active state
                 buttonEntity.setAttribute('animation__click', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; easing: easeOutQuad;`);
             }else{
-                buttonEntity.setAttribute('material', 'color', data.activeColor);
+                var guiButton = el.components['gui-button']
+                // console.log("about to toggle, current state: " + guiButton.data.toggleState);
+                guiButton.setActiveState(!guiButton.data.toggleState);
+               //  buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
 
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
+            // console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -98,15 +104,17 @@ AFRAME.registerComponent('gui-button', {
 
     },
     update: function (oldData) {
-        console.log("In button update, toggle: "+this.toggleState);
+        // console.log("In button update, toggle: "+this.data.toggleState);
     },
     setActiveState: function (activeState) {
-        console.log("in setActiveState function");
-        this.data.toggle = this.toggleState = activeState;
+        // console.log("in setActiveState function, new state: " + activeState);
+        this.data.toggleState = activeState;
         if (!activeState) {
+            console.log('not active, about to set background color');
             this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
         } else {
-
+            console.log('active, about to set active color');
+            this.buttonEntity.setAttribute('material', 'color', this.data.activeColor);
         }
     },
     setText: function (newText) {
