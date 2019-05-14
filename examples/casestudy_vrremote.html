@@ -28,25 +28,16 @@
 		}
 	</style>
 
-	<script src="js/aframe-gui.js"></script>
-
+    <script src="js/aframe-gui.js"></script>
+    <script src="js/gui-env.js"></script>
 
 </head>
 <body>
-	<a-scene>
+	<a-scene gui-env>
 		<a-assets>
-			<!-- Text Canvas -->
-			<img id="gradient" src="assets/gradient.png">
-			<img id="ground" src="assets/ground.png">
 			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
 			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
 		</a-assets>
-
-		<a-light type="directional" color="#FFF" intensity="1" position="-1 1 2"> </a-light>
-		<a-light type="ambient" color="#ebd9e9"> </a-light>
-		<a-sky src="#gradient"></a-sky>
-  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
-
 
   		<a-entity id="Kingear_VR3D" position="1.5 2.75 -5" rotation="30 30 0">
 

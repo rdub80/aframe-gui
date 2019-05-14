@@ -12,7 +12,6 @@ AFRAME.registerComponent('gui-progressbar', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; opacity: 1;  color: ${data.backgroundColor}; side:front;`);
 
-
         var progressMeter = document.createElement("a-entity");
         progressMeter.setAttribute('geometry', `primitive: box; width: 0.04; height: ${guiItem.height}; depth: 0.02;`);
         progressMeter.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.activeColor}`);

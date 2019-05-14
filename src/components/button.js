@@ -3,7 +3,8 @@ AFRAME.registerComponent('gui-button', {
         on: {default: 'click'},
         toggle: {type: 'boolean', default: false},
         text: {type: 'string', default: 'text'},
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontSize: {type: 'string', default: '150px'},
+        fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
@@ -18,7 +19,7 @@ AFRAME.registerComponent('gui-button', {
         console.log("in button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
         console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
         var toggleState = this.toggleState = data.toggle;
@@ -33,13 +34,12 @@ AFRAME.registerComponent('gui-button', {
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(canvas);
-
         var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', `primitive: box; width: ${guiItem.width}; height: ${guiItem.height}; depth: 0.02;`);
@@ -56,43 +56,30 @@ AFRAME.registerComponent('gui-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var buttonAnimation = document.createElement("a-animation");
-        buttonAnimation.setAttribute('attribute', 'material.color');
-        buttonAnimation.setAttribute('begin', 'fadeOut');
-        buttonAnimation.setAttribute('from', data.activeColor);
-        buttonAnimation.setAttribute('to', data.backgroundColor);
-        buttonAnimation.setAttribute('dur', '400');
-        buttonEntity.appendChild(buttonAnimation);
-
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
         textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-
-        ////WAI ARIA Support
-        el.setAttribute('role', 'button');
-
-        el.addEventListener('mouseenter', function () {
-            buttonEntity.setAttribute('material', 'color', data.hoverColor);
+        el.addEventListener('mouseenter', function() {
+            buttonEntity.removeAttribute('animation__leave');
+            buttonEntity.setAttribute('animation__enter', `property: material.color; from: ${data.backgroundColor}; to:${data.hoverColor}; dur:200;`);
         });
-
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function() {
             if (!(data.toggle)) {
-                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+                buttonEntity.removeAttribute('animation__click');
             }
+            buttonEntity.removeAttribute('animation__enter');
+            buttonEntity.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.backgroundColor}; dur:200; easing: easeOutQuad;`);
         });
-
-        el.addEventListener(data.on, function (evt) {
+        el.addEventListener(data.on, function() {
             if (!(data.toggle)) { // if not toggling flashing active state
-                buttonEntity.emit('fadeOut');
+                buttonEntity.setAttribute('animation__click', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; easing: easeOutQuad;`);
             }else{
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-//            this.toggleState = !(this.toggleState);
 
-//            console.log('I was clicked at: ', evt.detail.intersection.point);
             var clickActionFunctionName = guiInteractable.clickAction;
             console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
@@ -101,6 +88,9 @@ AFRAME.registerComponent('gui-button', {
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
 
 
     },
@@ -120,8 +110,7 @@ AFRAME.registerComponent('gui-button', {
         }
     },
     setText: function (newText) {
-        var guiItem = this.el.getAttribute("gui-item");
-        drawText(this.ctx, this.canvas, newText, guiItem.fontSize+' ' + this.data.fontFamily, this.data.fontColor, 1);
+        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1,'center','middle');
     },
 });
 
@@ -139,10 +128,10 @@ AFRAME.registerPrimitive( 'a-gui-button', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-button.on',
         'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
+        'font-size': 'gui-button.fontSize',
         'font-family': 'gui-button.fontFamily',
         'border-color': 'gui-button.borderColor',
         'background-color': 'gui-button.backgroundColor',

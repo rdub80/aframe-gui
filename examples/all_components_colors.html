@@ -1,0 +1,340 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI All Components</title>
+    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+	<style type="text/css">
+		@font-face{
+			font-family:"Ionicons";
+
+			src:url("assets/fonts/ionicons.eot?v=2.0.1");
+			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
+			
+			font-weight:normal;
+			font-style:normal
+		}
+		body{font-family:Ionicons;}
+		.visuallyhidden {
+			position: absolute;
+			display: block;
+			border: 0;
+			clip: rect(0 0 0 0);
+			height: 1px;
+			width: 1px;
+			margin: -1px;
+			padding: 0;
+			overflow: hidden;
+		}
+	</style>
+    <script src="js/aframe-gui.js"></script>
+    <script src="js/gui-env.js"></script>
+
+</head>
+<body>
+	<a-scene gui-env>
+		<a-assets>
+			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
+			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+		</a-assets>
+
+		<a-gui-flex-container 
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="2.5" height="4.5"
+			position="-3.5 2.5 -5.5" rotation="0 15 0"
+			panel-color="#212121"
+		>
+			<a-gui-button 
+				width="2" height="0.5"
+				onclick="testButtonAction" key-code="32"
+				value="test button"
+				margin="0 0 0.05 0"
+				active-color="#8E24AA"
+				background-color="#4A148C"
+				hover-color="#6A1B9A"
+				border-color="#F3E5F5"
+				font-color="#F3E5F5"
+				font-size="120px"
+			>
+			</a-gui-button>
+
+			<a-gui-icon-label-button
+				width="2" height="0.5"
+				onclick="testButtonAction"
+				icon="social-github"
+				value="label button"
+				margin="0 0 0.05 0"
+				active-color="#009688"
+				background-color="#004D40"
+				hover-color="#00695C"
+				border-color="#E0F2F1"
+				font-color="#E0F2F1"
+				font-size="120px"
+				icon-font-size="220px"
+			>
+			</a-gui-icon-label-button>
+
+			<a-gui-toggle
+				width="2" height="0.5"
+				onclick="testToggleAction"
+				value="label toggle"
+				margin="0 0 0.05 0"
+				active-color="#FFEB3B"
+				background-color="#E3F2FD"
+				hover-color="#BBDEFB"
+				handle-color="#E3F2FD"
+				border-color="#0D47A1"
+				font-color="#0D47A1"
+				font-size="120px"
+			>
+			</a-gui-toggle>
+
+			<a-gui-slider 	
+				width="2" height="0.5"
+				onclick="testSliderAction"
+				percent="0.29"
+				margin="0 0 0.05 0"
+				border-color="#C8E6C9"
+				background-color="#33691E"
+				hover-color="#2E7D32"
+				active-color="#FFEB3B"
+				handle-color="#33691E"
+			>
+			</a-gui-slider>
+
+			<a-gui-input 
+				width="2" height="0.5"
+				onclick="testInputAction"
+				value="Hello Wor_"
+				font-size="120px"
+				font-color="#880E4F"
+				border-color="#880E4F"
+				border-hover-color="#AD1457"
+				background-color="#FCE4EC"
+				hover-color="#F8BBD0"
+				active-color="#F48FB1"
+			>
+			</a-gui-input>
+
+			<a-gui-label 
+				width="2" height="0.5"
+				value="label text"
+				margin="0 0 0.05 0"
+				font-size="120px"
+				font-color="#BF360C"
+				background-color="#FFCCBC"
+			>
+			</a-gui-label>
+
+			<a-gui-radio 
+				width="2" height="0.5"
+				onclick="testToggleAction"
+				value="label radio"
+				margin="0 0 0.05 0"
+				font-size="120px"
+				font-color="#006064"
+				border-color="#006064"
+				background-color="#E0F7FA"
+				hover-color="#00838F"
+				active-color="#FFEB3B"
+				handle-color="#00838F"
+			>
+			</a-gui-radio>
+
+			<a-gui-progressbar 
+				width="2" height="0.1"
+				margin="0 0 0.05 0"
+				background-color="#FFB74D"
+				active-color="#E65100"
+			>
+			</a-gui-progressbar>
+
+		</a-gui-flex-container>
+
+		<a-gui-flex-container 
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7" width="0.75" height="2"
+			position="-1 2.5 -6" rotation="0 0 0"
+			panel-color="#fff"
+		>
+			<a-gui-circle-timer 
+				id="timer"
+				height="0.5"
+				count-down="60"
+				callback="timedout"
+				margin="0 0 0.05 0"
+				font-size="120px"
+				font-color="#263238"
+				background-color="#CFD8DC"
+				border-color="#37474F"
+				active-color="#C6FF00"
+			>
+			</a-gui-circle-timer>
+
+			<a-gui-icon-button
+				height="0.5"
+				onclick="testButtonAction"
+				icon="social-twitter"
+				icon-font-size="220px"
+				margin="0 0 0.05 0"
+				font-color="#F3E5F5"
+				border-color="#F3E5F5"
+				background-color="#4A148C"
+				hover-color="#6A1B9A"
+				active-color="#8E24AA"
+			>
+			</a-gui-icon-button>
+
+			<a-gui-circle-loader
+				height="0.5"
+				font-size="100px"
+				font-color="#F9A825"
+				active-color="#F57F17"
+				background-color="#FFF9C4"
+			>
+			</a-gui-circle-loader>
+
+		</a-gui-flex-container>
+
+
+		<a-gui-flex-container 
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.7" width="3.5" height="4.5"
+			position="2.5 2.5 -5.5" rotation="0 -15 0"
+			panel-color="#212121"
+		>
+			<a-gui-button 
+				width="3" height="0.75"
+				onclick="testButtonAction" key-code="32"
+				value="test button"
+				margin="0 0 0.05 0"
+				active-color="#f44336"
+				background-color="#ECEFF1"
+				hover-color="#CFD8DC"
+				border-color="#263238"
+				font-color="#263238"
+				font-size="160px"
+			>
+			</a-gui-button>
+
+			<a-gui-icon-label-button
+				width="3" height="0.75"
+				onclick="testButtonAction"
+				icon="social-github"
+				value="label button"
+				margin="0 0 0.05 0"
+				active-color="#FFEB3B"
+				background-color="#F9FBE7"
+				hover-color="#F0F4C3"
+				border-color="#827717"
+				font-color="#827717"
+				font-size="160px"
+				icon-font-size="400px"
+			>
+			</a-gui-icon-label-button>
+
+			<a-gui-toggle
+				width="3" height="0.75"
+				onclick="testToggleAction"
+				value="label toggle"
+				margin="0 0 0.05 0"
+				active-color="#FFEB3B"
+				background-color="#f44336"
+				hover-color="#b71c1c"
+				handle-color="#f44336"
+				border-color="#ffebee"
+				font-color="#fff"
+				font-size="160px"
+			>
+			</a-gui-toggle>
+
+			<a-gui-input 
+				width="3" height="0.75"
+				onclick="testInputAction"
+				value="Hello Wor_"
+				font-size="160px"
+				font-color="#212121"
+				border-color="#212121"
+				border-hover-color="#424242"
+				background-color="#FAFAFA"
+				hover-color="#F5F5F5"
+				active-color="#FFEB3B"
+			>
+			</a-gui-input>
+
+			<a-gui-radio 
+				width="3" height="0.75"
+				onclick="testToggleAction"
+				value="label radio"
+				margin="0 0 0.05 0"
+				font-size="160px"
+				font-color="#E8EAF6"
+				border-color="#E8EAF6"
+				background-color="#3F51B5"
+				hover-color="#C5CAE9"
+				active-color="#FFEB3B"
+				handle-color="#1A237E"
+			>
+			</a-gui-radio>
+
+		</a-gui-flex-container>
+
+
+		<!-- Camera + cursor. -->
+		<a-entity id="cameraRig" position="0 1.6 0">
+			<a-camera look-controls wasd-controls position="0 0 0">
+				<a-gui-cursor id="cursor"
+						  raycaster="objects: [gui-interactable]"
+						  fuse="true" fuse-timeout="2000"
+						  color="#ECEFF1"
+						  hover-color="#CFD8DC"
+						  active-color="#607D8B"
+						  design="ring" > <!-- dot, ring, reticle, cross  -->
+				</a-gui-cursor> <!-- /cursor -->
+			</a-camera> <!-- /camera -->
+		</a-entity>
+
+	</a-scene>
+
+	<script type="text/javascript">
+
+		function startTimer(duration, display) {
+		    var timer = duration, minutes, seconds;
+		    setInterval(function () {
+		        seconds = parseInt(timer % 60, 10);
+		        seconds = seconds < 10 ? "0" + seconds : seconds;
+		        display.setAttribute('count-down', seconds);
+		        if (--timer < 0) {
+		            timer = duration;
+		        }
+		    }, 1000);
+		}
+
+		window.onload = function () {
+		    var countDownEntity = document.getElementById("timer"),
+		    	duration = countDownEntity.getAttribute('count-down');
+ 		    	startTimer(duration, countDownEntity);
+		};
+
+		window.timedout = function () {
+			console.log("GUI timer timed out");
+		}
+
+		window.testButtonAction = function () {
+			console.log("clicked GUI");
+		}
+		
+		window.testToggleAction = function () {
+			console.log("clicked GUI");
+		}
+		
+		window.testSliderAction = function () {
+			console.log("clicked GUI");
+		}
+		
+		window.testInputAction = function () {
+			console.log("clicked GUI");
+		}
+	</script>
+
+</body>
+</html>

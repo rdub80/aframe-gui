@@ -1,7 +1,8 @@
 AFRAME.registerComponent('gui-circle-timer', {
     schema: {
         countDown: {type: 'number', default: '10'},
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontFamily: {type: 'string', default: 'Arial'},
+        fontSize: {type: 'string', default: '150px'},
         fontColor: {type: 'string', default: key_grey},
         borderColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
@@ -12,9 +13,13 @@ AFRAME.registerComponent('gui-circle-timer', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        var guiInteractable = el.getAttribute("gui-interactable");
+        console.log("in timer callback, guiInteractable: "+JSON.stringify(guiInteractable));
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height*multiplier; //square
         var canvasHeight = guiItem.height*multiplier;
+
+        var initCount = this.initCount = data.countDown;
 
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
@@ -34,7 +39,7 @@ AFRAME.registerComponent('gui-circle-timer', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:back; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.countDown, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.countDown, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
 
         var timerContainer = document.createElement("a-entity");
         timerContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -43,6 +48,13 @@ AFRAME.registerComponent('gui-circle-timer', {
         timerContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(timerContainer);
 
+        var countDownLabel = document.createElement("a-entity");
+        countDownLabel.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/1.5}; height: ${guiItem.height/1.5};`);
+        countDownLabel.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+        countDownLabel.setAttribute('position', '0 0 0.022');
+        el.appendChild(countDownLabel);
+        this.countDownLabel = countDownLabel;
+        
         var timerIndicator1 = document.createElement("a-ring");
         timerIndicator1.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
         timerIndicator1.setAttribute('radius-inner', `${guiItem.height/3}`);
@@ -76,34 +88,45 @@ AFRAME.registerComponent('gui-circle-timer', {
         timerIndicator4.setAttribute('position', '0 0 0.04');
         el.appendChild(timerIndicator4);
 
-
-
-
         var timerRing = document.createElement("a-ring");
-        timerRing.setAttribute('material', `shader: flat; opacity: 0.75; side:double; color: ${data.activeColor}`);
+        timerRing.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.activeColor}`);
         timerRing.setAttribute('radius-inner', `${guiItem.height/3}`);
         timerRing.setAttribute('radius-outer', `${guiItem.height/2}`);
         timerRing.setAttribute('theta-start', '0');
-        timerRing.setAttribute('theta-length', '10'); // this has to increase 0 to 360 when running the countdown
-        timerRing.setAttribute('rotation', '0 0 0');
+        timerRing.setAttribute('theta-length', '0'); // this has to increase 0 to 360 when running the countdown
+        timerRing.setAttribute('rotation', '0 180 90');
         timerRing.setAttribute('position', '0 0 0.03');
-        timerRing.id = "loader_ring";
         el.appendChild(timerRing);
-
-        var countDownLabel = document.createElement("a-entity");
-        countDownLabel.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/1.75}; height: ${guiItem.height/1.75};`);
-        countDownLabel.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
-        countDownLabel.setAttribute('position', '0 0 0.022');
-        countDownLabel.id = "loader_ring_count";
-        el.appendChild(countDownLabel);
-
-
-    },
-    play: function () {
-
+        this.timerRing = timerRing;
     },
     update: function (oldData) {
+        var data = this.data;
+        var el = this.el;
+        if (Object.keys(oldData).length === 0) { return; }
+        if (data.countDown !== oldData.countDown) {
+            el.getObject3D('mesh').material.color = data.color;
+            var left = data.countDown,
+                count_down = this.initCount;
+            var elapsed = (Math.round(((count_down - left) * 100 ) / count_down) / 100) * 360;
+            this.timerRing.setAttribute('theta-length', elapsed); // this has to increase 0 to 360 when running the count_down
+            //text doesn't update
+            drawText(this.ctx, this.canvas, left, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
+            if(left == 1){
+                console.log('fire callback on the last second');
+            }
+        }
     },
+    callback: function () {
+        var guiInteractable = this.el.getAttribute("gui-interactable");
+        var clickActionFunctionName = guiInteractable.clickAction;
+        console.log("in timer callback, guiInteractable: "+JSON.stringify(guiInteractable));
+        console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
+        // find object
+        var clickActionFunction = window[clickActionFunctionName];
+        //console.log("clickActionFunction: "+clickActionFunction);
+        // is object a function?
+        if (typeof clickActionFunction === "function") clickActionFunction();
+    }
 });
 
 AFRAME.registerPrimitive( 'a-gui-circle-timer', {
@@ -115,12 +138,13 @@ AFRAME.registerPrimitive( 'a-gui-circle-timer', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'count-down': 'gui-circle-timer.countDown',
+        'font-size': 'gui-circle-timer.fontSize',
         'font-family': 'gui-circle-timer.fontFamily',
         'font-color': 'gui-circle-timer.fontColor',
         'border-color': 'gui-circle-timer.borderColor',
         'background-color': 'gui-circle-timer.backgroundColor',
-        'active-color': 'gui-circle-timer.activeColor'
+        'active-color': 'gui-circle-timer.activeColor',
+        'callback': 'gui-interactable.clickAction',
     }
 });

@@ -1,11 +1,12 @@
 AFRAME.registerComponent('gui-icon-button', {
     schema: {
         on: {default: 'click'},
+        toggle: {type: 'boolean', default: false},
         icon: {type: 'string', default: ''},
         iconActive: {type: 'string', default: ''},
-        toggle: {type: 'boolean', default: false},
-
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontFamily: {type: 'string', default: 'Arial'},
+        iconFontSize: {type: 'string', default: '400px'},
+        fontSize: {type: 'string', default: '150px'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
@@ -17,7 +18,10 @@ AFRAME.registerComponent('gui-icon-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
+        var guiInteractable = el.getAttribute("gui-interactable");
+        console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height*multiplier; //square
         var canvasHeight = guiItem.height*multiplier;
         var toggleState = this.toggleState = data.toggle;
@@ -25,10 +29,8 @@ AFRAME.registerComponent('gui-icon-button', {
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
-
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
-        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvasIcon');
@@ -39,7 +41,7 @@ AFRAME.registerComponent('gui-icon-button', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:back; color:${data.backgroundColor};`);
 
-        drawIcon(ctx, canvas, data.icon, data.fontColor, 1);
+        drawIcon(ctx, canvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -56,54 +58,41 @@ AFRAME.registerComponent('gui-icon-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var buttonAnimation = document.createElement("a-animation");
-        buttonAnimation.setAttribute('attribute', 'material.color');
-        buttonAnimation.setAttribute('begin', 'fadeOut');
-        buttonAnimation.setAttribute('from', data.activeColor);
-        buttonAnimation.setAttribute('to', data.backgroundColor);
-        buttonAnimation.setAttribute('dur', '400');
-        buttonEntity.appendChild(buttonAnimation);
-
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/2}; height: ${guiItem.height/2};`);
         textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-        ////WAI ARIA Support
-        el.setAttribute('role', 'button');
-
-
-
-        el.addEventListener('mouseenter', function () {
-            buttonEntity.setAttribute('material', 'color', data.hoverColor);
+        el.addEventListener('mouseenter', function() {
+            buttonEntity.removeAttribute('animation__leave');
+            buttonEntity.setAttribute('animation__enter', `property: material.color; from: ${data.backgroundColor}; to:${data.hoverColor}; dur:200;`);
         });
-
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function() {
             if (!(data.toggle)) {
-                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+                buttonEntity.removeAttribute('animation__click');
             }
+            buttonEntity.removeAttribute('animation__enter');
+            buttonEntity.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.backgroundColor}; dur:200; easing: easeOutQuad;`);
         });
-
-        el.addEventListener(data.on, function (evt) {            
+        el.addEventListener(data.on, function() {
             if (!(data.toggle)) { // if not toggling flashing active state
-                buttonEntity.emit('fadeOut');
+                buttonEntity.setAttribute('animation__click', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; easing: easeOutBack;`);
             }else{
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-            this.toggleState = !(this.toggleState);
 
-            //console.log('I was clicked at: ', evt.detail.intersection.point);
-            var guiInteractable = el.getAttribute("gui-interactable");
-            //console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            //console.log("clickActionFunctionName: "+clickActionFunctionName);
+            console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
 
 
     },
@@ -112,6 +101,15 @@ AFRAME.registerComponent('gui-icon-button', {
     },
     update: function (oldData) {
         console.log("In button update, toggle: "+this.toggleState);
+    },
+    setActiveState: function (activeState) {
+        console.log("in setActiveState function");
+        this.data.toggle = this.toggleState = activeState;
+        if (!activeState) {
+            this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
+        } else {
+
+        }
     },
 });
 
@@ -137,6 +135,7 @@ AFRAME.registerPrimitive( 'a-gui-icon-button', {
         'active-color': 'gui-icon-button.activeColor',
         'toggle': 'gui-icon-button.toggle',
         'icon': 'gui-icon-button.icon',
+        'icon-font-size': 'gui-icon-button.iconFontSize',
         'icon-active': 'gui-icon-button.iconActive',
     }
 });

@@ -3,7 +3,7 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI Dropdown</title>
-    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
 	<style type="text/css">
 		@font-face{
 			font-family:"Ionicons";
@@ -28,27 +28,21 @@
 		}
 	</style>
     <script src="js/aframe-gui.js"></script>
+    <script src="js/gui-env.js"></script>
 
 </head>
 <body>
-	<a-scene>
+	<a-scene gui-env>
 		<a-assets>
-			<!-- Text Canvas -->
-			<img id="gradient" src="assets/gradient.png">
-			<img id="ground" src="assets/ground.png">
 			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
 			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
 		</a-assets>
 
-		<a-light type="directional" color="#FFF" intensity="1" position="-1 1 2"> </a-light>
-		<a-light type="ambient" color="#ebd9e9"> </a-light>
-		<a-sky src="#gradient"></a-sky>
-  		<a-image position="0 -.025 0" height="300" width="300" rotation="90 0 0" src="#ground" repeat="300 300" material="color:#ebd9e9"></a-image>
-
-		<a-torus-knot id="knot" color="#BCC6CD" arc="180" p="2" q="10" radius="4" radius-tubular="0.1" position="-1.5 2 -7" rotation="90 0 0">
-			<a-animation attribute="rotation" dur="10000" fill="forwards" to="90 360 0" repeat="indefinite"></a-animation>
+		<a-torus-knot id="knot" 
+			color="#BCC6CD" arc="180" p="2" q="10" radius="4" radius-tubular="0.1" position="-1.5 2 -7" rotation="90 0 0"
+			animation="property: rotation; to: 90 360 0; dur: 10000; easing:linear; loop:true;"
+			>
 		</a-torus-knot>
-
 
   		<a-entity position="2 1.5 -4" rotation="0 0 0">
 	  		<a-entity id="dropdownContainer" position="0 0 -1">
@@ -59,41 +53,33 @@
 					position="0 0.375 0" rotation="0 0 0"
 				>
 					<a-gui-icon-label-button
+						id="mydropdown"
 						width="2.5" height="0.75"
 						onclick="openDropdown"
 						icon="android-menu"
 						value="dropdown"
 						font-family="Arial"
 						visible="true"
-					>
-						<a-animation attribute="rotation" id="dropani"
-							begin="opendropdown"
-							dur="1000"
-							fill="forwards"
-							to="180 0 0"></a-animation>
-						<a-animation attribute="visible" id="dropani1"
-							begin="opendropdown"
-							fill="forwards"
-							delay="500"
-							to="false"></a-animation>						
-						<a-animation attribute="rotation" id="dropaniback"
-							begin="closedropdown"
-							dur="1000"
-							fill="forwards"
-							to="0 0 0"></a-animation>
-						<a-animation attribute="visible" id="dropani1back"
-							begin="closedropdown"
-							fill="forwards"
-							delay="500"
-							to="true"></a-animation>	
+						animation__rotateIn="property: rotation; to: 180 0 0; dur: 1000; startEvents:opendropdown"
+						animation__visibleIn="property: visible; to: false; delay: 500; startEvents:opendropdown"
+						animation__rotateOut="property: rotation; to: 0 0 0; dur: 1000; startEvents:closedropdown"
+						animation__visibleOut="property: visible; to: true; delay: 500; startEvents:closedropdown"
+					>	
 					</a-gui-icon-label-button>				
 				</a-gui-flex-container>
 				
 				<a-gui-flex-container
+					id="myoptions"
 					flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
 					opacity="0" width="2.5" height="0.75"
 					position="0 0 -0.15" rotation="0 0 0" scale="1 0.001 0.001"
 					visible="false" 
+					animation__positionIn="property: position; to: 0 0.375 0.15; dur: 1000; startEvents:opendropdown"
+					animation__scaleIn="property: scale; to: 1 1 1; dur: 1000; startEvents:opendropdown"
+					animation__visibleIn="property: visible; to: true; dur: 100; startEvents:opendropdown"
+					animation__positionOut="property: position; to: 0 0 -0.15; dur: 1000; startEvents:closedropdown"
+					animation__scaleOut="property: scale; to: 1 0.001 0.001; dur: 1000; startEvents:closedropdown"
+					animation__visibleOut="property: visible; to: false; dur: 100; delay: 500; startEvents:closedropdown"
 				>
 					<a-gui-button 
 						width="2.5" height="0.75"
@@ -122,39 +108,7 @@
 						icon="android-close"
 					>
 					</a-gui-icon-button>
-
-					<a-animation attribute="scale" id="dropvalani"
-						begin="opendropdown"
-						dur="1000"
-						fill="forwards"
-						to="1 1 1"></a-animation>	
-					<a-animation attribute="position" id="dropvalani1"
-						begin="opendropdown"
-						dur="1000"
-						fill="forwards"
-						to="0 0.375 0.15"></a-animation>						
-					<a-animation attribute="visible" id="dropvalani2"
-						begin="opendropdown"
-						fill="forwards"
-						dur="100"						
-						to="true"></a-animation>						
-
-					<a-animation attribute="scale" id="dropvalaniback"
-						begin="closedropdown"
-						dur="1000"
-						fill="forwards"
-						to="1 0.001 0.001"></a-animation>	
-					<a-animation attribute="position" id="dropvalani1back"
-						begin="closedropdown"
-						dur="1000"
-						fill="forwards"
-						to="0 0 -0.15"></a-animation>						
-					<a-animation attribute="visible" id="dropvalani2back"
-						begin="closedropdown"
-						fill="forwards"
-						delay="500"
-						dur="100"						
-						to="false"></a-animation>						
+								
 				</a-gui-flex-container>
 
 
@@ -178,32 +132,19 @@
 	<script>
 		window.closeDropdown = function() {
 			console.log("closedropdown");
-			var animateDropdown = document.getElementById("dropaniback");
-            animateDropdown.emit('closedropdown');
-			var animateDropdown1 = document.getElementById("dropani1back");
-            animateDropdown1.emit('closedropdown');
-
-			var animateDropdownVal = document.getElementById("dropvalaniback");
-			var animateDropdownVal1 = document.getElementById("dropvalani1back");
-			var animateDropdownVal2 = document.getElementById("dropvalani2back");
-            animateDropdownVal.emit('closedropdown');
-            animateDropdownVal1.emit('closedropdown');
-            animateDropdownVal2.emit('closedropdown');
+			var mydropdown = document.getElementById("mydropdown");
+            mydropdown.emit('closedropdown');
+			var myoptions = document.getElementById("myoptions");
+            myoptions.emit('closedropdown');
 
 		}
 		window.openDropdown = function() {
 			console.log("opendropdown");
-			var animateDropdown = document.getElementById("dropani");
-            animateDropdown.emit('opendropdown');
-			var animateDropdown1 = document.getElementById("dropani1");
-            animateDropdown1.emit('opendropdown');
+			var mydropdown = document.getElementById("mydropdown");
+            mydropdown.emit('opendropdown');
+			var myoptions = document.getElementById("myoptions");
+            myoptions.emit('opendropdown');
 
-			var animateDropdownVal = document.getElementById("dropvalani");
-			var animateDropdownVal1 = document.getElementById("dropvalani1");
-			var animateDropdownVal2 = document.getElementById("dropvalani2");
-            animateDropdownVal.emit('opendropdown');
-            animateDropdownVal1.emit('opendropdown');
-            animateDropdownVal2.emit('opendropdown');
 		}
 	
 		window.red = function() {

@@ -52,8 +52,6 @@ AFRAME.registerComponent('gui-slider', {
         handle.setAttribute('position', `0 ${data.handleInnerDepth} 0`);
         handleContainer.appendChild(handle);
 
-
-
         el.addEventListener('mouseenter', function () {
             handle.setAttribute('material', 'color', data.hoverColor);
         });

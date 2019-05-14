@@ -144,7 +144,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | border-color       | Border color of button                                    | #d3d3d4       |
 | font-color         | Text color for button label                               | #d3d3d4       |
 | font-family        | Font family for button                                    | 'Arial'       |
-| font-size          | Font size for button                                      | '100px'       |
+| font-size          | Font size for button                                      | '150px'       |
 | height             | Height of item                                            | 1             |
 | hover-color        | Background color when button is in hover state            | #2c3037       |
 | key-code           | Key shortcut to trigger onclick action                    |               |
@@ -179,10 +179,10 @@ The webpack-dev-server should now be running at http://localhost:8080
 | --------           | -------------------------------------------------------   | ------------- |
 | active-color       | Color of ring that indicates loading progress             | #ed5b21       |
 | background-color   | Background color of item                                  | #22252a       |
-| count              | Initial percentage progress value                         | #22252a       |
+| count              | Initial percentage progress value                         | 0             |
 | font-color         | Text color for progress percentage text                   | #d3d3d4       |
 | font-family        | Font family for progress percentage text                  | 'Arial'       |
-| font-size          | Font size for progress percentage text                    | '100px'       |
+| font-size          | Font size for progress percentage text                    | '150px'       |
 | height             | Height of item                                            | 1             |
 | width              | Width of item                                             | 1             |
 | margin             | Margin around item                                        | 0 0 0 0       |
@@ -206,14 +206,16 @@ The webpack-dev-server should now be running at http://localhost:8080
 | active-color       | Color of ring that indicates countdown progress           | #ed5b21       |
 | background-color   | Background color of item                                  | #22252a       |
 | border-color       | Color of indicators that show 25/50/75/100 progress       | #22252a       |
-| count-down         | Initial countdown value in seconds                        | #22252a       |
+| count-down         | Initial countdown value in seconds                        | 0             |
+| callback           | callback function that fires when countdown expires       | ''            |
 | font-color         | Text color for progress countdown text                    | #d3d3d4       |
 | font-family        | Font family for progress countdown text                   | 'Arial'       |
-| font-size          | Font size for countdown text                              | '100px'       |
+| font-size          | Font size for countdown text                              | '150px'       |
 | height             | Height of item                                            | 1             |
 | width              | Width of item                                             | 1             |
 | margin             | Margin around item                                        | 0 0 0 0       |
 
+callback
 
 ```html
 <a-gui-circle-timer 
@@ -234,9 +236,8 @@ The webpack-dev-server should now be running at http://localhost:8080
 | on                 | Event that triggers onclick action                        | click         |
 | icon               | 			                                                 | ''            |
 | icon-active        | 			                                                 | ''            |
+| icon-font-size     | Icon Font size for button                                 | '400px'       |
 | toggle             | Toggle status                                             | false         |
-| font-family        | Font family for button                                    | 'Arial'       |
-| font-size          | Font size for button                                      | '100px'       |
 | font-color         | Text color for button label                               | #d3d3d4       |
 | border-color       | Border color of button                                    | #d3d3d4       |
 | background-color   | Background color of item                                  | #22252a       |
@@ -267,10 +268,11 @@ The webpack-dev-server should now be running at http://localhost:8080
 | on               | Event that triggers onclick action                     | click         |
 | icon             |  			                                            | ''            |
 | icon-active      |  			                                            | ''            |
+| icon-font-size   | Icon Font size for button                              | '400px'       |
 | text             |  			                                            | ''            |
 | toggle           | Toggle status                                          | false         |
 | font-family      | Font family for button                                 | 'Arial'       |
-| font-size        | Font size for button                                   | '100px'       |
+| font-size        | Font size for button                                   | '150px'       |
 | font-color       | Text color for button label                            | #d3d3d4       |
 | border-color     | Border color of button                                 | #d3d3d4       |
 | background-color | Background color of button                             | #22252a       |
@@ -304,7 +306,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | input-text         | Input value                                           | 'Placeholder'  |
 | toggle             | Toggle status                                         | false          |
 | font-family        | Font family for input                                 | 'Arial'        |
-| font-size          | Font size for input                                   | '100px'        |
+| font-size          | Font size for input                                   | '150px'        |
 | font-color         | Text input color                                      | #2c3037        |
 | border-color       | Border color of input                                 | #2c3037        |
 | border-hover-color | Border color when input is in hover state             | #22252a        |
@@ -338,7 +340,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | text             |  			                                             | 'label text'   |
 | label-for        |  			                                             | null           |
 | font-family      | Font family for input                                   | 'Arial'        |
-| font-size        | Font size for input                                     | '100px'        |
+| font-size        | Font size for input                                     | '150px'        |
 | font-color       | Text input color                                        | #2c3037        |
 | background-color | Background color of label                               | #d3d3d4        |
 | height           | Height of item                                          | 1              |
@@ -363,7 +365,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 
 | Property         | Description                                               | Default Value |
 | --------         | -------------------------------------------------------   | ------------- |
-| background-color | Background color of progress bar                          | #22252a        |
+| background-color | Background color of progress bar                          | #22252a       |
 | active-color     | Color for indicating progress level                       | #ed5b21       |
 | height           | Height of item                                            | 1             |
 | width            | Width of item                                             | 1             |
@@ -390,7 +392,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | active           |                                                           | true           |
 | checked          |                                                           | false          |
 | font-family      | Font family for radio                                     | 'Arial'        |
-| font-size        | Font size for radio                                       | '100px'        |
+| font-size        | Font size for radio                                       | '150px'        |
 | font-color       | Text radio color                                          | #2c3037        |
 | border-color     | Border color of input                                     | #ffffff        |
 | background-color | Background color of radio                                 | #d3d3d4        |
@@ -462,7 +464,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | checked          |                                                           | false          |
 | border-width     |                                                           | 1              |
 | font-family      |                                                           | 'Arial'        |
-| font-size        |                                                           | '100px'        |
+| font-size        |                                                           | '150px'        |
 | font-color       |                                                           | #2c3037        |
 | border-color     |                                                           | #22252a        |
 | background-color |                                                           | #d3d3d4        |

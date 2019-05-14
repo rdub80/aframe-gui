@@ -5,8 +5,8 @@ AFRAME.registerComponent('gui-toggle', {
         active: {type: 'boolean', default: true},
         checked: {type: 'boolean', default: false},
         borderWidth: {type: 'number', default: 1},
-
-        fontFamily: {type: 'string', default: 'Helvetica'},
+        fontSize: {type: 'string', default: '150px'},
+        fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
@@ -20,12 +20,8 @@ AFRAME.registerComponent('gui-toggle', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
 
-        el.setAttribute('material', `shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
-        el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
-
         var toggleBoxWidth = guiItem.height/1.75;
         var toggleBoxX = -guiItem.width*0.5 + guiItem.height/2;
-
         var toggleBox = document.createElement("a-box");
 
         toggleBox.setAttribute('width', toggleBoxWidth);
@@ -34,16 +30,6 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.setAttribute('material', `color:${data.borderColor}; shader: flat;`);
         toggleBox.setAttribute('position', `${toggleBoxX} 0 0`);
         el.appendChild(toggleBox);
-
-        var toggleColorAnimation = document.createElement("a-animation");
-        toggleColorAnimation.setAttribute('begin', 'toggleAnimation');
-        toggleColorAnimation.setAttribute('direction', 'alternate');
-        toggleColorAnimation.setAttribute('attribute', 'material.color');
-        toggleColorAnimation.setAttribute('from', `${data.borderColor}`);
-        toggleColorAnimation.setAttribute('to', `${data.activeColor}`);
-        toggleColorAnimation.setAttribute('dur', '50');
-        toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        toggleBox.appendChild(toggleColorAnimation);
 
         var toggleHandleWidth = guiItem.height/5;
         var toggleHandleXStart = -guiItem.height*0.5 + toggleHandleWidth*2;
@@ -57,18 +43,8 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('position', `${toggleHandleXStart} 0 0.02`);
         toggleBox.appendChild(toggleHandle);
 
-        var toggleHandleAnimation = document.createElement("a-animation");
-        toggleHandleAnimation.setAttribute('begin', 'toggleAnimation');
-        toggleHandleAnimation.setAttribute('direction', 'alternate');
-        toggleHandleAnimation.setAttribute('attribute', 'position');
-        toggleHandleAnimation.setAttribute('from', `${toggleHandleXStart} 0 0.02`);
-        toggleHandleAnimation.setAttribute('to', `${toggleHandleXEnd} 0 0.02`);
-        toggleHandleAnimation.setAttribute('dur', '50');
-        toggleHandleAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        toggleHandle.appendChild(toggleHandleAnimation);
-
         var labelWidth = guiItem.width - guiItem.height;
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = labelWidth*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
@@ -83,47 +59,57 @@ AFRAME.registerComponent('gui-toggle', {
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(labelCanvas);
-
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.fontSize+' '+ data.fontFamily, this.data.fontColor);
+
+        el.setAttribute('material', `shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
+        el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
+
+        drawText(ctxLabel, labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'left','middle');
 
         var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
         var labelEntity = document.createElement("a-entity");
         labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height/1.05};`);
-        labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
+        labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:front;`);
         labelEntity.setAttribute('position', `${labelEntityX} 0 0.02`);
         el.appendChild(labelEntity);
 
         this.updateToggle(data.active);
 
-        el.addEventListener('mouseenter', function () {
-            toggleHandle.setAttribute('material', 'color', data.hoverColor);
-        });
 
-        el.addEventListener('mouseleave', function () {
-            toggleHandle.setAttribute('material', 'color', data.handleColor);
+        el.addEventListener('mouseenter', function() {
+            toggleHandle.removeAttribute('animation__leave');
+            toggleHandle.setAttribute('animation__enter', `property: material.color; from: ${data.handleColor}; to:${data.hoverColor}; dur:200;`);
+        });
+        el.addEventListener('mouseleave', function() {
+            toggleHandle.removeAttribute('animation__enter');
+            toggleHandle.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.handleColor}; dur:200; easing: easeOutQuad;`);
         });
 
         el.addEventListener("check", function (evt) {
             if(!data.checked){
-              data.checked = true;
-              toggleColorAnimation.emit('toggleAnimation');
-              toggleHandleAnimation.emit('toggleAnimation');
+                data.checked = true;
             }
         });
         el.addEventListener("uncheck", function (evt) { // a
               if(data.checked){
                 data.checked = false;
-                toggleColorAnimation.emit('toggleAnimation');
-                toggleHandleAnimation.emit('toggleAnimation');
               }
         });
 
         el.addEventListener(data.on, function (evt) {
             console.log('I was clicked at: ', evt.detail.intersection.point);
             data.checked = !data.checked;
-            toggleColorAnimation.emit('toggleAnimation');
-            toggleHandleAnimation.emit('toggleAnimation');
+            if(data.checked){
+                toggleBox.removeAttribute('animation__colorOut');
+                toggleHandle.removeAttribute('animation__positionOut');
+                toggleBox.setAttribute('animation__colorIn', `property: material.color; from: ${data.borderColor}; to:${data.activeColor}; dur:200; easing:easeInOutCubic;`);
+                toggleHandle.setAttribute('animation__positionIn', `property: position; from: ${toggleHandleXStart} 0 0.02; to:${toggleHandleXEnd} 0 0.02; dur:200; easing:easeInOutCubic;`);
+            }else{
+                toggleBox.removeAttribute('animation__colorIn');
+                toggleHandle.removeAttribute('animation__positionIn');
+                toggleBox.setAttribute('animation__colorOut', `property: material.color; from: ${data.activeColor}; to:${data.borderColor}; dur:200; easing:easeInOutCubic;`);
+                toggleHandle.setAttribute('animation__positionOut', `property: position; from: ${toggleHandleXEnd} 0 0.02; to:${toggleHandleXStart} 0 0.02; dur:200; easing:easeInOutCubic;`);
+            }
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
@@ -165,13 +151,13 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
         'value': 'gui-toggle.text',
         'font-color': 'gui-toggle.fontColor',
         'font-family': 'gui-toggle.fontFamily',
+        'font-size': 'gui-toggle.fontSize',
         'border-width': 'gui-toggle.borderWidth',
         'border-color': 'gui-toggle.borderColor',
         'background-color': 'gui-toggle.backgroundColor',

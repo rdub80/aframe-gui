@@ -28,67 +28,40 @@ window.getTextWidth = function(text, font) {
     return metrics.width;
 }
 
-window.drawText = function(ctx, canvas, text, font, color, size) {
-    setTimeout(function(){
-        ctx.font = font;
-        ctx.fillStyle = color;
-        ctx.textAlign = "center";
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.scale(1, 1);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        var textString = text + ''
-		if (textString.match("char#")) {
-			var char = textString.substring(textString.indexOf('#')+1);
-	       	ctx.fillText(String.fromCharCode(char), canvas.width/2, canvas.height/2); // position x, y
-        }else{
- 	       	ctx.fillText(textString, canvas.width/2, canvas.height/2); // position x, y
- 	    }
-
-    },500); // callback when font is loaded needed
+window.drawText = function(ctx, canvas, text, fontSize, fontFamily, color, scale = 1, align = 'center', baseline = 'middle') {
+	ctx.font = fontSize+' '+fontFamily;
+	ctx.fillStyle = color;
+	ctx.textAlign = align;
+	ctx.textBaseline = baseline;
+	ctx.scale(scale, scale);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	var textString = text + '';
+	if (textString.match("char#")) {
+		var char = textString.substring(textString.indexOf('#')+1);
+		if(align == 'left'){
+		   	ctx.fillText(String.fromCharCode(char), canvas.height/8, canvas.height/2); // position x, y
+		}else{
+		   	ctx.fillText(String.fromCharCode(char), canvas.width/2, canvas.height/2); // position x, y			
+		}
+	}else{
+		if(align == 'left'){		
+	    	ctx.fillText(textString, canvas.height/8, canvas.height/2); // position x, y
+		}else{
+	    	ctx.fillText(textString, canvas.width/2, canvas.height/2); // position x, y
+		}
+	}
 }
 
-window.drawIcon = function(ctx, canvas, icon, color, size = 1) {
-    setTimeout(function(){
-        ctx.font = '240px Ionicons';
-        ctx.fillStyle = color;
-        ctx.textAlign = "center";
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.scale(size, size);
-
-        console.log("icon" + icon);
-        if(icon_font[icon]){
-            ctx.fillText(icon_font[icon], canvas.width/2, canvas.height/2);
-        }else{
-            ctx.fillText('?', canvas.width/2, canvas.height/2);
-        }
-
-    },500); // callback when font is loaded needed
-}
-
-window.drawLabel = function(ctx, canvas, text, font, color, size) {
-    setTimeout(function(){
-        ctx.font = font;
-        ctx.fillStyle = color;
-        ctx.textAlign = "left";
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.scale(1, 1);
-        ctx.fillText(text, canvas.height/8, canvas.height/2); // position x, y
-
-    },500); // callback when font is loaded needed
+window.drawIcon = function(ctx, canvas, iconFontSize, icon, color, scale = 1) {
+ 	ctx.font = iconFontSize+' Ionicons';
+ 	ctx.fillStyle = color;
+ 	ctx.textAlign = "center";
+ 	ctx.textBaseline = 'middle';
+ 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+ 	ctx.scale(scale, scale);
+ 	if(icon_font[icon]){
+ 	    ctx.fillText(icon_font[icon], canvas.width/2, canvas.height/2);
+ 	}else{
+ 	    ctx.fillText('?', canvas.width/2, canvas.height/2);
+ 	}
 }
