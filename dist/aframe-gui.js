@@ -89,82 +89,62 @@ window.key_white = '#fff';
 window.icon_font = { "alert": '\uF101', "alert-circled": '\uF100', "android-add": '\uF2C7', "android-add-circle": '\uF359', "android-alarm-clock": '\uF35A', "android-alert": '\uF35B', "android-apps": '\uF35C', "android-archive": '\uF2C9', "android-arrow-back": '\uF2CA', "android-arrow-down": '\uF35D', "android-arrow-dropdown": '\uF35F', "android-arrow-dropdown-circle": '\uF35E', "android-arrow-dropleft": '\uF361', "android-arrow-dropleft-circle": '\uF360', "android-arrow-dropright": '\uF363', "android-arrow-dropright-circle": '\uF362', "android-arrow-dropup": '\uF365', "android-arrow-dropup-circle": '\uF364', "android-arrow-forward": '\uF30F', "android-arrow-up": '\uF366', "android-attach": '\uF367', "android-bar": '\uF368', "android-bicycle": '\uF369', "android-boat": '\uF36A', "android-bookmark": '\uF36B', "android-bulb": '\uF36C', "android-bus": '\uF36D', "android-calendar": '\uF2D1', "android-call": '\uF2D2', "android-camera": '\uF2D3', "android-cancel": '\uF36E', "android-car": '\uF36F', "android-cart": '\uF370', "android-chat": '\uF2D4', "android-checkbox": '\uF374', "android-checkbox-blank": '\uF371', "android-checkbox-outline": '\uF373', "android-checkbox-outline-blank": '\uF372', "android-checkmark-circle": '\uF375', "android-clipboard": '\uF376', "android-close": '\uF2D7', "android-cloud": '\uF37A', "android-cloud-circle": '\uF377', "android-cloud-done": '\uF378', "android-cloud-outline": '\uF379', "android-color-palette": '\uF37B', "android-compass": '\uF37C', "android-contact": '\uF2D8', "android-contacts": '\uF2D9', "android-contract": '\uF37D', "android-create": '\uF37E', "android-delete": '\uF37F', "android-desktop": '\uF380', "android-document": '\uF381', "android-done": '\uF383', "android-done-all": '\uF382', "android-download": '\uF2DD', "android-drafts": '\uF384', "android-exit": '\uF385', "android-expand": '\uF386', "android-favorite": '\uF388', "android-favorite-outline": '\uF387', "android-film": '\uF389', "android-folder": '\uF2E0', "android-folder-open": '\uF38A', "android-funnel": '\uF38B', "android-globe": '\uF38C', "android-hand": '\uF2E3', "android-hangout": '\uF38D', "android-happy": '\uF38E', "android-home": '\uF38F', "android-image": '\uF2E4', "android-laptop": '\uF390', "android-list": '\uF391', "android-locate": '\uF2E9', "android-lock": '\uF392', "android-mail": '\uF2EB', "android-map": '\uF393', "android-menu": '\uF394', "android-microphone": '\uF2EC', "android-microphone-off": '\uF395', "android-more-horizontal": '\uF396', "android-more-vertical": '\uF397', "android-navigate": '\uF398', "android-notifications": '\uF39B', "android-notifications-none": '\uF399', "android-notifications-off": '\uF39A', "android-open": '\uF39C', "android-options": '\uF39D', "android-people": '\uF39E', "android-person": '\uF3A0', "android-person-add": '\uF39F', "android-phone-landscape": '\uF3A1', "android-phone-portrait": '\uF3A2', "android-pin": '\uF3A3', "android-plane": '\uF3A4', "android-playstore": '\uF2F0', "android-print": '\uF3A5', "android-radio-button-off": '\uF3A6', "android-radio-button-on": '\uF3A7', "android-refresh": '\uF3A8', "android-remove": '\uF2F4', "android-remove-circle": '\uF3A9', "android-restaurant": '\uF3AA', "android-sad": '\uF3AB', "android-search": '\uF2F5', "android-send": '\uF2F6', "android-settings": '\uF2F7', "android-share": '\uF2F8', "android-share-alt": '\uF3AC', "android-star": '\uF2FC', "android-star-half": '\uF3AD', "android-star-outline": '\uF3AE', "android-stopwatch": '\uF2FD', "android-subway": '\uF3AF', "android-sunny": '\uF3B0', "android-sync": '\uF3B1', "android-textsms": '\uF3B2', "android-time": '\uF3B3', "android-train": '\uF3B4', "android-unlock": '\uF3B5', "android-upload": '\uF3B6', "android-volume-down": '\uF3B7', "android-volume-mute": '\uF3B8', "android-volume-off": '\uF3B9', "android-volume-up": '\uF3BA', "android-walk": '\uF3BB', "android-warning": '\uF3BC', "android-watch": '\uF3BD', "android-wifi": '\uF305', "aperture": '\uF313', "archive": '\uF102', "arrow-down-a": '\uF103', "arrow-down-b": '\uF104', "arrow-down-c": '\uF105', "arrow-expand": '\uF25E', "arrow-graph-down-left": '\uF25F', "arrow-graph-down-right": '\uF260', "arrow-graph-up-left": '\uF261', "arrow-graph-up-right": '\uF262', "arrow-left-a": '\uF106', "arrow-left-b": '\uF107', "arrow-left-c": '\uF108', "arrow-move": '\uF263', "arrow-resize": '\uF264', "arrow-return-left": '\uF265', "arrow-return-right": '\uF266', "arrow-right-a": '\uF109', "arrow-right-b": '\uF10A', "arrow-right-c": '\uF10B', "arrow-shrink": '\uF267', "arrow-swap": '\uF268', "arrow-up-a": '\uF10C', "arrow-up-b": '\uF10D', "arrow-up-c": '\uF10E', "asterisk": '\uF314', "at": '\uF10F', "backspace": '\uF3BF', "backspace-outline": '\uF3BE', "bag": '\uF110', "battery-charging": '\uF111', "battery-empty": '\uF112', "battery-full": '\uF113', "battery-half": '\uF114', "battery-low": '\uF115', "beaker": '\uF269', "beer": '\uF26A', "bluetooth": '\uF116', "bonfire": '\uF315', "bookmark": '\uF26B', "bowtie": '\uF3C0', "briefcase": '\uF26C', "bug": '\uF2BE', "calculator": '\uF26D', "calendar": '\uF117', "camera": '\uF118', "card": '\uF119', "cash": '\uF316', "chatbox": '\uF11B', "chatbox-working": '\uF11A', "chatboxes": '\uF11C', "chatbubble": '\uF11E', "chatbubble-working": '\uF11D', "chatbubbles": '\uF11F', "checkmark": '\uF122', "checkmark-circled": '\uF120', "checkmark-round": '\uF121', "chevron-down": '\uF123', "chevron-left": '\uF124', "chevron-right": '\uF125', "chevron-up": '\uF126', "clipboard": '\uF127', "clock": '\uF26E', "close": '\uF12A', "close-circled": '\uF128', "close-round": '\uF129', "closed-captioning": '\uF317', "cloud": '\uF12B', "code": '\uF271', "code-download": '\uF26F', "code-working": '\uF270', "coffee": '\uF272', "compass": '\uF273', "compose": '\uF12C', "connection-bars": '\uF274', "contrast": '\uF275', "crop": '\uF3C1', "cube": '\uF318', "disc": '\uF12D', "document": '\uF12F', "document-text": '\uF12E', "drag": '\uF130', "earth": '\uF276', "easel": '\uF3C2', "edit": '\uF2BF', "egg": '\uF277', "eject": '\uF131', "email": '\uF132', "email-unread": '\uF3C3', "erlenmeyer-flask": '\uF3C5', "erlenmeyer-flask-bubbles": '\uF3C4', "eye": '\uF133', "eye-disabled": '\uF306', "female": '\uF278', "filing": '\uF134', "film-marker": '\uF135', "fireball": '\uF319', "flag": '\uF279', "flame": '\uF31A', "flash": '\uF137', "flash-off": '\uF136', "folder": '\uF139', "fork": '\uF27A', "fork-repo": '\uF2C0', "forward": '\uF13A', "funnel": '\uF31B', "gear-a": '\uF13D', "gear-b": '\uF13E', "grid": '\uF13F', "hammer": '\uF27B', "happy": '\uF31C', "happy-outline": '\uF3C6', "headphone": '\uF140', "heart": '\uF141', "heart-broken": '\uF31D', "help": '\uF143', "help-buoy": '\uF27C', "help-circled": '\uF142', "home": '\uF144', "icecream": '\uF27D', "image": '\uF147', "images": '\uF148', "information": '\uF14A', "information-circled": '\uF149', "ionic": '\uF14B', "ios-alarm": '\uF3C8', "ios-alarm-outline": '\uF3C7', "ios-albums": '\uF3CA', "ios-albums-outline": '\uF3C9', "ios-americanfootball": '\uF3CC', "ios-americanfootball-outline": '\uF3CB', "ios-analytics": '\uF3CE', "ios-analytics-outline": '\uF3CD', "ios-arrow-back": '\uF3CF', "ios-arrow-down": '\uF3D0', "ios-arrow-forward": '\uF3D1', "ios-arrow-left": '\uF3D2', "ios-arrow-right": '\uF3D3', "ios-arrow-thin-down": '\uF3D4', "ios-arrow-thin-left": '\uF3D5', "ios-arrow-thin-right": '\uF3D6', "ios-arrow-thin-up": '\uF3D7', "ios-arrow-up": '\uF3D8', "ios-at": '\uF3DA', "ios-at-outline": '\uF3D9', "ios-barcode": '\uF3DC', "ios-barcode-outline": '\uF3DB', "ios-baseball": '\uF3DE', "ios-baseball-outline": '\uF3DD', "ios-basketball": '\uF3E0', "ios-basketball-outline": '\uF3DF', "ios-bell": '\uF3E2', "ios-bell-outline": '\uF3E1', "ios-body": '\uF3E4', "ios-body-outline": '\uF3E3', "ios-bolt": '\uF3E6', "ios-bolt-outline": '\uF3E5', "ios-book": '\uF3E8', "ios-book-outline": '\uF3E7', "ios-bookmarks": '\uF3EA', "ios-bookmarks-outline": '\uF3E9', "ios-box": '\uF3EC', "ios-box-outline": '\uF3EB', "ios-briefcase": '\uF3EE', "ios-briefcase-outline": '\uF3ED', "ios-browsers": '\uF3F0', "ios-browsers-outline": '\uF3EF', "ios-calculator": '\uF3F2', "ios-calculator-outline": '\uF3F1', "ios-calendar": '\uF3F4', "ios-calendar-outline": '\uF3F3', "ios-camera": '\uF3F6', "ios-camera-outline": '\uF3F5', "ios-cart": '\uF3F8', "ios-cart-outline": '\uF3F7', "ios-chatboxes": '\uF3FA', "ios-chatboxes-outline": '\uF3F9', "ios-chatbubble": '\uF3FC', "ios-chatbubble-outline": '\uF3FB', "ios-checkmark": '\uF3FF', "ios-checkmark-empty": '\uF3FD', "ios-checkmark-outline": '\uF3FE', "ios-circle-filled": '\uF400', "ios-circle-outline": '\uF401', "ios-clock": '\uF403', "ios-clock-outline": '\uF402', "ios-close": '\uF406', "ios-close-empty": '\uF404', "ios-close-outline": '\uF405', "ios-cloud": '\uF40C', "ios-cloud-download": '\uF408', "ios-cloud-download-outline": '\uF407', "ios-cloud-outline": '\uF409', "ios-cloud-upload": '\uF40B', "ios-cloud-upload-outline": '\uF40A', "ios-cloudy": '\uF410', "ios-cloudy-night": '\uF40E', "ios-cloudy-night-outline": '\uF40D', "ios-cloudy-outline": '\uF40F', "ios-cog": '\uF412', "ios-cog-outline": '\uF411', "ios-color-filter": '\uF414', "ios-color-filter-outline": '\uF413', "ios-color-wand": '\uF416', "ios-color-wand-outline": '\uF415', "ios-compose": '\uF418', "ios-compose-outline": '\uF417', "ios-contact": '\uF41A', "ios-contact-outline": '\uF419', "ios-copy": '\uF41C', "ios-copy-outline": '\uF41B', "ios-crop": '\uF41E', "ios-crop-strong": '\uF41D', "ios-download": '\uF420', "ios-download-outline": '\uF41F', "ios-drag": '\uF421', "ios-email": '\uF423', "ios-email-outline": '\uF422', "ios-eye": '\uF425', "ios-eye-outline": '\uF424', "ios-fastforward": '\uF427', "ios-fastforward-outline": '\uF426', "ios-filing": '\uF429', "ios-filing-outline": '\uF428', "ios-film": '\uF42B', "ios-film-outline": '\uF42A', "ios-flag": '\uF42D', "ios-flag-outline": '\uF42C', "ios-flame": '\uF42F', "ios-flame-outline": '\uF42E', "ios-flask": '\uF431', "ios-flask-outline": '\uF430', "ios-flower": '\uF433', "ios-flower-outline": '\uF432', "ios-folder": '\uF435', "ios-folder-outline": '\uF434', "ios-football": '\uF437', "ios-football-outline": '\uF436', "ios-game-controller-a": '\uF439', "ios-game-controller-a-outline": '\uF438', "ios-game-controller-b": '\uF43B', "ios-game-controller-b-outline": '\uF43A', "ios-gear": '\uF43D', "ios-gear-outline": '\uF43C', "ios-glasses": '\uF43F', "ios-glasses-outline": '\uF43E', "ios-grid-view": '\uF441', "ios-grid-view-outline": '\uF440', "ios-heart": '\uF443', "ios-heart-outline": '\uF442', "ios-help": '\uF446', "ios-help-empty": '\uF444', "ios-help-outline": '\uF445', "ios-home": '\uF448', "ios-home-outline": '\uF447', "ios-infinite": '\uF44A', "ios-infinite-outline": '\uF449', "ios-information": '\uF44D', "ios-information-empty": '\uF44B', "ios-information-outline": '\uF44C', "ios-ionic-outline": '\uF44E', "ios-keypad": '\uF450', "ios-keypad-outline": '\uF44F', "ios-lightbulb": '\uF452', "ios-lightbulb-outline": '\uF451', "ios-list": '\uF454', "ios-list-outline": '\uF453', "ios-location": '\uF456', "ios-location-outline": '\uF455', "ios-locked": '\uF458', "ios-locked-outline": '\uF457', "ios-loop": '\uF45A', "ios-loop-strong": '\uF459', "ios-medical": '\uF45C', "ios-medical-outline": '\uF45B', "ios-medkit": '\uF45E', "ios-medkit-outline": '\uF45D', "ios-mic": '\uF461', "ios-mic-off": '\uF45F', "ios-mic-outline": '\uF460', "ios-minus": '\uF464', "ios-minus-empty": '\uF462', "ios-minus-outline": '\uF463', "ios-monitor": '\uF466', "ios-monitor-outline": '\uF465', "ios-moon": '\uF468', "ios-moon-outline": '\uF467', "ios-more": '\uF46A', "ios-more-outline": '\uF469', "ios-musical-note": '\uF46B', "ios-musical-notes": '\uF46C', "ios-navigate": '\uF46E', "ios-navigate-outline": '\uF46D', "ios-nutrition": '\uF470', "ios-nutrition-outline": '\uF46F', "ios-paper": '\uF472', "ios-paper-outline": '\uF471', "ios-paperplane": '\uF474', "ios-paperplane-outline": '\uF473', "ios-partlysunny": '\uF476', "ios-partlysunny-outline": '\uF475', "ios-pause": '\uF478', "ios-pause-outline": '\uF477', "ios-paw": '\uF47A', "ios-paw-outline": '\uF479', "ios-people": '\uF47C', "ios-people-outline": '\uF47B', "ios-person": '\uF47E', "ios-person-outline": '\uF47D', "ios-personadd": '\uF480', "ios-personadd-outline": '\uF47F', "ios-photos": '\uF482', "ios-photos-outline": '\uF481', "ios-pie": '\uF484', "ios-pie-outline": '\uF483', "ios-pint": '\uF486', "ios-pint-outline": '\uF485', "ios-play": '\uF488', "ios-play-outline": '\uF487', "ios-plus": '\uF48B', "ios-plus-empty": '\uF489', "ios-plus-outline": '\uF48A', "ios-pricetag": '\uF48D', "ios-pricetag-outline": '\uF48C', "ios-pricetags": '\uF48F', "ios-pricetags-outline": '\uF48E', "ios-printer": '\uF491', "ios-printer-outline": '\uF490', "ios-pulse": '\uF493', "ios-pulse-strong": '\uF492', "ios-rainy": '\uF495', "ios-rainy-outline": '\uF494', "ios-recording": '\uF497', "ios-recording-outline": '\uF496', "ios-redo": '\uF499', "ios-redo-outline": '\uF498', "ios-refresh": '\uF49C', "ios-refresh-empty": '\uF49A', "ios-refresh-outline": '\uF49B', "ios-reload": '\uF49D', "ios-reverse-camera": '\uF49F', "ios-reverse-camera-outline": '\uF49E', "ios-rewind": '\uF4A1', "ios-rewind-outline": '\uF4A0', "ios-rose": '\uF4A3', "ios-rose-outline": '\uF4A2', "ios-search": '\uF4A5', "ios-search-strong": '\uF4A4', "ios-settings": '\uF4A7', "ios-settings-strong": '\uF4A6', "ios-shuffle": '\uF4A9', "ios-shuffle-strong": '\uF4A8', "ios-skipbackward": '\uF4AB', "ios-skipbackward-outline": '\uF4AA', "ios-skipforward": '\uF4AD', "ios-skipforward-outline": '\uF4AC', "ios-snowy": '\uF4AE', "ios-speedometer": '\uF4B0', "ios-speedometer-outline": '\uF4AF', "ios-star": '\uF4B3', "ios-star-half": '\uF4B1', "ios-star-outline": '\uF4B2', "ios-stopwatch": '\uF4B5', "ios-stopwatch-outline": '\uF4B4', "ios-sunny": '\uF4B7', "ios-sunny-outline": '\uF4B6', "ios-telephone": '\uF4B9', "ios-telephone-outline": '\uF4B8', "ios-tennisball": '\uF4BB', "ios-tennisball-outline": '\uF4BA', "ios-thunderstorm": '\uF4BD', "ios-thunderstorm-outline": '\uF4BC', "ios-time": '\uF4BF', "ios-time-outline": '\uF4BE', "ios-timer": '\uF4C1', "ios-timer-outline": '\uF4C0', "ios-toggle": '\uF4C3', "ios-toggle-outline": '\uF4C2', "ios-trash": '\uF4C5', "ios-trash-outline": '\uF4C4', "ios-undo": '\uF4C7', "ios-undo-outline": '\uF4C6', "ios-unlocked": '\uF4C9', "ios-unlocked-outline": '\uF4C8', "ios-upload": '\uF4CB', "ios-upload-outline": '\uF4CA', "ios-videocam": '\uF4CD', "ios-videocam-outline": '\uF4CC', "ios-volume-high": '\uF4CE', "ios-volume-low": '\uF4CF', "ios-wineglass": '\uF4D1', "ios-wineglass-outline": '\uF4D0', "ios-world": '\uF4D3', "ios-world-outline": '\uF4D2', "ipad": '\uF1F9', "iphone": '\uF1FA', "ipod": '\uF1FB', "jet": '\uF295', "key": '\uF296', "knife": '\uF297', "laptop": '\uF1FC', "leaf": '\uF1FD', "levels": '\uF298', "lightbulb": '\uF299', "link": '\uF1FE', "load-a": '\uF29A', "load-b": '\uF29B', "load-c": '\uF29C', "load-d": '\uF29D', "location": '\uF1FF', "lock-combination": '\uF4D4', "locked": '\uF200', "log-in": '\uF29E', "log-out": '\uF29F', "loop": '\uF201', "magnet": '\uF2A0', "male": '\uF2A1', "man": '\uF202', "map": '\uF203', "medkit": '\uF2A2', "merge": '\uF33F', "mic-a": '\uF204', "mic-b": '\uF205', "mic-c": '\uF206', "minus": '\uF209', "minus-circled": '\uF207', "minus-round": '\uF208', "model-s": '\uF2C1', "monitor": '\uF20A', "more": '\uF20B', "mouse": '\uF340', "music-note": '\uF20C', "navicon": '\uF20E', "navicon-round": '\uF20D', "navigate": '\uF2A3', "network": '\uF341', "no-smoking": '\uF2C2', "nuclear": '\uF2A4', "outlet": '\uF342', "paintbrush": '\uF4D5', "paintbucket": '\uF4D6', "paper-airplane": '\uF2C3', "paperclip": '\uF20F', "pause": '\uF210', "person": '\uF213', "person-add": '\uF211', "person-stalker": '\uF212', "pie-graph": '\uF2A5', "pin": '\uF2A6', "pinpoint": '\uF2A7', "pizza": '\uF2A8', "plane": '\uF214', "planet": '\uF343', "play": '\uF215', "playstation": '\uF30A', "plus": '\uF218', "plus-circled": '\uF216', "plus-round": '\uF217', "podium": '\uF344', "pound": '\uF219', "power": '\uF2A9', "pricetag": '\uF2AA', "pricetags": '\uF2AB', "printer": '\uF21A', "pull-request": '\uF345', "qr-scanner": '\uF346', "quote": '\uF347', "radio-waves": '\uF2AC', "record": '\uF21B', "refresh": '\uF21C', "reply": '\uF21E', "reply-all": '\uF21D', "ribbon-a": '\uF348', "ribbon-b": '\uF349', "sad": '\uF34A', "sad-outline": '\uF4D7', "scissors": '\uF34B', "search": '\uF21F', "settings": '\uF2AD', "share": '\uF220', "shuffle": '\uF221', "skip-backward": '\uF222', "skip-forward": '\uF223', "social-android": '\uF225', "social-android-outline": '\uF224', "social-angular": '\uF4D9', "social-angular-outline": '\uF4D8', "social-apple": '\uF227', "social-apple-outline": '\uF226', "social-bitcoin": '\uF2AF', "social-bitcoin-outline": '\uF2AE', "social-buffer": '\uF229', "social-buffer-outline": '\uF228', "social-chrome": '\uF4DB', "social-chrome-outline": '\uF4DA', "social-codepen": '\uF4DD', "social-codepen-outline": '\uF4DC', "social-css3": '\uF4DF', "social-css3-outline": '\uF4DE', "social-designernews": '\uF22B', "social-designernews-outline": '\uF22A', "social-dribbble": '\uF22D', "social-dribbble-outline": '\uF22C', "social-dropbox": '\uF22F', "social-dropbox-outline": '\uF22E', "social-euro": '\uF4E1', "social-euro-outline": '\uF4E0', "social-facebook": '\uF231', "social-facebook-outline": '\uF230', "social-foursquare": '\uF34D', "social-foursquare-outline": '\uF34C', "social-freebsd-devil": '\uF2C4', "social-github": '\uF233', "social-github-outline": '\uF232', "social-google": '\uF34F', "social-google-outline": '\uF34E', "social-googleplus": '\uF235', "social-googleplus-outline": '\uF234', "social-hackernews": '\uF237', "social-hackernews-outline": '\uF236', "social-html5": '\uF4E3', "social-html5-outline": '\uF4E2', "social-instagram": '\uF351', "social-instagram-outline": '\uF350', "social-javascript": '\uF4E5', "social-javascript-outline": '\uF4E4', "social-linkedin": '\uF239', "social-linkedin-outline": '\uF238', "social-markdown": '\uF4E6', "social-nodejs": '\uF4E7', "social-octocat": '\uF4E8', "social-pinterest": '\uF2B1', "social-pinterest-outline": '\uF2B0', "social-python": '\uF4E9', "social-reddit": '\uF23B', "social-reddit-outline": '\uF23A', "social-rss": '\uF23D', "social-rss-outline": '\uF23C', "social-sass": '\uF4EA', "social-skype": '\uF23F', "social-skype-outline": '\uF23E', "social-snapchat": '\uF4EC', "social-snapchat-outline": '\uF4EB', "social-tumblr": '\uF241', "social-tumblr-outline": '\uF240', "social-tux": '\uF2C5', "social-twitch": '\uF4EE', "social-twitch-outline": '\uF4ED', "social-twitter": '\uF243', "social-twitter-outline": '\uF242', "social-usd": '\uF353', "social-usd-outline": '\uF352', "social-vimeo": '\uF245', "social-vimeo-outline": '\uF244', "social-whatsapp": '\uF4F0', "social-whatsapp-outline": '\uF4EF', "social-windows": '\uF247', "social-windows-outline": '\uF246', "social-wordpress": '\uF249', "social-wordpress-outline": '\uF248', "social-yahoo": '\uF24B', "social-yahoo-outline": '\uF24A', "social-yen": '\uF4F2', "social-yen-outline": '\uF4F1', "social-youtube": '\uF24D', "social-youtube-outline": '\uF24C', "soup-can": '\uF4F4', "soup-can-outline": '\uF4F3', "speakerphone": '\uF2B2', "speedometer": '\uF2B3', "spoon": '\uF2B4', "star": '\uF24E', "stats-bars": '\uF2B5', "steam": '\uF30B', "stop": '\uF24F', "thermometer": '\uF2B6', "thumbsdown": '\uF250', "thumbsup": '\uF251', "toggle": '\uF355', "toggle-filled": '\uF354', "transgender": '\uF4F5', "trash-a": '\uF252', "trash-b": '\uF253', "trophy": '\uF356', "tshirt": '\uF4F7', "tshirt-outline": '\uF4F6', "umbrella": '\uF2B7', "university": '\uF357', "unlocked": '\uF254', "upload": '\uF255', "usb": '\uF2B8', "videocamera": '\uF256', "volume-high": '\uF257', "volume-low": '\uF258', "volume-medium": '\uF259', "volume-mute": '\uF25A', "wand": '\uF358', "waterdrop": '\uF25B', "wifi": '\uF25C', "wineglass": '\uF2B9', "woman": '\uF25D', "wrench": '\uF2BA', "xbox": '\uF30C' };
 
 window.getUniqueId = function (stringPrefix) {
-    var datestr = new Date().getTime().toString();
-    var randomstr = Math.random().toString().replace('.', '');
-    return stringPrefix + '_' + datestr + randomstr;
+	var datestr = new Date().getTime().toString();
+	var randomstr = Math.random().toString().replace('.', '');
+	return stringPrefix + '_' + datestr + randomstr;
 };
 
 window.getTextWidth = function (text, font) {
-    // re-use canvas object for better performance
-    var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
-    var context = canvas.getContext("2d");
-    context.font = font;
-    var metrics = context.measureText(text);
-    return metrics.width;
+	// re-use canvas object for better performance
+	var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+	var context = canvas.getContext("2d");
+	context.font = font;
+	var metrics = context.measureText(text);
+	return metrics.width;
 };
 
-window.drawText = function (ctx, canvas, text, font, color, size) {
-    setTimeout(function () {
-        ctx.font = font;
-        ctx.fillStyle = color;
-        ctx.textAlign = "center";
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.scale(1, 1);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        var textString = text + '';
-        if (textString.match("char#")) {
-            var char = textString.substring(textString.indexOf('#') + 1);
-            ctx.fillText(String.fromCharCode(char), canvas.width / 2, canvas.height / 2); // position x, y
-        } else {
-            ctx.fillText(textString, canvas.width / 2, canvas.height / 2); // position x, y
-        }
-    }, 500); // callback when font is loaded needed
+window.drawText = function (ctx, canvas, text, fontSize, fontFamily, color) {
+	var scale = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : 1;
+	var align = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : 'center';
+	var baseline = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : 'middle';
+
+	ctx.font = fontSize + ' ' + fontFamily;
+	ctx.fillStyle = color;
+	ctx.textAlign = align;
+	ctx.textBaseline = baseline;
+	ctx.scale(scale, scale);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	var textString = text + '';
+	if (textString.match("char#")) {
+		var char = textString.substring(textString.indexOf('#') + 1);
+		if (align == 'left') {
+			ctx.fillText(String.fromCharCode(char), canvas.height / 8, canvas.height / 2); // position x, y
+		} else {
+			ctx.fillText(String.fromCharCode(char), canvas.width / 2, canvas.height / 2); // position x, y			
+		}
+	} else {
+		if (align == 'left') {
+			ctx.fillText(textString, canvas.height / 8, canvas.height / 2); // position x, y
+		} else {
+			ctx.fillText(textString, canvas.width / 2, canvas.height / 2); // position x, y
+		}
+	}
 };
 
-window.drawIcon = function (ctx, canvas, icon, color) {
-    var size = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
+window.drawIcon = function (ctx, canvas, iconFontSize, icon, color) {
+	var scale = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 1;
 
-    setTimeout(function () {
-        ctx.font = '240px Ionicons';
-        ctx.fillStyle = color;
-        ctx.textAlign = "center";
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.scale(size, size);
-
-        console.log("icon" + icon);
-        if (icon_font[icon]) {
-            ctx.fillText(icon_font[icon], canvas.width / 2, canvas.height / 2);
-        } else {
-            ctx.fillText('?', canvas.width / 2, canvas.height / 2);
-        }
-    }, 500); // callback when font is loaded needed
-};
-
-window.drawLabel = function (ctx, canvas, text, font, color, size) {
-    setTimeout(function () {
-        ctx.font = font;
-        ctx.fillStyle = color;
-        ctx.textAlign = "left";
-        ctx.textBaseline = 'middle';
-        ctx.shadowColor = 'rgba(0,0,0,0.5)';
-        ctx.shadowBlur = 8;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.scale(1, 1);
-        ctx.fillText(text, canvas.height / 8, canvas.height / 2); // position x, y
-    }, 500); // callback when font is loaded needed
+	ctx.font = iconFontSize + ' Ionicons';
+	ctx.fillStyle = color;
+	ctx.textAlign = "center";
+	ctx.textBaseline = 'middle';
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.scale(scale, scale);
+	if (icon_font[icon]) {
+		ctx.fillText(icon_font[icon], canvas.width / 2, canvas.height / 2);
+	} else {
+		ctx.fillText('?', canvas.width / 2, canvas.height / 2);
+	}
 };
 
 /***/ }),
@@ -179,7 +159,8 @@ AFRAME.registerComponent('gui-button', {
         on: { default: 'click' },
         toggle: { type: 'boolean', default: false },
         text: { type: 'string', default: 'text' },
-        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontSize: { type: 'string', default: '150px' },
+        fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
@@ -194,7 +175,7 @@ AFRAME.registerComponent('gui-button', {
         console.log("in button, guiItem: " + JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
         console.log("in button, guiInteractable: " + JSON.stringify(guiInteractable));
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
         var toggleState = this.toggleState = data.toggle;
@@ -209,13 +190,12 @@ AFRAME.registerComponent('gui-button', {
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(canvas);
-
         var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:double; color:' + data.backgroundColor + ';');
 
-        drawText(ctx, canvas, data.text, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', 'primitive: box; width: ' + guiItem.width + '; height: ' + guiItem.height + '; depth: 0.02;');
@@ -232,43 +212,31 @@ AFRAME.registerComponent('gui-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var buttonAnimation = document.createElement("a-animation");
-        buttonAnimation.setAttribute('attribute', 'material.color');
-        buttonAnimation.setAttribute('begin', 'fadeOut');
-        buttonAnimation.setAttribute('from', data.activeColor);
-        buttonAnimation.setAttribute('to', data.backgroundColor);
-        buttonAnimation.setAttribute('dur', '400');
-        buttonEntity.appendChild(buttonAnimation);
-
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
         textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-        ////WAI ARIA Support
-        el.setAttribute('role', 'button');
-
         el.addEventListener('mouseenter', function () {
-            buttonEntity.setAttribute('material', 'color', data.hoverColor);
+            buttonEntity.removeAttribute('animation__leave');
+            buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-
         el.addEventListener('mouseleave', function () {
             if (!data.toggle) {
-                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+                buttonEntity.removeAttribute('animation__click');
             }
+            buttonEntity.removeAttribute('animation__enter');
+            buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
         });
-
-        el.addEventListener(data.on, function (evt) {
+        el.addEventListener(data.on, function () {
             if (!data.toggle) {
                 // if not toggling flashing active state
-                buttonEntity.emit('fadeOut');
+                buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutQuad;');
             } else {
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-            //            this.toggleState = !(this.toggleState);
 
-            //            console.log('I was clicked at: ', evt.detail.intersection.point);
             var clickActionFunctionName = guiInteractable.clickAction;
             console.log("in button, clickActionFunctionName: " + clickActionFunctionName);
             // find object
@@ -277,6 +245,9 @@ AFRAME.registerComponent('gui-button', {
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
     },
     play: function play() {},
     update: function update(oldData) {
@@ -290,8 +261,7 @@ AFRAME.registerComponent('gui-button', {
         } else {}
     },
     setText: function setText(newText) {
-        var guiItem = this.el.getAttribute("gui-item");
-        drawText(this.ctx, this.canvas, newText, guiItem.fontSize + ' ' + this.data.fontFamily, this.data.fontColor, 1);
+        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, 'center', 'middle');
     }
 });
 
@@ -308,10 +278,10 @@ AFRAME.registerPrimitive('a-gui-button', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-button.on',
         'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
+        'font-size': 'gui-button.fontSize',
         'font-family': 'gui-button.fontFamily',
         'border-color': 'gui-button.borderColor',
         'background-color': 'gui-button.backgroundColor',
@@ -331,7 +301,8 @@ AFRAME.registerPrimitive('a-gui-button', {
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         count: { type: 'number', default: '100' },
-        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontFamily: { type: 'string', default: 'Arial' },
+        fontSize: { type: 'string', default: '150px' },
         fontColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
         activeColor: { type: 'string', default: key_orange }
@@ -341,7 +312,7 @@ AFRAME.registerComponent('gui-circle-loader', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
 
@@ -363,7 +334,7 @@ AFRAME.registerComponent('gui-circle-loader', {
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
 
-        drawText(ctx, canvas, data.count + '%', guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.count + '%', data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
         var loaderContainer = document.createElement("a-entity");
         loaderContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
@@ -371,6 +342,13 @@ AFRAME.registerComponent('gui-circle-loader', {
         loaderContainer.setAttribute('rotation', '90 0 0');
         loaderContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(loaderContainer);
+
+        var countLoaded = document.createElement("a-entity");
+        countLoaded.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.5 + '; height: ' + guiItem.height / 1.5 + ';');
+        countLoaded.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
+        countLoaded.setAttribute('position', '0 0 0.022');
+        countLoaded.id = "loader_ring_count";
+        el.appendChild(countLoaded);
 
         var loaderRing = document.createElement("a-ring");
         loaderRing.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.activeColor);
@@ -382,13 +360,6 @@ AFRAME.registerComponent('gui-circle-loader', {
         loaderRing.setAttribute('position', '0 0 0.04');
         loaderRing.id = "loader_ring";
         el.appendChild(loaderRing);
-
-        var countLoaded = document.createElement("a-entity");
-        countLoaded.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.75 + '; height: ' + guiItem.height / 1.75 + ';');
-        countLoaded.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
-        countLoaded.setAttribute('position', '0 0 0.022');
-        countLoaded.id = "loader_ring_count";
-        el.appendChild(countLoaded);
     },
     play: function play() {},
     update: function update(oldData) {}
@@ -403,8 +374,8 @@ AFRAME.registerPrimitive('a-gui-circle-loader', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'count': 'gui-circle-loader.count',
+        'font-size': 'gui-circle-loader.fontSize',
         'font-family': 'gui-circle-loader.fontFamily',
         'font-color': 'gui-circle-loader.fontColor',
         'background-color': 'gui-circle-loader.backgroundColor',
@@ -422,7 +393,8 @@ AFRAME.registerPrimitive('a-gui-circle-loader', {
 AFRAME.registerComponent('gui-circle-timer', {
     schema: {
         countDown: { type: 'number', default: '10' },
-        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontFamily: { type: 'string', default: 'Arial' },
+        fontSize: { type: 'string', default: '150px' },
         fontColor: { type: 'string', default: key_grey },
         borderColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -433,9 +405,13 @@ AFRAME.registerComponent('gui-circle-timer', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        var guiInteractable = el.getAttribute("gui-interactable");
+        console.log("in timer callback, guiInteractable: " + JSON.stringify(guiInteractable));
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
+
+        var initCount = this.initCount = data.countDown;
 
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
@@ -455,7 +431,7 @@ AFRAME.registerComponent('gui-circle-timer', {
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
 
-        drawText(ctx, canvas, data.countDown, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.countDown, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
         var timerContainer = document.createElement("a-entity");
         timerContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
@@ -463,6 +439,13 @@ AFRAME.registerComponent('gui-circle-timer', {
         timerContainer.setAttribute('rotation', '90 0 0');
         timerContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(timerContainer);
+
+        var countDownLabel = document.createElement("a-entity");
+        countDownLabel.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.5 + '; height: ' + guiItem.height / 1.5 + ';');
+        countDownLabel.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
+        countDownLabel.setAttribute('position', '0 0 0.022');
+        el.appendChild(countDownLabel);
+        this.countDownLabel = countDownLabel;
 
         var timerIndicator1 = document.createElement("a-ring");
         timerIndicator1.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
@@ -498,25 +481,46 @@ AFRAME.registerComponent('gui-circle-timer', {
         el.appendChild(timerIndicator4);
 
         var timerRing = document.createElement("a-ring");
-        timerRing.setAttribute('material', 'shader: flat; opacity: 0.75; side:double; color: ' + data.activeColor);
+        timerRing.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.activeColor);
         timerRing.setAttribute('radius-inner', '' + guiItem.height / 3);
         timerRing.setAttribute('radius-outer', '' + guiItem.height / 2);
         timerRing.setAttribute('theta-start', '0');
-        timerRing.setAttribute('theta-length', '10'); // this has to increase 0 to 360 when running the countdown
-        timerRing.setAttribute('rotation', '0 0 0');
+        timerRing.setAttribute('theta-length', '0'); // this has to increase 0 to 360 when running the countdown
+        timerRing.setAttribute('rotation', '0 180 90');
         timerRing.setAttribute('position', '0 0 0.03');
-        timerRing.id = "loader_ring";
         el.appendChild(timerRing);
-
-        var countDownLabel = document.createElement("a-entity");
-        countDownLabel.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.75 + '; height: ' + guiItem.height / 1.75 + ';');
-        countDownLabel.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
-        countDownLabel.setAttribute('position', '0 0 0.022');
-        countDownLabel.id = "loader_ring_count";
-        el.appendChild(countDownLabel);
+        this.timerRing = timerRing;
     },
-    play: function play() {},
-    update: function update(oldData) {}
+    update: function update(oldData) {
+        var data = this.data;
+        var el = this.el;
+        if (Object.keys(oldData).length === 0) {
+            return;
+        }
+        if (data.countDown !== oldData.countDown) {
+            el.getObject3D('mesh').material.color = data.color;
+            var left = data.countDown,
+                count_down = this.initCount;
+            var elapsed = Math.round((count_down - left) * 100 / count_down) / 100 * 360;
+            this.timerRing.setAttribute('theta-length', elapsed); // this has to increase 0 to 360 when running the count_down
+            //text doesn't update
+            drawText(this.ctx, this.canvas, left, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
+            if (left == 1) {
+                console.log('fire callback on the last second');
+            }
+        }
+    },
+    callback: function callback() {
+        var guiInteractable = this.el.getAttribute("gui-interactable");
+        var clickActionFunctionName = guiInteractable.clickAction;
+        console.log("in timer callback, guiInteractable: " + JSON.stringify(guiInteractable));
+        console.log("in button, clickActionFunctionName: " + clickActionFunctionName);
+        // find object
+        var clickActionFunction = window[clickActionFunctionName];
+        //console.log("clickActionFunction: "+clickActionFunction);
+        // is object a function?
+        if (typeof clickActionFunction === "function") clickActionFunction();
+    }
 });
 
 AFRAME.registerPrimitive('a-gui-circle-timer', {
@@ -528,13 +532,14 @@ AFRAME.registerPrimitive('a-gui-circle-timer', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'count-down': 'gui-circle-timer.countDown',
+        'font-size': 'gui-circle-timer.fontSize',
         'font-family': 'gui-circle-timer.fontFamily',
         'font-color': 'gui-circle-timer.fontColor',
         'border-color': 'gui-circle-timer.borderColor',
         'background-color': 'gui-circle-timer.backgroundColor',
-        'active-color': 'gui-circle-timer.activeColor'
+        'active-color': 'gui-circle-timer.activeColor',
+        'callback': 'gui-interactable.clickAction'
     }
 });
 
@@ -572,386 +577,94 @@ AFRAME.registerComponent('gui-cursor', {
             el.setAttribute('geometry', 'primitive: ring; radiusInner:0.000001; radiusOuter:0.025');
             el.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
             el.setAttribute('position', '0 0 ' + data.distance);
-
-            var hoverAniInner = document.createElement("a-animation");
-            hoverAniInner.setAttribute('begin', 'hovergui');
-            hoverAniInner.setAttribute('easing', 'linear');
-            hoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            hoverAniInner.setAttribute('fill', 'forwards');
-            hoverAniInner.setAttribute('from', '0.000001');
-            hoverAniInner.setAttribute('to', '0.0225');
-            hoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(hoverAniInner);
-
-            var hoverAniOuter = document.createElement("a-animation");
-            hoverAniOuter.setAttribute('begin', 'hovergui');
-            hoverAniOuter.setAttribute('easing', 'linear');
-            hoverAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
-            hoverAniOuter.setAttribute('fill', 'forwards');
-            hoverAniOuter.setAttribute('from', '0.025');
-            hoverAniOuter.setAttribute('to', '0.0275');
-            hoverAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(hoverAniOuter);
-
-            var hoverAniColor = document.createElement("a-animation");
-            hoverAniColor.setAttribute('begin', 'hovergui');
-            hoverAniColor.setAttribute('easing', 'linear');
-            hoverAniColor.setAttribute('attribute', 'material.color');
-            hoverAniColor.setAttribute('fill', 'forwards');
-            hoverAniColor.setAttribute('from', '' + data.color);
-            hoverAniColor.setAttribute('to', '' + data.hoverColor);
-            hoverAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(hoverAniColor);
-
-            var leaveAniInner = document.createElement("a-animation");
-            leaveAniInner.setAttribute('begin', 'leavegui');
-            leaveAniInner.setAttribute('easing', 'linear');
-            leaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            leaveAniInner.setAttribute('fill', 'forwards');
-            leaveAniInner.setAttribute('from', '0.0225');
-            leaveAniInner.setAttribute('to', '0.000001');
-            leaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(leaveAniInner);
-
-            var leaveAniOuter = document.createElement("a-animation");
-            leaveAniOuter.setAttribute('begin', 'leavegui');
-            leaveAniOuter.setAttribute('easing', 'linear');
-            leaveAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
-            leaveAniOuter.setAttribute('fill', 'forwards');
-            leaveAniOuter.setAttribute('from', '0.0275');
-            leaveAniOuter.setAttribute('to', '0.025');
-            leaveAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(leaveAniOuter);
-
-            var leaveAniColor = document.createElement("a-animation");
-            leaveAniColor.setAttribute('begin', 'leavegui');
-            leaveAniColor.setAttribute('easing', 'linear');
-            leaveAniColor.setAttribute('attribute', 'material.color');
-            leaveAniColor.setAttribute('fill', 'forwards');
-            leaveAniColor.setAttribute('from', '' + data.hoverColor);
-            leaveAniColor.setAttribute('to', '' + data.color);
-            leaveAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(leaveAniColor);
-
-            var clickAnimation = document.createElement("a-animation");
-            clickAnimation.setAttribute('begin', 'click');
-            clickAnimation.setAttribute('easing', 'ease-in');
-            clickAnimation.setAttribute('attribute', 'scale');
-            clickAnimation.setAttribute('fill', 'forwards');
-            clickAnimation.setAttribute('from', '1 1 1');
-            clickAnimation.setAttribute('to', '1.25 1.25 1.25');
-            clickAnimation.setAttribute('dur', '200');
-            el.appendChild(clickAnimation);
+            el.setAttribute('animation__radiusInnerIn', 'property: geometry.radiusInner; from: 0.000001; to:0.0225; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            el.setAttribute('animation__radiusOuterIn', 'property: geometry.radiusOuter; from: 0.025; to:0.0275; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            el.setAttribute('animation__colorIn', 'property: material.color; from: ' + data.color + '; to:' + data.hoverColor + '; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            el.setAttribute('animation__radiusInnerOut', 'property: geometry.radiusInner; from: 0.0225; to:0.000001; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            el.setAttribute('animation__radiusOuterOut', 'property: geometry.radiusOuter; from: 0.0275; to:0.025; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            el.setAttribute('animation__colorOut', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.color + '; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            el.setAttribute('animation__scale', 'property: scale; from: 1 1 1; to:1.25 1.25 1.25; dur:200; easing:easeInQuad; startEvents: click');
 
             var cursorShadow = document.createElement("a-entity");
             cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.0275; radiusOuter:0.03; thetaLength:360');
             cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
             cursorShadow.setAttribute('position', '0 0 0');
+            cursorShadow.setAttribute('animation__radiusInnerIn', 'property: geometry.radiusInner; from: 0.0275; to:0.03; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorShadow.setAttribute('animation__radiusOuterIn', 'property: geometry.radiusOuter; from: 0.03; to:0.0325; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorShadow.setAttribute('animation__radiusInnerOut', 'property: geometry.radiusInner; from: 0.03; to:0.0275; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            cursorShadow.setAttribute('animation__radiusOuterOut', 'property: geometry.radiusOuter; from: 0.0325; to:0.03; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
             el.appendChild(cursorShadow);
             this.cursorShadow = cursorShadow;
-
-            var shadowHoverAniInner = document.createElement("a-animation");
-            shadowHoverAniInner.setAttribute('begin', 'hovergui');
-            shadowHoverAniInner.setAttribute('easing', 'linear');
-            shadowHoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            shadowHoverAniInner.setAttribute('fill', 'forwards');
-            shadowHoverAniInner.setAttribute('from', '0.0275');
-            shadowHoverAniInner.setAttribute('to', '0.03');
-            shadowHoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(shadowHoverAniInner);
-
-            var shadowHoverAniOuter = document.createElement("a-animation");
-            shadowHoverAniOuter.setAttribute('begin', 'hovergui');
-            shadowHoverAniOuter.setAttribute('easing', 'linear');
-            shadowHoverAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
-            shadowHoverAniOuter.setAttribute('fill', 'forwards');
-            shadowHoverAniOuter.setAttribute('from', '0.03');
-            shadowHoverAniOuter.setAttribute('to', '0.0325');
-            shadowHoverAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(shadowHoverAniOuter);
-
-            var shadowLeaveAniInner = document.createElement("a-animation");
-            shadowLeaveAniInner.setAttribute('begin', 'leavegui');
-            shadowLeaveAniInner.setAttribute('easing', 'linear');
-            shadowLeaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            shadowLeaveAniInner.setAttribute('fill', 'forwards');
-            shadowLeaveAniInner.setAttribute('from', '0.03');
-            shadowLeaveAniInner.setAttribute('to', '0.0275');
-            shadowLeaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(shadowLeaveAniInner);
-
-            var shadowLeaveAniOuter = document.createElement("a-animation");
-            shadowLeaveAniOuter.setAttribute('begin', 'leavegui');
-            shadowLeaveAniOuter.setAttribute('easing', 'linear');
-            shadowLeaveAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
-            shadowLeaveAniOuter.setAttribute('fill', 'forwards');
-            shadowLeaveAniOuter.setAttribute('from', '0.0325');
-            shadowLeaveAniOuter.setAttribute('to', '0.03');
-            shadowLeaveAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(shadowLeaveAniOuter);
 
             if (fuse) {
                 var fuseLoader = document.createElement("a-entity");
                 fuseLoader.setAttribute('geometry', 'primitive: ring; radiusInner:0.03; radiusOuter:0.0375; thetaLength:0');
                 fuseLoader.setAttribute('material', 'color: ' + data.activeColor + '; shader: flat; opacity:1;');
                 fuseLoader.setAttribute('position', '0 0 0');
+                fuseLoader.setAttribute('animation', 'property: geometry.thetaLength; from: 0; to:360; dur:' + fuseAnimationDuration + '; delay: ' + defaultHoverAnimationDuration + '; easing:linear; autoplay:false;');
                 el.appendChild(fuseLoader);
                 this.fuseLoader = fuseLoader;
-
-                var fuseLoaderFillAni = document.createElement("a-animation");
-                fuseLoaderFillAni.setAttribute('begin', 'start-fusing');
-                fuseLoaderFillAni.setAttribute('easing', 'linear');
-                fuseLoaderFillAni.setAttribute('attribute', 'geometry.thetaLength');
-                fuseLoaderFillAni.setAttribute('fill', 'forwards');
-                fuseLoaderFillAni.setAttribute('from', '0');
-                fuseLoaderFillAni.setAttribute('to', '360');
-                fuseLoaderFillAni.setAttribute('delay', '' + defaultHoverAnimationDuration);
-                fuseLoaderFillAni.setAttribute('dur', '' + fuseAnimationDuration);
-                fuseLoader.appendChild(fuseLoaderFillAni);
             }
-
             //end dot design
         } else if (data.design == 'ring') {
             el.setAttribute('geometry', 'primitive: ring; radiusInner:0.0225; radiusOuter:0.0275');
             el.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
             el.setAttribute('position', '0 0 ' + data.distance);
-
-            var hoverAniInner = document.createElement("a-animation");
-            hoverAniInner.setAttribute('begin', 'hovergui');
-            hoverAniInner.setAttribute('easing', 'linear');
-            hoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            hoverAniInner.setAttribute('fill', 'forwards');
-            hoverAniInner.setAttribute('from', '0.0225');
-            hoverAniInner.setAttribute('to', '0.025');
-            hoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(hoverAniInner);
-
-            var hoverAniOuter = document.createElement("a-animation");
-            hoverAniOuter.setAttribute('begin', 'hovergui');
-            hoverAniOuter.setAttribute('easing', 'linear');
-            hoverAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
-            hoverAniOuter.setAttribute('fill', 'forwards');
-            hoverAniOuter.setAttribute('from', '0.025');
-            hoverAniOuter.setAttribute('to', '0.0325');
-            hoverAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(hoverAniOuter);
-
-            var hoverAniColor = document.createElement("a-animation");
-            hoverAniColor.setAttribute('begin', 'hovergui');
-            hoverAniColor.setAttribute('easing', 'linear');
-            hoverAniColor.setAttribute('attribute', 'material.color');
-            hoverAniColor.setAttribute('fill', 'forwards');
-            hoverAniColor.setAttribute('from', '' + data.color);
-            hoverAniColor.setAttribute('to', '' + data.hoverColor);
-            hoverAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(hoverAniColor);
-
-            var leaveAniInner = document.createElement("a-animation");
-            leaveAniInner.setAttribute('begin', 'leavegui');
-            leaveAniInner.setAttribute('easing', 'linear');
-            leaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            leaveAniInner.setAttribute('fill', 'forwards');
-            leaveAniInner.setAttribute('from', '0.025');
-            leaveAniInner.setAttribute('to', '0.0225');
-            leaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(leaveAniInner);
-
-            var leaveAniOuter = document.createElement("a-animation");
-            leaveAniOuter.setAttribute('begin', 'leavegui');
-            leaveAniOuter.setAttribute('easing', 'linear');
-            leaveAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
-            leaveAniOuter.setAttribute('fill', 'forwards');
-            leaveAniOuter.setAttribute('from', '0.0325');
-            leaveAniOuter.setAttribute('to', '0.0275');
-            leaveAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(leaveAniOuter);
-
-            var leaveAniColor = document.createElement("a-animation");
-            leaveAniColor.setAttribute('begin', 'leavegui');
-            leaveAniColor.setAttribute('easing', 'linear');
-            leaveAniColor.setAttribute('attribute', 'material.color');
-            leaveAniColor.setAttribute('fill', 'forwards');
-            leaveAniColor.setAttribute('from', '' + data.hoverColor);
-            leaveAniColor.setAttribute('to', '' + data.color);
-            leaveAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(leaveAniColor);
-
-            var clickAnimation = document.createElement("a-animation");
-            clickAnimation.setAttribute('begin', 'click');
-            clickAnimation.setAttribute('easing', 'ease-in');
-            clickAnimation.setAttribute('attribute', 'scale');
-            clickAnimation.setAttribute('fill', 'forwards');
-            clickAnimation.setAttribute('from', '1 1 1');
-            clickAnimation.setAttribute('to', '1.25 1.25 1.25');
-            clickAnimation.setAttribute('dur', '200');
-            el.appendChild(clickAnimation);
+            el.setAttribute('animation__radiusInnerIn', 'property: geometry.radiusInner; from: 0.0225; to:0.025; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            el.setAttribute('animation__radiusOuterIn', 'property: geometry.radiusOuter; from: 0.0275; to:0.0325; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            el.setAttribute('animation__colorIn', 'property: material.color; from: ' + data.color + '; to:' + data.hoverColor + '; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            el.setAttribute('animation__radiusInnerOut', 'property: geometry.radiusInner; from: 0.025; to:0.0225; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            el.setAttribute('animation__radiusOuterOut', 'property: geometry.radiusOuter; from: 0.0325; to:0.0275; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            el.setAttribute('animation__colorOut', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.color + '; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            el.setAttribute('animation__scale', 'property: scale; from: 1 1 1; to:1.25 1.25 1.25; dur:200; easing:easeInQuad; startEvents: click');
 
             var cursorShadow = document.createElement("a-entity");
             cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.03; radiusOuter:0.0325; thetaLength:360');
             cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
             cursorShadow.setAttribute('position', '0 0 0');
+            cursorShadow.setAttribute('animation__radiusInnerIn', 'property: geometry.radiusInner; from: 0.03; to:0.0325; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorShadow.setAttribute('animation__radiusOuterIn', 'property: geometry.radiusOuter; from: 0.0325; to:0.0375; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorShadow.setAttribute('animation__radiusInnerOut', 'property: geometry.radiusInner; from: 0.0325; to:0.03; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            cursorShadow.setAttribute('animation__radiusOuterOut', 'property: geometry.radiusOuter; from: 0.0375; to:0.0325; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
             el.appendChild(cursorShadow);
             this.cursorShadow = cursorShadow;
-
-            var shadowHoverAniInner = document.createElement("a-animation");
-            shadowHoverAniInner.setAttribute('begin', 'hovergui');
-            shadowHoverAniInner.setAttribute('easing', 'linear');
-            shadowHoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            shadowHoverAniInner.setAttribute('fill', 'forwards');
-            shadowHoverAniInner.setAttribute('from', '0.03');
-            shadowHoverAniInner.setAttribute('to', '0.0325');
-            shadowHoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(shadowHoverAniInner);
-
-            var shadowHoverAniOuter = document.createElement("a-animation");
-            shadowHoverAniOuter.setAttribute('begin', 'hovergui');
-            shadowHoverAniOuter.setAttribute('easing', 'linear');
-            shadowHoverAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
-            shadowHoverAniOuter.setAttribute('fill', 'forwards');
-            shadowHoverAniOuter.setAttribute('from', '0.0325');
-            shadowHoverAniOuter.setAttribute('to', '0.0375');
-            shadowHoverAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(shadowHoverAniOuter);
-
-            var shadowLeaveAniInner = document.createElement("a-animation");
-            shadowLeaveAniInner.setAttribute('begin', 'leavegui');
-            shadowLeaveAniInner.setAttribute('easing', 'linear');
-            shadowLeaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            shadowLeaveAniInner.setAttribute('fill', 'forwards');
-            shadowLeaveAniInner.setAttribute('from', '0.0325');
-            shadowLeaveAniInner.setAttribute('to', '0.03');
-            shadowLeaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(shadowLeaveAniInner);
-
-            var shadowLeaveAniOuter = document.createElement("a-animation");
-            shadowLeaveAniOuter.setAttribute('begin', 'leavegui');
-            shadowLeaveAniOuter.setAttribute('easing', 'linear');
-            shadowLeaveAniOuter.setAttribute('attribute', 'geometry.radiusOuter');
-            shadowLeaveAniOuter.setAttribute('fill', 'forwards');
-            shadowLeaveAniOuter.setAttribute('from', '0.0375');
-            shadowLeaveAniOuter.setAttribute('to', '0.0325');
-            shadowLeaveAniOuter.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(shadowLeaveAniOuter);
 
             if (fuse) {
                 var fuseLoader = document.createElement("a-entity");
                 fuseLoader.setAttribute('geometry', 'primitive: ring; radiusInner:0.035; radiusOuter:0.0425; thetaLength:0');
                 fuseLoader.setAttribute('material', 'color: ' + data.activeColor + '; shader: flat; opacity:1;');
                 fuseLoader.setAttribute('position', '0 0 0');
+                fuseLoader.setAttribute('animation', 'property: geometry.thetaLength; from: 0; to:360; dur:' + fuseAnimationDuration + '; delay: ' + defaultHoverAnimationDuration + '; easing:linear; autoplay:false;');
                 el.appendChild(fuseLoader);
                 this.fuseLoader = fuseLoader;
-
-                var fuseLoaderFillAni = document.createElement("a-animation");
-                fuseLoaderFillAni.setAttribute('begin', 'start-fusing');
-                fuseLoaderFillAni.setAttribute('easing', 'linear');
-                fuseLoaderFillAni.setAttribute('attribute', 'geometry.thetaLength');
-                fuseLoaderFillAni.setAttribute('fill', 'forwards');
-                fuseLoaderFillAni.setAttribute('from', '0');
-                fuseLoaderFillAni.setAttribute('to', '360');
-                fuseLoaderFillAni.setAttribute('delay', '' + defaultHoverAnimationDuration);
-                fuseLoaderFillAni.setAttribute('dur', '' + fuseAnimationDuration);
-                fuseLoader.appendChild(fuseLoaderFillAni);
             }
-
             //end ring design
         } else if (data.design == 'reticle') {
             el.setAttribute('geometry', 'primitive: ring; radiusInner:0.000001; radiusOuter:0.0125; thetaLength:180;');
             el.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
             el.setAttribute('position', '0 0 ' + data.distance);
-
-            var hoverAniOpacity = document.createElement("a-animation");
-            hoverAniOpacity.setAttribute('begin', 'hovergui');
-            hoverAniOpacity.setAttribute('easing', 'linear');
-            hoverAniOpacity.setAttribute('attribute', 'material.opacity');
-            hoverAniOpacity.setAttribute('fill', 'forwards');
-            hoverAniOpacity.setAttribute('from', '1');
-            hoverAniOpacity.setAttribute('to', '0');
-            hoverAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(hoverAniOpacity);
-
-            var leaveAniOpacity = document.createElement("a-animation");
-            leaveAniOpacity.setAttribute('begin', 'leavegui');
-            leaveAniOpacity.setAttribute('easing', 'linear');
-            leaveAniOpacity.setAttribute('attribute', 'material.opacity');
-            leaveAniOpacity.setAttribute('fill', 'forwards');
-            leaveAniOpacity.setAttribute('from', '0');
-            leaveAniOpacity.setAttribute('to', '1');
-            leaveAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(leaveAniOpacity);
+            el.setAttribute('animation__opacityIn', 'property: material.opacity; from: 1; to: 0; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            el.setAttribute('animation__opacityOut', 'property: material.opacity; from: 0; to: 1; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
 
             var cursorCenter = document.createElement("a-entity");
             cursorCenter.setAttribute('geometry', 'primitive: ring; radiusInner:0.000001; radiusOuter:0.0125; thetaLength:180; thetaStart:180;');
             cursorCenter.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
             cursorCenter.setAttribute('position', '0 0 0');
+            cursorCenter.setAttribute('animation__opacityIn', 'property: material.opacity; from: 0.25; to: 0; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorCenter.setAttribute('animation__opacityOut', 'property: material.opacity; from: 0; to: 0.25; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
             el.appendChild(cursorCenter);
             this.cursorCenter = cursorCenter;
-
-            var centerHoverAniOpacity = document.createElement("a-animation");
-            centerHoverAniOpacity.setAttribute('begin', 'hovergui');
-            centerHoverAniOpacity.setAttribute('easing', 'linear');
-            centerHoverAniOpacity.setAttribute('attribute', 'material.opacity');
-            centerHoverAniOpacity.setAttribute('fill', 'forwards');
-            centerHoverAniOpacity.setAttribute('from', '0.25');
-            centerHoverAniOpacity.setAttribute('to', '0');
-            centerHoverAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorCenter.appendChild(centerHoverAniOpacity);
-
-            var centerLeaveAniOpacity = document.createElement("a-animation");
-            centerLeaveAniOpacity.setAttribute('begin', 'leavegui');
-            centerLeaveAniOpacity.setAttribute('easing', 'linear');
-            centerLeaveAniOpacity.setAttribute('attribute', 'material.opacity');
-            centerLeaveAniOpacity.setAttribute('fill', 'forwards');
-            centerLeaveAniOpacity.setAttribute('from', '0');
-            centerLeaveAniOpacity.setAttribute('to', '0.25');
-            centerLeaveAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorCenter.appendChild(centerLeaveAniOpacity);
 
             var cursorShadow = document.createElement("a-entity");
             cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.0125; radiusOuter:0.0145');
             cursorShadow.setAttribute('material', 'color: #000000; shader: flat; opacity:0.25;');
             cursorShadow.setAttribute('position', '0 0 0');
+            cursorShadow.setAttribute('animation__colorIn', 'property: material.color; from: #000000; to: ' + data.color + '; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorShadow.setAttribute('animation__opacityIn', 'property: material.opacity; from: 0.25; to: 1; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorShadow.setAttribute('animation__colorOut', 'property: material.color; from: ' + data.color + '; to: #000000; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
+            cursorShadow.setAttribute('animation__opacityOut', 'property: material.opacity; from: 1; to: 0.25; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
             el.appendChild(cursorShadow);
             this.cursorShadow = cursorShadow;
-
-            var cursorHoverAniColor = document.createElement("a-animation");
-            cursorHoverAniColor.setAttribute('begin', 'hovergui');
-            cursorHoverAniColor.setAttribute('easing', 'linear');
-            cursorHoverAniColor.setAttribute('attribute', 'material.color');
-            cursorHoverAniColor.setAttribute('fill', 'forwards');
-            cursorHoverAniColor.setAttribute('from', '#000000');
-            cursorHoverAniColor.setAttribute('to', '' + data.color);
-            cursorHoverAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(cursorHoverAniColor);
-
-            var cursorHoverAniOpacity = document.createElement("a-animation");
-            cursorHoverAniOpacity.setAttribute('begin', 'hovergui');
-            cursorHoverAniOpacity.setAttribute('easing', 'linear');
-            cursorHoverAniOpacity.setAttribute('attribute', 'material.opacity');
-            cursorHoverAniOpacity.setAttribute('fill', 'forwards');
-            cursorHoverAniOpacity.setAttribute('from', '0.25');
-            cursorHoverAniOpacity.setAttribute('to', '1');
-            cursorHoverAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(cursorHoverAniOpacity);
-
-            var cursorLeaveAniColor = document.createElement("a-animation");
-            cursorLeaveAniColor.setAttribute('begin', 'leavegui');
-            cursorLeaveAniColor.setAttribute('easing', 'linear');
-            cursorLeaveAniColor.setAttribute('attribute', 'material.color');
-            cursorLeaveAniColor.setAttribute('fill', 'forwards');
-            cursorLeaveAniColor.setAttribute('from', '' + data.color);
-            cursorLeaveAniColor.setAttribute('to', '#000000');
-            cursorLeaveAniColor.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(cursorLeaveAniColor);
-
-            var cursorLeaveAniOpacity = document.createElement("a-animation");
-            cursorLeaveAniOpacity.setAttribute('begin', 'leavegui');
-            cursorLeaveAniOpacity.setAttribute('easing', 'linear');
-            cursorLeaveAniOpacity.setAttribute('attribute', 'material.opacity');
-            cursorLeaveAniOpacity.setAttribute('fill', 'forwards');
-            cursorLeaveAniOpacity.setAttribute('from', '1');
-            cursorLeaveAniOpacity.setAttribute('to', '0.25');
-            cursorLeaveAniOpacity.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorShadow.appendChild(cursorLeaveAniOpacity);
 
             var cursorShadowTL = document.createElement("a-entity");
             cursorShadowTL.setAttribute('geometry', 'primitive: plane; width:0.005; height:0.005;');
@@ -1035,46 +748,17 @@ AFRAME.registerComponent('gui-cursor', {
                 fuseLoader.setAttribute('geometry', 'primitive: plane; width:0.000001; height:0.01;');
                 fuseLoader.setAttribute('material', 'color: ' + data.activeColor + '; shader: flat; opacity:1;');
                 fuseLoader.setAttribute('position', '0 -0.05 0');
+                fuseLoader.setAttribute('animation', 'property: geometry.width; from: 0; to: 0.075; dur:' + fuseAnimationDuration + '; delay:' + defaultHoverAnimationDuration + '; easing:linear; autoplay:false;');
                 el.appendChild(fuseLoader);
                 this.fuseLoader = fuseLoader;
-
-                var fuseLoaderFillAni = document.createElement("a-animation");
-                fuseLoaderFillAni.setAttribute('begin', 'start-fusing');
-                fuseLoaderFillAni.setAttribute('easing', 'linear');
-                fuseLoaderFillAni.setAttribute('attribute', 'geometry.width');
-                fuseLoaderFillAni.setAttribute('fill', 'forwards');
-                fuseLoaderFillAni.setAttribute('from', '0');
-                fuseLoaderFillAni.setAttribute('to', '0.075');
-                fuseLoaderFillAni.setAttribute('delay', '' + defaultHoverAnimationDuration);
-                fuseLoaderFillAni.setAttribute('dur', '' + fuseAnimationDuration);
-                fuseLoader.appendChild(fuseLoaderFillAni);
             }
-
             //end reticle design
         } else if (data.design == 'cross') {
             el.setAttribute('geometry', 'primitive: ring; radiusInner:0.035; radiusOuter:0.0375');
             el.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
             el.setAttribute('position', '0 0 ' + data.distance);
-
-            var hoverAniInner = document.createElement("a-animation");
-            hoverAniInner.setAttribute('begin', 'hovergui');
-            hoverAniInner.setAttribute('easing', 'linear');
-            hoverAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            hoverAniInner.setAttribute('fill', 'forwards');
-            hoverAniInner.setAttribute('from', '0.035');
-            hoverAniInner.setAttribute('to', '0.0315');
-            hoverAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(hoverAniInner);
-
-            var leaveAniInner = document.createElement("a-animation");
-            leaveAniInner.setAttribute('begin', 'leavegui');
-            leaveAniInner.setAttribute('easing', 'linear');
-            leaveAniInner.setAttribute('attribute', 'geometry.radiusInner');
-            leaveAniInner.setAttribute('fill', 'forwards');
-            leaveAniInner.setAttribute('from', '0.0315');
-            leaveAniInner.setAttribute('to', '0.035');
-            leaveAniInner.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            el.appendChild(leaveAniInner);
+            el.setAttribute('animation__radiusInnerIn', 'property: geometry.radiusInner; from: 0.035; to: 0.0315; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: hovergui');
+            el.setAttribute('animation__radiusInnerOut', 'property: geometry.radiusInner; from: 0.0315; to: 0.035; dur:' + defaultHoverAnimationDuration + '; easing:linear; startEvents: leavegui');
 
             var cursorShadow = document.createElement("a-entity");
             cursorShadow.setAttribute('geometry', 'primitive: ring; radiusInner:0.0375; radiusOuter:0.04; thetaLength:360');
@@ -1087,131 +771,48 @@ AFRAME.registerComponent('gui-cursor', {
             cursorVerticalTop.setAttribute('geometry', 'primitive: plane; width:0.0035; height:0.01875');
             cursorVerticalTop.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
             cursorVerticalTop.setAttribute('position', '0 0.028125 0');
+            cursorVerticalTop.setAttribute('animation__widthIn', 'property: geometry.width; from: 0.0035; to: 0.007; dur:' + fuseAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorVerticalTop.setAttribute('animation__widthOut', 'property: geometry.width; from: 0.007; to: 0.0035; dur:' + fuseAnimationDuration + '; easing:linear; startEvents: leavegui');
             el.appendChild(cursorVerticalTop);
             this.cursorVerticalTop = cursorVerticalTop;
-
-            var hoverAniInner1 = document.createElement("a-animation");
-            hoverAniInner1.setAttribute('begin', 'hovergui');
-            hoverAniInner1.setAttribute('easing', 'linear');
-            hoverAniInner1.setAttribute('attribute', 'geometry.width');
-            hoverAniInner1.setAttribute('fill', 'forwards');
-            hoverAniInner1.setAttribute('from', '0.0035');
-            hoverAniInner1.setAttribute('to', '0.007');
-            hoverAniInner1.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorVerticalTop.appendChild(hoverAniInner1);
-
-            var leaveAniInner1 = document.createElement("a-animation");
-            leaveAniInner1.setAttribute('begin', 'leavegui');
-            leaveAniInner1.setAttribute('easing', 'linear');
-            leaveAniInner1.setAttribute('attribute', 'geometry.width');
-            leaveAniInner1.setAttribute('fill', 'forwards');
-            leaveAniInner1.setAttribute('from', '0.007');
-            leaveAniInner1.setAttribute('to', '0.0035');
-            leaveAniInner1.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorVerticalTop.appendChild(leaveAniInner1);
 
             var cursorVerticalBottom = document.createElement("a-entity");
             cursorVerticalBottom.setAttribute('geometry', 'primitive: plane; width:0.0035; height:0.01875');
             cursorVerticalBottom.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
             cursorVerticalBottom.setAttribute('position', '0 -0.028125 0');
+            cursorVerticalBottom.setAttribute('animation__widthIn', 'property: geometry.width; from: 0.0035; to: 0.007; dur:' + fuseAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorVerticalBottom.setAttribute('animation__widthOut', 'property: geometry.width; from: 0.007; to: 0.0035; dur:' + fuseAnimationDuration + '; easing:linear; startEvents: leavegui');
             el.appendChild(cursorVerticalBottom);
             this.cursorVerticalBottom = cursorVerticalBottom;
-
-            var hoverAniInner2 = document.createElement("a-animation");
-            hoverAniInner2.setAttribute('begin', 'hovergui');
-            hoverAniInner2.setAttribute('easing', 'linear');
-            hoverAniInner2.setAttribute('attribute', 'geometry.width');
-            hoverAniInner2.setAttribute('fill', 'forwards');
-            hoverAniInner2.setAttribute('from', '0.0035');
-            hoverAniInner2.setAttribute('to', '0.007');
-            hoverAniInner2.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorVerticalBottom.appendChild(hoverAniInner2);
-
-            var leaveAniInner2 = document.createElement("a-animation");
-            leaveAniInner2.setAttribute('begin', 'leavegui');
-            leaveAniInner2.setAttribute('easing', 'linear');
-            leaveAniInner2.setAttribute('attribute', 'geometry.width');
-            leaveAniInner2.setAttribute('fill', 'forwards');
-            leaveAniInner2.setAttribute('from', '0.007');
-            leaveAniInner2.setAttribute('to', '0.0035');
-            leaveAniInner2.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorVerticalBottom.appendChild(leaveAniInner2);
 
             var cursorHorizontalLeft = document.createElement("a-entity");
             cursorHorizontalLeft.setAttribute('geometry', 'primitive: plane; width:0.01875; height:0.0035');
             cursorHorizontalLeft.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
             cursorHorizontalLeft.setAttribute('position', '-0.028125 0 0');
+            cursorHorizontalLeft.setAttribute('animation__heightIn', 'property: geometry.height; from: 0.0035; to: 0.007; dur:' + fuseAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorHorizontalLeft.setAttribute('animation__heightOut', 'property: geometry.height; from: 0.007; to: 0.0035; dur:' + fuseAnimationDuration + '; easing:linear; startEvents: leavegui');
             el.appendChild(cursorHorizontalLeft);
             this.cursorHorizontalLeft = cursorHorizontalLeft;
-
-            var hoverAniInner3 = document.createElement("a-animation");
-            hoverAniInner3.setAttribute('begin', 'hovergui');
-            hoverAniInner3.setAttribute('easing', 'linear');
-            hoverAniInner3.setAttribute('attribute', 'geometry.height');
-            hoverAniInner3.setAttribute('fill', 'forwards');
-            hoverAniInner3.setAttribute('from', '0.0035');
-            hoverAniInner3.setAttribute('to', '0.007');
-            hoverAniInner3.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorHorizontalLeft.appendChild(hoverAniInner3);
-
-            var leaveAniInner3 = document.createElement("a-animation");
-            leaveAniInner3.setAttribute('begin', 'leavegui');
-            leaveAniInner3.setAttribute('easing', 'linear');
-            leaveAniInner3.setAttribute('attribute', 'geometry.height');
-            leaveAniInner3.setAttribute('fill', 'forwards');
-            leaveAniInner3.setAttribute('from', '0.007');
-            leaveAniInner3.setAttribute('to', '0.0035');
-            leaveAniInner3.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorHorizontalLeft.appendChild(leaveAniInner3);
 
             var cursorHorizontalRight = document.createElement("a-entity");
             cursorHorizontalRight.setAttribute('geometry', 'primitive: plane; width:0.01875; height:0.0035');
             cursorHorizontalRight.setAttribute('material', 'color: ' + data.color + '; shader: flat; opacity:1;');
             cursorHorizontalRight.setAttribute('position', '0.028125 0 0');
+            cursorHorizontalRight.setAttribute('animation__heightIn', 'property: geometry.height; from: 0.0035; to: 0.007; dur:' + fuseAnimationDuration + '; easing:linear; startEvents: hovergui');
+            cursorHorizontalRight.setAttribute('animation__heightOut', 'property: geometry.height; from: 0.007; to: 0.0035; dur:' + fuseAnimationDuration + '; easing:linear; startEvents: leavegui');
             el.appendChild(cursorHorizontalRight);
             this.cursorHorizontalRight = cursorHorizontalRight;
-
-            var hoverAniInner4 = document.createElement("a-animation");
-            hoverAniInner4.setAttribute('begin', 'hovergui');
-            hoverAniInner4.setAttribute('easing', 'linear');
-            hoverAniInner4.setAttribute('attribute', 'geometry.height');
-            hoverAniInner4.setAttribute('fill', 'forwards');
-            hoverAniInner4.setAttribute('from', '0.0035');
-            hoverAniInner4.setAttribute('to', '0.007');
-            hoverAniInner4.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorHorizontalRight.appendChild(hoverAniInner4);
-
-            var leaveAniInner4 = document.createElement("a-animation");
-            leaveAniInner4.setAttribute('begin', 'leavegui');
-            leaveAniInner4.setAttribute('easing', 'linear');
-            leaveAniInner4.setAttribute('attribute', 'geometry.height');
-            leaveAniInner4.setAttribute('fill', 'forwards');
-            leaveAniInner4.setAttribute('from', '0.007');
-            leaveAniInner4.setAttribute('to', '0.0035');
-            leaveAniInner4.setAttribute('dur', '' + defaultHoverAnimationDuration);
-            cursorHorizontalRight.appendChild(leaveAniInner4);
 
             if (fuse) {
                 var fuseLoader = document.createElement("a-entity");
                 fuseLoader.setAttribute('geometry', 'primitive: ring; radiusInner:0.0415; radiusOuter:0.0485; thetaLength:0');
                 fuseLoader.setAttribute('material', 'color: ' + data.activeColor + '; shader: flat; opacity:1;');
                 fuseLoader.setAttribute('position', '0 0 0');
+                fuseLoader.setAttribute('animation', 'property: geometry.thetaLength; from: 0; to: 360; dur:' + fuseAnimationDuration + '; delay:' + defaultHoverAnimationDuration + '; easing:linear; autoplay:false;');
                 el.appendChild(fuseLoader);
                 this.fuseLoader = fuseLoader;
-
-                var fuseLoaderFillAni = document.createElement("a-animation");
-                fuseLoaderFillAni.setAttribute('begin', 'start-fusing');
-                fuseLoaderFillAni.setAttribute('easing', 'linear');
-                fuseLoaderFillAni.setAttribute('attribute', 'geometry.thetaLength');
-                fuseLoaderFillAni.setAttribute('fill', 'forwards');
-                fuseLoaderFillAni.setAttribute('from', '0');
-                fuseLoaderFillAni.setAttribute('to', '360');
-                fuseLoaderFillAni.setAttribute('delay', '' + defaultHoverAnimationDuration);
-                fuseLoaderFillAni.setAttribute('dur', '' + fuseAnimationDuration);
-                fuseLoader.appendChild(fuseLoaderFillAni);
             }
-
-            //end cross design
+            //end cross design        
         }
 
         el.addEventListener('mouseenter', function () {
@@ -1249,7 +850,8 @@ AFRAME.registerComponent('gui-cursor', {
             }
 
             if (fuse) {
-                fuseLoaderFillAni.stop();
+                fuseLoader.object3D.el.components.animation.animation.pause();
+                fuseLoader.object3D.el.components.animation.animation.seek(0);
             }
 
             el.setAttribute('scale', '1 1 1');
@@ -1257,7 +859,7 @@ AFRAME.registerComponent('gui-cursor', {
 
         if (fuse) {
             el.addEventListener('fusing', function () {
-                fuseLoader.emit('start-fusing');
+                fuseLoader.object3D.el.components.animation.animation.play();
             });
         }
 
@@ -1266,12 +868,14 @@ AFRAME.registerComponent('gui-cursor', {
             if (evt.detail === 'cursor-fusing') {
                 if (data.design == 'dot' || data.design == 'ring' || data.design == 'cross') {
                     if (fuse) {
-                        fuseLoaderFillAni.stop();
+                        fuseLoader.object3D.el.components.animation.animation.pause();
+                        fuseLoader.object3D.el.components.animation.animation.seek(0);
                         AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.thetaLength', '0');
                     }
                 } else if (data.design == 'reticle') {
                     if (fuse) {
-                        fuseLoaderFillAni.stop();
+                        fuseLoader.object3D.el.components.animation.animation.pause();
+                        fuseLoader.object3D.el.components.animation.animation.seek(0);
                         AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.width', '0.000001');
                     }
                 }
@@ -1583,11 +1187,12 @@ AFRAME.registerPrimitive('a-gui-flex-container', {
 AFRAME.registerComponent('gui-icon-button', {
     schema: {
         on: { default: 'click' },
+        toggle: { type: 'boolean', default: false },
         icon: { type: 'string', default: '' },
         iconActive: { type: 'string', default: '' },
-        toggle: { type: 'boolean', default: false },
-
-        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontFamily: { type: 'string', default: 'Arial' },
+        iconFontSize: { type: 'string', default: '400px' },
+        fontSize: { type: 'string', default: '150px' },
         fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
@@ -1599,7 +1204,10 @@ AFRAME.registerComponent('gui-icon-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        console.log("in icon button, guiItem: " + JSON.stringify(guiItem));
+        var guiInteractable = el.getAttribute("gui-interactable");
+        console.log("in button, guiInteractable: " + JSON.stringify(guiInteractable));
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
         var toggleState = this.toggleState = data.toggle;
@@ -1607,10 +1215,8 @@ AFRAME.registerComponent('gui-icon-button', {
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
-
         var canvas = document.createElement("canvas");
         this.canvas = canvas;
-        canvas.className = "visuallyhidden";
         canvas.setAttribute('width', canvasWidth);
         canvas.setAttribute('height', canvasHeight);
         canvas.id = getUniqueId('canvasIcon');
@@ -1621,7 +1227,7 @@ AFRAME.registerComponent('gui-icon-button', {
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:back; color:' + data.backgroundColor + ';');
 
-        drawIcon(ctx, canvas, data.icon, data.fontColor, 1);
+        drawIcon(ctx, canvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
@@ -1638,57 +1244,53 @@ AFRAME.registerComponent('gui-icon-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var buttonAnimation = document.createElement("a-animation");
-        buttonAnimation.setAttribute('attribute', 'material.color');
-        buttonAnimation.setAttribute('begin', 'fadeOut');
-        buttonAnimation.setAttribute('from', data.activeColor);
-        buttonAnimation.setAttribute('to', data.backgroundColor);
-        buttonAnimation.setAttribute('dur', '400');
-        buttonEntity.appendChild(buttonAnimation);
-
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
         textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-        ////WAI ARIA Support
-        el.setAttribute('role', 'button');
-
         el.addEventListener('mouseenter', function () {
-            buttonEntity.setAttribute('material', 'color', data.hoverColor);
+            buttonEntity.removeAttribute('animation__leave');
+            buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-
         el.addEventListener('mouseleave', function () {
             if (!data.toggle) {
-                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+                buttonEntity.removeAttribute('animation__click');
             }
+            buttonEntity.removeAttribute('animation__enter');
+            buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
         });
-
-        el.addEventListener(data.on, function (evt) {
+        el.addEventListener(data.on, function () {
             if (!data.toggle) {
                 // if not toggling flashing active state
-                buttonEntity.emit('fadeOut');
+                buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutBack;');
             } else {
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-            this.toggleState = !this.toggleState;
 
-            //console.log('I was clicked at: ', evt.detail.intersection.point);
-            var guiInteractable = el.getAttribute("gui-interactable");
-            //console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            //console.log("clickActionFunctionName: "+clickActionFunctionName);
+            console.log("in button, clickActionFunctionName: " + clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
     },
     play: function play() {},
     update: function update(oldData) {
         console.log("In button update, toggle: " + this.toggleState);
+    },
+    setActiveState: function setActiveState(activeState) {
+        console.log("in setActiveState function");
+        this.data.toggle = this.toggleState = activeState;
+        if (!activeState) {
+            this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
+        } else {}
     }
 });
 
@@ -1714,6 +1316,7 @@ AFRAME.registerPrimitive('a-gui-icon-button', {
         'active-color': 'gui-icon-button.activeColor',
         'toggle': 'gui-icon-button.toggle',
         'icon': 'gui-icon-button.icon',
+        'icon-font-size': 'gui-icon-button.iconFontSize',
         'icon-active': 'gui-icon-button.iconActive'
     }
 });
@@ -1730,10 +1333,11 @@ AFRAME.registerComponent('gui-icon-label-button', {
         on: { default: 'click' },
         icon: { type: 'string', default: '' },
         iconActive: { type: 'string', default: '' },
+        iconFontSize: { type: 'string', default: '400px' },
         text: { type: 'string', default: '' },
         toggle: { type: 'boolean', default: false },
-
-        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontSize: { type: 'string', default: '150px' },
+        fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
@@ -1765,17 +1369,9 @@ AFRAME.registerComponent('gui-icon-label-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var buttonAnimation = document.createElement("a-animation");
-        buttonAnimation.setAttribute('attribute', 'material.color');
-        buttonAnimation.setAttribute('begin', 'fadeOut');
-        buttonAnimation.setAttribute('from', data.activeColor);
-        buttonAnimation.setAttribute('to', data.backgroundColor);
-        buttonAnimation.setAttribute('dur', '400');
-        buttonEntity.appendChild(buttonAnimation);
-
-        var multiplier = 550;
+        var multiplier = 1024; // POT conversion
         if (data.text != '') {
-            multiplier = 350;
+            var multiplier = 512;
         }
 
         var canvasContainer = document.createElement('div');
@@ -1793,7 +1389,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         canvasContainer.appendChild(iconCanvas);
 
         var ctxIcon = this.ctxIcon = iconCanvas.getContext('2d');
-        drawIcon(ctxIcon, iconCanvas, data.icon, data.fontColor, 1);
+        drawIcon(ctxIcon, iconCanvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
         var iconEntityX = 0;
         if (data.text != '') {
@@ -1824,7 +1420,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
             canvasContainer.appendChild(labelCanvas);
 
             var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-            drawLabel(this.ctxLabel, this.labelCanvas, data.text, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor);
+            drawText(this.ctxLabel, this.labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'left', 'middle');
 
             var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
             var labelEntity = document.createElement("a-entity");
@@ -1834,39 +1430,36 @@ AFRAME.registerComponent('gui-icon-label-button', {
             el.appendChild(labelEntity);
         }
 
-        ////WAI ARIA Support
-        el.setAttribute('role', 'button');
-
         el.addEventListener('mouseenter', function () {
-            buttonEntity.setAttribute('material', 'color', data.hoverColor);
+            buttonEntity.removeAttribute('animation__leave');
+            buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-
         el.addEventListener('mouseleave', function () {
             if (!data.toggle) {
-                buttonEntity.setAttribute('material', 'color', data.backgroundColor);
+                buttonEntity.removeAttribute('animation__click');
             }
+            buttonEntity.removeAttribute('animation__enter');
+            buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
         });
-
-        el.addEventListener(data.on, function (evt) {
+        el.addEventListener(data.on, function () {
             if (!data.toggle) {
                 // if not toggling flashing active state
-                buttonEntity.emit('fadeOut');
+                buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutQuad;');
             } else {
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-            this.toggleState = !this.toggleState;
-
-            //            console.log('I was clicked at: ', evt.detail.intersection.point);
             var guiInteractable = el.getAttribute("gui-interactable");
-            //            console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            //            console.log("clickActionFunctionName: "+clickActionFunctionName);
+            console.log("in button, clickActionFunctionName: " + clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'button');
     },
     play: function play() {},
     update: function update(oldData) {
@@ -1887,10 +1480,10 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-icon-label-button.on',
         'font-color': 'gui-icon-label-button.fontColor',
         'font-family': 'gui-icon-label-button.fontFamily',
+        'font-size': 'gui-icon-label-button.fontSize',
         'border-color': 'gui-icon-label-button.borderColor',
         'background-color': 'gui-icon-label-button.backgroundColor',
         'hover-color': 'gui-icon-label-button.hoverColor',
@@ -1898,6 +1491,7 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
         'toggle': 'gui-icon-label-button.toggle',
         'icon': 'gui-icon-label-button.icon',
         'icon-active': 'gui-icon-label-button.iconActive',
+        'icon-font-size': 'gui-icon-label-button.iconFontSize',
         'value': 'gui-icon-label-button.text'
     }
 });
@@ -1914,8 +1508,8 @@ AFRAME.registerComponent('gui-input', {
         on: { default: 'click' },
         inputText: { type: 'string', default: 'Placeholder' },
         toggle: { type: 'boolean', default: false },
-
-        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontSize: { type: 'string', default: '150px' },
+        fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_grey_dark },
         borderHoverColor: { type: 'string', default: key_grey },
@@ -1928,7 +1522,7 @@ AFRAME.registerComponent('gui-input', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
 
@@ -1949,7 +1543,7 @@ AFRAME.registerComponent('gui-input', {
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: false; side:front; color:' + data.backgroundColor + ';');
 
-        drawText(ctx, canvas, data.inputText, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
+        drawText(ctx, canvas, data.inputText, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
         var inputEntity = document.createElement("a-entity");
         inputEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
@@ -2027,11 +1621,11 @@ AFRAME.registerPrimitive('a-gui-input', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-input.on',
         'value': 'gui-input.inputText',
         'toggle': 'gui-input.toggle',
         'font-color': 'gui-input.fontColor',
+        'font-size': 'gui-input.fontSize',
         'font-family': 'gui-input.fontFamily',
         'border-color': 'gui-input.borderColor',
         'border-hover-color': 'gui-input.borderHoverColor',
@@ -2091,7 +1685,6 @@ AFRAME.registerComponent('gui-item', {
         type: { type: 'string' },
         width: { type: 'number', default: 1 },
         height: { type: 'number', default: 1 },
-        fontSize: { type: 'string', default: "100px" },
         margin: { type: 'vec4', default: '0 0 0 0' }
     },
     init: function init() {},
@@ -2113,7 +1706,7 @@ AFRAME.registerComponent('gui-label', {
   schema: {
     text: { type: 'string', default: 'label text' },
     labelFor: { type: 'selector', default: null },
-
+    fontSize: { type: 'string', default: '150px' },
     fontFamily: { type: 'string', default: 'Helvetica' },
     fontColor: { type: 'string', default: key_grey_dark },
     backgroundColor: { type: 'string', default: key_offwhite }
@@ -2146,6 +1739,8 @@ AFRAME.registerComponent('gui-label', {
     this.oldText = data.text;
 
     drawText(ctx, canvas, data.text, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
+
+    drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
     var textEntity = document.createElement("a-entity");
     textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
@@ -2258,8 +1853,8 @@ AFRAME.registerComponent('gui-radio', {
         active: { type: 'boolean', default: true },
         checked: { type: 'boolean', default: false },
         radiosizecoef: { type: 'number', default: 1 },
-
-        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontSize: { type: 'string', default: '150px' },
+        fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_white },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -2272,9 +1867,6 @@ AFRAME.registerComponent('gui-radio', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-
-        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
 
         var radioBoxWidth = 0.50;
         var radioBoxX = -guiItem.width * 0.5 + guiItem.height * 0.5;
@@ -2300,50 +1892,9 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('material', 'color:' + data.handleColor + '; shader: flat;');
         radioBox.appendChild(radioCenter);
 
-        var radioColorAnimation = document.createElement("a-animation");
-        radioColorAnimation.setAttribute('begin', 'radioAnimation');
-        radioColorAnimation.setAttribute('direction', 'alternate');
-        radioColorAnimation.setAttribute('attribute', 'material.color');
-        radioColorAnimation.setAttribute('from', '' + data.handleColor);
-        radioColorAnimation.setAttribute('to', '' + data.activeColor);
-        radioColorAnimation.setAttribute('dur', '500');
-        radioColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        radioCenter.appendChild(radioColorAnimation);
-
-        var radioRotationAnimation = document.createElement("a-animation");
-        radioRotationAnimation.setAttribute('begin', 'radioAnimation');
-        radioRotationAnimation.setAttribute('direction', 'alternate');
-        radioRotationAnimation.setAttribute('attribute', 'rotation');
-        radioRotationAnimation.setAttribute('from', '0 0 0');
-        radioRotationAnimation.setAttribute('to', '-180 0 0');
-        radioRotationAnimation.setAttribute('dur', '500');
-        radioRotationAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        radioCenter.appendChild(radioRotationAnimation);
-
-        var radioShiftOutAnimation = document.createElement("a-animation");
-        radioShiftOutAnimation.setAttribute('begin', 'radioAnimation');
-        radioShiftOutAnimation.setAttribute('direction', 'normal');
-        radioShiftOutAnimation.setAttribute('attribute', 'position');
-        radioShiftOutAnimation.setAttribute('from', '0 0 0');
-        radioShiftOutAnimation.setAttribute('to', '0 0.3 0 ');
-        radioShiftOutAnimation.setAttribute('dur', '300');
-        radioShiftOutAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        radioCenter.appendChild(radioShiftOutAnimation);
-
-        var radioShiftInAnimation = document.createElement("a-animation");
-        radioShiftInAnimation.setAttribute('begin', 'radioAnimation');
-        radioShiftInAnimation.setAttribute('direction', 'normal');
-        radioShiftInAnimation.setAttribute('attribute', 'position');
-        radioShiftInAnimation.setAttribute('from', '0 0.3 0');
-        radioShiftInAnimation.setAttribute('to', '0 0 0 ');
-        radioShiftInAnimation.setAttribute('delay', '300');
-        radioShiftInAnimation.setAttribute('dur', '200');
-        radioShiftInAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        radioCenter.appendChild(radioShiftInAnimation);
-
         //        var labelWidth = guiItem.width - radioBoxWidth;
         var labelWidth = guiItem.width - guiItem.height;
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = labelWidth * multiplier;
         var canvasHeight = guiItem.height * multiplier;
 
@@ -2358,14 +1909,17 @@ AFRAME.registerComponent('gui-radio', {
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(labelCanvas);
-
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.fontSize + ' ' + data.fontFamily, this.data.fontColor);
+
+        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
+
+        drawText(ctxLabel, labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'left', 'middle');
 
         var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
         var labelEntity = document.createElement("a-entity");
         labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
-        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
         labelEntity.setAttribute('position', labelEntityX + ' 0 0.02');
         el.appendChild(labelEntity);
 
@@ -2373,18 +1927,36 @@ AFRAME.registerComponent('gui-radio', {
         el.setAttribute("checked", data.active);
 
         el.addEventListener('mouseenter', function () {
-            radioborder.setAttribute('material', 'color', data.hoverColor);
+            radioborder.removeAttribute('animation__leave');
+            radioborder.setAttribute('animation__enter', 'property: material.color; from: ' + data.borderColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-
         el.addEventListener('mouseleave', function () {
-            radioborder.setAttribute('material', 'color', data.borderColor);
+            radioborder.removeAttribute('animation__enter');
+            radioborder.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.borderColor + '; dur:200; easing: easeOutQuad;');
         });
-
         el.addEventListener(data.on, function (evt) {
             // console.log('I was clicked at: ', evt.detail.intersection.point); // Commented out to use own made click event without defining detail
             data.checked = !data.checked;
+            if (data.checked) {
+                radioCenter.removeAttribute('animation__colorOut');
+                radioCenter.removeAttribute('animation__rotationOut');
+                radioCenter.removeAttribute('animation__position1Out');
+                radioCenter.removeAttribute('animation__position2Out');
+                radioCenter.setAttribute('animation__colorIn', 'property: material.color; from: ' + data.handleColor + '; to:' + data.activeColor + '; dur:500; easing:easeInOutCubic;');
+                radioCenter.setAttribute('animation__rotationIn', 'property: rotation; from: 0 0 0; to:-180 0 0; dur:500; easing:easeInOutCubic;');
+                radioCenter.setAttribute('animation__position1In', 'property: position; from: 0 0 0; to:0 0.3 0; dur:200; easing:easeInOutCubic;');
+                radioCenter.setAttribute('animation__position2In', 'property: position; from: 0 0.3 0; to:0 0 0; dur:200; easing:easeInOutCubic; delay:300;');
+            } else {
+                radioCenter.removeAttribute('animation__colorIn');
+                radioCenter.removeAttribute('animation__rotationIn');
+                radioCenter.removeAttribute('animation__position1In');
+                radioCenter.removeAttribute('animation__position2In');
+                radioCenter.setAttribute('animation__colorOut', 'property: material.color; from: ' + data.activeColor + '; to:' + data.handleColor + '; dur:500; easing:easeInOutCubic;');
+                radioCenter.setAttribute('animation__rotationOut', 'property: rotation; from: -180 0 0; to:0 0 0; dur:500; easing:easeInOutCubic;');
+                radioCenter.setAttribute('animation__position1Out', 'property: position; from: 0 0 0; to:0 0.3 0; dur:200; easing:easeInOutCubic; ');
+                radioCenter.setAttribute('animation__position2Out', 'property: position; from: 0 0.3 0; to:0 0 0; dur:200; easing:easeInOutCubic; delay:300;');
+            }
 
-            radioColorAnimation.emit('radioAnimation');
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: " + guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
@@ -2395,6 +1967,9 @@ AFRAME.registerComponent('gui-radio', {
             // is object a function?
             if (typeof clickActionFunction === "function") clickActionFunction();
         });
+
+        ////WAI ARIA Support
+        el.setAttribute('role', 'radio');
     },
     update: function update() {
         var data = this.data;
@@ -2421,12 +1996,12 @@ AFRAME.registerPrimitive('a-gui-radio', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-radio.on',
         'value': 'gui-radio.text',
         'active': 'gui-radio.active',
         'checked': 'gui-radio.checked',
         'font-color': 'gui-radio.fontColor',
+        'font-size': 'gui-radio.fontSize',
         'font-family': 'gui-radio.fontFamily',
         'border-color': 'gui-radio.borderColor',
         'background-color': 'gui-radio.backgroundColor',
@@ -2533,7 +2108,7 @@ AFRAME.registerComponent('gui-slider', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(data.percent);
         });
     },
     update: function update() {},
@@ -2587,8 +2162,8 @@ AFRAME.registerComponent('gui-toggle', {
         active: { type: 'boolean', default: true },
         checked: { type: 'boolean', default: false },
         borderWidth: { type: 'number', default: 1 },
-
-        fontFamily: { type: 'string', default: 'Helvetica' },
+        fontSize: { type: 'string', default: '150px' },
+        fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -2602,12 +2177,8 @@ AFRAME.registerComponent('gui-toggle', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
 
-        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-
         var toggleBoxWidth = guiItem.height / 1.75;
         var toggleBoxX = -guiItem.width * 0.5 + guiItem.height / 2;
-
         var toggleBox = document.createElement("a-box");
 
         toggleBox.setAttribute('width', toggleBoxWidth);
@@ -2616,16 +2187,6 @@ AFRAME.registerComponent('gui-toggle', {
         toggleBox.setAttribute('material', 'color:' + data.borderColor + '; shader: flat;');
         toggleBox.setAttribute('position', toggleBoxX + ' 0 0');
         el.appendChild(toggleBox);
-
-        var toggleColorAnimation = document.createElement("a-animation");
-        toggleColorAnimation.setAttribute('begin', 'toggleAnimation');
-        toggleColorAnimation.setAttribute('direction', 'alternate');
-        toggleColorAnimation.setAttribute('attribute', 'material.color');
-        toggleColorAnimation.setAttribute('from', '' + data.borderColor);
-        toggleColorAnimation.setAttribute('to', '' + data.activeColor);
-        toggleColorAnimation.setAttribute('dur', '50');
-        toggleColorAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        toggleBox.appendChild(toggleColorAnimation);
 
         var toggleHandleWidth = guiItem.height / 5;
         var toggleHandleXStart = -guiItem.height * 0.5 + toggleHandleWidth * 2;
@@ -2639,18 +2200,8 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('position', toggleHandleXStart + ' 0 0.02');
         toggleBox.appendChild(toggleHandle);
 
-        var toggleHandleAnimation = document.createElement("a-animation");
-        toggleHandleAnimation.setAttribute('begin', 'toggleAnimation');
-        toggleHandleAnimation.setAttribute('direction', 'alternate');
-        toggleHandleAnimation.setAttribute('attribute', 'position');
-        toggleHandleAnimation.setAttribute('from', toggleHandleXStart + ' 0 0.02');
-        toggleHandleAnimation.setAttribute('to', toggleHandleXEnd + ' 0 0.02');
-        toggleHandleAnimation.setAttribute('dur', '50');
-        toggleHandleAnimation.setAttribute('easing', 'ease-in-out-cubic');
-        toggleHandle.appendChild(toggleHandleAnimation);
-
         var labelWidth = guiItem.width - guiItem.height;
-        var multiplier = 350;
+        var multiplier = 512; // POT conversion
         var canvasWidth = labelWidth * multiplier;
         var canvasHeight = guiItem.height * multiplier;
 
@@ -2665,48 +2216,57 @@ AFRAME.registerComponent('gui-toggle', {
         labelCanvas.setAttribute('height', canvasHeight);
         labelCanvas.id = getUniqueId('canvas');
         canvasContainer.appendChild(labelCanvas);
-
         var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-        drawLabel(this.ctxLabel, this.labelCanvas, this.data.text, guiItem.fontSize + ' ' + data.fontFamily, this.data.fontColor);
+
+        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
+
+        drawText(ctxLabel, labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'left', 'middle');
 
         var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
         var labelEntity = document.createElement("a-entity");
         labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
-        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
         labelEntity.setAttribute('position', labelEntityX + ' 0 0.02');
         el.appendChild(labelEntity);
 
         this.updateToggle(data.active);
 
         el.addEventListener('mouseenter', function () {
-            toggleHandle.setAttribute('material', 'color', data.hoverColor);
+            toggleHandle.removeAttribute('animation__leave');
+            toggleHandle.setAttribute('animation__enter', 'property: material.color; from: ' + data.handleColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-
         el.addEventListener('mouseleave', function () {
-            toggleHandle.setAttribute('material', 'color', data.handleColor);
+            toggleHandle.removeAttribute('animation__enter');
+            toggleHandle.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.handleColor + '; dur:200; easing: easeOutQuad;');
         });
 
         el.addEventListener("check", function (evt) {
             if (!data.checked) {
                 data.checked = true;
-                toggleColorAnimation.emit('toggleAnimation');
-                toggleHandleAnimation.emit('toggleAnimation');
             }
         });
         el.addEventListener("uncheck", function (evt) {
             // a
             if (data.checked) {
                 data.checked = false;
-                toggleColorAnimation.emit('toggleAnimation');
-                toggleHandleAnimation.emit('toggleAnimation');
             }
         });
 
         el.addEventListener(data.on, function (evt) {
             console.log('I was clicked at: ', evt.detail.intersection.point);
             data.checked = !data.checked;
-            toggleColorAnimation.emit('toggleAnimation');
-            toggleHandleAnimation.emit('toggleAnimation');
+            if (data.checked) {
+                toggleBox.removeAttribute('animation__colorOut');
+                toggleHandle.removeAttribute('animation__positionOut');
+                toggleBox.setAttribute('animation__colorIn', 'property: material.color; from: ' + data.borderColor + '; to:' + data.activeColor + '; dur:200; easing:easeInOutCubic;');
+                toggleHandle.setAttribute('animation__positionIn', 'property: position; from: ' + toggleHandleXStart + ' 0 0.02; to:' + toggleHandleXEnd + ' 0 0.02; dur:200; easing:easeInOutCubic;');
+            } else {
+                toggleBox.removeAttribute('animation__colorIn');
+                toggleHandle.removeAttribute('animation__positionIn');
+                toggleBox.setAttribute('animation__colorOut', 'property: material.color; from: ' + data.activeColor + '; to:' + data.borderColor + '; dur:200; easing:easeInOutCubic;');
+                toggleHandle.setAttribute('animation__positionOut', 'property: position; from: ' + toggleHandleXEnd + ' 0 0.02; to:' + toggleHandleXStart + ' 0 0.02; dur:200; easing:easeInOutCubic;');
+            }
             var guiInteractable = el.getAttribute("gui-interactable");
             console.log("guiInteractable: " + guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
@@ -2742,13 +2302,13 @@ AFRAME.registerPrimitive('a-gui-toggle', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'font-size': 'gui-item.fontSize',
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
         'value': 'gui-toggle.text',
         'font-color': 'gui-toggle.fontColor',
         'font-family': 'gui-toggle.fontFamily',
+        'font-size': 'gui-toggle.fontSize',
         'border-width': 'gui-toggle.borderWidth',
         'border-color': 'gui-toggle.borderColor',
         'background-color': 'gui-toggle.backgroundColor',
