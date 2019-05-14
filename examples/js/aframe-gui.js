@@ -515,6 +515,18 @@ AFRAME.registerComponent('gui-circle-timer', {
             this.timerRing.setAttribute('theta-length', elapsed); // this has to increase 0 to 360 when running the count_down
             //text doesn't update
             drawText(this.ctx, this.canvas, left, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
+            if (this.countDownLabel) {
+                el.removeChild(this.countDownLabel);
+            }
+            var guiItem = el.getAttribute("gui-item");
+            var canvas = this.canvas;
+            var countDownLabel = document.createElement("a-entity");
+            countDownLabel.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.5 + '; height: ' + guiItem.height / 1.5 + ';');
+            countDownLabel.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
+            countDownLabel.setAttribute('position', '0 0 0.022');
+            el.appendChild(countDownLabel);
+            this.countDownLabel = countDownLabel;
+
             if (left == 1) {
                 console.log('fire callback on the last second');
             }
