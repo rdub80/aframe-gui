@@ -1805,10 +1805,10 @@ AFRAME.registerPrimitive('a-gui-label', {
     'width': 'gui-item.width',
     'height': 'gui-item.height',
     'margin': 'gui-item.margin',
-    'font-size': 'gui-item.fontSize',
     'on': 'gui-button.on',
     'value': 'gui-label.text',
     'label-for': 'gui-label.labelFor',
+    'font-size': 'gui-label.fontSize',
     'font-color': 'gui-label.fontColor',
     'font-family': 'gui-label.fontFamily',
     'background-color': 'gui-label.backgroundColor'
