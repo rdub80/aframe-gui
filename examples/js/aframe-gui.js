@@ -1448,7 +1448,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
             } else {
                 buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
-
+            var guiInteractable = el.getAttribute("gui-interactable");
             var clickActionFunctionName = guiInteractable.clickAction;
             console.log("in button, clickActionFunctionName: " + clickActionFunctionName);
             // find object
