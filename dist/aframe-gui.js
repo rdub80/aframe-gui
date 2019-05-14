@@ -158,6 +158,7 @@ AFRAME.registerComponent('gui-button', {
     schema: {
         on: { default: 'click' },
         toggle: { type: 'boolean', default: false },
+        toggleState: { type: 'boolean', default: false },
         text: { type: 'string', default: 'text' },
         fontSize: { type: 'string', default: '150px' },
         fontFamily: { type: 'string', default: 'Arial' },
@@ -166,6 +167,7 @@ AFRAME.registerComponent('gui-button', {
         backgroundColor: { type: 'string', default: key_grey },
         hoverColor: { type: 'string', default: key_grey_dark },
         activeColor: { type: 'string', default: key_orange }
+
     },
     init: function init() {
 
@@ -178,7 +180,6 @@ AFRAME.registerComponent('gui-button', {
         var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
-        var toggleState = this.toggleState = data.toggle;
 
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
@@ -220,25 +221,30 @@ AFRAME.registerComponent('gui-button', {
 
         el.addEventListener('mouseenter', function () {
             buttonEntity.removeAttribute('animation__leave');
-            buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
+            if (!data.toggle) {
+                buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
+            }
         });
         el.addEventListener('mouseleave', function () {
             if (!data.toggle) {
                 buttonEntity.removeAttribute('animation__click');
+                buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
             }
             buttonEntity.removeAttribute('animation__enter');
-            buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
         });
         el.addEventListener(data.on, function () {
             if (!data.toggle) {
                 // if not toggling flashing active state
                 buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutQuad;');
             } else {
-                buttonEntity.setAttribute('material', 'color', data.activeColor);
+                var guiButton = el.components['gui-button'];
+                // console.log("about to toggle, current state: " + guiButton.data.toggleState);
+                guiButton.setActiveState(!guiButton.data.toggleState);
+                //  buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
 
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("in button, clickActionFunctionName: " + clickActionFunctionName);
+            // console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -251,14 +257,18 @@ AFRAME.registerComponent('gui-button', {
     },
     play: function play() {},
     update: function update(oldData) {
-        console.log("In button update, toggle: " + this.toggleState);
+        // console.log("In button update, toggle: "+this.data.toggleState);
     },
     setActiveState: function setActiveState(activeState) {
-        console.log("in setActiveState function");
-        this.data.toggle = this.toggleState = activeState;
+        // console.log("in setActiveState function, new state: " + activeState);
+        this.data.toggleState = activeState;
         if (!activeState) {
+            console.log('not active, about to set background color');
             this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
-        } else {}
+        } else {
+            console.log('active, about to set active color');
+            this.buttonEntity.setAttribute('material', 'color', this.data.activeColor);
+        }
     },
     setText: function setText(newText) {
         drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, 'center', 'middle');
@@ -505,6 +515,18 @@ AFRAME.registerComponent('gui-circle-timer', {
             this.timerRing.setAttribute('theta-length', elapsed); // this has to increase 0 to 360 when running the count_down
             //text doesn't update
             drawText(this.ctx, this.canvas, left, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
+            if (this.countDownLabel) {
+                el.removeChild(this.countDownLabel);
+            }
+            var guiItem = el.getAttribute("gui-item");
+            var canvas = this.canvas;
+            var countDownLabel = document.createElement("a-entity");
+            countDownLabel.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.5 + '; height: ' + guiItem.height / 1.5 + ';');
+            countDownLabel.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
+            countDownLabel.setAttribute('position', '0 0 0.022');
+            el.appendChild(countDownLabel);
+            this.countDownLabel = countDownLabel;
+
             if (left == 1) {
                 console.log('fire callback on the last second');
             }
@@ -1720,7 +1742,9 @@ AFRAME.registerComponent('gui-label', {
     var canvasHeight = guiItem.height * multiplier;
 
     var canvasContainer = document.createElement('div');
+    this.canvasContainer = canvasContainer;
     canvasContainer.setAttribute('class', 'visuallyhidden');
+    canvasContainer.id = getUniqueId('canvasContainer');
     document.body.appendChild(canvasContainer);
 
     var canvas = document.createElement("canvas");
@@ -1738,11 +1762,15 @@ AFRAME.registerComponent('gui-label', {
 
     this.oldText = data.text;
 
-    drawText(ctx, canvas, data.text, guiItem.fontSize + ' ' + data.fontFamily, data.fontColor, 1);
+    // drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
 
     drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
+    if (this.textEntity) {
+      el.removeChild(this.textEntity);
+    }
     var textEntity = document.createElement("a-entity");
+    this.textEntity = textEntity;
     textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
     textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
     textEntity.setAttribute('position', '0 0 0.001');
@@ -1760,7 +1788,10 @@ AFRAME.registerComponent('gui-label', {
   },
   tick: function tick() {
     if (this.data.text !== this.oldText) {
-      drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
+      // console.log('text was changed, about to draw text: ' + this.data.text);
+      this.oldText = this.data.text;
+      // drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
+      drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, 'center', 'middle');
     }
   }
 });
@@ -1774,10 +1805,10 @@ AFRAME.registerPrimitive('a-gui-label', {
     'width': 'gui-item.width',
     'height': 'gui-item.height',
     'margin': 'gui-item.margin',
-    'font-size': 'gui-item.fontSize',
     'on': 'gui-button.on',
     'value': 'gui-label.text',
     'label-for': 'gui-label.labelFor',
+    'font-size': 'gui-label.fontSize',
     'font-color': 'gui-label.fontColor',
     'font-family': 'gui-label.fontFamily',
     'background-color': 'gui-label.backgroundColor'
