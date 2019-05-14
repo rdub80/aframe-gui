@@ -113,7 +113,6 @@ window.drawText = function (ctx, canvas, text, fontSize, fontFamily, color) {
 	ctx.textAlign = align;
 	ctx.textBaseline = baseline;
 	ctx.scale(scale, scale);
-	console.log('in drawText, about to call clearRect for canvas: ' + canvas.id + ', and draw text: ' + text);
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	var textString = text + '';
 	if (textString.match("char#")) {
@@ -121,7 +120,7 @@ window.drawText = function (ctx, canvas, text, fontSize, fontFamily, color) {
 		if (align == 'left') {
 			ctx.fillText(String.fromCharCode(char), canvas.height / 8, canvas.height / 2); // position x, y
 		} else {
-			ctx.fillText(String.fromCharCode(char), canvas.width / 2, canvas.height / 2); // position x, y
+			ctx.fillText(String.fromCharCode(char), canvas.width / 2, canvas.height / 2); // position x, y			
 		}
 	} else {
 		if (align == 'left') {
@@ -1713,7 +1712,6 @@ AFRAME.registerComponent('gui-label', {
     backgroundColor: { type: 'string', default: key_offwhite }
   },
   init: function init() {
-    console.log('in label init');
     var data = this.data;
     var el = this.el;
     var guiItem = el.getAttribute("gui-item");
@@ -1721,23 +1719,6 @@ AFRAME.registerComponent('gui-label', {
     var canvasWidth = guiItem.width * multiplier;
     var canvasHeight = guiItem.height * multiplier;
 
-    if (this.canvasContainer) {
-      console.log('about to remove old canvasContainer: ' + this.canvasContainer.id);
-      this.canvasContainer.style.display == 'none';
-      this.canvasContainer.style.height == '0';
-
-      if (this.canvas) {
-        console.log('about to remove old canvas: ' + this.canvas.id + ', width: ' + this.canvas.width + ', height: ' + this.canvas.height);
-        this.canvas.style.display == 'none';
-        this.canvas.height = 1;
-        //this.ctx.fillStyle = '#ff0000';
-        //this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        //this.canvasContainer.removeChild(this.canvas);
-        this.canvas == null;
-      }
-      //document.body.removeChild(this.canvasContainer);
-      this.canvasContainer = null;
-    }
     var canvasContainer = document.createElement('div');
     this.canvasContainer = canvasContainer;
     canvasContainer.setAttribute('class', 'visuallyhidden');
@@ -1782,11 +1763,10 @@ AFRAME.registerComponent('gui-label', {
   update: function update(oldData) {
     // console.log("In label update, toggle");
     this.init();
-    // drawText(this.ctx, this.canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
   },
   tick: function tick() {
     if (this.data.text !== this.oldText) {
-      console.log('text was changed, about to draw text: ' + this.data.text);
+      // console.log('text was changed, about to draw text: ' + this.data.text);
       this.oldText = this.data.text;
       // drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
       drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, 'center', 'middle');
