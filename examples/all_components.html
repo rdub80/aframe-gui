@@ -3,14 +3,14 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI All Components</title>
-    <script src="https://aframe.io/releases/0.9.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.9.1/aframe.min.js"></script>
 	<style type="text/css">
 		@font-face{
 			font-family:"Ionicons";
 
 			src:url("assets/fonts/ionicons.eot?v=2.0.1");
 			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-			
+
 			font-weight:normal;
 			font-style:normal
 		}
@@ -38,12 +38,12 @@
 			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
 		</a-assets>
 
-		<a-gui-flex-container 
-			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
 			opacity="0.7" width="3.5" height="4.5"
 			position="-2 2.5 -6" rotation="0 0 0"
 		>
-			<a-gui-button 
+			<a-gui-button
 				width="2.5" height="0.75"
 				onclick="testButtonAction" key-code="32"
 				value="test button"
@@ -83,18 +83,18 @@
 
 		</a-gui-flex-container>
 
-		<a-gui-flex-container 
+		<a-gui-flex-container
 			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7" width="3.5" height="4.5"
 			position="2 2.5 -6" rotation="0 0 0"
 		>
-			<a-gui-label 
+			<a-gui-label
 				width="2.5" height="0.75"
 				value="label text"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-label>
 
-			<a-gui-radio 
+			<a-gui-radio
 				width="2.5" height="0.75"
 				onclick="testToggleAction"
 				value="label radio"
@@ -102,13 +102,13 @@
 			>
 			</a-gui-radio>
 
-			<a-gui-progressbar 
+			<a-gui-progressbar
 				width="2.5" height="0.25"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-progressbar>
 
-			<a-gui-circle-timer 
+			<a-gui-circle-timer
 				id="timer"
 				height="0.75"
 				count-down="60"
@@ -117,7 +117,7 @@
 			>
 			</a-gui-circle-timer>
 
-			<a-gui-slider 	
+			<a-gui-slider
 				width="2.5" height="0.75"
 				onclick="testSliderAction"
 				percent="0.29"
@@ -125,7 +125,7 @@
 			>
 			</a-gui-slider>
 
-			<a-gui-input 
+			<a-gui-input
 				width="2.5" height="0.75"
 				onclick="testInputAction"
 				value="Hello Wor_"
@@ -174,15 +174,15 @@
 		window.testButtonAction = function () {
 			console.log("clicked GUI");
 		}
-		
+
 		window.testToggleAction = function () {
 			console.log("clicked GUI");
 		}
-		
+
 		window.testSliderAction = function () {
 			console.log("clicked GUI");
 		}
-		
+
 		window.testInputAction = function () {
 			console.log("clicked GUI");
 		}
