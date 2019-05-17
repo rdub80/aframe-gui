@@ -12,7 +12,7 @@ AFRAME.registerComponent('gui-slider', {
 
         borderColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
-        hoverColor: {type: 'string', default: key_grey_light},        
+        hoverColor: {type: 'string', default: key_grey_light},
         activeColor: {type: 'string', default: key_orange},
         handleColor: {type: 'string', default: key_white},
     },
@@ -87,7 +87,7 @@ AFRAME.registerComponent('gui-slider', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction(data.percent);
+            if (typeof clickActionFunction === "function") clickActionFunction(evt, data.percent);
         });
 
 

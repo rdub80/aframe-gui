@@ -76,11 +76,11 @@ AFRAME.registerComponent('gui-toggle', {
         this.updateToggle(data.active);
 
 
-        el.addEventListener('mouseenter', function() {
+        el.addEventListener('mouseenter', function(evt) {
             toggleHandle.removeAttribute('animation__leave');
             toggleHandle.setAttribute('animation__enter', `property: material.color; from: ${data.handleColor}; to:${data.hoverColor}; dur:200;`);
         });
-        el.addEventListener('mouseleave', function() {
+        el.addEventListener('mouseleave', function(evt) {
             toggleHandle.removeAttribute('animation__enter');
             toggleHandle.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.handleColor}; dur:200; easing: easeOutQuad;`);
         });
@@ -118,7 +118,7 @@ AFRAME.registerComponent('gui-toggle', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(evt);
 });
 
     },
