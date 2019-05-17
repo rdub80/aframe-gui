@@ -48,7 +48,6 @@
 				onclick="testButtonAction" key-code="32"
 				value="test button"
 				margin="0 0 0.05 0"
-				toggle="true"
 			>
 			</a-gui-button>
 
@@ -118,13 +117,13 @@
 			>
 			</a-gui-circle-timer>
 
-			<a-gui-slider
-				width="2.5" height="0.75"
+			<a-gui-vertical-slider
+				width="0.75" height="5"
 				onclick="testSliderAction"
-				percent="0.29"
+				percent="0.9"
 				margin="0 0 0.05 0"
 			>
-			</a-gui-slider>
+			</a-gui-vertical-slider>
 
 			<a-gui-input
 				width="2.5" height="0.75"
@@ -140,7 +139,7 @@
 			<a-camera look-controls wasd-controls position="0 0 0">
 				<a-gui-cursor id="cursor"
 						  raycaster="objects: [gui-interactable]"
-						  fuse="true" fuse-timeout="2000"
+						  fuse="false" fuse-timeout="2000"
 						  design="cross" > <!-- dot, ring, reticle, cross  -->
 				</a-gui-cursor> <!-- /cursor -->
 			</a-camera> <!-- /camera -->

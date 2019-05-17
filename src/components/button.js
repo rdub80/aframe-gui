@@ -145,6 +145,7 @@ AFRAME.registerPrimitive( 'a-gui-button', {
         'background-color': 'gui-button.backgroundColor',
         'hover-color': 'gui-button.hoverColor',
         'active-color': 'gui-button.activeColor',
-        'toggle': 'gui-button.toggle'
+        'toggle': 'gui-button.toggle',
+        'toggle-state': 'gui-button.toggleState'
     }
 });

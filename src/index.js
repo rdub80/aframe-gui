@@ -17,6 +17,7 @@ require('./components/circle-loader.js');
 require('./components/progress-bar.js');
 require('./components/circle-timer.js');
 require('./components/slider.js');
+require('./components/vertical-slider.js');
 require('./components/input.js');
 require('./components/cursor.js');
 require('./scripts/reset-cursor.js');
