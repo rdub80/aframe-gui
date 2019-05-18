@@ -6,6 +6,7 @@ AFRAME.registerComponent('gui-label', {
     fontFamily: {type: 'string', default: 'Helvetica'},
     fontColor: {type: 'string', default: key_grey_dark},
     backgroundColor: {type: 'string', default: key_offwhite},
+    opacity: { type: 'number', default: 1.0 },
   },
   init: function() {
     var data = this.data;
@@ -33,7 +34,7 @@ AFRAME.registerComponent('gui-label', {
     var ctx = this.ctx = canvas.getContext('2d');
 
     el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
-    el.setAttribute('material', `shader: flat; side:front; color:${data.backgroundColor};`);
+    el.setAttribute('material', `shader: flat; side:front; color:${data.backgroundColor}; transparent: true; opacity: ${data.opacity}; alphaTest: 0.5;`);
 
     this.oldText = data.text;
 
@@ -47,7 +48,7 @@ AFRAME.registerComponent('gui-label', {
       var textEntity = document.createElement("a-entity");
       this.textEntity = textEntity;
       textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
-      textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+      textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1.0; alphaTest: 0.5; side:front;`);
       textEntity.setAttribute('position', '0 0 0.001');
       el.appendChild(textEntity);
 
@@ -88,6 +89,7 @@ AFRAME.registerPrimitive( 'a-gui-label', {
     'font-size': 'gui-label.fontSize',
     'font-color': 'gui-label.fontColor',
     'font-family': 'gui-label.fontFamily',
-    'background-color': 'gui-label.backgroundColor'
+    'background-color': 'gui-label.backgroundColor',
+    'opacity': 'gui-label.opacity'
   }
  });

@@ -78,7 +78,7 @@ AFRAME.registerComponent('gui-flex-container', {
         }
 
         this.el.setAttribute('geometry', `primitive: plane; height: ${containerGuiItem.height}; width: ${containerGuiItem.width};`);
-        this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; color: ${this.data.panelColor}; side:front;`);
+        this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; alphaTest: 0.5; color: ${this.data.panelColor}; side:front;`);
 
         this.children = this.el.getChildEntities();
         //console.log("childElements: "+this.children);

@@ -84,7 +84,7 @@
 		</a-gui-flex-container>
 
 		<a-gui-flex-container
-			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7" width="3.5" height="4.5"
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.0" width="3.5" height="4.5"
 			position="2 2.5 -6" rotation="0 0 0"
 		>
 			<a-gui-label
@@ -122,6 +122,7 @@
 				onclick="testSliderAction"
 				percent="0.9"
 				margin="0 0 0.05 0"
+				opacity="0.1"
 			>
 			</a-gui-vertical-slider>
 
@@ -140,7 +141,7 @@
 				<a-gui-cursor id="cursor"
 						  raycaster="objects: [gui-interactable]"
 						  fuse="false" fuse-timeout="2000"
-						  design="cross" > <!-- dot, ring, reticle, cross  -->
+						  design="cross"> <!-- dot, ring, reticle, cross  -->
 				</a-gui-cursor> <!-- /cursor -->
 			</a-camera> <!-- /camera -->
 		</a-entity>

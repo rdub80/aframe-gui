@@ -1,6 +1,7 @@
 AFRAME.registerComponent('gui-vertical-slider', {
     schema: {
         percent: {type: 'number', default: '0.5'},
+        hoverPercent: {type: 'number', default: '0.0'},
         handleOuterRadius: {type: 'number', default: '0.17'},
         handleInnerRadius: {type: 'number', default: '0.13'},
         handleOuterDepth: {type: 'number', default: '0.04'},
@@ -12,6 +13,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
 
         borderColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
+        opacity: { type: 'number', default: 1.0 },
         hoverColor: {type: 'string', default: key_grey_light},
         activeColor: {type: 'string', default: key_orange},
         handleColor: {type: 'string', default: key_white},
@@ -24,8 +26,9 @@ AFRAME.registerComponent('gui-vertical-slider', {
         var sliderWidth = guiItem.width - data.leftRightPadding*2.0
         var sliderHeight = guiItem.height - data.topBottomPadding*2.0
         this.sliderHeight = sliderHeight;
+
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
-        el.setAttribute('material', `shader: flat; opacity: 1;  color: ${data.backgroundColor}; side:front;`);
+        el.setAttribute('material', `shader: flat; opacity: ${data.opacity};  alphaTest: 0.5; color: ${data.backgroundColor}; side:front;`);
 
         console.log('**** in vertical slider init, percent: ' + data.percent + ', sliderHeight: ' + sliderHeight);
         var sliderActiveBar = document.createElement("a-entity");
@@ -55,6 +58,31 @@ AFRAME.registerComponent('gui-vertical-slider', {
         handle.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.handleColor};`);
         handle.setAttribute('position', `0 ${data.handleInnerDepth} 0`);
         handleContainer.appendChild(handle);
+
+        var valueLabel = document.createElement('a-gui-label');
+        valueLabel.setAttribute('width', '1.0');
+        valueLabel.setAttribute('height', '0.75');
+        valueLabel.setAttribute('value', '');
+        valueLabel.setAttribute('opacity', '0.1');
+        valueLabel.setAttribute('position', '0.5 0 0');
+        this.valueLabel = valueLabel;
+        handleContainer.appendChild(valueLabel);
+
+        var hoverIndicator = document.createElement("a-entity");
+        hoverIndicator.setAttribute('geometry', `primitive: box; height: 0.02; width: ${guiItem.width * 0.5}; depth: ${data.sliderBarDepth};`);
+        hoverIndicator.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.activeColor};`);
+        hoverIndicator.setAttribute('position', `${-guiItem.width * 0.5} 0 ${data.sliderBarDepth - 0.01}`);
+        this.hoverIndicator = hoverIndicator;
+        el.appendChild(hoverIndicator);
+
+        var hoverLabel = document.createElement('a-gui-label');
+        hoverLabel.setAttribute('width', '1.0');
+        hoverLabel.setAttribute('height', '0.75');
+        hoverLabel.setAttribute('value', '');
+        hoverLabel.setAttribute('opacity', '0.1');
+        hoverLabel.setAttribute('position', '-0.5 0 0');
+        this.hoverLabel = hoverLabel;
+        hoverIndicator.appendChild(hoverLabel);
 
         el.addEventListener('mouseenter', function () {
             handle.setAttribute('material', 'color', data.hoverColor);
@@ -100,33 +128,6 @@ AFRAME.registerComponent('gui-vertical-slider', {
             this.raycaster = null;
         });
 
-        el.addEventListener('blah', function (evt) {
-            console.log('in onmouseover: ', evt.detail.intersection.point);
-            var localCoordinates = el.object3D.worldToLocal(evt.detail.intersection.point);
-            console.log('local coordinates: ', localCoordinates);
-            console.log('current percent: '+data.percent);
-            var hoverPercent = null;
-            if (localCoordinates.y <= (-sliderHeight / 2)) {
-                hoverPercent = 0;
-            } else if (localCoordinates.y >= (sliderHeight / 2)) {
-                hoverPercent = 1.0;
-            } else {
-                hoverPercent = (localCoordinates.y + (sliderHeight /2)) / sliderHeight;
-            }
-            console.log('hoverPercent: '+hoverPercent);
-            // el.setAttribute('gui-vertical-slider', 'percent', String(newPercent));
-            console.log("handle container: "+handleContainer);
-            var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: "+guiInteractable);
-            var hoverActionFunctionName = guiInteractable.hoverAction;
-            console.log("hoverActionFunctionName: "+hoverActionFunctionName);
-            // find object
-            var hoverActionFunction = window[hoverActionFunctionName];
-            //console.log("clickActionFunction: "+clickActionFunction);
-            // is object a function?
-            if (typeof hoverActionFunction === "function") hoverActionFunction(hoverPercent);
-        });
-
 
     },
     update: function (oldData) {
@@ -135,7 +136,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         var guiItem = el.getAttribute('gui-item');
         var sliderWidth = guiItem.width - data.leftRightPadding*2.0
         var sliderHeight = guiItem.height - data.topBottomPadding*2.0
-        console.log('in vertical slider update, oldData: ' + JSON.stringify(oldData) + ', data: ' + JSON.stringify(data))
+        //console.log('in vertical slider update, oldData: ' + JSON.stringify(oldData) + ', data: ' + JSON.stringify(data))
         if (data.percent != oldData.percent && this.sliderActiveBar && this.sliderBar && this.handleContainer) {
             var sliderHeight = guiItem.height - data.topBottomPadding*2.0;
             this.sliderActiveBar.setAttribute('geometry', `primitive: box; height: ${data.percent*sliderHeight}; width: ${data.sliderBarWidth}; depth: ${data.sliderBarDepth};`);
@@ -143,6 +144,12 @@ AFRAME.registerComponent('gui-vertical-slider', {
             this.sliderBar.setAttribute('geometry', `primitive: box; width: ${data.sliderBarWidth}; height: ${sliderHeight - data.percent * sliderHeight}; depth: ${data.sliderBarDepth};`);
             this.sliderBar.setAttribute('position', `0 ${data.percent * sliderHeight * 0.5} ${data.sliderBarDepth - 0.01}`);
             this.handleContainer.setAttribute('position', `0 ${data.percent*sliderHeight - sliderHeight*0.5} ${data.handleOuterDepth - 0.01}`);
+            this.valueLabel.setAttribute('value', String(Math.round(data.hoverPercent * 10000)));
+        }
+        //console.log('******* in udpdate, hoverPercent: ' + data.hoverPercent);
+        if (data.hoverPercent != oldData.hoverPercent && this.hoverIndicator) {
+            this.hoverIndicator.setAttribute('position', `0 ${data.hoverPercent*sliderHeight - sliderHeight*0.5} ${data.sliderBarDepth - 0.01}`)
+            this.hoverLabel.setAttribute('value', String(Math.round(data.hoverPercent * 100)));
         }
     },
     tick: function () {
@@ -171,10 +178,10 @@ AFRAME.registerComponent('gui-vertical-slider', {
             localCoordinates.x = intersection.point.x - pos.x;
             localCoordinates.y = intersection.point.y - pos.y;
             localCoordinates.z = intersection.point.z - pos.z;
-            console.log('local position: ' + JSON.stringify(localCoordinates));
+            //console.log('local position: ' + JSON.stringify(localCoordinates));
             // var localCoordinates = el.object3D.worldToLocal(intersection.point);
-              console.log('local coordinates: ', localCoordinates);
-              console.log('current percent: '+data.percent);
+              //console.log('local coordinates: ', localCoordinates);
+              //console.log('current percent: '+data.percent);
               var hoverPercent = null;
               if (localCoordinates.y <= (-sliderHeight / 2)) {
                   hoverPercent = 0;
@@ -183,7 +190,11 @@ AFRAME.registerComponent('gui-vertical-slider', {
               } else {
                   hoverPercent = (localCoordinates.y + (sliderHeight /2)) / sliderHeight;
               }
-              console.log('hoverPercent: '+hoverPercent);
+              //console.log('hoverPercent: '+hoverPercent);
+              if (hoverPercent != this.data.hoverPercent) {
+                  //console.log('**** hoverPercent changed: ' + hoverPercent);
+                  el.setAttribute('gui-vertical-slider', 'hoverPercent', String(hoverPercent));
+              }
         /*      // el.setAttribute('gui-vertical-slider', 'percent', String(newPercent));
               console.log("handle container: "+handleContainer);
               var guiInteractable = el.getAttribute("gui-interactable");
@@ -220,6 +231,7 @@ AFRAME.registerPrimitive( 'a-gui-vertical-slider', {
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'percent': 'gui-vertical-slider.percent',
+        'hover-percent': 'gui-vertical-slider.hoverPercent',
         'handle-outer-radius': 'gui-vertical-slider.handleOuterRadius',
         'handle-inner-radius': 'gui-vertical-slider.handleInnerRadius',
         'handle-outer-depth': 'gui-vertical-slider.handleOuterDepth',
@@ -230,6 +242,7 @@ AFRAME.registerPrimitive( 'a-gui-vertical-slider', {
         'top-bottom-padding': 'gui-vertical-slider.topBottomPadding',
         'border-color': 'gui-vertical-slider.borderColor',
         'background-color': 'gui-vertical-slider.backgroundColor',
+        'opacity': 'gui-vertical-slider.opacity',
         'hover-color': 'gui-vertical-slider.hoverColor',
         'active-color': 'gui-vertical-slider.activeColor',
         'handle-color': 'gui-vertical-slider.handleColor'
