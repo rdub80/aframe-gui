@@ -79,18 +79,18 @@ AFRAME.registerComponent('gui-radio', {
         this.updateToggle(data.active);
         el.setAttribute("checked",data.active);
 
-        el.addEventListener('mouseenter', function() {
+        el.addEventListener('mouseenter', function(evt) {
             radioborder.removeAttribute('animation__leave');
             radioborder.setAttribute('animation__enter', `property: material.color; from: ${data.borderColor}; to:${data.hoverColor}; dur:200;`);
         });
-        el.addEventListener('mouseleave', function() {
+        el.addEventListener('mouseleave', function(evt) {
             radioborder.removeAttribute('animation__enter');
             radioborder.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.borderColor}; dur:200; easing: easeOutQuad;`);
         });
         el.addEventListener(data.on, function (evt) {
             // console.log('I was clicked at: ', evt.detail.intersection.point); // Commented out to use own made click event without defining detail
             data.checked = !data.checked;
-            if (data.checked) { 
+            if (data.checked) {
                 radioCenter.removeAttribute('animation__colorOut');
                 radioCenter.removeAttribute('animation__rotationOut');
                 radioCenter.removeAttribute('animation__position1Out');
@@ -118,7 +118,7 @@ AFRAME.registerComponent('gui-radio', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(evt);
         });
 
         ////WAI ARIA Support

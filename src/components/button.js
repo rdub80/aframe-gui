@@ -63,20 +63,20 @@ AFRAME.registerComponent('gui-button', {
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-        el.addEventListener('mouseenter', function() {
+        el.addEventListener('mouseenter', function(event) {
             buttonEntity.removeAttribute('animation__leave');
             if (!(data.toggle)) {
                 buttonEntity.setAttribute('animation__enter', `property: material.color; from: ${data.backgroundColor}; to:${data.hoverColor}; dur:200;`);
             }
         });
-        el.addEventListener('mouseleave', function() {
+        el.addEventListener('mouseleave', function(event) {
             if (!(data.toggle)) {
                 buttonEntity.removeAttribute('animation__click');
                 buttonEntity.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.backgroundColor}; dur:200; easing: easeOutQuad;`);
             }
             buttonEntity.removeAttribute('animation__enter');
         });
-        el.addEventListener(data.on, function() {
+        el.addEventListener(data.on, function(event) {
             if (!(data.toggle)) { // if not toggling flashing active state
                 buttonEntity.setAttribute('animation__click', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; easing: easeOutQuad;`);
             }else{
@@ -92,7 +92,7 @@ AFRAME.registerComponent('gui-button', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(event);
         });
 
         ////WAI ARIA Support

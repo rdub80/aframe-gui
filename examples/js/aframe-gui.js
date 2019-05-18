@@ -219,20 +219,20 @@ AFRAME.registerComponent('gui-button', {
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-        el.addEventListener('mouseenter', function () {
+        el.addEventListener('mouseenter', function (event) {
             buttonEntity.removeAttribute('animation__leave');
             if (!data.toggle) {
                 buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
             }
         });
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function (event) {
             if (!data.toggle) {
                 buttonEntity.removeAttribute('animation__click');
                 buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
             }
             buttonEntity.removeAttribute('animation__enter');
         });
-        el.addEventListener(data.on, function () {
+        el.addEventListener(data.on, function (event) {
             if (!data.toggle) {
                 // if not toggling flashing active state
                 buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutQuad;');
@@ -249,7 +249,7 @@ AFRAME.registerComponent('gui-button', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(event);
         });
 
         ////WAI ARIA Support
@@ -1273,18 +1273,18 @@ AFRAME.registerComponent('gui-icon-button', {
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
-        el.addEventListener('mouseenter', function () {
+        el.addEventListener('mouseenter', function (evt) {
             buttonEntity.removeAttribute('animation__leave');
             buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function (evt) {
             if (!data.toggle) {
                 buttonEntity.removeAttribute('animation__click');
             }
             buttonEntity.removeAttribute('animation__enter');
             buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
         });
-        el.addEventListener(data.on, function () {
+        el.addEventListener(data.on, function (evt) {
             if (!data.toggle) {
                 // if not toggling flashing active state
                 buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutBack;');
@@ -1298,7 +1298,7 @@ AFRAME.registerComponent('gui-icon-button', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(evt);
         });
 
         ////WAI ARIA Support
@@ -1453,18 +1453,18 @@ AFRAME.registerComponent('gui-icon-label-button', {
             el.appendChild(labelEntity);
         }
 
-        el.addEventListener('mouseenter', function () {
+        el.addEventListener('mouseenter', function (evt) {
             buttonEntity.removeAttribute('animation__leave');
             buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function (evt) {
             if (!data.toggle) {
                 buttonEntity.removeAttribute('animation__click');
             }
             buttonEntity.removeAttribute('animation__enter');
             buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
         });
-        el.addEventListener(data.on, function () {
+        el.addEventListener(data.on, function (evt) {
             if (!data.toggle) {
                 // if not toggling flashing active state
                 buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutQuad;');
@@ -1478,7 +1478,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(evt);
         });
 
         ////WAI ARIA Support
@@ -1598,7 +1598,7 @@ AFRAME.registerComponent('gui-input', {
         ////WAI ARIA Support
         el.setAttribute('role', 'input');
 
-        el.addEventListener('mouseenter', function () {
+        el.addEventListener('mouseenter', function (evt) {
             el.setAttribute('material', 'color', data.hoverColor);
             borderTopEntity.setAttribute('material', 'color', data.borderHoverColor);
             borderBottomEntity.setAttribute('material', 'color', data.borderHoverColor);
@@ -1606,7 +1606,7 @@ AFRAME.registerComponent('gui-input', {
             borderRightEntity.setAttribute('material', 'color', data.borderHoverColor);
         });
 
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function (evt) {
             el.setAttribute('material', 'color', data.backgroundColor);
             borderTopEntity.setAttribute('material', 'color', data.borderColor);
             borderBottomEntity.setAttribute('material', 'color', data.borderColor);
@@ -1624,7 +1624,7 @@ AFRAME.registerComponent('gui-input', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(evt);
         });
     },
     play: function play() {},
@@ -1958,11 +1958,11 @@ AFRAME.registerComponent('gui-radio', {
         this.updateToggle(data.active);
         el.setAttribute("checked", data.active);
 
-        el.addEventListener('mouseenter', function () {
+        el.addEventListener('mouseenter', function (evt) {
             radioborder.removeAttribute('animation__leave');
             radioborder.setAttribute('animation__enter', 'property: material.color; from: ' + data.borderColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function (evt) {
             radioborder.removeAttribute('animation__enter');
             radioborder.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.borderColor + '; dur:200; easing: easeOutQuad;');
         });
@@ -1997,7 +1997,7 @@ AFRAME.registerComponent('gui-radio', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(evt);
         });
 
         ////WAI ARIA Support
@@ -2140,7 +2140,7 @@ AFRAME.registerComponent('gui-slider', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction(data.percent);
+            if (typeof clickActionFunction === "function") clickActionFunction(evt, data.percent);
         });
     },
     update: function update() {},
@@ -2264,11 +2264,11 @@ AFRAME.registerComponent('gui-toggle', {
 
         this.updateToggle(data.active);
 
-        el.addEventListener('mouseenter', function () {
+        el.addEventListener('mouseenter', function (evt) {
             toggleHandle.removeAttribute('animation__leave');
             toggleHandle.setAttribute('animation__enter', 'property: material.color; from: ' + data.handleColor + '; to:' + data.hoverColor + '; dur:200;');
         });
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function (evt) {
             toggleHandle.removeAttribute('animation__enter');
             toggleHandle.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.handleColor + '; dur:200; easing: easeOutQuad;');
         });
@@ -2307,7 +2307,7 @@ AFRAME.registerComponent('gui-toggle', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(evt);
         });
     },
     update: function update() {

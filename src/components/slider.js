@@ -87,7 +87,7 @@ AFRAME.registerComponent('gui-slider', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction(data.percent);
+            if (typeof clickActionFunction === "function") clickActionFunction(evt, data.percent);
         });
 
 

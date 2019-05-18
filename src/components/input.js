@@ -70,7 +70,7 @@ AFRAME.registerComponent('gui-input', {
         ////WAI ARIA Support
         el.setAttribute('role', 'input');
 
-        el.addEventListener('mouseenter', function () {
+        el.addEventListener('mouseenter', function (evt) {
             el.setAttribute('material', 'color', data.hoverColor);
             borderTopEntity.setAttribute('material', 'color', data.borderHoverColor);
             borderBottomEntity.setAttribute('material', 'color', data.borderHoverColor);
@@ -78,7 +78,7 @@ AFRAME.registerComponent('gui-input', {
             borderRightEntity.setAttribute('material', 'color', data.borderHoverColor);
         });
 
-        el.addEventListener('mouseleave', function () {
+        el.addEventListener('mouseleave', function (evt) {
             el.setAttribute('material', 'color', data.backgroundColor);
             borderTopEntity.setAttribute('material', 'color', data.borderColor);
             borderBottomEntity.setAttribute('material', 'color', data.borderColor);
@@ -96,7 +96,7 @@ AFRAME.registerComponent('gui-input', {
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction();
+            if (typeof clickActionFunction === "function") clickActionFunction(evt);
         });
 
 
