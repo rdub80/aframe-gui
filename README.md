@@ -22,6 +22,7 @@ The `dist/aframe-gui.js` file defines the following components:
 | gui-radio             | a-gui-radio              | Radio button                                             |
 | gui-toggle            | a-gui-toggle             | Toggle button                                            |
 | gui-slider            | a-gui-slider             | Slider component                                         |
+| gui-vertical-slider   | a-gui-slider             | Vertical slider component                                |
 | gui-input             | a-gui-input              | Text input field                                         |
 | gui-label             | a-gui-label              | Text label                                               |
 | gui-progress-bar      | a-gui-progress-bar       | Progress bar                                             |
@@ -145,6 +146,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | font-color         | Text color for button label                               | #d3d3d4       |
 | font-family        | Font family for button                                    | 'Arial'       |
 | font-size          | Font size for button                                      | '150px'       |
+| font-weight        | Font weight for button                                    | 'normal'      |
 | height             | Height of item                                            | 1             |
 | hover-color        | Background color when button is in hover state            | #2c3037       |
 | key-code           | Key shortcut to trigger onclick action                    |               |
@@ -152,6 +154,7 @@ The webpack-dev-server should now be running at http://localhost:8080
 | onclick            | Javascript function to execute on click                   |               |
 | onhover            | Javascript function to execute on click                   |               |
 | toggle             | If true, button acts as toggle button with on/off state   | false         |
+| toggle             | Current on/off state of toggle button                     | false         |
 | value              | Text of button label                                      |               |
 | height             | Height of item                                            | 1             |
 | width              | Width of item                                             | 1             |
@@ -342,7 +345,9 @@ callback
 | font-family      | Font family for input                                   | 'Arial'        |
 | font-size        | Font size for input                                     | '150px'        |
 | font-color       | Text input color                                        | #2c3037        |
+| font-weight      | Font weight for label                                   | 'normal'      |
 | background-color | Background color of label                               | #d3d3d4        |
+| opacity          | Transparency of the label                               | 1.0           |
 | height           | Height of item                                          | 1              |
 | width            | Width of item                                           | 1              |
 | margin           | Margin around item                                      | 0 0 0 0        |
@@ -422,23 +427,25 @@ callback
 
 | Property            | Description                                               | Default Value  |
 | --------            | -------------------------------------------------------   | -------------  |
-| percent             |                                                           | '0.5'          |
+| active-color        |                                                           | #ed5b21        |
+| background-color    |                                                           | #d3d3d4        |
+| border-color        |                                                           | #22252a        |
+| handle-color        |                                                           | #ffffff        |
 | handle-outer-radius |                                                           | '0.17'         |
 | handle-inner-radius |                                                           | '0.13'         |
 | handle-outer-depth  |                                                           | '0.04'         |
 | handle-inner-depth  |                                                           | '0.02'         |
-| slider-bar-height   |                                                           | '0.05'         |
-| slider-bar-depth    |                                                           | '0.03'         |
-| left-right-padding  |                                                           | '0.25'         |
-| top-bottom-padding  |                                                           | '0.125'        |
-| border-color        |                                                           | #22252a        |
-| background-color    |                                                           | #d3d3d4        |
-| hover-color         |                                                           | #606876        |
-| active-color        |                                                           | #ed5b21        |
-| handle-color        |                                                           | #ffffff        |
 | height              | Height of item                                            | 1              |
-| width               | Width of item                                             | 1              |
+| hover-color         |                                                           | #606876        |
+| left-right-padding  |                                                           | '0.25'         |
 | margin              | Margin around item                                        | 0 0 0 0        |
+| onclick             | Javascript function to execute on click                   |               |
+| onhover             | Javascript function to execute on click                   |               |
+| percent             |                                                           | '0.5'          |
+| slider-bar-depth    |                                                           | '0.03'         |
+| slider-bar-height   |                                                           | '0.05'         |
+| top-bottom-padding  |                                                           | '0.125'        |
+| width               | Width of item                                             | 1              |
 
 
 ```html
@@ -485,5 +492,53 @@ callback
 	margin="0 0 0.05 0"
 >
 </a-gui-toggle>
+```
+
+### a-gui-vertical-slider Component
+
+#### Properties
+
+| Property            | Description                                               | Default Value  |
+| --------            | -------------------------------------------------------   | -------------  |
+| active-color        |                                                           | #ed5b21        |
+| background-color    |                                                           | #d3d3d4        |
+| border-color        |                                                           | #22252a        |
+| handle-color        |                                                           | #ffffff        |
+| handle-outer-radius |                                                           | 0.17         |
+| handle-inner-radius |                                                           | 0.13         |
+| handle-outer-depth  |                                                           | 0.04         |
+| handle-inner-depth  |                                                           | 0.02         |
+| height              | Height of item                                            | 1              |
+| hover-color         |                                                           | #606876        |
+| hover-font-size     | Font size of label indicating where user is hovering      | 180px        |
+| hover-height         |  Height of label indicating where user is hovering       | 1.0        |
+| hover-margin        |  Margin of label indicating where user is hovering        | 1.0       |
+| hover-percent        | Current percentage where user is hovering                |         |
+| hover-width        | Width of label indicating where user is hovering           | 1.0        |
+| left-right-padding  |                                                           | 0.25         |
+| margin              | Margin around item                                        | '0 0 0 0'        |
+| onclick             | Javascript function to execute on click                   |               |
+| onhover             | Javascript function to execute on click                   |               |
+| opacity          | Transparency of the vertical slider background               | 1.0           |
+| output-font-size         |  Font size of label indicating output value          | 180px        |
+| output-function         |  Name of function to calculate output value from percent |         |
+| output-height         |   Height of label indicating output value               | 1.0       |
+| output-margin        |  Margin of label indicating output value                 | '0 0 0 0'       |
+| output-width        |  Width of label indicating output value                   | 1.0        |
+| percent             |  Current selected slider value, from 0.0 to 1.0           | 0.5         |
+| slider-bar-depth    |                                                           | 0.03         |
+| slider-bar-height   |                                                           | 0.05         |
+| top-bottom-padding  |                                                           | 0.125        |
+| width               | Width of item                                             | 1              |
+
+
+```html
+<a-gui-slider 	
+	width="2.5" height="0.75"
+	onclick="slideActionFunction"
+	percent="0.29"
+	margin="0 0 0.05 0"
+>
+</a-gui-slider>
 ```
 

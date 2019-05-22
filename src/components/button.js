@@ -6,6 +6,7 @@ AFRAME.registerComponent('gui-button', {
         text: {type: 'string', default: 'text'},
         fontSize: {type: 'string', default: '150px'},
         fontFamily: {type: 'string', default: 'Arial'},
+        fontWeight: {type: 'string', default: 'normal'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
@@ -40,7 +41,7 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
+        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle', data.fontWeight);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', `primitive: box; width: ${guiItem.width}; height: ${guiItem.height}; depth: 0.02;`);
@@ -118,7 +119,7 @@ AFRAME.registerComponent('gui-button', {
         }
     },
     setText: function (newText) {
-        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1,'center','middle');
+        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1,'center','middle',this.data.fontWeight);
     },
 });
 
@@ -140,6 +141,7 @@ AFRAME.registerPrimitive( 'a-gui-button', {
         'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
         'font-size': 'gui-button.fontSize',
+        'font-weight': 'gui-button.fontWeight',
         'font-family': 'gui-button.fontFamily',
         'border-color': 'gui-button.borderColor',
         'background-color': 'gui-button.backgroundColor',

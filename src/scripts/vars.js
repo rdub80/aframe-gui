@@ -28,8 +28,8 @@ window.getTextWidth = function(text, font) {
     return metrics.width;
 }
 
-window.drawText = function(ctx, canvas, text, fontSize, fontFamily, color, scale = 1, align = 'center', baseline = 'middle') {
-	ctx.font = fontSize+' '+fontFamily;
+window.drawText = function(ctx, canvas, text, fontSize, fontFamily, color, scale = 1, align = 'center', baseline = 'middle', fontWeight = 'normal') {
+	ctx.font = fontWeight + ' ' + fontSize+' '+fontFamily;
 	ctx.fillStyle = color;
 	ctx.textAlign = align;
 	ctx.textBaseline = baseline;
@@ -41,10 +41,10 @@ window.drawText = function(ctx, canvas, text, fontSize, fontFamily, color, scale
 		if(align == 'left'){
 		   	ctx.fillText(String.fromCharCode(char), canvas.height/8, canvas.height/2); // position x, y
 		}else{
-		   	ctx.fillText(String.fromCharCode(char), canvas.width/2, canvas.height/2); // position x, y			
+		   	ctx.fillText(String.fromCharCode(char), canvas.width/2, canvas.height/2); // position x, y
 		}
 	}else{
-		if(align == 'left'){		
+		if(align == 'left'){
 	    	ctx.fillText(textString, canvas.height/8, canvas.height/2); // position x, y
 		}else{
 	    	ctx.fillText(textString, canvas.width/2, canvas.height/2); // position x, y
