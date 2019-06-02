@@ -1255,8 +1255,8 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var ctx = this.ctx = canvas.getContext('2d');
 
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:back; color:' + data.backgroundColor + ';');
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
+        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.0; alphaTest: 0.5; side:double; color:' + data.backgroundColor + ';');
 
         drawIcon(ctx, canvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
@@ -1277,7 +1277,7 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
-        textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
+        textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; alphaTest: 0.5; side:front;');
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
@@ -1716,12 +1716,12 @@ AFRAME.registerComponent('gui-interactable', {
 
         if (data.keyCode) {
             window.addEventListener("keydown", function (event) {
-                console.log('in keydown handler, event key: ' + event.key);
+                // console.log('in keydown handler, event key: ' + event.key);
                 if (event.key == data.key) {
-                    console.log("key press by gui-interactable, key: " + data.key);
+                    //    console.log("key press by gui-interactable, key: " + data.key);
                     el.emit('click');
                 } else if (event.keyCode == data.keyCode) {
-                    console.log("key press by gui-interactable, keyCode: " + data.keyCode);
+                    //    console.log("key press by gui-interactable, keyCode: " + data.keyCode);
                     el.emit('click');
                 }
                 event.preventDefault();
