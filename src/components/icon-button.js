@@ -18,9 +18,9 @@ AFRAME.registerComponent('gui-icon-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
+        //console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
-        console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
+        //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height*multiplier; //square
         var canvasHeight = guiItem.height*multiplier;

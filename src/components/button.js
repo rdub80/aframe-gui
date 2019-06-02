@@ -19,9 +19,11 @@ AFRAME.registerComponent('gui-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        console.log("in button, guiItem: "+JSON.stringify(guiItem));
+        this.guiItem = guiItem;
+        //console.log("in button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
-        console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
+        this.guiInteractable = guiInteractable;
+        //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
@@ -41,8 +43,6 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle', data.fontWeight);
-
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', `primitive: box; width: ${guiItem.width}; height: ${guiItem.height}; depth: 0.02;`);
         buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
@@ -52,17 +52,13 @@ AFRAME.registerComponent('gui-button', {
 
         var buttonEntity = document.createElement("a-entity");
         buttonEntity.setAttribute('geometry', `primitive: box; width: ${(guiItem.width-0.025)}; height: ${(guiItem.height-0.025)}; depth: 0.04;`);
-        buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.backgroundColor}`);
+        buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.toggleState ? data.activeColor : data.backgroundColor}`);
         buttonEntity.setAttribute('rotation', '0 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var textEntity = document.createElement("a-entity");
-        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
-        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
-        textEntity.setAttribute('position', '0 0 0.041');
-        el.appendChild(textEntity);
+        this.setText(data.text);
 
         el.addEventListener('mouseenter', function(event) {
             buttonEntity.removeAttribute('animation__leave');
@@ -120,6 +116,15 @@ AFRAME.registerComponent('gui-button', {
     },
     setText: function (newText) {
         drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1,'center','middle',this.data.fontWeight);
+        if (this.textEntity) {
+            this.el.removeChild(this.textEntity);
+        }
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('geometry', `primitive: plane; width: ${this.guiItem.width/1.05}; height: ${this.guiItem.height/1.05};`);
+        textEntity.setAttribute('material', `shader: flat; src: #${this.canvas.id}; transparent: true; opacity: 1; side:front;`);
+        textEntity.setAttribute('position', '0 0 0.041');
+        this.el.appendChild(textEntity);
     },
 });
 
