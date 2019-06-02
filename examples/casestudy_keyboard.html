@@ -10,10 +10,10 @@
 	<style type="text/css">
 		@font-face{
 			font-family:"Ionicons";
-			
+
 			src:url("assets/fonts/ionicons.eot?v=2.0.1");
 			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-			
+
 			font-weight:normal;
 			font-style:normal
 		}
@@ -28,7 +28,7 @@
 			padding: 0;
 			overflow: hidden;
 			position: absolute !important;
-		} 
+		}
 	</style>
 
 	<script src="js/aframe-gui.js"></script>
@@ -63,12 +63,12 @@
 			var navkbSwitch = document.getElementById("navkbSwitch");
 			navkbSwitch.components['gui-button'].setText('123');
 			// navkbSwitch.components['gui-interactable'].setClickAction('switchKbToNum');
-			switchKbToAbcLow();			
+			switchKbToAbcLow();
 		}else if(window.kbAbcHigh == kb){
 			var navkbSwitch = document.getElementById("navkbSwitch");
 			navkbSwitch.components['gui-button'].setText('123');
 			// navkbSwitch.components['gui-interactable'].setClickAction('switchKbToNum');
-			switchKbToAbcHigh();			
+			switchKbToAbcHigh();
 		}else if(window.kbNum == kb){
 			var navkbSwitch = document.getElementById("navkbSwitch");
 			navkbSwitch.components['gui-button'].setText('Abc');
@@ -78,11 +78,11 @@
 			var navkbSwitch = document.getElementById("navkbSwitch");
 			navkbSwitch.components['gui-button'].setText('Abc');
 			// navkbSwitch.components['gui-interactable'].setClickAction('switchKbToAbcLow');
-			switchKbToChar();						
-		}	
+			switchKbToChar();
+		}
 	}
 
-	function switchKbToNum() {		
+	function switchKbToNum() {
 	    var keyboardAbcLow = document.getElementById("keyboardAbcLow");
 	    var keyboardAbcHigh = document.getElementById("keyboardAbcHigh");
 	    var keyboardNum = document.getElementById("keyboardNum");
@@ -124,7 +124,7 @@
 		keyboardNum.setAttribute('position','0 -10 -1');
 		keyboardChar.setAttribute('position','0 -10 -1');
 		keyboardAbcHigh.setAttribute('position','0 0 0');
-		
+
 		keyboardAbcLow.setAttribute('visible',false);
 		keyboardNum.setAttribute('visible',false);
 		keyboardChar.setAttribute('visible',false);
@@ -140,7 +140,7 @@
 		keyboardNum.setAttribute('position','0 -10 -1');
 		keyboardChar.setAttribute('position','0 -10 -1');
 		keyboardAbcLow.setAttribute('position','0 0 0');
-		
+
 		keyboardNum.setAttribute('visible',false);
 		keyboardChar.setAttribute('visible',false);
 		keyboardAbcHigh.setAttribute('visible',false);
@@ -160,7 +160,26 @@
 			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
 		</a-assets>
 
-	    <a-entity geometry="primitive: box; width:5; height:2; depth:0.01;" position="0 3 -4" material="shader: html; target: #htmlElement; fps:1;"></a-entity>
+	   <!-- <a-entity geometry="primitive: box; width:5; height:2; depth:0.01;" position="0 3 -4" material="shader: html; target: #htmlElement; fps:1;"></a-entity> -->
+		<a-gui-flex-container
+				id="flex"
+				flex-direction="column" justify-content="center" align-items="middle" component-padding="0.1"
+				opacity="0.7" width="4.5" height="1.8"
+				position="0 3 -4" rotation="0 0 0"
+		>		<a-gui-input id="test_input"
+					 width="4" height="0.7"
+					 onclick="testInputAction"
+					 value=""
+					 font-size="160px"
+					 font-color="#212121"
+					 border-color="#212121"
+					 border-hover-color="#424242"
+					 background-color="#FAFAFA"
+					 hover-color="#F5F5F5"
+					 active-color="#FFEB3B"
+				>
+				</a-gui-input>
+		</a-gui-flex-container>
 
   		<a-entity position="0 0.75 -4" rotation="-15 0 0">
 	  		<a-entity id="keyboardNum" visible="false" position="0 -10 -1">
@@ -169,43 +188,43 @@
 							position="0 0.5 0"
 				>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:49;"
+							   	gui-interactable="clickAction: keypress; key:1;"
 								gui-button=" text:1; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:50;"
+							   	gui-interactable="clickAction: keypress; key:2;"
 								gui-button=" text:2; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:51;"
+							   	gui-interactable="clickAction: keypress; key:3;"
 								gui-button=" text:3; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:52;"
+							   	gui-interactable="clickAction: keypress; key:4;"
 								gui-button=" text:4; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:53;"
+							   	gui-interactable="clickAction: keypress; key:5;"
 								gui-button=" text:5; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:54;"
+							   	gui-interactable="clickAction: keypress; key:6;"
 								gui-button=" text:6; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:55;"
+							   	gui-interactable="clickAction: keypress; key:7;"
 								gui-button=" text:7; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:56;"
+							   	gui-interactable="clickAction: keypress; key:8;"
 								gui-button=" text:8; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:57;"
+							   	gui-interactable="clickAction: keypress; key:9;"
 								gui-button=" text:9; fontFamily:'Fira Sans';"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:48;"
+							   	gui-interactable="clickAction: keypress; key:0;"
 								gui-button=" text:0; fontFamily:'Fira Sans';"
 					></a-entity>
 				</a-entity>
@@ -214,46 +233,46 @@
 							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 							position="0 0 0"
 				>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:189;" hyphen
-								gui-button=" text:char#45; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:191;" slash
-								gui-button=" text:char#47; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:186;" colon
-								gui-button=" text:char#58; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:186;" semicolon
-								gui-button=" text:char#59; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:57;" left_parenthesis
-								gui-button=" text:char#40; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:48;" right_parenthesis
-								gui-button=" text:char#41; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:52;" dollarsign
-								gui-button=" text:char#36; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:55;" ampersand
-								gui-button=" text:char#38; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:50;" at_sign
-								gui-button=" text:char#64; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:222;" double_quotation_mark
-								gui-button="text:char#34; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="-"
+									 value="-" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="/"
+									 value="/" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key=":"
+									 value=":" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key=";"
+									 value=";" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="("
+									 value="(" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key=")"
+									 value=")" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="$"
+									 value="$" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="&"
+									 value="&" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="@"
+									 value="@" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key='"'
+									 value='"' font-family="Fira Sans"
+					></a-gui-button>
 				</a-entity>
 
 				<a-entity 	gui-item="type: flex-container; width: 5.25; height: 0.5;"
@@ -263,29 +282,29 @@
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: switchKb2; keyCode:17;"
 								gui-button=" text:#+=; fontFamily:'Fira Sans';"
-					></a-entity>				
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:190;" period
-								gui-button=" text:char#46; fontFamily:'Fira Sans';"
 					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:188;" comma
-								gui-button=" text:char#44; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:191;" question_mark
-								gui-button=" text:char#63; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:49;" exclamation_mark
-								gui-button=" text:char#33; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:222;" apostrophe
-								gui-button=" text:char#39; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="."
+									 value="." font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key=","
+									 value="," font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="?"
+									 value="?" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="!"
+									 value="!" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="'"
+									 value="'" font-family="Fira Sans"
+					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:8;" 
+							   	gui-interactable="clickAction: keypress; key:Backspace;"
 								gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
 					></a-entity>
 				</a-entity>
@@ -295,76 +314,76 @@
 							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 							position="0 0.5 0"
 				>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:219;" left_square_bracket
-								gui-button=" text:char#91; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:221;" right_square_bracket
-								gui-button=" text:char#93; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:219;" left_curly_brace
-								gui-button=" text:char#123; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:221;" right_curly_brace
-								gui-button=" text:char#125; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:51;" number_sign
-								gui-button=" text:char#35; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:53;" percent_sign
-								gui-button=" text:char#37; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:54;" caret
-								gui-button=" text:char#94; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:56;" asterisk
-								gui-button=" text:char#42; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:187;" plus_sign
-								gui-button=" text:char#43; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:187;" equals_sign
-								gui-button=" text:char#61; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="["
+									 value="[" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="]"
+									 value="]" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="{"
+									 value="{" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="}"
+									 value="}" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="#"
+									 value="#" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="%"
+									 value="%" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="^"
+									 value="^" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="*"
+									 value="*" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="+"
+									 value="+" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="="
+									 value="=" font-family="Fira Sans"
+					></a-gui-button>
 				</a-entity>
 
 				<a-entity 	gui-item="type: flex-container; width: 5.25; height: 0.5;"
 							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 							position="0 0 0"
 				>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:189;" underscore
-								gui-button=" text:char#95; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:220;" backslash
-								gui-button=" text:char#92; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:220;" vertical_bar
-								gui-button=" text:char#124; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:192;" tilde
-								gui-button=" text:char#126; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:188;" less-than_sign
-								gui-button=" text:char#60; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:190;" greater-than_sign
-								gui-button=" text:char#62; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="_"
+									 value="_" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="\"
+									 value="\" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="|"
+									 value="|" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="~"
+									 value="~" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="<"
+									 value="<" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key=">"
+									 value=">" font-family="Fira Sans"
+					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; keyCode:69;" euro
 								gui-button=" text:€; fontFamily:'Fira Sans';"
@@ -390,31 +409,32 @@
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: switchKb2; keyCode:17;"
 								gui-button=" text:123; fontFamily:'Fira Sans';"
-					></a-entity>				
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:46;" period
-								gui-button=" text:char#46; fontFamily:'Fira Sans';"
 					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:44;" comma
-								gui-button=" text:char#44; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:63;" question_mark
-								gui-button=" text:char#63; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:33;" exclamation_mark
-								gui-button=" text:char#33; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:39;" apostrophe
-								gui-button=" text:char#39; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="."
+									 value="." font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key=","
+									 value="," font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="?"
+									 value="?" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="!"
+									 value="!" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="*"
+									 value="(" font-family="Fira Sans"
+					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:8;" 
-								gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
-					></a-entity>
+																	 gui-interactable="clickAction: keypress; key:Backspace;"
+																	 gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+				></a-entity>
+
 				</a-entity>
 			</a-entity>
 	  		<a-entity id="keyboardAbcHigh" visible="false" position="0 -10 -1">
@@ -422,88 +442,88 @@
 							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 							position="0 0.5 0"
 				>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:81;"
-								gui-button=" text:Q; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:87;"
-								gui-button=" text:W; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:69;"
-								gui-button=" text:E; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:82;"
-								gui-button=" text:R; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:84;"
-								gui-button=" text:T; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:89;"
-								gui-button=" text:Y; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:85;"
-								gui-button=" text:U; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:73;"
-								gui-button=" text:I; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:79;"
-								gui-button=" text:O; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:80;"
-								gui-button=" text:P; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="Q"
+									 value="Q" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="W"
+									 value="W" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="E"
+									 value="E" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="R"
+									 value="R" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="T"
+									 value="T" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="Y"
+									 value="Y" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="U"
+									 value="U" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="I"
+									 value="I" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="O"
+									 value="O" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="P"
+									 value="P" font-family="Fira Sans"
+					></a-gui-button>
 				</a-entity>
 
 				<a-entity 	gui-item="type: flex-container; width: 5.25; height: 0.5;"
 							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 							position="0 0 0"
 				>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:65;"
-								gui-button=" text:A; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:83;"
-								gui-button=" text:S; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:68;"
-								gui-button=" text:D; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:70;"
-								gui-button=" text:F; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:71;"
-								gui-button=" text:G; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:72;"
-								gui-button=" text:H; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:74;"
-								gui-button=" text:J; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:75;"
-								gui-button=" text:K; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:76;"
-								gui-button=" text:L; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="A"
+									 value="A" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="S"
+									 value="S" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="D"
+									 value="D" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="F"
+									 value="F" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="G"
+									 value="G" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="H"
+									 value="H" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="J"
+									 value="J" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="K"
+									 value="K" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="L"
+									 value="L" font-family="Fira Sans"
+					></a-gui-button>
 				</a-entity>
 
 				<a-entity 	gui-item="type: flex-container; width: 5.25; height: 0.5;"
@@ -513,38 +533,38 @@
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: switchKbToAbcLow; keyCode:16;" id="shiftDown"
 								gui-icon-label-button="icon:arrow-down-a; text:; fontFamily:'Fira Sans';"
-					></a-entity>				
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:90;"
-								gui-button=" text:Z; fontFamily:'Fira Sans';"
 					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:88;"
-								gui-button=" text:X; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:67;"
-								gui-button=" text:C; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:86;"
-								gui-button=" text:V; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:66;"
-								gui-button=" text:B; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:78;"
-								gui-button=" text:N; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:77;"
-								gui-button=" text:M; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="Z"
+									 value="Z" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="X"
+									 value="X" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="C"
+									 value="C" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="V"
+									 value="V" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="B"
+									 value="B" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="N"
+									 value="N" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="M"
+									 value="M" font-family="Fira Sans"
+					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:8;" 
-								gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+								 gui-interactable="clickAction: keypress; key:Backspace;"
+								 gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
 					></a-entity>
 				</a-entity>
 			</a-entity>
@@ -553,88 +573,88 @@
 							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 							position="0 0.5 0"
 				>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:81;"
-								gui-button=" text:q; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:87;"
-								gui-button=" text:w; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:69;"
-								gui-button=" text:e; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:82;"
-								gui-button=" text:r; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:84;"
-								gui-button=" text:t; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:89;"
-								gui-button=" text:y; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:85;"
-								gui-button=" text:u; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:73;"
-								gui-button=" text:i; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:79;"
-								gui-button=" text:o; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:80;"
-								gui-button=" text:p; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="q"
+									 value="q" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="w"
+									 value="w" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="e"
+									 value="e" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="r"
+									 value="r" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="t"
+									 value="t" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="y"
+									 value="y" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="u"
+									 value="u" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="i"
+									 value="i" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="o"
+									 value="o" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="p"
+									 value="p" font-family="Fira Sans"
+					></a-gui-button>
 				</a-entity>
 
 				<a-entity 	gui-item="type: flex-container; width: 5.25; height: 0.5;"
 							gui-flex-container="flexDirection: row; justifyContent: center; alignItems: normal; componentPadding: 0.1; opacity: 0.7"
 							position="0 0 0"
 				>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:65;"
-								gui-button=" text:a; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:83;"
-								gui-button=" text:s; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:68;"
-								gui-button=" text:d; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:70;"
-								gui-button=" text:f; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:71;"
-								gui-button=" text:g; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:72;"
-								gui-button=" text:h; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:74;"
-								gui-button=" text:j; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:75;"
-								gui-button=" text:k; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:76;"
-								gui-button=" text:l; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="a"
+									 value="a" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="s"
+									 value="s" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="d"
+									 value="d" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="f"
+									 value="f" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="g"
+									 value="g" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="h"
+									 value="h" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="j"
+									 value="j" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="k"
+									 value="k" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="l"
+									 value="l" font-family="Fira Sans"
+					></a-gui-button>
 				</a-entity>
 
 				<a-entity 	gui-item="type: flex-container; width: 5.25; height: 0.5;"
@@ -644,38 +664,38 @@
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: switchKbToAbcHigh; keyCode:16;" id="shiftUp"
 								gui-icon-label-button="icon:arrow-up-a; text:; fontFamily:'Fira Sans';"
-					></a-entity>				
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:90;"
-								gui-button=" text:z; fontFamily:'Fira Sans';"
 					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:88;"
-								gui-button=" text:x; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:67;"
-								gui-button=" text:c; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:86;"
-								gui-button=" text:v; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:66;"
-								gui-button=" text:b; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:78;"
-								gui-button=" text:n; fontFamily:'Fira Sans';"
-					></a-entity>
-					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:77;"
-								gui-button=" text:m; fontFamily:'Fira Sans';"
-					></a-entity>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="z"
+									 value="z" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="x"
+									 value="x" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="c"
+									 value="c" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="v"
+									 value="v" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="b"
+									 value="b" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="n"
+									 value="n" font-family="Fira Sans"
+					></a-gui-button>
+					<a-gui-button	width="0.5" height="0.5"
+									 onclick="keypress" key="m"
+									 value="m" font-family="Fira Sans"
+					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
-							   	gui-interactable="clickAction: keypress; keyCode:8;" 
-								gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+								 gui-interactable="clickAction: keypress; key:Backspace;"
+								 gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
 					></a-entity>
 				</a-entity>
 			</a-entity>
@@ -716,7 +736,7 @@
 			</a-camera> <!-- /camera -->
 		</a-entity>
 
-		
+
 		<div style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
 			<div id="htmlElement" style="background: #fff; color:#000; font-size: 60px; width:1500px; height: 600px;"></div>
 		</div>
@@ -742,7 +762,7 @@
 				window.kbAbcHigh = false;
 				window.kbNum = false;
 				window.kbChar = false;
-				toggleKb(window.kbAbcLow);				
+				toggleKb(window.kbAbcLow);
 			}
 		}
 
@@ -753,7 +773,7 @@
 		    var keyboardChar = document.getElementById("keyboardChar");
 
 			if(old_timestamp == null || old_timestamp + 100 < event.timeStamp){ //prevent multiple clicks when using keyboard
-			    
+
 				if( keyboardNum.getAttribute('position').y == 0){
 					window.kbAbcLow = false;
 					window.kbAbcHigh = false;
@@ -788,34 +808,73 @@
 
 
 
-		window.keyCodeToChar = {8:"Backspace",9:"Tab",13:"Enter",16:"Shift",17:"Ctrl",18:"Alt",19:"Pause/Break",20:"Caps Lock",27:"Esc",32:"Space",33:"Page Up",34:"Page Down",35:"End",36:"Home",37:"Left",38:"Up",39:"Right",40:"Down",45:"Insert",46:"Delete",48:"0",49:"1",50:"2",51:"3",52:"4",53:"5",54:"6",55:"7",56:"8",57:"9",65:"A",66:"B",67:"C",68:"D",69:"E",70:"F",71:"G",72:"H",73:"I",74:"J",75:"K",76:"L",77:"M",78:"N",79:"O",80:"P",81:"Q",82:"R",83:"S",84:"T",85:"U",86:"V",87:"W",88:"X",89:"Y",90:"Z",91:"Windows",93:"Right Click",96:"Numpad 0",97:"Numpad 1",98:"Numpad 2",99:"Numpad 3",100:"Numpad 4",101:"Numpad 5",102:"Numpad 6",103:"Numpad 7",104:"Numpad 8",105:"Numpad 9",106:"Numpad *",107:"Numpad +",109:"Numpad -",110:"Numpad .",111:"Numpad /",112:"F1",113:"F2",114:"F3",115:"F4",116:"F5",117:"F6",118:"F7",119:"F8",120:"F9",121:"F10",122:"F11",123:"F12",144:"Num Lock",145:"Scroll Lock",182:"My Computer",183:"My Calculator",186:";",187:"=",188:",",189:"-",190:".",191:"/",192:"`",219:"[",220:"\\",221:"]",222:"'"};		
+		window.keyCodeToChar = {8:"Backspace",9:"Tab",13:"Enter",16:"Shift",17:"Ctrl",18:"Alt",19:"Pause/Break",20:"Caps Lock",27:"Esc",32:"Space",33:"Page Up",34:"Page Down",35:"End",36:"Home",37:"Left",38:"Up",39:"Right",40:"Down",45:"Insert",46:"Delete",48:"0",49:"1",50:"2",51:"3",52:"4",53:"5",54:"6",55:"7",56:"8",57:"9",65:"A",66:"B",67:"C",68:"D",69:"E",70:"F",71:"G",72:"H",73:"I",74:"J",75:"K",76:"L",77:"M",78:"N",79:"O",80:"P",81:"Q",82:"R",83:"S",84:"T",85:"U",86:"V",87:"W",88:"X",89:"Y",90:"Z",91:"Windows",93:"Right Click",96:"Numpad 0",97:"Numpad 1",98:"Numpad 2",99:"Numpad 3",100:"Numpad 4",101:"Numpad 5",102:"Numpad 6",103:"Numpad 7",104:"Numpad 8",105:"Numpad 9",106:"Numpad *",107:"Numpad +",109:"Numpad -",110:"Numpad .",111:"Numpad /",112:"F1",113:"F2",114:"F3",115:"F4",116:"F5",117:"F6",118:"F7",119:"F8",120:"F9",121:"F10",122:"F11",123:"F12",144:"Num Lock",145:"Scroll Lock",182:"My Computer",183:"My Calculator",186:";",187:"=",188:",",189:"-",190:".",191:"/",192:"`",219:"[",220:"\\",221:"]",222:"'"};
 
 
 
-		window.keypress = function() {
-			if(old_timestamp == null || old_timestamp + 100 < event.timeStamp){ //prevent multiple clicks when using keyboard
+		window.keypress = function(event) {
 
-				var keyCode = 222;	
-				var key = '';
+			console.log('in window.keypress');
+			if(window.old_timestamp == null || window.old_timestamp + 100 < event.timeStamp){ //prevent multiple clicks when using keyboard
 
-				if(event.target.parentEl.components['gui-interactable']){	
+				var keyCode = 222;
+				var key = null;
+				var text = null;
+
+				if(event.target.parentEl.components['gui-interactable']){
+					console.log('using parent el: ' + event.target.parentEl.id);
 					keyCode = event.target.parentEl.components['gui-interactable']['data']['keyCode'];
-					key = event.target.parentEl.components['gui-button']['data']['text'];
-					console.log("keypressed: " + window.keyCodeToChar[keyCode]);
+					key = event.target.parentEl.components['gui-interactable']['data']['key'];
+					var buttonComponent = event.target.parentEl.components['gui-button'];
+					var iconButtonComponent = event.target.parentEl.components['gui-icon-button'];
+					var iconLabelButtonComponent = event.target.parentEl.components['gui-icon-label-button'];
+					if (buttonComponent) {
+						text = buttonComponent['data']['text'];
+					} else if (iconButtonComponent) {
+						text = iconButtonComponent['data']['text'];
+					} else if (iconLabelButtonComponent) {
+						text = iconLabelButtonComponent['data']['text'];
+					}
+					console.log("keyCode: " + keyCode);
 					console.dir(event.target.parentEl.components['gui-interactable']['data']['keyCode']);
-					console.log("keypressed with button: " + window.keyCodeToChar[keyCode]);
-				}else{
+					console.log("keypressed with button: " + keyCode);
+				} else {
+					console.log('using el: ' + event.target.parentEl.id);
 					keyCode = event.target.components['gui-interactable']['data']['keyCode'];
-					key = event.target.components['gui-button']['data']['text'];
-					console.log("keypressed with keyboard: " + window.keyCodeToChar[keyCode]);
+					key = event.target.components['gui-interactable']['data']['key'];
+					var buttonComponent = event.target.components['gui-button'];
+					var iconButtonComponent = event.target.components['gui-icon-button'];
+					var iconLabelButtonComponent = event.target.components['gui-icon-label-button'];
+					if (buttonComponent) {
+						text = buttonComponent['data']['text'];
+					} else if (iconButtonComponent) {
+						text = iconButtonComponent['data']['text'];
+					} else if (iconLabelButtonComponent) {
+						text = iconLabelButtonComponent['data']['text'];
+					}
+					console.log("keypressed with keyboard: " + keyCode);
 				}
 
-				var textField = document.getElementById("htmlElement");
-				textField.textContent += window.keyCodeToChar[keyCode];
-
-				old_timestamp = event.timeStamp;
+				//var textField = document.getElementById("htmlElement");
+				//textField.textContent += window.keyCodeToChar[keyCode];
+				// var char = window.keyCodeToChar[keyCode];
+				if (!text) {
+					text = String.fromCharCode(keyCode);
+					if (keyCode >= 65 || keyCode <= 90) {
+						text = text.toLowerCase();
+					}
+				}
+				var textField = document.getElementById("test_input");
+				if (key === 'Backspace') {
+					textField.components['gui-input'].delete();
+				} else if (text === 'space') {
+					textField.components['gui-input'].appendText(' ');
+				} else {
+					textField.components['gui-input'].appendText(text);
+				}
+				window.old_timestamp = event.timeStamp;
 			}
-		}		
+		}
 
 		window.voicecontrol = function() {
 			console.log("voicecontrol");

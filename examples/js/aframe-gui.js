@@ -176,9 +176,11 @@ AFRAME.registerComponent('gui-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        console.log("in button, guiItem: " + JSON.stringify(guiItem));
+        this.guiItem = guiItem;
+        //console.log("in button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
-        console.log("in button, guiInteractable: " + JSON.stringify(guiInteractable));
+        this.guiInteractable = guiInteractable;
+        //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.width * multiplier;
         var canvasHeight = guiItem.height * multiplier;
@@ -198,8 +200,6 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:double; color:' + data.backgroundColor + ';');
 
-        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle', data.fontWeight);
-
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', 'primitive: box; width: ' + guiItem.width + '; height: ' + guiItem.height + '; depth: 0.02;');
         buttonContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
@@ -209,17 +209,13 @@ AFRAME.registerComponent('gui-button', {
 
         var buttonEntity = document.createElement("a-entity");
         buttonEntity.setAttribute('geometry', 'primitive: box; width: ' + (guiItem.width - 0.025) + '; height: ' + (guiItem.height - 0.025) + '; depth: 0.04;');
-        buttonEntity.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.backgroundColor);
+        buttonEntity.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + (data.toggleState ? data.activeColor : data.backgroundColor));
         buttonEntity.setAttribute('rotation', '0 0 0');
         buttonEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var textEntity = document.createElement("a-entity");
-        textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
-        textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
-        textEntity.setAttribute('position', '0 0 0.041');
-        el.appendChild(textEntity);
+        this.setText(data.text);
 
         el.addEventListener('mouseenter', function (event) {
             buttonEntity.removeAttribute('animation__leave');
@@ -274,6 +270,15 @@ AFRAME.registerComponent('gui-button', {
     },
     setText: function setText(newText) {
         drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, 'center', 'middle', this.data.fontWeight);
+        if (this.textEntity) {
+            this.el.removeChild(this.textEntity);
+        }
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('geometry', 'primitive: plane; width: ' + this.guiItem.width / 1.05 + '; height: ' + this.guiItem.height / 1.05 + ';');
+        textEntity.setAttribute('material', 'shader: flat; src: #' + this.canvas.id + '; transparent: true; opacity: 1; side:front;');
+        textEntity.setAttribute('position', '0 0 0.041');
+        this.el.appendChild(textEntity);
     }
 });
 
@@ -1230,9 +1235,9 @@ AFRAME.registerComponent('gui-icon-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        console.log("in icon button, guiItem: " + JSON.stringify(guiItem));
+        //console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
-        console.log("in button, guiInteractable: " + JSON.stringify(guiInteractable));
+        //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height * multiplier; //square
         var canvasHeight = guiItem.height * multiplier;
@@ -1250,8 +1255,8 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var ctx = this.ctx = canvas.getContext('2d');
 
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:back; color:' + data.backgroundColor + ';');
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
+        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.0; alphaTest: 0.5; side:double; color:' + data.backgroundColor + ';');
 
         drawIcon(ctx, canvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
@@ -1272,7 +1277,7 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
-        textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
+        textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; alphaTest: 0.5; side:front;');
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 
@@ -1531,12 +1536,14 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
 
 AFRAME.registerComponent('gui-input', {
     schema: {
+        align: { type: 'string', default: 'left' },
         on: { default: 'click' },
-        inputText: { type: 'string', default: 'Placeholder' },
+        text: { type: 'string', default: '' },
         toggle: { type: 'boolean', default: false },
         fontSize: { type: 'string', default: '150px' },
         fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_grey_dark },
+        fontWeight: { type: 'string', default: 'normal' },
         borderColor: { type: 'string', default: key_grey_dark },
         borderHoverColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -1569,12 +1576,18 @@ AFRAME.registerComponent('gui-input', {
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: false; side:front; color:' + data.backgroundColor + ';');
 
-        drawText(ctx, canvas, data.inputText, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
+        this.oldText = data.text;
 
+        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, data.align, 'middle', data.fontWeight);
+
+        if (this.inputEntity) {
+            el.removeChild(this.inputEntity);
+        }
         var inputEntity = document.createElement("a-entity");
         inputEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
         inputEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
         inputEntity.setAttribute('position', '0 0 0.01');
+        this.inputEntity = inputEntity;
         el.appendChild(inputEntity);
 
         var borderTopEntity = document.createElement("a-entity");
@@ -1631,7 +1644,28 @@ AFRAME.registerComponent('gui-input', {
         });
     },
     play: function play() {},
-    update: function update(oldData) {}
+    update: function update(oldData) {
+        // console.log("In label update, toggle");
+        this.init();
+    },
+    tick: function tick() {
+        if (this.data.text !== this.oldText) {
+            // console.log('text was changed, about to draw text: ' + this.data.text);
+            this.oldText = this.data.text;
+            //  drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
+            drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, data.align, 'middle', this.data.fontWeight);
+        }
+    },
+    appendText: function appendText(text) {
+        var newText = this.data.text + text;
+        this.el.setAttribute('gui-input', 'text', newText);
+    },
+    delete: function _delete() {
+        if (this.data.text && this.data.text.length > 0) {
+            var newText = this.data.text.slice(0, -1);
+            this.el.setAttribute('gui-input', 'text', newText);
+        }
+    }
 });
 
 AFRAME.registerPrimitive('a-gui-input', {
@@ -1672,7 +1706,8 @@ AFRAME.registerComponent('gui-interactable', {
     schema: {
         clickAction: { type: 'string' },
         hoverAction: { type: 'string' },
-        keyCode: { type: 'number', default: null }
+        keyCode: { type: 'number', default: null },
+        key: { type: 'string', default: null }
     },
     init: function init() {
         var _this = this;
@@ -1681,8 +1716,12 @@ AFRAME.registerComponent('gui-interactable', {
 
         if (data.keyCode) {
             window.addEventListener("keydown", function (event) {
-                if (event.keyCode == data.keyCode) {
-                    console.log("key press by gui-interactable : " + data.keyCode);
+                // console.log('in keydown handler, event key: ' + event.key);
+                if (event.key == data.key) {
+                    //    console.log("key press by gui-interactable, key: " + data.key);
+                    el.emit('click');
+                } else if (event.keyCode == data.keyCode) {
+                    //    console.log("key press by gui-interactable, keyCode: " + data.keyCode);
                     el.emit('click');
                 }
                 event.preventDefault();
@@ -2001,9 +2040,9 @@ AFRAME.registerComponent('gui-radio', {
             }
 
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: " + guiInteractable);
+            //console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: " + clickActionFunctionName);
+            //console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
@@ -2373,28 +2412,28 @@ AFRAME.registerComponent('gui-vertical-slider', {
         backgroundColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_grey },
         handleColor: { type: 'string', default: key_white },
-        handleInnerDepth: { type: 'number', default: '0.02' },
-        handleInnerRadius: { type: 'number', default: '0.13' },
-        handleOuterDepth: { type: 'number', default: '0.04' },
-        handleOuterRadius: { type: 'number', default: '0.17' },
+        handleInnerDepth: { type: 'number', default: 0.02 },
+        handleInnerRadius: { type: 'number', default: 0.13 },
+        handleOuterDepth: { type: 'number', default: 0.04 },
+        handleOuterRadius: { type: 'number', default: 0.17 },
         hoverColor: { type: 'string', default: key_grey_light },
         hoverFontSize: { type: 'string', default: '180px' },
-        hoverHeight: { type: 'number', default: '1.0' },
+        hoverHeight: { type: 'number', default: 1.0 },
         hoverPercent: { type: 'number' },
-        hoverWidth: { type: 'number', default: '1.0' },
-        hoverMargin: { type: 'vec4', default: '0 0 0 0' },
-        leftRightPadding: { type: 'number', default: '0.125' },
-        percent: { type: 'number', default: '0.5' },
+        hoverWidth: { type: 'number', default: 1.0 },
+        hoverMargin: { type: 'vec4', default: { x: 0, y: 0, z: 0, w: 0 } },
+        leftRightPadding: { type: 'number', default: 0.125 },
+        percent: { type: 'number', default: 0.5 },
         opacity: { type: 'number', default: 1.0 },
         outputFontSize: { type: 'string', default: '180px' },
         outputFunction: { type: 'string' },
-        outputHeight: { type: 'number', default: '1.0' },
-        outputMargin: { type: 'vec4', default: '0 0 0 0' },
-        outputTextDepth: { type: 'number', default: '0.25' },
-        outputWidth: { type: 'number', default: '1.0' },
-        sliderBarDepth: { type: 'number', default: '0.03' },
-        sliderBarWidth: { type: 'number', default: '0.08' },
-        topBottomPadding: { type: 'number', default: '0.25' }
+        outputHeight: { type: 'number', default: 1.0 },
+        outputMargin: { type: 'vec4', default: { x: 0, y: 0, z: 0, w: 0 } },
+        outputTextDepth: { type: 'number', default: 0.25 },
+        outputWidth: { type: 'number', default: 1.0 },
+        sliderBarDepth: { type: 'number', default: 0.03 },
+        sliderBarWidth: { type: 'number', default: 0.08 },
+        topBottomPadding: { type: 'number', default: 0.25 }
     },
     init: function init() {
         var _this = this;
@@ -2443,7 +2482,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         valueLabel.setAttribute('height', '' + guiItem.width * 0.7);
         // TODO: use function to calculate display value
         valueLabel.setAttribute('value', '');
-        valueLabel.setAttribute('opacity', '0.5');
+        valueLabel.setAttribute('opacity', '1.0');
         valueLabel.setAttribute('position', guiItem.width * 1.4 + ' 0 ' + data.sliderBarDepth);
         valueLabel.setAttribute('rotation', '-90 0 0');
         valueLabel.setAttribute('font-color', data.activeColor);

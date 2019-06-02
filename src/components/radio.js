@@ -111,9 +111,9 @@ AFRAME.registerComponent('gui-radio', {
             }
 
             var guiInteractable = el.getAttribute("gui-interactable");
-            console.log("guiInteractable: "+guiInteractable);
+            //console.log("guiInteractable: "+guiInteractable);
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("clickActionFunctionName: "+clickActionFunctionName);
+            //console.log("clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);

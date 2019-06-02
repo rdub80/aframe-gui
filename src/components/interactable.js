@@ -3,6 +3,7 @@ AFRAME.registerComponent('gui-interactable', {
         clickAction: {type: 'string'},
         hoverAction: {type: 'string'},
         keyCode: {type: 'number', default: null},
+        key: {type: 'string', default: null},
     },
     init: function () {
         var _this = this;
@@ -11,8 +12,12 @@ AFRAME.registerComponent('gui-interactable', {
 
         if(data.keyCode){
             window.addEventListener("keydown", function (event) {
-                if(event.keyCode == data.keyCode){                  
-                    console.log("key press by gui-interactable : " + data.keyCode);
+               // console.log('in keydown handler, event key: ' + event.key);
+                if(event.key == data.key){
+                //    console.log("key press by gui-interactable, key: " + data.key);
+                    el.emit('click');
+                } else if (event.keyCode == data.keyCode){
+                //    console.log("key press by gui-interactable, keyCode: " + data.keyCode);
                     el.emit('click');
                 }
                 event.preventDefault();

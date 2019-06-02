@@ -18,9 +18,9 @@ AFRAME.registerComponent('gui-icon-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
+        //console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
-        console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
+        //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 512; // POT conversion
         var canvasWidth = guiItem.height*multiplier; //square
         var canvasHeight = guiItem.height*multiplier;
@@ -38,8 +38,8 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var ctx = this.ctx = canvas.getContext('2d');
 
-        el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
-        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:back; color:${data.backgroundColor};`);
+        el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.0; alphaTest: 0.5; side:double; color:${data.backgroundColor};`);
 
         drawIcon(ctx, canvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
@@ -60,7 +60,7 @@ AFRAME.registerComponent('gui-icon-button', {
 
         var textEntity = document.createElement("a-entity");
         textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/2}; height: ${guiItem.height/2};`);
-        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
+        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; alphaTest: 0.5; side:front;`);
         textEntity.setAttribute('position', '0 0 0.041');
         el.appendChild(textEntity);
 

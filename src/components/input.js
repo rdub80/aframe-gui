@@ -1,11 +1,13 @@
 AFRAME.registerComponent('gui-input', {
     schema: {
+        align: {type: 'string', default: 'left'},
         on: {default: 'click'},
-        inputText: {type: 'string', default: 'Placeholder'},
+        text: {type: 'string', default: ''},
         toggle: {type: 'boolean', default: false},
         fontSize: {type: 'string', default: '150px'},
         fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
+        fontWeight: {type: 'string', default: 'normal'},
         borderColor: {type: 'string', default: key_grey_dark},
         borderHoverColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
@@ -38,12 +40,18 @@ AFRAME.registerComponent('gui-input', {
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: false; side:front; color:${data.backgroundColor};`);
 
-        drawText(ctx, canvas, data.inputText, data.fontSize, data.fontFamily, data.fontColor, 1,'center','middle');
+        this.oldText = data.text;
 
+        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,data.align,'middle', data.fontWeight);
+
+        if (this.inputEntity) {
+            el.removeChild(this.inputEntity);
+        }
         var inputEntity = document.createElement("a-entity");
         inputEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
         inputEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
         inputEntity.setAttribute('position', '0 0 0.01');
+        this.inputEntity = inputEntity;
         el.appendChild(inputEntity);
 
         var borderTopEntity = document.createElement("a-entity");
@@ -105,8 +113,27 @@ AFRAME.registerComponent('gui-input', {
 
     },
     update: function (oldData) {
-
+        // console.log("In label update, toggle");
+        this.init();
     },
+    tick() {
+        if (this.data.text !== this.oldText) {
+            // console.log('text was changed, about to draw text: ' + this.data.text);
+            this.oldText = this.data.text;
+            //  drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
+            drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1,data.align,'middle', this.data.fontWeight);
+        }
+    },
+    appendText(text) {
+        var newText = this.data.text + text;
+        this.el.setAttribute('gui-input', 'text', newText);
+    },
+    delete() {
+        if (this.data.text && this.data.text.length > 0) {
+            var newText = this.data.text.slice(0, -1);
+            this.el.setAttribute('gui-input', 'text', newText);
+        }
+    }
 });
 
 AFRAME.registerPrimitive( 'a-gui-input', {

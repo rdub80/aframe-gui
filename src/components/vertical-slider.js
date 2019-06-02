@@ -4,28 +4,28 @@ AFRAME.registerComponent('gui-vertical-slider', {
         backgroundColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_grey},
         handleColor: {type: 'string', default: key_white},
-        handleInnerDepth: {type: 'number', default: '0.02'},
-        handleInnerRadius: {type: 'number', default: '0.13'},
-        handleOuterDepth: {type: 'number', default: '0.04'},
-        handleOuterRadius: {type: 'number', default: '0.17'},
+        handleInnerDepth: {type: 'number', default: 0.02},
+        handleInnerRadius: {type: 'number', default: 0.13},
+        handleOuterDepth: {type: 'number', default: 0.04},
+        handleOuterRadius: {type: 'number', default: 0.17},
         hoverColor: {type: 'string', default: key_grey_light},
         hoverFontSize: {type: 'string', default: '180px'},
-        hoverHeight: {type: 'number', default: '1.0'},
+        hoverHeight: {type: 'number', default: 1.0},
         hoverPercent: {type: 'number'},
-        hoverWidth: {type: 'number', default: '1.0'},
-        hoverMargin: {type: 'vec4', default: '0 0 0 0'},
-        leftRightPadding: {type: 'number', default: '0.125'},
-        percent: {type: 'number', default: '0.5'},
+        hoverWidth: {type: 'number', default: 1.0},
+        hoverMargin: {type: 'vec4', default: {x: 0, y: 0, z: 0, w: 0}},
+        leftRightPadding: {type: 'number', default: 0.125},
+        percent: {type: 'number', default: 0.5},
         opacity: { type: 'number', default: 1.0 },
         outputFontSize: {type: 'string', default: '180px'},
         outputFunction: {type: 'string'},
-        outputHeight: {type: 'number', default: '1.0'},
-        outputMargin: {type: 'vec4', default: '0 0 0 0'},
-        outputTextDepth: {type: 'number', default: '0.25'},
-        outputWidth: {type: 'number', default: '1.0'},
-        sliderBarDepth: {type: 'number', default: '0.03'},
-        sliderBarWidth: {type: 'number', default: '0.08'},
-        topBottomPadding: {type: 'number', default: '0.25'},
+        outputHeight: {type: 'number', default: 1.0},
+        outputMargin: {type: 'vec4', default: {x: 0, y: 0, z: 0, w: 0}},
+        outputTextDepth: {type: 'number', default: 0.25},
+        outputWidth: {type: 'number', default: 1.0},
+        sliderBarDepth: {type: 'number', default: 0.03},
+        sliderBarWidth: {type: 'number', default: 0.08},
+        topBottomPadding: {type: 'number', default: 0.25},
     },
     init: function() {
         var data = this.data;
@@ -72,7 +72,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         valueLabel.setAttribute('height', `${guiItem.width * 0.7}`);
         // TODO: use function to calculate display value
         valueLabel.setAttribute('value', '');
-        valueLabel.setAttribute('opacity', '0.5');
+        valueLabel.setAttribute('opacity', '1.0');
         valueLabel.setAttribute('position', `${guiItem.width * 1.4} 0 ${data.sliderBarDepth}`);
         valueLabel.setAttribute('rotation', '-90 0 0');
         valueLabel.setAttribute('font-color', data.activeColor);

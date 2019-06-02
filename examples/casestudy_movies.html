@@ -8,14 +8,14 @@
 	<style type="text/css">
 		@font-face{
 			font-family:"Ionicons";
-			
+
 			src:url("assets/fonts/ionicons.eot?v=2.0.1");
 			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-			
+
 			font-weight:normal;
 			font-style:normal
 		}
-		body{font-family:Ionicons;} 
+		body{font-family:Ionicons;}
 		.visuallyhidden {
 			position: absolute;
 			display: block;
@@ -41,8 +41,8 @@
 	        <video id="film" src="assets/minority.mp4"></video>
 		</a-assets>
 
-			
-		<a-entity 
+
+		<a-entity
 			obj-model="obj: #theater-obj;"
 			material="color:#999"
 			position="-1 -0.25 0"
@@ -58,7 +58,7 @@
 
 
 		<a-gui-flex-container
-			flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1" 
+			flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
 			opacity="0.7" width="5" height="1"
 			position="0 0.45 -4" rotation="0 0 0" scale="0.5 0.5 0.5"
 		>
@@ -80,7 +80,7 @@
 				icon="music-note"
 			>
 			</a-gui-icon-button>
-			<a-gui-toggle 
+			<a-gui-toggle
 				width="2.5" height="0.75"
 				onclick="toggleCaps"
 				value="Captions"
@@ -138,7 +138,7 @@
 
 		}
 		function toggleCaps () {
-			console.log('toggleCaps visible/hidden');			
+			console.log('toggleCaps visible/hidden');
 		}
 
     </script>
