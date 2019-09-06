@@ -305,32 +305,35 @@ callback
 
 | Property           | Description                                           | Default Value  |
 | --------           | ----------------------------------------------------  | -------------  |
-| on                 | Event that triggers onclick action                    | click          |
-| input-text         | Input value                                           | 'Placeholder'  |
-| toggle             | Toggle status                                         | false          |
-| font-family        | Font family for input                                 | 'Arial'        |
-| font-size          | Font size for input                                   | '150px'        |
-| font-color         | Text input color                                      | #2c3037        |
+| background-color   | Background color of input                             | #22252a        |
 | border-color       | Border color of input                                 | #2c3037        |
 | border-hover-color | Border color when input is in hover state             | #22252a        |
-| background-color   | Background color of input                             | #22252a        |
-| hover-color        | Background color when input is in hover state         | #2c3037        |
-| active-color       | Background color when input is pressed down           | #ed5b21        |
+| font-color         | Text input color                                      | #2c3037        |
+| font-family        | Font family for input                                 | 'Arial'        |
+| font-size          | Font size for input                                   | '150px'        |
 | height             | Height of item                                        | 1              |
-| width              | Width of item                                         | 1              |
+| hover-color        | Background color when input is in hover state         | #2c3037        |
 | margin             | Margin around item                                    | 0 0 0 0        |
+| onclick               | Function to call on click event                    |           |
+| onhover               | Function to call on hover event                    |           |
+| value        | Input text value                                           |   |
+| width              | Width of item                                         | 1              |
 
 
 ```html
-<a-gui-icon-label-button
-	width="2.5" height="0.75"
-	onclick="buttonActionFunction"
-	icon="social-github"
-	value="label button"
-	font-family="Arial"
-	margin="0 0 0.05 0"
+<a-gui-input id="test_input"
+     width="4" height="0.7"
+     onclick="testInputAction"
+     value="Starting value"
+     font-size="160px"
+     font-color="#212121"
+     border-color="#212121"
+     border-hover-color="#424242"
+     background-color="#FAFAFA"
+     hover-color="#F5F5F5"
+     active-color="#FFEB3B"
 >
-</a-gui-icon-label-button>
+</a-gui-input>
 ```
 
 
