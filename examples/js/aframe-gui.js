@@ -1675,23 +1675,19 @@ AFRAME.registerPrimitive('a-gui-input', {
         'gui-input': {}
     },
     mappings: {
-        'onclick': 'gui-interactable.clickAction',
-        'onhover': 'gui-interactable.hoverAction',
-        'key-code': 'gui-interactable.keyCode',
-        'width': 'gui-item.width',
-        'height': 'gui-item.height',
-        'margin': 'gui-item.margin',
-        'on': 'gui-input.on',
-        'value': 'gui-input.inputText',
-        'toggle': 'gui-input.toggle',
-        'font-color': 'gui-input.fontColor',
-        'font-size': 'gui-input.fontSize',
-        'font-family': 'gui-input.fontFamily',
+        'background-color': 'gui-input.backgroundColor',
         'border-color': 'gui-input.borderColor',
         'border-hover-color': 'gui-input.borderHoverColor',
-        'background-color': 'gui-input.backgroundColor',
+        'font-color': 'gui-input.fontColor',
+        'font-family': 'gui-input.fontFamily',
+        'font-size': 'gui-input.fontSize',
+        'height': 'gui-item.height',
         'hover-color': 'gui-input.hoverColor',
-        'active-color': 'gui-input.activeColor'
+        'onclick': 'gui-interactable.clickAction',
+        'onhover': 'gui-interactable.hoverAction',
+        'width': 'gui-item.width',
+        'margin': 'gui-item.margin',
+        'value': 'gui-input.inputText'
     }
 });
 
@@ -2417,10 +2413,10 @@ AFRAME.registerComponent('gui-vertical-slider', {
         handleOuterDepth: { type: 'number', default: 0.04 },
         handleOuterRadius: { type: 'number', default: 0.17 },
         hoverColor: { type: 'string', default: key_grey_light },
-        hoverFontSize: { type: 'string', default: '180px' },
-        hoverHeight: { type: 'number', default: 1.0 },
+        hoverFontSize: { type: 'number', default: 100.0 },
+        hoverHeight: { type: 'number', default: 0.35 },
         hoverPercent: { type: 'number' },
-        hoverWidth: { type: 'number', default: 1.0 },
+        hoverWidth: { type: 'number', default: 0.7 },
         hoverMargin: { type: 'vec4', default: { x: 0, y: 0, z: 0, w: 0 } },
         leftRightPadding: { type: 'number', default: 0.125 },
         percent: { type: 'number', default: 0.5 },
@@ -2478,7 +2474,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         handleContainer.appendChild(handle);
 
         var valueLabel = document.createElement('a-gui-label');
-        valueLabel.setAttribute('width', '' + guiItem.width * 1.4);
+        valueLabel.setAttribute('width', '' + guiItem.width * 1.4 * data.outputWidth);
         valueLabel.setAttribute('height', '' + guiItem.width * 0.7);
         // TODO: use function to calculate display value
         valueLabel.setAttribute('value', '');
@@ -2501,13 +2497,13 @@ AFRAME.registerComponent('gui-vertical-slider', {
         el.appendChild(hoverIndicator);
 
         var hoverLabel = document.createElement('a-gui-label');
-        hoverLabel.setAttribute('width', '' + guiItem.width * 0.7);
-        hoverLabel.setAttribute('height', '' + guiItem.width * 0.35);
+        hoverLabel.setAttribute('width', '' + guiItem.width * data.hoverWidth);
+        hoverLabel.setAttribute('height', '' + guiItem.width * data.hoverHeight);
         hoverLabel.setAttribute('value', '');
         hoverLabel.setAttribute('opacity', '0.5');
-        hoverLabel.setAttribute('position', -guiItem.width * 0.7 + ' 0 ' + data.sliderBarDepth);
+        hoverLabel.setAttribute('position', -guiItem.width * data.hoverWidth + ' 0 ' + data.sliderBarDepth);
         hoverLabel.setAttribute('font-color', data.borderColor);
-        hoverLabel.setAttribute('font-size', guiItem.width * 100 + 'px');
+        hoverLabel.setAttribute('font-size', guiItem.width * data.hoverFontSize + 'px');
         hoverLabel.setAttribute('text-depth', data.outputTextDepth);
         this.hoverLabel = hoverLabel;
         hoverIndicator.appendChild(hoverLabel);
@@ -2521,7 +2517,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         });
 
         el.addEventListener('click', function (evt) {
-            console.log('I was clicked at: ', evt.detail.intersection.point);
+            // console.log('I was clicked at: ', evt.detail.intersection.point);
             var localCoordinates = el.object3D.worldToLocal(evt.detail.intersection.point);
             console.log('click local coordinates: ', localCoordinates);
             console.log('current percent: ' + data.percent);
@@ -2549,11 +2545,11 @@ AFRAME.registerComponent('gui-vertical-slider', {
         });
 
         this.el.addEventListener('raycaster-intersected', function (evt) {
-            console.log('***** in raycaster-intersected');
+            // console.log('***** in raycaster-intersected');
             _this.raycaster = evt.detail.el;
         });
         this.el.addEventListener('raycaster-intersected-cleared', function (evt) {
-            console.log('****** in raycaster-intersected-cleared');
+            // console.log('****** in raycaster-intersected-cleared');
             _this.raycaster = null;
             _this.hoverIndicator.setAttribute('visible', false);
             _this.hoverLabel.setAttribute('visible', false);
@@ -2602,7 +2598,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         if (!intersection) {
             return;
         } else {
-            console.log('1: hover intersection point: ' + JSON.stringify(intersection.point));
+            //  console.log('1: hover intersection point: ' + JSON.stringify(intersection.point));
             if (this.previousLocalY && this.previousLocalY == intersection.point.y) {
                 this.hoverIndicator.setAttribute('visible', false);
                 this.hoverLabel.setAttribute('visible', false);
@@ -2617,13 +2613,13 @@ AFRAME.registerComponent('gui-vertical-slider', {
 
             mesh.matrixWorld.decompose(pos, rot, scale);
 
-            console.log('2: hover world position: ' + JSON.stringify(pos));
+            // console.log('2: hover world position: ' + JSON.stringify(pos));
             var localCoordinates = new THREE.Vector3();
             localCoordinates.x = intersection.point.x - pos.x;
             localCoordinates.y = intersection.point.y - pos.y;
             localCoordinates.z = intersection.point.z - pos.z;
             this.previousLocalY = localCoordinates.y;
-            console.log('3: hover local position: ' + JSON.stringify(localCoordinates));
+            //    console.log('3: hover local position: ' + JSON.stringify(localCoordinates));
             // var localCoordinates = el.object3D.worldToLocal(intersection.point);
             //console.log('local coordinates: ', localCoordinates);
             //console.log('current percent: '+data.percent);
