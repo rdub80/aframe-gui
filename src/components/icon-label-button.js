@@ -1,3 +1,5 @@
+require('../scripts/utils.js')
+
 AFRAME.registerComponent('gui-icon-label-button', {
     schema: {
         on: {default: 'click'},
@@ -48,8 +50,11 @@ AFRAME.registerComponent('gui-icon-label-button', {
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
 
-        var iconCanvasWidth = guiItem.height*multiplier; //square
-        var iconCanvasHeight = guiItem.height*multiplier;
+        var iconCanvasWidth = Utils.nearestPow2(guiItem.height * multiplier);//square
+        var iconCanvasHeight = Utils.nearestPow2(guiItem.height * multiplier);        
+        // var iconCanvasWidth = guiItem.height*multiplier; 
+        // var iconCanvasHeight = guiItem.height*multiplier;
+
         var iconCanvas = document.createElement("canvas");
         this.iconCanvas = iconCanvas;
         iconCanvas.className = "visuallyhidden";

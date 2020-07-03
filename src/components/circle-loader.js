@@ -1,6 +1,8 @@
+require('../scripts/utils.js')
+
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
-        count: {type: 'number', default: '100'},
+        count: {type: 'number', default: 100 },
         fontFamily: {type: 'string', default: 'Arial'},
         fontSize: {type: 'string', default: '150px'},
         fontColor: {type: 'string', default: key_grey},
@@ -13,8 +15,10 @@ AFRAME.registerComponent('gui-circle-loader', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
         var multiplier = 512; // POT conversion
-        var canvasWidth = guiItem.height*multiplier; //square
-        var canvasHeight = guiItem.height*multiplier;
+        var canvasWidth = Utils.nearestPow2(guiItem.height * multiplier);//square
+        var canvasHeight = Utils.nearestPow2(guiItem.height * multiplier);        
+        // var canvasWidth = guiItem.height*multiplier; 
+        // var canvasHeight = guiItem.height*multiplier;
 
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');

@@ -317,7 +317,7 @@ AFRAME.registerComponent('gui-cursor', {
 
         el.addEventListener("stateremoved", function (evt) {
             console.log("evt.detail " +evt.detail)
-            if (evt.detail === 'cursor-fusing') {
+            if (evt.detail.state === 'cursor-fusing' || evt.detail === 'cursor-fusing') {
                 if(data.design == 'dot' || data.design == 'ring' || data.design == 'cross' ){  
                     if(fuse){
                         fuseLoader.object3D.el.components.animation.animation.pause();
@@ -331,7 +331,7 @@ AFRAME.registerComponent('gui-cursor', {
                         AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.width', '0.000001');
                     }                    
                 }
-            }else if(evt.detail === 'cursor-hovering') {
+            }else if(evt.detail.state === 'cursor-hovering' || evt.detail === 'cursor-hovering') {
                 if(data.design == 'dot' || data.design == 'ring' ){  
                     AFRAME.utils.entity.setComponentProperty(this, 'scale', '1 1 1');
                     if(fuse){

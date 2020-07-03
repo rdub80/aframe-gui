@@ -1,3 +1,5 @@
+require('../scripts/utils.js')
+
 AFRAME.registerComponent('gui-input', {
     schema: {
         align: {type: 'string', default: 'left'},
@@ -20,8 +22,10 @@ AFRAME.registerComponent('gui-input', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
         var multiplier = 512; // POT conversion
-        var canvasWidth = guiItem.width*multiplier;
-        var canvasHeight = guiItem.height*multiplier;
+        var canvasWidth = Utils.nearestPow2(guiItem.width * multiplier);
+        var canvasHeight = Utils.nearestPow2(guiItem.height * multiplier);        
+        // var canvasWidth = guiItem.width*multiplier;
+        // var canvasHeight = guiItem.height*multiplier;
 
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');
