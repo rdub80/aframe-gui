@@ -79,7 +79,7 @@ AFRAME.registerComponent('gui-button', {
         toggle: { type: 'boolean', default: false },
         toggleState: { type: 'boolean', default: false },
         text: { type: 'string', default: 'text' },
-        fontSize: { type: 'string', default: '150px' },
+        fontSize: { type: 'number', default: 0.2 },
         fontFamily: { type: 'string', default: 'Arial' },
         fontWeight: { type: 'string', default: 'normal' },
         fontColor: { type: 'string', default: key_offwhite },
@@ -98,24 +98,6 @@ AFRAME.registerComponent('gui-button', {
         //console.log("in button, guiItem: "+JSON.stringify(guiItem));
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
-        //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
-        var multiplier = 512; // POT conversion
-        // var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
-        // var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var canvasWidth = guiItem.width * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-        console.log("in gui-button init, data: " + JSON.stringify(data));
-        var canvas = document.createElement("canvas");
-        this.canvas = canvas;
-        canvas.setAttribute('width', canvasWidth);
-        canvas.setAttribute('height', canvasHeight);
-        canvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(canvas);
-        var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:double; color:' + data.backgroundColor + ';');
@@ -189,15 +171,11 @@ AFRAME.registerComponent('gui-button', {
         }
     },
     setText: function setText(newText) {
-        drawText(this.ctx, this.canvas, newText, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, 'center', 'middle', this.data.fontWeight);
-        if (this.textEntity) {
-            this.el.removeChild(this.textEntity);
-        }
         var textEntity = document.createElement("a-entity");
         this.textEntity = textEntity;
-        textEntity.setAttribute('geometry', 'primitive: plane; width: ' + this.guiItem.width / 1.05 + '; height: ' + this.guiItem.height / 1.05 + ';');
-        textEntity.setAttribute('material', 'shader: flat; src: #' + this.canvas.id + '; transparent: true; opacity: 1; side:front;');
-        textEntity.setAttribute('position', '0 0 0.041');
+        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('position', '0 0 0.05');
+        //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
         this.el.appendChild(textEntity);
     }
 });
@@ -2763,6 +2741,9 @@ window.drawIcon = function (ctx, canvas, iconFontSize, icon, color) {
 if (typeof AFRAME === 'undefined') {
     throw new Error('Component attempted to register before AFRAME was available.');
 }
+
+// third-party
+// require('aframe-troika-text');
 
 // Components
 __webpack_require__(18);
