@@ -343,7 +343,7 @@ callback
 
 | Property         | Description                                             | Default Value  |
 | --------         | ------------------------------------------------------- | -------------  |
-| text             |  			                                             | 'label text'   |
+| value             |  			                                             | 'label text'   |
 | label-for        |  			                                             | null           |
 | font-family      | Font family for input                                   | 'Arial'        |
 | font-size        | Font size for input                                     | '150px'        |
