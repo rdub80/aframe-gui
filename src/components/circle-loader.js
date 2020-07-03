@@ -1,5 +1,3 @@
-require('../scripts/utils.js')
-
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         count: {type: 'number', default: 100 },
@@ -15,10 +13,10 @@ AFRAME.registerComponent('gui-circle-loader', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
         var multiplier = 512; // POT conversion
-        var canvasWidth = Utils.nearestPow2(guiItem.height * multiplier);//square
-        var canvasHeight = Utils.nearestPow2(guiItem.height * multiplier);        
-        // var canvasWidth = guiItem.height*multiplier; 
-        // var canvasHeight = guiItem.height*multiplier;
+        // var canvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
+        // var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
+        var canvasWidth = guiItem.height*multiplier; 
+        var canvasHeight = guiItem.height*multiplier;
 
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');

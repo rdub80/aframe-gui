@@ -13,10 +13,10 @@ if (typeof AFRAME === 'undefined') {
 
 AFRAME.registerShader('gradient', {
     schema: {
-        topColor: {type: 'vec3', default: '45 52 74', is: 'uniform'},
-        bottomColor: {type: 'vec3', default: '135 141 162', is: 'uniform'},
-        offset: {type: 'float', default: '400', is: 'uniform'},
-        exponent: {type: 'float', default: '0.9', is: 'uniform'}
+        topColor: {type: 'vec3', default: {x: 45, y: 52, z: 74}, is: 'uniform'},
+        bottomColor: {type: 'vec3', default: {x: 135, y: 141, z: 162}, is: 'uniform'},
+        offset: {type: 'float', default: 400, is: 'uniform'},
+        exponent: {type: 'float', default: 0.9, is: 'uniform'}
     },
     vertexShader:`
         varying vec3 vWorldPosition;

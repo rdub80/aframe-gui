@@ -1,5 +1,3 @@
-require('../scripts/utils.js')
-
 AFRAME.registerComponent('gui-radio', {
     schema: {
         on: {default: 'click'},
@@ -49,10 +47,10 @@ AFRAME.registerComponent('gui-radio', {
 //        var labelWidth = guiItem.width - radioBoxWidth;
         var labelWidth = guiItem.width - guiItem.height;
         var multiplier = 512; // POT conversion
-        var canvasWidth = Utils.nearestPow2(labelWidth.width * multiplier);
-        var canvasHeight = Utils.nearestPow2(guiItem.height * multiplier);                
-        // var canvasWidth = labelWidth*multiplier;
-        // var canvasHeight = guiItem.height*multiplier;
+        //var canvasWidth = window.nearestPow2(labelWidth.width * multiplier);
+        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);                
+        var canvasWidth = labelWidth*multiplier;
+        var canvasHeight = guiItem.height*multiplier;
 
         var canvasContainer = document.createElement('div');
         canvasContainer.setAttribute('class', 'visuallyhidden');

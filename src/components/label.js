@@ -1,5 +1,3 @@
-require('../scripts/utils.js')
-
 AFRAME.registerComponent('gui-label', {
   schema: {
     text: {type: 'string', default: 'label text'},
@@ -18,10 +16,10 @@ AFRAME.registerComponent('gui-label', {
     var el = this.el;
     var guiItem = el.getAttribute("gui-item");
     var multiplier = 500;
-    var canvasWidth = Utils.nearestPow2(guiItem.width * multiplier);
-    var canvasHeight = Utils.nearestPow2(guiItem.height * multiplier);        
-    // var canvasWidth = guiItem.width*multiplier;
-    // var canvasHeight = guiItem.height*multiplier;
+    //var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
+    //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
+    var canvasWidth = guiItem.width*multiplier;
+    var canvasHeight = guiItem.height*multiplier;
 
     var canvasContainer = document.createElement('div');
     this.canvasContainer = canvasContainer;
