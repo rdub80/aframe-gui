@@ -5,7 +5,7 @@
   	<title>A-Frame GUI All Components</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script> 
-	<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+	<!-- <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet"> -->
 
 
 	<style type="text/css">
@@ -39,16 +39,15 @@
 	<a-scene gui-env>
 		<a-assets>
 			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
-			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
-			<a-asset-item id="textfont" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
+			<a-asset-item id="iconfont" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="textfont1" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont2" src="assets/fonts/PressStart2P-Regular.ttf"></a-asset-item>			
 		</a-assets>
 
-
-    <!-- As a component: -->
-    <a-entity position="4 1 -6" troika-text="value: Hello world!"></a-entity>
-    
-    <!-- As a primitive: -->
-    <a-troika-text position="-4 1 -6" value="Hello world!"></a-troika-text>
+		<a-entity
+        	position="-3 2.5 -4"
+        	troika-text="value: &#xf133; color:#fff; fontSize:1; font:assets/fonts/fa-solid-900.ttf;"
+	      ></a-entity>
 
 
 		<a-gui-flex-container
@@ -70,8 +69,11 @@
 			<a-gui-icon-label-button
 				width="2.5" height="0.75"
 				onclick="testButtonAction"
-				icon="social-github"
-				value="label button"
+				icon="f133"
+				icon-font="assets/fonts/fa-solid-900.ttf"
+				value="icon label"
+				font-family="assets/fonts/PressStart2P-Regular.ttf"
+				font-size="0.17"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-icon-label-button>
