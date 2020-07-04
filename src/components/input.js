@@ -4,10 +4,10 @@ AFRAME.registerComponent('gui-input', {
         on: {default: 'click'},
         text: {type: 'string', default: ''},
         toggle: {type: 'boolean', default: false},
-        fontSize: {type: 'string', default: '150px'},
+        toggleState: {type: 'boolean', default: false},
+        fontSize: {type: 'number', default: 0.2},
         fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
-        fontWeight: {type: 'string', default: 'normal'},
         borderColor: {type: 'string', default: key_grey_dark},
         borderHoverColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
@@ -19,42 +19,13 @@ AFRAME.registerComponent('gui-input', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 512; // POT conversion
-        //var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
-        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var canvasWidth = guiItem.width*multiplier;
-        var canvasHeight = guiItem.height*multiplier;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        var canvas = document.createElement("canvas");
-        this.canvas = canvas;
-        canvas.className = "visuallyhidden";
-        canvas.setAttribute('width', canvasWidth);
-        canvas.setAttribute('height', canvasHeight);
-        canvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(canvas);
-
-        var ctx = this.ctx = canvas.getContext('2d');
+        this.guiItem = guiItem;        
+        var toggleState = this.toggleState = data.toggle;
+        var guiInteractable = el.getAttribute("gui-interactable");
+        this.guiInteractable = guiInteractable;
 
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: false; side:front; color:${data.backgroundColor};`);
-
-        this.oldText = data.text;
-
-        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,data.align,'middle', data.fontWeight);
-
-        if (this.inputEntity) {
-            el.removeChild(this.inputEntity);
-        }
-        var inputEntity = document.createElement("a-entity");
-        inputEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
-        inputEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; side:front;`);
-        inputEntity.setAttribute('position', '0 0 0.01');
-        this.inputEntity = inputEntity;
-        el.appendChild(inputEntity);
 
         var borderTopEntity = document.createElement("a-entity");
         borderTopEntity.setAttribute('geometry', `primitive: box; width: ${(guiItem.width)}; height: 0.05; depth: 0.02;`);
@@ -76,6 +47,8 @@ AFRAME.registerComponent('gui-input', {
         borderRightEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
         borderRightEntity.setAttribute('position', `${(guiItem.width/2)-0.025} 0 0.01`);
         el.appendChild(borderRightEntity);
+
+        this.setText(data.text);
 
         ////WAI ARIA Support
         el.setAttribute('role', 'input');
@@ -111,20 +84,33 @@ AFRAME.registerComponent('gui-input', {
 
 
     },
+    setText: function (newText) {
+        var textEntityX = this.guiItem.height*0.25 - this.guiItem.width*0.5;
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('troika-text', `value: ${newText}; 
+                                                align:left; 
+                                                anchor:left; 
+                                                baseline:center;
+                                                letterSpacing:0;
+                                                color:${this.data.fontColor};
+                                                font:${this.data.fontFamily};
+                                                fontSize:${this.data.fontSize};
+                                                depthOffset:1;
+                                                maxWidth:${this.guiItem.width/1.05};
+                                                `);
+        textEntity.setAttribute('position', `${textEntityX} 0 0.05`);
+
+//        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(textEntity);
+    },
     play: function () {
 
     },
     update: function (oldData) {
-        // console.log("In label update, toggle");
-        this.init();
-    },
-    tick() {
-        if (this.data.text !== this.oldText) {
-            // console.log('text was changed, about to draw text: ' + this.data.text);
-            this.oldText = this.data.text;
-            //  drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
-            drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1,data.align,'middle', this.data.fontWeight);
-        }
+        var data = this.data;
+        var el = this.el;
+        this.textEntity.setAttribute('troika-text', `value: ${data.text};`);
     },
     appendText(text) {
         var newText = this.data.text + text;
@@ -157,6 +143,6 @@ AFRAME.registerPrimitive( 'a-gui-input', {
         'onhover': 'gui-interactable.hoverAction',
         'width': 'gui-item.width',
         'margin': 'gui-item.margin',
-        'value': 'gui-input.inputText',
+        'value': 'gui-input.text',
     }
 });

@@ -135,7 +135,6 @@ AFRAME.registerPrimitive( 'a-gui-button', {
         'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
         'font-size': 'gui-button.fontSize',
-        'font-weight': 'gui-button.fontWeight',
         'font-family': 'gui-button.fontFamily',
         'border-color': 'gui-button.borderColor',
         'background-color': 'gui-button.backgroundColor',

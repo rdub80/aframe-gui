@@ -196,7 +196,6 @@ AFRAME.registerPrimitive('a-gui-button', {
         'value': 'gui-button.text',
         'font-color': 'gui-button.fontColor',
         'font-size': 'gui-button.fontSize',
-        'font-weight': 'gui-button.fontWeight',
         'font-family': 'gui-button.fontFamily',
         'border-color': 'gui-button.borderColor',
         'background-color': 'gui-button.backgroundColor',
@@ -216,9 +215,9 @@ AFRAME.registerPrimitive('a-gui-button', {
 
 AFRAME.registerComponent('gui-circle-loader', {
     schema: {
-        count: { type: 'number', default: 100 },
+        loaded: { type: 'number', default: 0.5 },
+        fontSize: { type: 'number', default: 0.2 },
         fontFamily: { type: 'string', default: 'Arial' },
-        fontSize: { type: 'string', default: '150px' },
         fontColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
         activeColor: { type: 'string', default: key_orange }
@@ -228,31 +227,10 @@ AFRAME.registerComponent('gui-circle-loader', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 512; // POT conversion
-        // var canvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
-        // var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var canvasWidth = guiItem.height * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        var canvas = document.createElement("canvas");
-        this.canvas = canvas;
-        canvas.className = "visuallyhidden";
-        canvas.setAttribute('width', canvasWidth);
-        canvas.setAttribute('height', canvasHeight);
-        canvas.className = 'visuallyhidden';
-        canvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(canvas);
-
-        var ctx = this.ctx = canvas.getContext('2d');
+        this.guiItem = guiItem;
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
-
-        drawText(ctx, canvas, data.count + '%', data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
         var loaderContainer = document.createElement("a-entity");
         loaderContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
@@ -261,26 +239,36 @@ AFRAME.registerComponent('gui-circle-loader', {
         loaderContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(loaderContainer);
 
-        var countLoaded = document.createElement("a-entity");
-        countLoaded.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.5 + '; height: ' + guiItem.height / 1.5 + ';');
-        countLoaded.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
-        countLoaded.setAttribute('position', '0 0 0.022');
-        countLoaded.id = "loader_ring_count";
-        el.appendChild(countLoaded);
+        // var countLoaded = document.createElement("a-entity");
+        // countLoaded.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/1.5}; height: ${guiItem.height/1.5};`);
+        // countLoaded.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:front;`);
+        // countLoaded.setAttribute('position', '0 0 0.022');
+        // countLoaded.id = "loader_ring_count";
+        // el.appendChild(countLoaded);
 
         var loaderRing = document.createElement("a-ring");
         loaderRing.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.activeColor);
         loaderRing.setAttribute('radius-inner', '' + guiItem.height / 3);
         loaderRing.setAttribute('radius-outer', '' + guiItem.height / 2);
         loaderRing.setAttribute('theta-start', '90');
-        loaderRing.setAttribute('theta-length', '10'); // this has to count 0 to 360 when loading
+        loaderRing.setAttribute('theta-length', '' + data.loaded * -360);
         loaderRing.setAttribute('rotation', '0 0 0');
         loaderRing.setAttribute('position', '0 0 0.04');
         loaderRing.id = "loader_ring";
         el.appendChild(loaderRing);
+
+        this.setText(data.loaded);
     },
     play: function play() {},
-    update: function update(oldData) {}
+    update: function update(oldData) {},
+    setText: function setText(newLoaded) {
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('troika-text', 'value: ' + Math.round(newLoaded * 100) + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('position', '0 0 0.05');
+        //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(textEntity);
+    }
 });
 
 AFRAME.registerPrimitive('a-gui-circle-loader', {
@@ -292,7 +280,7 @@ AFRAME.registerPrimitive('a-gui-circle-loader', {
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'count': 'gui-circle-loader.count',
+        'loaded': 'gui-circle-loader.loaded',
         'font-size': 'gui-circle-loader.fontSize',
         'font-family': 'gui-circle-loader.fontFamily',
         'font-color': 'gui-circle-loader.fontColor',
@@ -311,8 +299,8 @@ AFRAME.registerPrimitive('a-gui-circle-loader', {
 AFRAME.registerComponent('gui-circle-timer', {
     schema: {
         countDown: { type: 'number', default: 10 },
+        fontSize: { type: 'number', default: 0.2 },
         fontFamily: { type: 'string', default: 'Arial' },
-        fontSize: { type: 'string', default: '150px' },
         fontColor: { type: 'string', default: key_grey },
         borderColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -323,35 +311,12 @@ AFRAME.registerComponent('gui-circle-timer', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        this.guiItem = guiItem;
         var guiInteractable = el.getAttribute("gui-interactable");
         console.log("in timer callback, guiInteractable: " + JSON.stringify(guiInteractable));
-        var multiplier = 512; // POT conversion
-        //var canvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
-        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var canvasWidth = guiItem.height * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-
-        var initCount = this.initCount = data.countDown;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        var canvas = document.createElement("canvas");
-        this.canvas = canvas;
-        canvas.className = "visuallyhidden";
-        canvas.setAttribute('width', canvasWidth);
-        canvas.setAttribute('height', canvasHeight);
-        canvas.className = 'visuallyhidden';
-        canvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(canvas);
-
-        var ctx = this.ctx = canvas.getContext('2d');
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
-
-        drawText(ctx, canvas, data.countDown, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
 
         var timerContainer = document.createElement("a-entity");
         timerContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
@@ -359,13 +324,6 @@ AFRAME.registerComponent('gui-circle-timer', {
         timerContainer.setAttribute('rotation', '90 0 0');
         timerContainer.setAttribute('position', '0 0 0.01');
         el.appendChild(timerContainer);
-
-        var countDownLabel = document.createElement("a-entity");
-        countDownLabel.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.5 + '; height: ' + guiItem.height / 1.5 + ';');
-        countDownLabel.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
-        countDownLabel.setAttribute('position', '0 0 0.022');
-        el.appendChild(countDownLabel);
-        this.countDownLabel = countDownLabel;
 
         var timerIndicator1 = document.createElement("a-ring");
         timerIndicator1.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
@@ -410,6 +368,9 @@ AFRAME.registerComponent('gui-circle-timer', {
         timerRing.setAttribute('position', '0 0 0.03');
         el.appendChild(timerRing);
         this.timerRing = timerRing;
+
+        var initCount = this.initCount = data.countDown;
+        this.setText(data.countDown);
     },
     update: function update(oldData) {
         var data = this.data;
@@ -423,24 +384,26 @@ AFRAME.registerComponent('gui-circle-timer', {
                 count_down = this.initCount;
             var elapsed = Math.round((count_down - left) * 100 / count_down) / 100 * 360;
             this.timerRing.setAttribute('theta-length', elapsed); // this has to increase 0 to 360 when running the count_down
-            //text doesn't update
-            drawText(this.ctx, this.canvas, left, data.fontSize, data.fontFamily, data.fontColor, 1, 'center', 'middle');
-            if (this.countDownLabel) {
-                el.removeChild(this.countDownLabel);
-            }
-            var guiItem = el.getAttribute("gui-item");
-            var canvas = this.canvas;
-            var countDownLabel = document.createElement("a-entity");
-            countDownLabel.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 1.5 + '; height: ' + guiItem.height / 1.5 + ';');
-            countDownLabel.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
-            countDownLabel.setAttribute('position', '0 0 0.022');
-            el.appendChild(countDownLabel);
-            this.countDownLabel = countDownLabel;
+
+            this.textEntity.setAttribute('troika-text', 'value: ' + data.countDown + ';');
 
             if (left == 1) {
                 console.log('fire callback on the last second');
             }
         }
+    },
+    setText: function setText(newTime) {
+
+        // if (this.textEntity) {
+        //     el.removeChild(this.textEntity);
+        // }//clear old text
+
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('troika-text', 'value: ' + newTime + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('position', '0 0 0.05');
+        //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(textEntity);
     },
     callback: function callback() {
         var guiInteractable = this.el.getAttribute("gui-interactable");
@@ -1118,11 +1081,11 @@ AFRAME.registerComponent('gui-icon-button', {
     schema: {
         on: { default: 'click' },
         toggle: { type: 'boolean', default: false },
-        icon: { type: 'string', default: '' },
+        toggleState: { type: 'boolean', default: false },
+        icon: { type: 'string', default: 'f0f3' },
         iconActive: { type: 'string', default: '' },
-        fontFamily: { type: 'string', default: 'Arial' },
-        iconFontSize: { type: 'string', default: '400px' },
-        fontSize: { type: 'string', default: '150px' },
+        iconFontSize: { type: 'number', default: 0.4 },
+        iconFont: { type: 'string', default: 'assets/fonts/fa-regular-400.ttf' },
         fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
@@ -1134,32 +1097,13 @@ AFRAME.registerComponent('gui-icon-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        //console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
-        var guiInteractable = el.getAttribute("gui-interactable");
-        //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
-        var multiplier = 512; // POT conversion
-        //var canvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
-        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var canvasWidth = guiItem.height * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
+        this.guiItem = guiItem;
         var toggleState = this.toggleState = data.toggle;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-        var canvas = document.createElement("canvas");
-        this.canvas = canvas;
-        canvas.setAttribute('width', canvasWidth);
-        canvas.setAttribute('height', canvasHeight);
-        canvas.id = getUniqueId('canvasIcon');
-        canvasContainer.appendChild(canvas);
-
-        var ctx = this.ctx = canvas.getContext('2d');
+        var guiInteractable = el.getAttribute("gui-interactable");
+        this.guiInteractable = guiInteractable;
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.0; alphaTest: 0.5; side:double; color:' + data.backgroundColor + ';');
-
-        drawIcon(ctx, canvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', 'primitive: cylinder; radius: ' + guiItem.height / 2 + '; height: 0.02;');
@@ -1176,40 +1120,40 @@ AFRAME.registerComponent('gui-icon-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var textEntity = document.createElement("a-entity");
-        textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.height / 2 + '; height: ' + guiItem.height / 2 + ';');
-        textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; alphaTest: 0.5; side:front;');
-        textEntity.setAttribute('position', '0 0 0.041');
-        el.appendChild(textEntity);
+        this.setIcon(data.icon);
 
         el.addEventListener('mouseenter', function (evt) {
             buttonEntity.removeAttribute('animation__leave');
-            buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
+            if (!data.toggle) {
+                buttonEntity.setAttribute('animation__enter', 'property: material.color; from: ' + data.backgroundColor + '; to:' + data.hoverColor + '; dur:200;');
+            }
         });
         el.addEventListener('mouseleave', function (evt) {
             if (!data.toggle) {
                 buttonEntity.removeAttribute('animation__click');
+                buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
             }
             buttonEntity.removeAttribute('animation__enter');
-            buttonEntity.setAttribute('animation__leave', 'property: material.color; from: ' + data.hoverColor + '; to:' + data.backgroundColor + '; dur:200; easing: easeOutQuad;');
         });
-        el.addEventListener(data.on, function (evt) {
+        el.addEventListener(data.on, function (event) {
             if (!data.toggle) {
                 // if not toggling flashing active state
-                buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutBack;');
+                buttonEntity.setAttribute('animation__click', 'property: material.color; from: ' + data.activeColor + '; to:' + data.backgroundColor + '; dur:400; easing: easeOutQuad;');
             } else {
-                buttonEntity.setAttribute('material', 'color', data.activeColor);
+                var guiButton = el.components['gui-button'];
+                // console.log("about to toggle, current state: " + guiButton.data.toggleState);
+                guiButton.setActiveState(!guiButton.data.toggleState);
+                //  buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
 
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("in button, clickActionFunctionName: " + clickActionFunctionName);
+            // console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction(evt);
+            if (typeof clickActionFunction === "function") clickActionFunction(event);
         });
-
         ////WAI ARIA Support
         el.setAttribute('role', 'button');
     },
@@ -1218,11 +1162,26 @@ AFRAME.registerComponent('gui-icon-button', {
         console.log("In button update, toggle: " + this.toggleState);
     },
     setActiveState: function setActiveState(activeState) {
-        console.log("in setActiveState function");
-        this.data.toggle = this.toggleState = activeState;
+        // console.log("in setActiveState function, new state: " + activeState);
+        this.data.toggleState = activeState;
         if (!activeState) {
+            console.log('not active, about to set background color');
             this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
-        } else {}
+        } else {
+            console.log('active, about to set active color');
+            this.buttonEntity.setAttribute('material', 'color', this.data.activeColor);
+        }
+    },
+    setIcon: function setIcon(unicode) {
+        var hex = parseInt(unicode, 16);
+        var char = String.fromCharCode(hex);
+
+        var iconEntity = document.createElement("a-entity");
+        this.iconEntity = iconEntity;
+        iconEntity.setAttribute('troika-text', 'value:' + char + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                lineHeight:' + this.guiItem.height + ';\n                                                maxWidth:' + this.guiItem.width + ';\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.iconFont + ';\n                                                fontSize:' + this.data.iconFontSize + ';\n                                                depthOffset:1;\n                                                ');
+        iconEntity.setAttribute('position', '0 0.05 0.05'); // 0.05 y axis adjustment for fontawesome
+        //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(iconEntity);
     }
 });
 
@@ -1246,10 +1205,12 @@ AFRAME.registerPrimitive('a-gui-icon-button', {
         'background-color': 'gui-icon-button.backgroundColor',
         'hover-color': 'gui-icon-button.hoverColor',
         'active-color': 'gui-icon-button.activeColor',
-        'toggle': 'gui-icon-button.toggle',
         'icon': 'gui-icon-button.icon',
+        'icon-active': 'gui-icon-button.iconActive',
+        'icon-font': 'gui-icon-button.iconFont',
         'icon-font-size': 'gui-icon-button.iconFontSize',
-        'icon-active': 'gui-icon-button.iconActive'
+        'toggle': 'gui-icon-button.toggle',
+        'toggle-state': 'gui-icon-button.toggleState'
     }
 });
 
@@ -1267,7 +1228,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         toggleState: { type: 'boolean', default: false },
         icon: { type: 'string', default: 'f0f3' },
         iconActive: { type: 'string', default: '' },
-        iconFontSize: { type: 'number', default: 0.2 },
+        iconFontSize: { type: 'number', default: 0.35 },
         iconFont: { type: 'string', default: 'assets/fonts/fa-regular-400.ttf' },
         text: { type: 'string', default: '' },
         fontSize: { type: 'number', default: 0.2 },
@@ -1305,56 +1266,11 @@ AFRAME.registerComponent('gui-icon-label-button', {
         buttonEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
-        /*
-                var multiplier = 1024; // POT conversion
-                if(data.text != ''){
-                    var multiplier = 512;
-                }
-        
-                var canvasContainer = document.createElement('div');
-                canvasContainer.setAttribute('class', 'visuallyhidden');
-                document.body.appendChild(canvasContainer);
-        
-                //var iconCanvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
-                //var iconCanvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-                var iconCanvasWidth = guiItem.height*multiplier; 
-                var iconCanvasHeight = guiItem.height*multiplier;
-        
-                var iconCanvas = document.createElement("canvas");
-                this.iconCanvas = iconCanvas;
-                iconCanvas.className = "visuallyhidden";
-                iconCanvas.setAttribute('width', iconCanvasWidth);
-                iconCanvas.setAttribute('height', iconCanvasHeight);
-                iconCanvas.id = getUniqueId('canvasIcon');
-                canvasContainer.appendChild(iconCanvas);
-        
-                var ctxIcon = this.ctxIcon = iconCanvas.getContext('2d');
-        */
+
         this.setIcon(data.icon);
 
         if (data.text != '') {
-
             this.setText(data.text);
-
-            // var labelWidth = guiItem.width - guiItem.height;
-            // var canvasWidth = labelWidth*multiplier;
-            // var canvasHeight = guiItem.height*multiplier;
-            // var labelCanvas = document.createElement("canvas");
-            // this.labelCanvas = labelCanvas;
-            // labelCanvas.setAttribute('width', canvasWidth);
-            // labelCanvas.setAttribute('height', canvasHeight);
-            // labelCanvas.id = getUniqueId('canvasLabel');
-            // canvasContainer.appendChild(labelCanvas);
-
-            // var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-            // drawText(this.ctxLabel, this.labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'left','middle');
-
-            // var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
-            // var labelEntity = document.createElement("a-entity");
-            // labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height/1.05};`);
-            // labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:front;`);
-            // labelEntity.setAttribute('position', `${labelEntityX} 0 0.041`);
-            // el.appendChild(labelEntity);
         }
 
         el.addEventListener('mouseenter', function (event) {
@@ -1409,8 +1325,8 @@ AFRAME.registerComponent('gui-icon-label-button', {
         }
     },
     setIcon: function setIcon(unicode) {
-        var char = '\uF0F3';
-        var char2 = '&#x' + unicode;
+        var hex = parseInt(unicode, 16);
+        var char = String.fromCharCode(hex);
 
         var iconEntity = document.createElement("a-entity");
         var iconEntityX = 0;
@@ -1418,16 +1334,16 @@ AFRAME.registerComponent('gui-icon-label-button', {
             iconEntityX = -this.guiItem.width * 0.5 + this.guiItem.height * 0.5;
         }
         this.iconEntity = iconEntity;
-        iconEntity.setAttribute('troika-text', 'value:' + char2 + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.iconFont + ';\n                                                fontSize:' + this.data.iconFontSize + ';\n                                                depthOffset:1;\n                                                ');
-        iconEntity.setAttribute('position', iconEntityX + ' 0 0.05');
+        iconEntity.setAttribute('troika-text', 'value:' + char + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.iconFont + ';\n                                                fontSize:' + this.data.iconFontSize + ';\n                                                depthOffset:1;\n                                                ');
+        iconEntity.setAttribute('position', iconEntityX + ' 0.05 0.05'); // 0.05 y axis adjustment for fontawesome
         //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
         this.el.appendChild(iconEntity);
     },
     setText: function setText(newText) {
-        var textEntityX = this.guiItem.height * 0.5 - this.guiItem.width * 0.05;
+        var textEntityX = this.guiItem.height - this.guiItem.width * 0.5;
         var textEntity = document.createElement("a-entity");
         this.textEntity = textEntity;
-        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:left; \n                                                anchor:left; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
         textEntity.setAttribute('position', textEntityX + ' 0 0.05');
 
         //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
@@ -1451,7 +1367,6 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
         'on': 'gui-icon-label-button.on',
         'font-color': 'gui-icon-label-button.fontColor',
         'font-family': 'gui-icon-label-button.fontFamily',
-        'icon-font': 'gui-icon-label-button.iconFont',
         'font-size': 'gui-icon-label-button.fontSize',
         'border-color': 'gui-icon-label-button.borderColor',
         'background-color': 'gui-icon-label-button.backgroundColor',
@@ -1459,6 +1374,7 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
         'active-color': 'gui-icon-label-button.activeColor',
         'icon': 'gui-icon-label-button.icon',
         'icon-active': 'gui-icon-label-button.iconActive',
+        'icon-font': 'gui-icon-label-button.iconFont',
         'icon-font-size': 'gui-icon-label-button.iconFontSize',
         'value': 'gui-icon-label-button.text',
         'toggle': 'gui-icon-label-button.toggle',
@@ -1479,10 +1395,10 @@ AFRAME.registerComponent('gui-input', {
         on: { default: 'click' },
         text: { type: 'string', default: '' },
         toggle: { type: 'boolean', default: false },
-        fontSize: { type: 'string', default: '150px' },
+        toggleState: { type: 'boolean', default: false },
+        fontSize: { type: 'number', default: 0.2 },
         fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_grey_dark },
-        fontWeight: { type: 'string', default: 'normal' },
         borderColor: { type: 'string', default: key_grey_dark },
         borderHoverColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -1494,42 +1410,13 @@ AFRAME.registerComponent('gui-input', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        var multiplier = 512; // POT conversion
-        //var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
-        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var canvasWidth = guiItem.width * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        var canvas = document.createElement("canvas");
-        this.canvas = canvas;
-        canvas.className = "visuallyhidden";
-        canvas.setAttribute('width', canvasWidth);
-        canvas.setAttribute('height', canvasHeight);
-        canvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(canvas);
-
-        var ctx = this.ctx = canvas.getContext('2d');
+        this.guiItem = guiItem;
+        var toggleState = this.toggleState = data.toggle;
+        var guiInteractable = el.getAttribute("gui-interactable");
+        this.guiInteractable = guiInteractable;
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: false; side:front; color:' + data.backgroundColor + ';');
-
-        this.oldText = data.text;
-
-        drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, data.align, 'middle', data.fontWeight);
-
-        if (this.inputEntity) {
-            el.removeChild(this.inputEntity);
-        }
-        var inputEntity = document.createElement("a-entity");
-        inputEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
-        inputEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1; side:front;');
-        inputEntity.setAttribute('position', '0 0 0.01');
-        this.inputEntity = inputEntity;
-        el.appendChild(inputEntity);
 
         var borderTopEntity = document.createElement("a-entity");
         borderTopEntity.setAttribute('geometry', 'primitive: box; width: ' + guiItem.width + '; height: 0.05; depth: 0.02;');
@@ -1551,6 +1438,8 @@ AFRAME.registerComponent('gui-input', {
         borderRightEntity.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
         borderRightEntity.setAttribute('position', guiItem.width / 2 - 0.025 + ' 0 0.01');
         el.appendChild(borderRightEntity);
+
+        this.setText(data.text);
 
         ////WAI ARIA Support
         el.setAttribute('role', 'input');
@@ -1584,18 +1473,21 @@ AFRAME.registerComponent('gui-input', {
             if (typeof clickActionFunction === "function") clickActionFunction(evt);
         });
     },
+    setText: function setText(newText) {
+        var textEntityX = this.guiItem.height * 0.25 - this.guiItem.width * 0.5;
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:left; \n                                                anchor:left; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('position', textEntityX + ' 0 0.05');
+
+        //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(textEntity);
+    },
     play: function play() {},
     update: function update(oldData) {
-        // console.log("In label update, toggle");
-        this.init();
-    },
-    tick: function tick() {
-        if (this.data.text !== this.oldText) {
-            // console.log('text was changed, about to draw text: ' + this.data.text);
-            this.oldText = this.data.text;
-            //  drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
-            drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, data.align, 'middle', this.data.fontWeight);
-        }
+        var data = this.data;
+        var el = this.el;
+        this.textEntity.setAttribute('troika-text', 'value: ' + data.text + ';');
     },
     appendText: function appendText(text) {
         var newText = this.data.text + text;
@@ -1628,7 +1520,7 @@ AFRAME.registerPrimitive('a-gui-input', {
         'onhover': 'gui-interactable.hoverAction',
         'width': 'gui-item.width',
         'margin': 'gui-item.margin',
-        'value': 'gui-input.inputText'
+        'value': 'gui-input.text'
     }
 });
 
@@ -1706,79 +1598,46 @@ AFRAME.registerComponent('gui-item', {
 
 AFRAME.registerComponent('gui-label', {
   schema: {
-    text: { type: 'string', default: 'label text' },
+    text: { type: 'string', default: '' },
     align: { type: 'string', default: 'center' },
-    labelFor: { type: 'selector', default: null },
-    fontSize: { type: 'string', default: '150px' },
-    fontFamily: { type: 'string', default: 'Helvetica' },
+    anchor: { type: 'string', default: 'center' },
+    fontSize: { type: 'number', default: 0.2 },
+    lineHeight: { type: 'number', default: 0.2 },
+    letterSpacing: { type: 'number', default: 0 },
+    fontFamily: { type: 'string', default: 'Arial' },
     fontColor: { type: 'string', default: key_grey_dark },
-    fontWeight: { type: 'string', default: 'normal' },
     backgroundColor: { type: 'string', default: key_offwhite },
     opacity: { type: 'number', default: 1.0 },
-    textDepth: { type: 'number', default: 0.001 }
+    textDepth: { type: 'number', default: 0.01 }
   },
   init: function init() {
     var data = this.data;
     var el = this.el;
     var guiItem = el.getAttribute("gui-item");
-    var multiplier = 500;
-    //var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
-    //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-    var canvasWidth = guiItem.width * multiplier;
-    var canvasHeight = guiItem.height * multiplier;
-
-    var canvasContainer = document.createElement('div');
-    this.canvasContainer = canvasContainer;
-    canvasContainer.setAttribute('class', 'visuallyhidden');
-    canvasContainer.id = getUniqueId('canvasContainer');
-    document.body.appendChild(canvasContainer);
-
-    var canvas = document.createElement("canvas");
-    this.canvas = canvas;
-    canvas.className = "visuallyhidden";
-    canvas.setAttribute('width', canvasWidth);
-    canvas.setAttribute('height', canvasHeight);
-    canvas.id = getUniqueId('canvas');
-    canvasContainer.appendChild(canvas);
-
-    var ctx = this.ctx = canvas.getContext('2d');
+    this.guiItem = guiItem;
 
     el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
     el.setAttribute('material', 'shader: flat; side:front; color:' + data.backgroundColor + '; transparent: true; opacity: ' + data.opacity + '; alphaTest: 0.5;');
 
-    this.oldText = data.text;
-
-    //  drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
-
-    drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, data.align, 'middle', data.fontWeight);
-
-    if (this.textEntity) {
-      el.removeChild(this.textEntity);
-    }
-    var textEntity = document.createElement("a-entity");
-    this.textEntity = textEntity;
-    textEntity.setAttribute('geometry', 'primitive: plane; width: ' + guiItem.width / 1.05 + '; height: ' + guiItem.height / 1.05 + ';');
-    textEntity.setAttribute('material', 'shader: flat; src: #' + canvas.id + '; transparent: true; opacity: 1.0; alphaTest: 0.5; side:front;');
-    textEntity.setAttribute('position', '0 0 ' + data.textDepth);
-    el.appendChild(textEntity);
+    this.setText(data.text);
 
     ////WAI ARIA Support
 
-    if (data.labelFor) {
-      // el.setAttribute('role', 'button');
-    }
+    // if(data.labelFor){
+    //   // el.setAttribute('role', 'button');
+    // }
+
   },
   update: function update(oldData) {
-    // console.log("In label update, toggle");
     this.init();
   },
-  tick: function tick() {
-    if (this.data.text !== this.oldText) {
-      // console.log('text was changed, about to draw text: ' + this.data.text);
-      this.oldText = this.data.text;
-      //  drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
-      drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1, data.align, 'middle', this.data.fontWeight);
-    }
+  setText: function setText(newText) {
+    var textEntity = document.createElement("a-entity");
+    this.textEntity = textEntity;
+    textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align: ' + this.data.align + '; \n                                                anchor: ' + this.data.anchor + '; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                lineHeight: ' + this.data.lineHeight + ';\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
+    textEntity.setAttribute('position', '0 0 ' + this.data.textDepth);
+    //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+    this.el.appendChild(textEntity);
   }
 });
 
@@ -1791,14 +1650,14 @@ AFRAME.registerPrimitive('a-gui-label', {
     'width': 'gui-item.width',
     'height': 'gui-item.height',
     'margin': 'gui-item.margin',
-    'on': 'gui-button.on',
     'align': 'gui-label.align',
+    'anchor': 'gui-label.anchor',
     'value': 'gui-label.text',
-    'label-for': 'gui-label.labelFor',
     'font-size': 'gui-label.fontSize',
+    'line-height': 'gui-label.lineHeight',
+    'letter-spacing': 'gui-label.letterSpacing',
     'font-color': 'gui-label.fontColor',
     'font-family': 'gui-label.fontFamily',
-    'font-weight': 'gui-label.fontWeight',
     'background-color': 'gui-label.backgroundColor',
     'opacity': 'gui-label.opacity',
     'text-depth': 'gui-label.textDepth'
@@ -1870,11 +1729,13 @@ AFRAME.registerPrimitive('a-gui-progressbar', {
 AFRAME.registerComponent('gui-radio', {
     schema: {
         on: { default: 'click' },
-        text: { type: 'string', default: 'text' },
+        text: { type: 'string', default: '' },
         active: { type: 'boolean', default: true },
+        toggle: { type: 'boolean', default: false },
+        toggleState: { type: 'boolean', default: false },
         checked: { type: 'boolean', default: false },
         radiosizecoef: { type: 'number', default: 1 },
-        fontSize: { type: 'string', default: '150px' },
+        fontSize: { type: 'number', default: 0.2 },
         fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_white },
@@ -1888,6 +1749,13 @@ AFRAME.registerComponent('gui-radio', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        this.guiItem = guiItem;
+        var toggleState = this.toggleState = data.toggle;
+        var guiInteractable = el.getAttribute("gui-interactable");
+        this.guiInteractable = guiInteractable;
+
+        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
 
         var radioBoxWidth = 0.50;
         var radioBoxX = -guiItem.width * 0.5 + guiItem.height * 0.5;
@@ -1913,38 +1781,7 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('material', 'color:' + data.handleColor + '; shader: flat;');
         radioBox.appendChild(radioCenter);
 
-        //        var labelWidth = guiItem.width - radioBoxWidth;
-        var labelWidth = guiItem.width - guiItem.height;
-        var multiplier = 512; // POT conversion
-        //var canvasWidth = window.nearestPow2(labelWidth.width * multiplier);
-        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);                
-        var canvasWidth = labelWidth * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        var labelCanvas = document.createElement("canvas");
-        this.labelCanvas = labelCanvas;
-        labelCanvas.className = "visuallyhidden";
-        labelCanvas.setAttribute('width', canvasWidth);
-        labelCanvas.setAttribute('height', canvasHeight);
-        labelCanvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(labelCanvas);
-        var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-
-        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-
-        drawText(ctxLabel, labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'left', 'middle');
-
-        var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
-        var labelEntity = document.createElement("a-entity");
-        labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
-        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
-        labelEntity.setAttribute('position', labelEntityX + ' 0 0.02');
-        el.appendChild(labelEntity);
+        this.setText(data.text);
 
         this.updateToggle(data.active);
         el.setAttribute("checked", data.active);
@@ -2002,6 +1839,16 @@ AFRAME.registerComponent('gui-radio', {
     updateToggle: function updateToggle(active) {
 
         if (active) {} else {}
+    },
+    setText: function setText(newText) {
+        var textEntityX = this.guiItem.height - this.guiItem.width * 0.5;
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:left; \n                                                anchor:left; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('position', textEntityX + ' 0 0.05');
+
+        //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(textEntity);
     }
 
 });
@@ -2180,11 +2027,13 @@ AFRAME.registerPrimitive('a-gui-slider', {
 AFRAME.registerComponent('gui-toggle', {
     schema: {
         on: { default: 'click' },
-        text: { type: 'string', default: 'text' },
+        text: { type: 'string', default: '' },
+        toggle: { type: 'boolean', default: false },
+        toggleState: { type: 'boolean', default: false },
         active: { type: 'boolean', default: true },
         checked: { type: 'boolean', default: false },
         borderWidth: { type: 'number', default: 1 },
-        fontSize: { type: 'string', default: '150px' },
+        fontSize: { type: 'number', default: 0.2 },
         fontFamily: { type: 'string', default: 'Arial' },
         fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_grey },
@@ -2198,6 +2047,13 @@ AFRAME.registerComponent('gui-toggle', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        this.guiItem = guiItem;
+        var toggleState = this.toggleState = data.toggle;
+        var guiInteractable = el.getAttribute("gui-interactable");
+        this.guiInteractable = guiInteractable;
+
+        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
 
         var toggleBoxWidth = guiItem.height / 1.75;
         var toggleBoxX = -guiItem.width * 0.5 + guiItem.height / 2;
@@ -2222,37 +2078,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('position', toggleHandleXStart + ' 0 0.02');
         toggleBox.appendChild(toggleHandle);
 
-        var labelWidth = guiItem.width - guiItem.height;
-        var multiplier = 512; // POT conversion
-        //var canvasWidth = window.nearestPow2(labelWidth.width * multiplier);
-        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var canvasWidth = labelWidth * multiplier;
-        var canvasHeight = guiItem.height * multiplier;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        var labelCanvas = document.createElement("canvas");
-        this.labelCanvas = labelCanvas;
-        labelCanvas.className = "visuallyhidden";
-        labelCanvas.setAttribute('width', canvasWidth);
-        labelCanvas.setAttribute('height', canvasHeight);
-        labelCanvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(labelCanvas);
-        var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-
-        el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
-        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
-
-        drawText(ctxLabel, labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1, 'left', 'middle');
-
-        var labelEntityX = guiItem.height * 0.5 - guiItem.width * 0.05;
-        var labelEntity = document.createElement("a-entity");
-        labelEntity.setAttribute('geometry', 'primitive: plane; width: ' + labelWidth + '; height: ' + guiItem.height / 1.05 + ';');
-        labelEntity.setAttribute('material', 'shader: flat; src: #' + labelCanvas.id + '; transparent: true; opacity: 1; side:front;');
-        labelEntity.setAttribute('position', labelEntityX + ' 0 0.02');
-        el.appendChild(labelEntity);
+        this.setText(data.text);
 
         this.updateToggle(data.active);
 
@@ -2310,6 +2136,16 @@ AFRAME.registerComponent('gui-toggle', {
     updateToggle: function updateToggle(active) {
 
         if (active) {} else {}
+    },
+    setText: function setText(newText) {
+        var textEntityX = this.guiItem.height - this.guiItem.width * 0.5;
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:left; \n                                                anchor:left; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('position', textEntityX + ' 0 0.05');
+
+        //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(textEntity);
     }
 });
 

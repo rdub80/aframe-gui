@@ -5,7 +5,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         toggleState: {type: 'boolean', default: false},
         icon: {type: 'string', default: 'f0f3'},
         iconActive: {type: 'string', default: ''},
-        iconFontSize: {type: 'number', default: 0.2},
+        iconFontSize: {type: 'number', default: 0.35},
         iconFont: {type: 'string', default: 'assets/fonts/fa-regular-400.ttf'},
         text: {type: 'string', default: ''},
         fontSize: {type: 'number', default: 0.2},
@@ -43,58 +43,10 @@ AFRAME.registerComponent('gui-icon-label-button', {
         buttonEntity.setAttribute('position', '0 0 0.02');
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
-/*
-        var multiplier = 1024; // POT conversion
-        if(data.text != ''){
-            var multiplier = 512;
-        }
 
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        //var iconCanvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
-        //var iconCanvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var iconCanvasWidth = guiItem.height*multiplier; 
-        var iconCanvasHeight = guiItem.height*multiplier;
-
-        var iconCanvas = document.createElement("canvas");
-        this.iconCanvas = iconCanvas;
-        iconCanvas.className = "visuallyhidden";
-        iconCanvas.setAttribute('width', iconCanvasWidth);
-        iconCanvas.setAttribute('height', iconCanvasHeight);
-        iconCanvas.id = getUniqueId('canvasIcon');
-        canvasContainer.appendChild(iconCanvas);
-
-        var ctxIcon = this.ctxIcon = iconCanvas.getContext('2d');
-*/
         this.setIcon(data.icon);
 
-        if(data.text != ''){
-
-            this.setText(data.text);
-
-            // var labelWidth = guiItem.width - guiItem.height;
-            // var canvasWidth = labelWidth*multiplier;
-            // var canvasHeight = guiItem.height*multiplier;
-            // var labelCanvas = document.createElement("canvas");
-            // this.labelCanvas = labelCanvas;
-            // labelCanvas.setAttribute('width', canvasWidth);
-            // labelCanvas.setAttribute('height', canvasHeight);
-            // labelCanvas.id = getUniqueId('canvasLabel');
-            // canvasContainer.appendChild(labelCanvas);
-
-            // var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-            // drawText(this.ctxLabel, this.labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'left','middle');
-
-            // var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
-            // var labelEntity = document.createElement("a-entity");
-            // labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height/1.05};`);
-            // labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:front;`);
-            // labelEntity.setAttribute('position', `${labelEntityX} 0 0.041`);
-            // el.appendChild(labelEntity);
-
-        }
+        if(data.text != ''){ this.setText(data.text) }
 
         el.addEventListener('mouseenter', function(event) {
             buttonEntity.removeAttribute('animation__leave');
@@ -151,8 +103,8 @@ AFRAME.registerComponent('gui-icon-label-button', {
         }
     },
     setIcon: function (unicode) {
-        var char = '\u{f0f3}';
-        var char2 = '&#x'+ unicode;
+        var hex = parseInt(unicode, 16);
+        var char = String.fromCharCode(hex);
 
         var iconEntity = document.createElement("a-entity");
         var iconEntityX = 0;
@@ -160,7 +112,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
             iconEntityX = -this.guiItem.width*0.5 + this.guiItem.height*0.5;
         }
         this.iconEntity = iconEntity;
-        iconEntity.setAttribute('troika-text', `value:${char2}; 
+        iconEntity.setAttribute('troika-text', `value:${char}; 
                                                 align:center; 
                                                 anchor:center; 
                                                 baseline:center;
@@ -169,17 +121,17 @@ AFRAME.registerComponent('gui-icon-label-button', {
                                                 fontSize:${this.data.iconFontSize};
                                                 depthOffset:1;
                                                 `);
-        iconEntity.setAttribute('position', `${iconEntityX} 0 0.05`);
+        iconEntity.setAttribute('position', `${iconEntityX} 0.05 0.05`); // 0.05 y axis adjustment for fontawesome
 //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
         this.el.appendChild(iconEntity);
     },
     setText: function (newText) {
-        var textEntityX = this.guiItem.height*0.5 - this.guiItem.width*0.05;
+        var textEntityX = this.guiItem.height - this.guiItem.width*0.5;
         var textEntity = document.createElement("a-entity");
         this.textEntity = textEntity;
         textEntity.setAttribute('troika-text', `value: ${newText}; 
-                                                align:center; 
-                                                anchor:center; 
+                                                align:left; 
+                                                anchor:left; 
                                                 baseline:center;
                                                 letterSpacing:0;
                                                 color:${this.data.fontColor};
@@ -211,7 +163,6 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'on': 'gui-icon-label-button.on',
         'font-color': 'gui-icon-label-button.fontColor',
         'font-family': 'gui-icon-label-button.fontFamily',
-        'icon-font': 'gui-icon-label-button.iconFont',
         'font-size': 'gui-icon-label-button.fontSize',
         'border-color': 'gui-icon-label-button.borderColor',
         'background-color': 'gui-icon-label-button.backgroundColor',
@@ -219,6 +170,7 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'active-color': 'gui-icon-label-button.activeColor',
         'icon': 'gui-icon-label-button.icon',
         'icon-active': 'gui-icon-label-button.iconActive',
+        'icon-font': 'gui-icon-label-button.iconFont',
         'icon-font-size': 'gui-icon-label-button.iconFontSize',
         'value': 'gui-icon-label-button.text',
         'toggle': 'gui-icon-label-button.toggle',

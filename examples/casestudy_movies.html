@@ -2,89 +2,73 @@
 <html>
 <head>
   	<meta charset="utf-8">
-	<meta name="apple-mobile-web-app-capable" content="yes">
   	<title>A-Frame GUI Movie Player</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-	<style type="text/css">
-		@font-face{
-			font-family:"Ionicons";
+	<script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script> 
 
-			src:url("assets/fonts/ionicons.eot?v=2.0.1");
-			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-
-			font-weight:normal;
-			font-style:normal
-		}
-		body{font-family:Ionicons;}
-		.visuallyhidden {
-			position: absolute;
-			display: block;
-			border: 0;
-			clip: rect(0 0 0 0);
-			height: 1px;
-			width: 1px;
-			margin: -1px;
-			padding: 0;
-			overflow: hidden;
-		}
-	</style>
-
-	<script src="js/aframe-gui.js"></script>
-
+    <script src="js/aframe-gui.js"></script>
+    <script src="js/gui-env.js"></script>
 
 </head>
 <body>
-	<a-scene>
+	<a-scene gui-env>
 		<a-assets>
-			<!-- Text Canvas -->
+			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
+			<a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="iconfontbrand" src="assets/fonts/fa-brands-400.ttf"></a-asset-item>
+			<a-asset-item id="textfont" src="assets/fonts/DiplomataSC-Regular.ttf"></a-asset-item>	
 			<a-asset-item id="theater-obj" src="assets/theater.obj"></a-asset-item>
-	        <video id="film" src="assets/minority.mp4"></video>
+	        <video id="film" autoplay loop="true" muted webkit-playsinline playsinline src="assets/minority.mp4"></video>
 		</a-assets>
 
 
 		<a-entity
 			obj-model="obj: #theater-obj;"
-			material="color:#999"
+			material="color:#333"
 			position="-1 -0.25 0"
 			scale="0.025 0.025 0.025"
 		></a-entity>
 
-		<a-video id="video-screen" src="#film"
-			width="8"
-			height="2.75"
+		<a-entity id="video-screen"
 			position="-1 1.6 -4.8"
-		></a-video>
-
-
+            geometry="primitive:plane; width:8; height:2.75;"
+            material="shader:flat; color:#fff; side:double; transparent:true; src:#film"
+            ></a-entity>
 
 		<a-gui-flex-container
 			flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
-			opacity="0.7" width="5" height="1"
+			opacity="0.7" width="5.5" height="1"
 			position="0 0.45 -4" rotation="0 0 0" scale="0.5 0.5 0.5"
 		>
 			<a-gui-icon-button
 				width="0.75" height="0.75"
 				onclick="togglePlayback"
-				icon="ios-play"
+				icon="f04b"
+				icon-font-size="0.3"
+				icon-font="assets/fonts/fa-solid-900.ttf"
 			>
 			</a-gui-icon-button>
 			<a-gui-icon-button
 				width="0.75" height="0.75"
 				onclick="stop"
-				icon="stop"
+				icon="f04d"
+				icon-font-size="0.3"
+				icon-font="assets/fonts/fa-solid-900.ttf"
 			>
 			</a-gui-icon-button>
 			<a-gui-icon-button
 				width="0.75" height="0.75"
 				onclick="toggleSound"
-				icon="music-note"
+				icon="f6a9"
+				icon-font-size="0.4"
+				icon-font="assets/fonts/fa-solid-900.ttf"
 			>
 			</a-gui-icon-button>
 			<a-gui-toggle
-				width="2.5" height="0.75"
+				width="2.75" height="0.75"
 				onclick="toggleCaps"
 				value="Captions"
-				font-family="Arial"
+				font-family="assets/fonts/DiplomataSC-Regular.ttf"
 			>
 			</a-gui-toggle>
 		</a-gui-flex-container>

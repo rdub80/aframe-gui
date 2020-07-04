@@ -4,53 +4,11 @@
   	<meta charset="utf-8">
   	<title>A-Frame GUI Keyboard</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-	<script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
+	<script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script> 
 
-	<link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
-	<style type="text/css">
-		@font-face{
-			font-family:"Ionicons";
-
-			src:url("assets/fonts/ionicons.eot?v=2.0.1");
-			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-
-			font-weight:normal;
-			font-style:normal
-		}
-		body{font-family:Ionicons;}
-		.visuallyhidden {
-			display: block;
-			border: 0;
-			clip: rect(0 0 0 0);
-			height: 1px;
-			width: 1px;
-			margin: -1px;
-			padding: 0;
-			overflow: hidden;
-			position: absolute !important;
-		}
-	</style>
-
-	<script src="js/aframe-gui.js"></script>
-    <script src="js/fontfaceobserver.js"></script>
-	<script>
-	(function() {
-
-		// Optimization for Repeat Views
-		if( sessionStorage.criticalFoftFontsLoaded ) {
-			console.log("fonts are already loaded");
-			return;
-		}
-
-		var guiWebFont = new FontFaceObserver('Fira Sans');
-
-		Promise.all([guiWebFont.load()]).then(function () {
-			console.log("fonts are loaded");
-			// Optimization for Repeat Views
-			sessionStorage.criticalFoftFontsLoaded = true;
-		});
-	})();
-
+    <script src="js/aframe-gui.js"></script>
+    <script src="js/gui-env.js"></script>
+    <script>
 
 	window.kbAbcLow = true;
 	window.kbAbcHigh = false;
@@ -149,15 +107,17 @@
 
 	</script>
 
-    <script src="js/gui-env.js"></script>
 
 </head>
 <body>
 	<a-scene gui-env>
 		<a-assets>
-			<!-- Text Canvas -->
-			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
-			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+			<a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="iconfontbrand" src="assets/fonts/fa-brands-400.ttf"></a-asset-item>
+			<a-asset-item id="textfont1" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont2" src="assets/fonts/PressStart2P-Regular.ttf"></a-asset-item>	
+			<a-asset-item id="textfont3" src="assets/fonts/Plaster-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont4" src="assets/fonts/DiplomataSC-Regular.ttf"></a-asset-item>	
 		</a-assets>
 
 	   <!-- <a-entity geometry="primitive: box; width:5; height:2; depth:0.01;" position="0 3 -4" material="shader: html; target: #htmlElement; fps:1;"></a-entity> -->
@@ -170,7 +130,6 @@
 					 width="4" height="0.7"
 					 onclick="testInputAction"
 					 value=""
-					 font-size="160px"
 					 font-color="#212121"
 					 border-color="#212121"
 					 border-hover-color="#424242"
@@ -189,43 +148,43 @@
 				>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:1;"
-								gui-button=" text:1; fontFamily:'Fira Sans';"
+								gui-button=" text:1; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:2;"
-								gui-button=" text:2; fontFamily:'Fira Sans';"
+								gui-button=" text:2; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:3;"
-								gui-button=" text:3; fontFamily:'Fira Sans';"
+								gui-button=" text:3; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:4;"
-								gui-button=" text:4; fontFamily:'Fira Sans';"
+								gui-button=" text:4; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:5;"
-								gui-button=" text:5; fontFamily:'Fira Sans';"
+								gui-button=" text:5; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:6;"
-								gui-button=" text:6; fontFamily:'Fira Sans';"
+								gui-button=" text:6; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:7;"
-								gui-button=" text:7; fontFamily:'Fira Sans';"
+								gui-button=" text:7; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:8;"
-								gui-button=" text:8; fontFamily:'Fira Sans';"
+								gui-button=" text:8; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:9;"
-								gui-button=" text:9; fontFamily:'Fira Sans';"
+								gui-button=" text:9; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:0;"
-								gui-button=" text:0; fontFamily:'Fira Sans';"
+								gui-button=" text:0; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 				</a-entity>
 
@@ -235,43 +194,43 @@
 				>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="-"
-									 value="-" font-family="Fira Sans"
+									 value="-" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="/"
-									 value="/" font-family="Fira Sans"
+									 value="/" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key=":"
-									 value=":" font-family="Fira Sans"
+									 value=":" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key=";"
-									 value=";" font-family="Fira Sans"
+									 value=";" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="("
-									 value="(" font-family="Fira Sans"
+									 value="(" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key=")"
-									 value=")" font-family="Fira Sans"
+									 value=")" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="$"
-									 value="$" font-family="Fira Sans"
+									 value="$" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="&"
-									 value="&" font-family="Fira Sans"
+									 value="&" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="@"
-									 value="@" font-family="Fira Sans"
+									 value="@" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key='"'
-									 value='"' font-family="Fira Sans"
+									 value='"' font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 				</a-entity>
 
@@ -281,31 +240,31 @@
 				>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: switchKb2; keyCode:17;"
-								gui-button=" text:#+=; fontFamily:'Fira Sans';"
+								gui-button=" text:#+=; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="."
-									 value="." font-family="Fira Sans"
+									 value="." font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key=","
-									 value="," font-family="Fira Sans"
+									 value="," font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="?"
-									 value="?" font-family="Fira Sans"
+									 value="?" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="!"
-									 value="!" font-family="Fira Sans"
+									 value="!" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="'"
-									 value="'" font-family="Fira Sans"
+									 value="'" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; key:Backspace;"
-								gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+								gui-icon-label-button="icon:f55a; iconFont:assets/fonts/fa-solid-900.ttf; text:; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 				</a-entity>
 			</a-entity>
@@ -316,43 +275,43 @@
 				>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="["
-									 value="[" font-family="Fira Sans"
+									 value="[" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="]"
-									 value="]" font-family="Fira Sans"
+									 value="]" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="{"
-									 value="{" font-family="Fira Sans"
+									 value="{" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="}"
-									 value="}" font-family="Fira Sans"
+									 value="}" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="#"
-									 value="#" font-family="Fira Sans"
+									 value="#" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="%"
-									 value="%" font-family="Fira Sans"
+									 value="%" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="^"
-									 value="^" font-family="Fira Sans"
+									 value="^" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="*"
-									 value="*" font-family="Fira Sans"
+									 value="*" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="+"
-									 value="+" font-family="Fira Sans"
+									 value="+" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="="
-									 value="=" font-family="Fira Sans"
+									 value="=" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 				</a-entity>
 
@@ -362,43 +321,43 @@
 				>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="_"
-									 value="_" font-family="Fira Sans"
+									 value="_" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="\"
-									 value="\" font-family="Fira Sans"
+									 value="\" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="|"
-									 value="|" font-family="Fira Sans"
+									 value="|" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="~"
-									 value="~" font-family="Fira Sans"
+									 value="~" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="<"
-									 value="<" font-family="Fira Sans"
+									 value="<" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key=">"
-									 value=">" font-family="Fira Sans"
+									 value=">" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; keyCode:69;" euro
-								gui-button=" text:€; fontFamily:'Fira Sans';"
+								gui-button=" text:€; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; keyCode:76;" pound_sterling
-								gui-button=" text:char#163; fontFamily:'Fira Sans';"
+								gui-button=" text:char#163; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; keyCode:89;" yen_sign
-								gui-button=" text:char#165; fontFamily:'Fira Sans';"
+								gui-button=" text:char#165; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; keyCode:8226;" bullet
-								gui-button="text:char#8226; fontFamily:'Fira Sans';"
+								gui-button="text:char#8226; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 				</a-entity>
 
@@ -408,31 +367,31 @@
 				>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: switchKb2; keyCode:17;"
-								gui-button=" text:123; fontFamily:'Fira Sans';"
+								gui-button="text:123; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="."
-									 value="." font-family="Fira Sans"
+									 value="." font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key=","
-									 value="," font-family="Fira Sans"
+									 value="," font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="?"
-									 value="?" font-family="Fira Sans"
+									 value="?" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="!"
-									 value="!" font-family="Fira Sans"
+									 value="!" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="*"
-									 value="(" font-family="Fira Sans"
+									 value="(" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 																	 gui-interactable="clickAction: keypress; key:Backspace;"
-																	 gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+																	 gui-icon-label-button="icon:f55a; iconFont:assets/fonts/fa-solid-900.ttf; text:; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 				></a-entity>
 
 				</a-entity>
@@ -444,43 +403,43 @@
 				>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="Q"
-									 value="Q" font-family="Fira Sans"
+									 value="Q" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="W"
-									 value="W" font-family="Fira Sans"
+									 value="W" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="E"
-									 value="E" font-family="Fira Sans"
+									 value="E" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="R"
-									 value="R" font-family="Fira Sans"
+									 value="R" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="T"
-									 value="T" font-family="Fira Sans"
+									 value="T" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="Y"
-									 value="Y" font-family="Fira Sans"
+									 value="Y" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="U"
-									 value="U" font-family="Fira Sans"
+									 value="U" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="I"
-									 value="I" font-family="Fira Sans"
+									 value="I" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="O"
-									 value="O" font-family="Fira Sans"
+									 value="O" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="P"
-									 value="P" font-family="Fira Sans"
+									 value="P" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 				</a-entity>
 
@@ -490,39 +449,39 @@
 				>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="A"
-									 value="A" font-family="Fira Sans"
+									 value="A" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="S"
-									 value="S" font-family="Fira Sans"
+									 value="S" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="D"
-									 value="D" font-family="Fira Sans"
+									 value="D" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="F"
-									 value="F" font-family="Fira Sans"
+									 value="F" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="G"
-									 value="G" font-family="Fira Sans"
+									 value="G" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="H"
-									 value="H" font-family="Fira Sans"
+									 value="H" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="J"
-									 value="J" font-family="Fira Sans"
+									 value="J" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="K"
-									 value="K" font-family="Fira Sans"
+									 value="K" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="L"
-									 value="L" font-family="Fira Sans"
+									 value="L" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 				</a-entity>
 
@@ -532,39 +491,39 @@
 				>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: switchKbToAbcLow; keyCode:16;" id="shiftDown"
-								gui-icon-label-button="icon:arrow-down-a; text:; fontFamily:'Fira Sans';"
+								gui-icon-label-button="icon:f063; iconFont:assets/fonts/fa-solid-900.ttf; text:; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="Z"
-									 value="Z" font-family="Fira Sans"
+									 value="Z" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="X"
-									 value="X" font-family="Fira Sans"
+									 value="X" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="C"
-									 value="C" font-family="Fira Sans"
+									 value="C" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="V"
-									 value="V" font-family="Fira Sans"
+									 value="V" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="B"
-									 value="B" font-family="Fira Sans"
+									 value="B" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="N"
-									 value="N" font-family="Fira Sans"
+									 value="N" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="M"
-									 value="M" font-family="Fira Sans"
+									 value="M" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 								 gui-interactable="clickAction: keypress; key:Backspace;"
-								 gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+								 gui-icon-label-button="icon:f55a; iconFont:assets/fonts/fa-solid-900.ttf; text:; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 				</a-entity>
 			</a-entity>
@@ -575,43 +534,43 @@
 				>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="q"
-									 value="q" font-family="Fira Sans"
+									 value="q" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="w"
-									 value="w" font-family="Fira Sans"
+									 value="w" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="e"
-									 value="e" font-family="Fira Sans"
+									 value="e" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="r"
-									 value="r" font-family="Fira Sans"
+									 value="r" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="t"
-									 value="t" font-family="Fira Sans"
+									 value="t" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="y"
-									 value="y" font-family="Fira Sans"
+									 value="y" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="u"
-									 value="u" font-family="Fira Sans"
+									 value="u" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="i"
-									 value="i" font-family="Fira Sans"
+									 value="i" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="o"
-									 value="o" font-family="Fira Sans"
+									 value="o" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="p"
-									 value="p" font-family="Fira Sans"
+									 value="p" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 				</a-entity>
 
@@ -621,39 +580,39 @@
 				>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="a"
-									 value="a" font-family="Fira Sans"
+									 value="a" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="s"
-									 value="s" font-family="Fira Sans"
+									 value="s" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="d"
-									 value="d" font-family="Fira Sans"
+									 value="d" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="f"
-									 value="f" font-family="Fira Sans"
+									 value="f" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="g"
-									 value="g" font-family="Fira Sans"
+									 value="g" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="h"
-									 value="h" font-family="Fira Sans"
+									 value="h" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="j"
-									 value="j" font-family="Fira Sans"
+									 value="j" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="k"
-									 value="k" font-family="Fira Sans"
+									 value="k" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="l"
-									 value="l" font-family="Fira Sans"
+									 value="l" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 				</a-entity>
 
@@ -663,39 +622,39 @@
 				>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: switchKbToAbcHigh; keyCode:16;" id="shiftUp"
-								gui-icon-label-button="icon:arrow-up-a; text:; fontFamily:'Fira Sans';"
+								gui-icon-label-button="icon:f062; iconFont:assets/fonts/fa-solid-900.ttf; text:; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="z"
-									 value="z" font-family="Fira Sans"
+									 value="z" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="x"
-									 value="x" font-family="Fira Sans"
+									 value="x" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="c"
-									 value="c" font-family="Fira Sans"
+									 value="c" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="v"
-									 value="v" font-family="Fira Sans"
+									 value="v" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="b"
-									 value="b" font-family="Fira Sans"
+									 value="b" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="n"
-									 value="n" font-family="Fira Sans"
+									 value="n" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-gui-button	width="0.5" height="0.5"
 									 onclick="keypress" key="m"
-									 value="m" font-family="Fira Sans"
+									 value="m" font-family="assets/fonts/PressStart2P-Regular.ttf"
 					></a-gui-button>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 								 gui-interactable="clickAction: keypress; key:Backspace;"
-								 gui-icon-label-button="icon:backspace; text:; fontFamily:'Fira Sans';"
+								 gui-icon-label-button="icon:f55a; iconFont:assets/fonts/fa-solid-900.ttf; text:; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 				</a-entity>
 			</a-entity>
@@ -706,19 +665,19 @@
 				>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;" id="navkbSwitch"
 							   	gui-interactable="clickAction: switchKb; keyCode:9;"
-								gui-button=" text:123; fontFamily:'Fira Sans';"
+								gui-button=" text:123; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.5; height: 0.5;"
 							   	gui-interactable="clickAction: voicecontrol;"
-								gui-icon-label-button="icon:android-microphone; fontFamily:'Fira Sans';"
+								gui-icon-label-button="icon:f130; iconFont:assets/fonts/fa-solid-900.ttf; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 3; height: 0.5;"
 							   	gui-interactable="clickAction: keypress; keyCode:32;" id="space"
-								gui-button=" text:space; fontFamily:'Fira Sans';"
+								gui-button=" text:space; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 					<a-entity 	gui-item="type: button; width: 0.75; height: 0.5;"
 							   	gui-interactable="clickAction: enter; keyCode:13;" id="enter"
-								gui-button=" text:Go; fontFamily:'Fira Sans';"
+								gui-button=" text:Go; fontFamily:assets/fonts/PressStart2P-Regular.ttf;"
 					></a-entity>
 				</a-entity>
 			</a-entity>

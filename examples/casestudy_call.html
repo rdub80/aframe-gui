@@ -4,29 +4,7 @@
   	<meta charset="utf-8">
   	<title>A-Frame GUI Call</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-	<style type="text/css">
-		@font-face{
-			font-family:"Ionicons";
-			
-			src:url("assets/fonts/ionicons.eot?v=2.0.1");
-			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-			
-			font-weight:normal;
-			font-style:normal
-		}
-		body{font-family:Ionicons;} 
-		.visuallyhidden {
-			position: absolute;
-			display: block;
-			border: 0;
-			clip: rect(0 0 0 0);
-			height: 1px;
-			width: 1px;
-			margin: -1px;
-			padding: 0;
-			overflow: hidden;
-		}
-	</style>
+	<script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script> 
 
     <script src="js/aframe-gui.js"></script>
     <script src="js/gui-env.js"></script>
@@ -35,8 +13,9 @@
 <body>
 	<a-scene gui-env>
 		<a-assets>
-			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
-			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
+			<a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="textfont1" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont2" src="assets/fonts/Plaster-Regular.ttf"></a-asset-item>
 		</a-assets>
 
 		<a-gui-flex-container
@@ -45,13 +24,16 @@
 			position="-1.75 2 -5" rotation="0 0 0"
 		>
 			<a-gui-label width="2.5" height="0.75"
-						value="Call A Friend!"
-						font-family="Arial"
+						value="Time to Call A Friend!"
+						font-family="assets/fonts/PermanentMarker-Regular.ttf"
+						font-size="0.2"
+
 			>
 			</a-gui-label>
 			<a-gui-input width="3" height="0.75"
 						onclick="testInputAction"
-						font-family="Arial"
+						font-family="assets/fonts/Plaster-Regular.ttf"
+						font-size="0.2"
 						value="212 432 1234_"
 			>
 			</a-gui-input>
@@ -67,29 +49,33 @@
 				width="0.75" height="0.75"
 				onclick="clickOne"
 				value="1"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-button 
 				width="0.75" height="0.75"
 				onclick="clickFour"
 				value="4"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-button 
 				width="0.75" height="0.75"
 				onclick="clickSeven"
 				value="7"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-icon-button
 				height="0.75"
 				onclick="clear"
-				icon="android-delete"
+				icon="f2ed"
+				icon-font="assets/fonts/fa-solid-900.ttf"
 			>
-			</a-gui-icon-button>
+			</a-gui-icon-button>					
 		</a-gui-flex-container>
 
 		<a-gui-flex-container
@@ -101,28 +87,32 @@
 				width="0.75" height="0.75"
 				onclick="clickTwo"
 				value="2"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-button 
 				width="0.75" height="0.75"
 				onclick="clickFive"
 				value="5"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-button 
 				width="0.75" height="0.75"
 				onclick="clickEight"
 				value="8"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-button 
 				width="0.75" height="0.75"
 				onclick="clickZero"
 				value="0"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 		</a-gui-flex-container>
@@ -136,29 +126,33 @@
 				width="0.75" height="0.75"
 				onclick="clickThree"
 				value="3"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-button 
 				width="0.75" height="0.75"
 				onclick="clickSix"
 				value="6"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-button 
 				width="0.75" height="0.75"
 				onclick="clickNine"
 				value="9"
-				font-family="Arial"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.4"
 			>
 			</a-gui-button>
 			<a-gui-icon-button
 				height="0.75"
 				onclick="call"
-				icon="android-call"
+				icon="f095"
+				icon-font="assets/fonts/fa-solid-900.ttf"
 			>
-			</a-gui-icon-button>
+			</a-gui-icon-button>					
 		</a-gui-flex-container>
 
 

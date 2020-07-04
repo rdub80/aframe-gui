@@ -1,11 +1,13 @@
 AFRAME.registerComponent('gui-radio', {
     schema: {
         on: {default: 'click'},
-        text: {type: 'string', default: 'text'},
+        text: {type: 'string', default: ''},
         active: {type: 'boolean', default: true },
+        toggle: {type: 'boolean', default: false},
+        toggleState: {type: 'boolean', default: false},
         checked: {type: 'boolean', default: false },
         radiosizecoef: {type: 'number', default: 1 },
-        fontSize: {type: 'string', default: '150px'},
+        fontSize: {type: 'number', default: 0.2},
         fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_white},
@@ -19,6 +21,13 @@ AFRAME.registerComponent('gui-radio', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
+        this.guiItem = guiItem;        
+        var toggleState = this.toggleState = data.toggle;
+        var guiInteractable = el.getAttribute("gui-interactable");
+        this.guiInteractable = guiInteractable;
+
+        el.setAttribute('material', `shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
+        el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
 
         var radioBoxWidth = 0.50
         var radioBoxX = -guiItem.width*0.5 + guiItem.height*0.5;
@@ -44,39 +53,7 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('material', `color:${data.handleColor}; shader: flat;`);
         radioBox.appendChild(radioCenter);
 
-//        var labelWidth = guiItem.width - radioBoxWidth;
-        var labelWidth = guiItem.width - guiItem.height;
-        var multiplier = 512; // POT conversion
-        //var canvasWidth = window.nearestPow2(labelWidth.width * multiplier);
-        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);                
-        var canvasWidth = labelWidth*multiplier;
-        var canvasHeight = guiItem.height*multiplier;
-
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-
-        var labelCanvas = document.createElement("canvas");
-        this.labelCanvas = labelCanvas;
-        labelCanvas.className = "visuallyhidden";
-        labelCanvas.setAttribute('width', canvasWidth);
-        labelCanvas.setAttribute('height', canvasHeight);
-        labelCanvas.id = getUniqueId('canvas');
-        canvasContainer.appendChild(labelCanvas);
-        var ctxLabel = this.ctxLabel = labelCanvas.getContext('2d');
-
-        el.setAttribute('material', `shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
-        el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
-
-        drawText(ctxLabel, labelCanvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,'left','middle');
-
-        var labelEntityX = guiItem.height*0.5 - guiItem.width*0.05;
-        var labelEntity = document.createElement("a-entity");
-        labelEntity.setAttribute('geometry', `primitive: plane; width: ${labelWidth}; height: ${guiItem.height/1.05};`);
-        labelEntity.setAttribute('material', `shader: flat; src: #${labelCanvas.id}; transparent: true; opacity: 1; side:front;`);
-        labelEntity.setAttribute('position', `${labelEntityX} 0 0.02`);
-        el.appendChild(labelEntity);
-
+        this.setText(data.text);
 
         this.updateToggle(data.active);
         el.setAttribute("checked",data.active);
@@ -141,6 +118,26 @@ AFRAME.registerComponent('gui-radio', {
         }
 
     },
+    setText: function (newText) {
+        var textEntityX = this.guiItem.height  - this.guiItem.width*0.5;
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('troika-text', `value: ${newText}; 
+                                                align:left; 
+                                                anchor:left; 
+                                                baseline:center;
+                                                letterSpacing:0;
+                                                color:${this.data.fontColor};
+                                                font:${this.data.fontFamily};
+                                                fontSize:${this.data.fontSize};
+                                                depthOffset:1;
+                                                maxWidth:${this.guiItem.width/1.05};
+                                                `);
+        textEntity.setAttribute('position', `${textEntityX} 0 0.05`);
+
+//        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(textEntity);
+    }
 
 
 });

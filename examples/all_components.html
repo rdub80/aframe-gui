@@ -5,32 +5,7 @@
   	<title>A-Frame GUI All Components</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script> 
-	<!-- <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet"> -->
 
-
-	<style type="text/css">
-		@font-face{
-			font-family:"Ionicons";
-
-			src:url("assets/fonts/ionicons.eot?v=2.0.1");
-			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-
-			font-weight:normal;
-			font-style:normal
-		}
-		body{font-family:Ionicons;}
-		.visuallyhidden {
-			position: absolute;
-			display: block;
-			border: 0;
-			clip: rect(0 0 0 0);
-			height: 1px;
-			width: 1px;
-			margin: -1px;
-			padding: 0;
-			overflow: hidden;
-		}
-	</style>
     <script src="js/aframe-gui.js"></script>
     <script src="js/gui-env.js"></script>
 
@@ -38,17 +13,13 @@
 <body>
 	<a-scene gui-env>
 		<a-assets>
-			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
-			<a-asset-item id="iconfont" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="iconfontbrand" src="assets/fonts/fa-brands-400.ttf"></a-asset-item>
 			<a-asset-item id="textfont1" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
 			<a-asset-item id="textfont2" src="assets/fonts/PressStart2P-Regular.ttf"></a-asset-item>			
+			<a-asset-item id="textfont3" src="assets/fonts/Plaster-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont4" src="assets/fonts/DiplomataSC-Regular.ttf"></a-asset-item>	
 		</a-assets>
-
-		<a-entity
-        	position="-3 2.5 -4"
-        	troika-text="value: &#xf133; color:#fff; fontSize:1; font:assets/fonts/fa-solid-900.ttf;"
-	      ></a-entity>
-
 
 		<a-gui-flex-container
 			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
@@ -69,11 +40,11 @@
 			<a-gui-icon-label-button
 				width="2.5" height="0.75"
 				onclick="testButtonAction"
-				icon="f133"
+				icon="f2b9"
 				icon-font="assets/fonts/fa-solid-900.ttf"
 				value="icon label"
 				font-family="assets/fonts/PressStart2P-Regular.ttf"
-				font-size="0.17"
+				font-size="0.16"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-icon-label-button>
@@ -81,7 +52,9 @@
 			<a-gui-toggle
 				width="2.5" height="0.75"
 				onclick="testToggleAction"
-				value="label toggle"
+				value="toggle label"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.2"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-toggle>
@@ -89,13 +62,16 @@
 			<a-gui-icon-button
 				height="0.75"
 				onclick="testButtonAction"
-				icon="social-twitter"
+				icon="f09b"
+				icon-font="assets/fonts/fa-brands-400.ttf"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-icon-button>
 
 			<a-gui-circle-loader
 				height="0.75"
+				font-family="assets/fonts/Plaster-Regular.ttf"					font-size="0.2"
+				loaded="0.3456"		
 			>
 			</a-gui-circle-loader>
 
@@ -107,7 +83,11 @@
 		>
 			<a-gui-label
 				width="2.5" height="0.75"
-				value="label text"
+				value="test label"
+				font-family="assets/fonts/DiplomataSC-Regular.ttf"
+				font-size="0.35"
+				line-height="0.8"
+				letter-spacing="0"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-label>
@@ -115,7 +95,8 @@
 			<a-gui-radio
 				width="2.5" height="0.75"
 				onclick="testToggleAction"
-				value="label radio"
+				value="radio label"
+				font-size="0.3"
 				margin="0 0 0.05 0"
 			>
 			</a-gui-radio>
@@ -131,6 +112,7 @@
 				height="0.75"
 				count-down="60"
 				callback="timedout"
+				font-family="assets/fonts/PermanentMarker-Regular.ttf"				
 				margin="0 0 0.05 0"
 			>
 			</a-gui-circle-timer>
@@ -146,6 +128,8 @@
 			<a-gui-input
 				width="2.5" height="0.75"
 				onclick="testInputAction"
+				font-family="assets/fonts/PermanentMarker-Regular.ttf"	
+				font-size="0.2"
 				value="Hello Wor_"
 			>
 			</a-gui-input>
