@@ -156,6 +156,20 @@ AFRAME.registerComponent('gui-button', {
     },
     play: function play() {},
     update: function update(oldData) {
+        if (this.textEntity) {
+            console.log("has textEntity: " + this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.text);
+        } else {
+            console.log("no textEntity!");
+        }
+
+        // buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.toggleState ? data.activeColor : data.backgroundColor}`);
+        // buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
+
         // console.log("In button update, toggle: "+this.data.toggleState);
     },
     setActiveState: function setActiveState(activeState) {
@@ -792,7 +806,22 @@ AFRAME.registerComponent('gui-cursor', {
             }
         });
     },
-    update: function update() {},
+    update: function update() {
+        //        var oldEntity = this.cursor;
+        //        oldEntity.parentNode.removeChild(oldEntity);
+
+        /*
+                function removeAllChildNodes(parent) {
+                    while (parent.firstChild) {
+                        parent.removeChild(parent.firstChild);
+                    }
+                }
+                const oldEntity = this.cursor;
+                removeAllChildNodes(oldEntity);
+        */
+
+        this.init();
+    },
     tick: function tick() {},
     remove: function remove() {},
     pause: function pause() {},

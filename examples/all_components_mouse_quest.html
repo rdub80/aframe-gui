@@ -197,12 +197,13 @@
 
 
 		var data = document.querySelector("#btn1");
-		var text;
+		var controls;
 
-		var sampleText = function() {
+		var initControls = function() {
 			this.value = "sample";
 			this.fontColor = "#F2BB16";
 			this.backgroundColor = "#011C40";
+			this.borderColor = "#F2BB16";
 			this.hoverColor = "#2a5b7a";
 			this.activeColor = "#5687A6";
 			this.fontSize = 0.3;
@@ -211,38 +212,30 @@
 		};
 
 		window.onload = function() {
-			text = new sampleText();
+			controls = new initControls();
 			setValue();
 			var gui = new dat.GUI();
-			gui.add(text, 'value').onChange(setValue);
-			gui.addColor(text, 'fontColor').onChange(setValue);
-			gui.addColor(text, 'hoverColor').onChange(setValue);
-			gui.addColor(text, 'activeColor').onChange(setValue);
-			gui.addColor(text, 'backgroundColor').onChange(setValue);
-			gui.add(text, 'fontSize', 0, 1).onChange(setValue);
-			gui.add(text, 'toggle').onChange(setValue);
-			gui.add(text, 'fontFamily',["PermanentMarker", "PressStart2P", "Plaster", "DiplomataSC"]).onChange(setValue);
+			gui.add(controls, 'value').onChange(setValue);
+			gui.addColor(controls, 'fontColor').onChange(setValue);
+			gui.addColor(controls, 'hoverColor').onChange(setValue);
+			gui.addColor(controls, 'activeColor').onChange(setValue);
+			gui.addColor(controls, 'borderColor').onChange(setValue);
+			gui.addColor(controls, 'backgroundColor').onChange(setValue);
+			gui.add(controls, 'fontSize', 0, 1).onChange(setValue);
+			gui.add(controls, 'toggle').onChange(setValue);
+			gui.add(controls, 'fontFamily',["PermanentMarker", "PressStart2P", "Plaster", "DiplomataSC"]).onChange(setValue);
 		};
 
 		function setValue() {
-			data.setAttribute('value',text.value);
-			data.setAttribute('font-family',"assets/fonts/"+text.fontFamily+"-Regular.ttf");
-			data.setAttribute('font-size',text.fontSize);
-			data.setAttribute('font-color',text.fontColor);
-			data.setAttribute('active-color',text.activeColor);
-			data.setAttribute('hover-color',text.hoverColor);
-			data.setAttribute('background-color',text.backgroundColor);
-			data.setAttribute('toggle',text.toggle);
-
-		  // if(text.toggle) {
-		  //   data.style.border = "solid 1px black";
-		  //   data.style.padding = "10px";
-		  // }
-		  // else {
-		  //   data.style.border = "none";
-		  //   data.style.padding = "0px";
-		  // }
-
+			data.setAttribute('value',controls.value);
+			data.setAttribute('font-family',"assets/fonts/"+controls.fontFamily+"-Regular.ttf");
+			data.setAttribute('font-size',controls.fontSize);
+			data.setAttribute('font-color',controls.fontColor);
+			data.setAttribute('active-color',controls.activeColor);
+			data.setAttribute('hover-color',controls.hoverColor);
+			data.setAttribute('border-color',controls.borderColor);
+			data.setAttribute('background-color',controls.backgroundColor);
+			data.setAttribute('toggle',controls.toggle);
 		}
 
 
