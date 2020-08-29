@@ -5,6 +5,7 @@
   	<title>A-Frame GUI All Components</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
 	<script src="https://unpkg.com/aframe-troika-text/dist/aframe-troika-text.min.js"></script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5.1/dat.gui.min.js" type="text/javascript"></script>
 
     <script src="js/aframe-gui.js"></script>
     <script src="js/gui-env.js"></script>
@@ -15,18 +16,19 @@
 		<a-assets>
 			<a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
 			<a-asset-item id="iconfontbrand" src="assets/fonts/fa-brands-400.ttf"></a-asset-item>
-			<a-asset-item id="PermanentMarker" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
-			<a-asset-item id="PressStart2P" src="assets/fonts/PressStart2P-Regular.ttf"></a-asset-item>	
-			<a-asset-item id="Plaster" src="assets/fonts/Plaster-Regular.ttf"></a-asset-item>
-			<a-asset-item id="DiplomataSC" src="assets/fonts/DiplomataSC-Regular.ttf"></a-asset-item>	
+			<a-asset-item id="textfont1" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont2" src="assets/fonts/PressStart2P-Regular.ttf"></a-asset-item>	
+			<a-asset-item id="textfont3" src="assets/fonts/Plaster-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont4" src="assets/fonts/DiplomataSC-Regular.ttf"></a-asset-item>	
 		</a-assets>
 
 		<a-gui-flex-container
 			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
-			opacity="0.7" width="3.5" height="4.5"
+			opacity="0.7" width="3.5" height="4.5" panel-color="#072B73" panel-rounded="0.2"
 			position="-2 2.5 -6" rotation="0 0 0"
-		>
+			>
 			<a-gui-button
+				id="btn1"
 				width="2.5" height="0.75"
 				onclick="testButtonAction" key-code="32"
 				value="test button"
@@ -70,7 +72,8 @@
 
 			<a-gui-circle-loader
 				height="0.75"
-				font-family="assets/fonts/Plaster-Regular.ttf"					font-size="0.2"
+				font-family="assets/fonts/Plaster-Regular.ttf"					
+				font-size="0.2"
 				loaded="0.3456"		
 			>
 			</a-gui-circle-loader>
@@ -80,7 +83,7 @@
 		<a-gui-flex-container
 			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7" width="3.5" height="4.5"
 			position="2 2.5 -6" rotation="0 0 0"
-		>
+			>
 			<a-gui-label
 				width="2.5" height="0.75"
 				value="test label"
@@ -136,14 +139,15 @@
 
 		</a-gui-flex-container>
 
+
+		<!-- Mouse cursor so we can click on the scene with mouse or touch. -->
+		<a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: [gui-interactable]"></a-entity>
+		<a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [gui-interactable]"></a-entity>
+		<a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [gui-interactable]"></a-entity>
+
 		<!-- Camera + cursor. -->
 		<a-entity id="cameraRig" position="0 1.6 0">
 			<a-camera look-controls wasd-controls position="0 0 0">
-				<a-gui-cursor id="cursor"
-						  raycaster="objects: [gui-interactable]"
-						  fuse="true" fuse-timeout="2000"
-						  design="cross" > <!-- dot, ring, reticle, cross  -->
-				</a-gui-cursor> <!-- /cursor -->
 			</a-camera> <!-- /camera -->
 		</a-entity>
 
@@ -188,6 +192,60 @@
 		window.testInputAction = function () {
 			console.log("clicked GUI");
 		}
+
+
+
+
+		var data = document.querySelector("#btn1");
+		var text;
+
+		var sampleText = function() {
+			this.value = "sample";
+			this.fontColor = "#F2BB16";
+			this.backgroundColor = "#011C40";
+			this.hoverColor = "#2a5b7a";
+			this.activeColor = "#5687A6";
+			this.fontSize = 0.3;
+			this.toggle = true;
+			this.fontFamily = "PressStart2P";
+		};
+
+		window.onload = function() {
+			text = new sampleText();
+			setValue();
+			var gui = new dat.GUI();
+			gui.add(text, 'value').onChange(setValue);
+			gui.addColor(text, 'fontColor').onChange(setValue);
+			gui.addColor(text, 'hoverColor').onChange(setValue);
+			gui.addColor(text, 'activeColor').onChange(setValue);
+			gui.addColor(text, 'backgroundColor').onChange(setValue);
+			gui.add(text, 'fontSize', 0, 1).onChange(setValue);
+			gui.add(text, 'toggle').onChange(setValue);
+			gui.add(text, 'fontFamily',["PermanentMarker", "PressStart2P", "Plaster", "DiplomataSC"]).onChange(setValue);
+		};
+
+		function setValue() {
+			data.setAttribute('value',text.value);
+			data.setAttribute('font-family',"assets/fonts/"+text.fontFamily+"-Regular.ttf");
+			data.setAttribute('font-size',text.fontSize);
+			data.setAttribute('font-color',text.fontColor);
+			data.setAttribute('active-color',text.activeColor);
+			data.setAttribute('hover-color',text.hoverColor);
+			data.setAttribute('background-color',text.backgroundColor);
+			data.setAttribute('toggle',text.toggle);
+
+		  // if(text.toggle) {
+		  //   data.style.border = "solid 1px black";
+		  //   data.style.padding = "10px";
+		  // }
+		  // else {
+		  //   data.style.border = "none";
+		  //   data.style.padding = "0px";
+		  // }
+
+		}
+
+
 	</script>
 
 </body>

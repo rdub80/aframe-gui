@@ -24,4 +24,5 @@ require('./components/slider.js');
 require('./components/vertical-slider.js');
 require('./components/input.js');
 require('./components/cursor.js');
+require('./components/rounded.js');
 require('./scripts/reset-cursor.js');

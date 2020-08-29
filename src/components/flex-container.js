@@ -54,6 +54,7 @@ AFRAME.registerComponent('gui-flex-container', {
         opacity: { type: 'number', default: 0.0 },
         isTopContainer: {type: 'boolean', default: false},
         panelColor: {type: 'string', default: key_grey},
+        panelRounded: { type: 'number', default: 0.05 },
 
 //global settings for GUI items
         styles: {
@@ -75,8 +76,9 @@ AFRAME.registerComponent('gui-flex-container', {
             this.setBackground();
         }
 
-        this.el.setAttribute('geometry', `primitive: plane; height: ${containerGuiItem.height}; width: ${containerGuiItem.width};`);
-        this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; alphaTest: 0.5; color: ${this.data.panelColor}; side:front;`);
+//        this.el.setAttribute('material', `shader: flat; transparent: true; alphaTest: 0.5; side:front;`);
+        this.el.setAttribute('rounded', `height: ${containerGuiItem.height}; width: ${containerGuiItem.width}; opacity: ${this.data.opacity}; color: ${this.data.panelColor}; radius:${this.data.panelRounded};`);
+
 
         this.children = this.el.getChildEntities();
         //console.log("childElements: "+this.children);
@@ -238,6 +240,7 @@ AFRAME.registerPrimitive( 'a-gui-flex-container', {
         'opacity': 'gui-flex-container.opacity',
         'is-top-container': 'gui-flex-container.isTopContainer',
         'panel-color': 'gui-flex-container.panelColor',
+        'panel-rounded': 'gui-flex-container.panelRounded',
         'font-family': 'gui-flex-container.styles.fontFamily',
         'font-color': 'gui-flex-container.styles.fontColor',
         'border-color': 'gui-flex-container.styles.borderColor',

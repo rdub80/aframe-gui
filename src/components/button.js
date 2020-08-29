@@ -5,7 +5,7 @@ AFRAME.registerComponent('gui-button', {
         toggleState: {type: 'boolean', default: false},
         text: {type: 'string', default: ''},
         fontSize: {type: 'number', default: 0.2},
-        fontFamily: {type: 'string', default: 'Arial'},
+        fontFamily: {type: 'string', default: 'sans-serif'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},

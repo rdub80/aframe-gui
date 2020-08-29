@@ -6,7 +6,7 @@ AFRAME.registerComponent('gui-input', {
         toggle: {type: 'boolean', default: false},
         toggleState: {type: 'boolean', default: false},
         fontSize: {type: 'number', default: 0.2},
-        fontFamily: {type: 'string', default: 'Arial'},
+        fontFamily: {type: 'string', default: 'sans-serif'},
         fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_grey_dark},
         borderHoverColor: {type: 'string', default: key_grey},

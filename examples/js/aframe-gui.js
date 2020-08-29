@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 19);
+/******/ 	return __webpack_require__(__webpack_require__.s = 20);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -80,7 +80,7 @@ AFRAME.registerComponent('gui-button', {
         toggleState: { type: 'boolean', default: false },
         text: { type: 'string', default: '' },
         fontSize: { type: 'number', default: 0.2 },
-        fontFamily: { type: 'string', default: 'Arial' },
+        fontFamily: { type: 'string', default: 'sans-serif' },
         fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
@@ -217,7 +217,7 @@ AFRAME.registerComponent('gui-circle-loader', {
     schema: {
         loaded: { type: 'number', default: 0.5 },
         fontSize: { type: 'number', default: 0.2 },
-        fontFamily: { type: 'string', default: 'Arial' },
+        fontFamily: { type: 'string', default: 'sans-serif' },
         fontColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
         activeColor: { type: 'string', default: key_orange }
@@ -300,7 +300,7 @@ AFRAME.registerComponent('gui-circle-timer', {
     schema: {
         countDown: { type: 'number', default: 10 },
         fontSize: { type: 'number', default: 0.2 },
-        fontFamily: { type: 'string', default: 'Arial' },
+        fontFamily: { type: 'string', default: 'sans-serif' },
         fontColor: { type: 'string', default: key_grey },
         borderColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -878,6 +878,7 @@ AFRAME.registerComponent('gui-flex-container', {
         opacity: { type: 'number', default: 0.0 },
         isTopContainer: { type: 'boolean', default: false },
         panelColor: { type: 'string', default: key_grey },
+        panelRounded: { type: 'number', default: 0.05 },
 
         //global settings for GUI items
         styles: {
@@ -899,8 +900,8 @@ AFRAME.registerComponent('gui-flex-container', {
             this.setBackground();
         }
 
-        this.el.setAttribute('geometry', 'primitive: plane; height: ' + containerGuiItem.height + '; width: ' + containerGuiItem.width + ';');
-        this.el.setAttribute('material', 'shader: flat; transparent: true; opacity: ' + this.data.opacity + '; alphaTest: 0.5; color: ' + this.data.panelColor + '; side:front;');
+        //        this.el.setAttribute('material', `shader: flat; transparent: true; alphaTest: 0.5; side:front;`);
+        this.el.setAttribute('rounded', 'height: ' + containerGuiItem.height + '; width: ' + containerGuiItem.width + '; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + '; radius:' + this.data.panelRounded + ';');
 
         this.children = this.el.getChildEntities();
         //console.log("childElements: "+this.children);
@@ -1060,6 +1061,7 @@ AFRAME.registerPrimitive('a-gui-flex-container', {
         'opacity': 'gui-flex-container.opacity',
         'is-top-container': 'gui-flex-container.isTopContainer',
         'panel-color': 'gui-flex-container.panelColor',
+        'panel-rounded': 'gui-flex-container.panelRounded',
         'font-family': 'gui-flex-container.styles.fontFamily',
         'font-color': 'gui-flex-container.styles.fontColor',
         'border-color': 'gui-flex-container.styles.borderColor',
@@ -1232,7 +1234,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         iconFont: { type: 'string', default: 'assets/fonts/fa-regular-400.ttf' },
         text: { type: 'string', default: '' },
         fontSize: { type: 'number', default: 0.2 },
-        fontFamily: { type: 'string', default: 'Arial' },
+        fontFamily: { type: 'string', default: 'sans-serif' },
         fontColor: { type: 'string', default: key_offwhite },
         borderColor: { type: 'string', default: key_offwhite },
         backgroundColor: { type: 'string', default: key_grey },
@@ -1397,7 +1399,7 @@ AFRAME.registerComponent('gui-input', {
         toggle: { type: 'boolean', default: false },
         toggleState: { type: 'boolean', default: false },
         fontSize: { type: 'number', default: 0.2 },
-        fontFamily: { type: 'string', default: 'Arial' },
+        fontFamily: { type: 'string', default: 'sans-serif' },
         fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_grey_dark },
         borderHoverColor: { type: 'string', default: key_grey },
@@ -1604,7 +1606,7 @@ AFRAME.registerComponent('gui-label', {
     fontSize: { type: 'number', default: 0.2 },
     lineHeight: { type: 'number', default: 0.2 },
     letterSpacing: { type: 'number', default: 0 },
-    fontFamily: { type: 'string', default: 'Arial' },
+    fontFamily: { type: 'string', default: 'sans-serif' },
     fontColor: { type: 'string', default: key_grey_dark },
     backgroundColor: { type: 'string', default: key_offwhite },
     opacity: { type: 'number', default: 1.0 },
@@ -1736,7 +1738,7 @@ AFRAME.registerComponent('gui-radio', {
         checked: { type: 'boolean', default: false },
         radiosizecoef: { type: 'number', default: 1 },
         fontSize: { type: 'number', default: 0.2 },
-        fontFamily: { type: 'string', default: 'Arial' },
+        fontFamily: { type: 'string', default: 'sans-serif' },
         fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_white },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -1889,6 +1891,130 @@ AFRAME.registerPrimitive('a-gui-radio', {
 "use strict";
 
 
+AFRAME.registerComponent('rounded', {
+  schema: {
+    enabled: { default: true },
+    width: { type: 'number', default: 1 },
+    height: { type: 'number', default: 1 },
+    radius: { type: 'number', default: 0.3 },
+    topLeftRadius: { type: 'number', default: -1 },
+    topRightRadius: { type: 'number', default: -1 },
+    bottomLeftRadius: { type: 'number', default: -1 },
+    bottomRightRadius: { type: 'number', default: -1 },
+    color: { type: 'color', default: "#F0F0F0" },
+    opacity: { type: 'number', default: 1 }
+  },
+  init: function init() {
+    this.rounded = new THREE.Mesh(this.draw(), new THREE.MeshPhongMaterial({ color: new THREE.Color(this.data.color), side: THREE.DoubleSide }));
+    this.updateOpacity();
+    this.el.setObject3D('mesh', this.rounded);
+  },
+  update: function update() {
+    if (this.data.enabled) {
+      if (this.rounded) {
+        this.rounded.visible = true;
+        this.rounded.geometry = this.draw();
+        this.rounded.material.color = new THREE.Color(this.data.color);
+        this.updateOpacity();
+      }
+    } else {
+      this.rounded.visible = false;
+    }
+  },
+  updateOpacity: function updateOpacity() {
+    if (this.data.opacity < 0) {
+      this.data.opacity = 0;
+    }
+    if (this.data.opacity > 1) {
+      this.data.opacity = 1;
+    }
+    if (this.data.opacity < 1) {
+      this.rounded.material.transparent = true;
+    } else {
+      this.rounded.material.transparent = false;
+    }
+    this.rounded.material.opacity = this.data.opacity;
+  },
+  tick: function tick() {},
+  remove: function remove() {
+    if (!this.rounded) {
+      return;
+    }
+    this.el.object3D.remove(this.rounded);
+    this.rounded = null;
+  },
+  draw: function draw() {
+    var roundedRectShape = new THREE.Shape();
+    function roundedRect(ctx, x, y, width, height, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius) {
+      if (!topLeftRadius) {
+        topLeftRadius = 0.00001;
+      }
+      if (!topRightRadius) {
+        topRightRadius = 0.00001;
+      }
+      if (!bottomLeftRadius) {
+        bottomLeftRadius = 0.00001;
+      }
+      if (!bottomRightRadius) {
+        bottomRightRadius = 0.00001;
+      }
+      ctx.moveTo(x, y + topLeftRadius);
+      ctx.lineTo(x, y + height - topLeftRadius);
+      ctx.quadraticCurveTo(x, y + height, x + topLeftRadius, y + height);
+      ctx.lineTo(x + width - topRightRadius, y + height);
+      ctx.quadraticCurveTo(x + width, y + height, x + width, y + height - topRightRadius);
+      ctx.lineTo(x + width, y + bottomRightRadius);
+      ctx.quadraticCurveTo(x + width, y, x + width - bottomRightRadius, y);
+      ctx.lineTo(x + bottomLeftRadius, y);
+      ctx.quadraticCurveTo(x, y, x, y + bottomLeftRadius);
+    }
+
+    var corners = [this.data.radius, this.data.radius, this.data.radius, this.data.radius];
+    if (this.data.topLeftRadius != -1) {
+      corners[0] = this.data.topLeftRadius;
+    }
+    if (this.data.topRightRadius != -1) {
+      corners[1] = this.data.topRightRadius;
+    }
+    if (this.data.bottomLeftRadius != -1) {
+      corners[2] = this.data.bottomLeftRadius;
+    }
+    if (this.data.bottomRightRadius != -1) {
+      corners[3] = this.data.bottomRightRadius;
+    }
+
+    roundedRect(roundedRectShape, -this.data.width / 2, -this.data.height / 2, this.data.width, this.data.height, corners[0], corners[1], corners[2], corners[3]);
+    return new THREE.ShapeBufferGeometry(roundedRectShape);
+  },
+  pause: function pause() {},
+  play: function play() {}
+});
+
+AFRAME.registerPrimitive('a-rounded', {
+  defaultComponents: {
+    rounded: {}
+  },
+  mappings: {
+    enabled: 'rounded.enabled',
+    width: 'rounded.width',
+    height: 'rounded.height',
+    radius: 'rounded.radius',
+    'top-left-radius': 'rounded.topLeftRadius',
+    'top-right-radius': 'rounded.topRightRadius',
+    'bottom-left-radius': 'rounded.bottomLeftRadius',
+    'bottom-right-radius': 'rounded.bottomRightRadius',
+    color: 'rounded.color',
+    opacity: 'rounded.opacity'
+  }
+});
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 AFRAME.registerComponent('gui-slider', {
     schema: {
         activeColor: { type: 'string', default: key_orange },
@@ -2018,7 +2144,7 @@ AFRAME.registerPrimitive('a-gui-slider', {
 });
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2034,7 +2160,7 @@ AFRAME.registerComponent('gui-toggle', {
         checked: { type: 'boolean', default: false },
         borderWidth: { type: 'number', default: 1 },
         fontSize: { type: 'number', default: 0.2 },
-        fontFamily: { type: 'string', default: 'Arial' },
+        fontFamily: { type: 'string', default: 'sans-serif' },
         fontColor: { type: 'string', default: key_grey_dark },
         borderColor: { type: 'string', default: key_grey },
         backgroundColor: { type: 'string', default: key_offwhite },
@@ -2179,7 +2305,7 @@ AFRAME.registerPrimitive('a-gui-toggle', {
 });
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2490,7 +2616,7 @@ AFRAME.registerPrimitive('a-gui-vertical-slider', {
 });
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2509,7 +2635,7 @@ if (cursor) {
 }
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2520,7 +2646,7 @@ window.nearestPow2 = function (n) {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2602,7 +2728,7 @@ window.drawIcon = function (ctx, canvas, iconFontSize, icon, color) {
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2616,8 +2742,8 @@ if (typeof AFRAME === 'undefined') {
 // require('aframe-troika-text');
 
 // Components
+__webpack_require__(19);
 __webpack_require__(18);
-__webpack_require__(17);
 __webpack_require__(9);
 __webpack_require__(8);
 __webpack_require__(4);
@@ -2625,16 +2751,17 @@ __webpack_require__(10);
 __webpack_require__(0);
 __webpack_require__(5);
 __webpack_require__(6);
-__webpack_require__(14);
+__webpack_require__(15);
 __webpack_require__(12);
 __webpack_require__(1);
 __webpack_require__(11);
 __webpack_require__(2);
-__webpack_require__(13);
-__webpack_require__(15);
+__webpack_require__(14);
+__webpack_require__(16);
 __webpack_require__(7);
 __webpack_require__(3);
-__webpack_require__(16);
+__webpack_require__(13);
+__webpack_require__(17);
 
 /***/ })
 /******/ ]);

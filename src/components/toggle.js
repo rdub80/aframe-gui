@@ -8,7 +8,7 @@ AFRAME.registerComponent('gui-toggle', {
         checked: {type: 'boolean', default: false },
         borderWidth: {type: 'number', default: 1 },
         fontSize: {type: 'number', default: 0.2},
-        fontFamily: {type: 'string', default: 'Arial'},
+        fontFamily: {type: 'string', default: 'sans-serif'},
         fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_grey},
         backgroundColor: {type: 'string', default: key_offwhite},
