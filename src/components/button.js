@@ -27,17 +27,18 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
 
         var buttonContainer = document.createElement("a-entity");
-        buttonContainer.setAttribute('geometry', `primitive: box; width: ${guiItem.width}; height: ${guiItem.height}; depth: 0.02;`);
+        buttonContainer.setAttribute('geometry', `primitive: box; width: ${guiItem.width}; height: ${guiItem.height}; depth: ${guiItem.baseDepth};`);
         buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
         buttonContainer.setAttribute('rotation', '0 0 0');
-        buttonContainer.setAttribute('position', '0 0 0.01');
+        buttonContainer.setAttribute('position', `0 0 ${guiItem.baseDepth/2}`);
         el.appendChild(buttonContainer);
+        this.buttonContainer = buttonContainer;
 
         var buttonEntity = document.createElement("a-entity");
-        buttonEntity.setAttribute('geometry', `primitive: box; width: ${(guiItem.width-0.025)}; height: ${(guiItem.height-0.025)}; depth: 0.04;`);
+        buttonEntity.setAttribute('geometry', `primitive: box; width: ${(guiItem.width-guiItem.gap)}; height: ${(guiItem.height-guiItem.gap)}; depth: ${guiItem.depth};`);
         buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.toggleState ? data.activeColor : data.backgroundColor}`);
         buttonEntity.setAttribute('rotation', '0 0 0');
-        buttonEntity.setAttribute('position', '0 0 0.02');
+        buttonEntity.setAttribute('position', `0 0 ${guiItem.depth/2}`);
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
@@ -84,6 +85,23 @@ AFRAME.registerComponent('gui-button', {
 
     },
     update: function (oldData) {
+
+        var data = this.data;
+        var el = this.el;
+        var guiItem = el.getAttribute("gui-item");
+        this.guiItem = guiItem;
+
+        el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
+        el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.5; side:double; color:${data.backgroundColor};`);
+
+        this.buttonContainer.setAttribute('geometry', `primitive: box; width: ${guiItem.width}; height: ${guiItem.height}; depth: ${guiItem.baseDepth};`);
+        this.buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
+        this.buttonContainer.setAttribute('position', `0 0 ${guiItem.baseDepth/2}`);
+
+        this.buttonEntity.setAttribute('geometry', `primitive: box; width: ${(guiItem.width-guiItem.gap)}; height: ${(guiItem.height-guiItem.gap)}; depth: ${guiItem.depth};`);
+        this.buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.toggleState ? data.activeColor : data.backgroundColor}`);
+        this.buttonEntity.setAttribute('position', `0 0 ${guiItem.depth/2}`);
+
         if(this.textEntity){
             console.log("has textEntity: "+this.textEntity);
 
@@ -96,10 +114,6 @@ AFRAME.registerComponent('gui-button', {
             console.log("no textEntity!");   
         }
 
-        // buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.toggleState ? data.activeColor : data.backgroundColor}`);
-        // buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
-
-        // console.log("In button update, toggle: "+this.data.toggleState);
     },
     setActiveState: function (activeState) {
         // console.log("in setActiveState function, new state: " + activeState);
@@ -126,9 +140,9 @@ AFRAME.registerComponent('gui-button', {
                                                 depthOffset:1;
                                                 maxWidth:${this.guiItem.width/1.05};
                                                 `);
-        textEntity.setAttribute('position', '0 0 0.05');
+        textEntity.setAttribute('position', `0 0 ${(this.guiItem.depth/2)+0.05}`);
 //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
-        this.el.appendChild(textEntity);
+        this.buttonEntity.appendChild(textEntity);
     },
 });
 
@@ -145,6 +159,10 @@ AFRAME.registerPrimitive( 'a-gui-button', {
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
+        'depth': 'gui-item.depth',
+        'base-depth': 'gui-item.baseDepth',
+        'gap': 'gui-item.gap',
+        'radius': 'gui-item.radius',
         'margin': 'gui-item.margin',
         'on': 'gui-button.on',
         'value': 'gui-button.text',

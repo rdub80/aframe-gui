@@ -102,17 +102,18 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:double; color:' + data.backgroundColor + ';');
 
         var buttonContainer = document.createElement("a-entity");
-        buttonContainer.setAttribute('geometry', 'primitive: box; width: ' + guiItem.width + '; height: ' + guiItem.height + '; depth: 0.02;');
+        buttonContainer.setAttribute('geometry', 'primitive: box; width: ' + guiItem.width + '; height: ' + guiItem.height + '; depth: ' + guiItem.baseDepth + ';');
         buttonContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
         buttonContainer.setAttribute('rotation', '0 0 0');
-        buttonContainer.setAttribute('position', '0 0 0.01');
+        buttonContainer.setAttribute('position', '0 0 ' + guiItem.baseDepth / 2);
         el.appendChild(buttonContainer);
+        this.buttonContainer = buttonContainer;
 
         var buttonEntity = document.createElement("a-entity");
-        buttonEntity.setAttribute('geometry', 'primitive: box; width: ' + (guiItem.width - 0.025) + '; height: ' + (guiItem.height - 0.025) + '; depth: 0.04;');
+        buttonEntity.setAttribute('geometry', 'primitive: box; width: ' + (guiItem.width - guiItem.gap) + '; height: ' + (guiItem.height - guiItem.gap) + '; depth: ' + guiItem.depth + ';');
         buttonEntity.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + (data.toggleState ? data.activeColor : data.backgroundColor));
         buttonEntity.setAttribute('rotation', '0 0 0');
-        buttonEntity.setAttribute('position', '0 0 0.02');
+        buttonEntity.setAttribute('position', '0 0 ' + guiItem.depth / 2);
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
@@ -156,6 +157,23 @@ AFRAME.registerComponent('gui-button', {
     },
     play: function play() {},
     update: function update(oldData) {
+
+        var data = this.data;
+        var el = this.el;
+        var guiItem = el.getAttribute("gui-item");
+        this.guiItem = guiItem;
+
+        el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
+        el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.5; side:double; color:' + data.backgroundColor + ';');
+
+        this.buttonContainer.setAttribute('geometry', 'primitive: box; width: ' + guiItem.width + '; height: ' + guiItem.height + '; depth: ' + guiItem.baseDepth + ';');
+        this.buttonContainer.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + data.borderColor);
+        this.buttonContainer.setAttribute('position', '0 0 ' + guiItem.baseDepth / 2);
+
+        this.buttonEntity.setAttribute('geometry', 'primitive: box; width: ' + (guiItem.width - guiItem.gap) + '; height: ' + (guiItem.height - guiItem.gap) + '; depth: ' + guiItem.depth + ';');
+        this.buttonEntity.setAttribute('material', 'shader: flat; opacity: 1; side:double; color: ' + (data.toggleState ? data.activeColor : data.backgroundColor));
+        this.buttonEntity.setAttribute('position', '0 0 ' + guiItem.depth / 2);
+
         if (this.textEntity) {
             console.log("has textEntity: " + this.textEntity);
 
@@ -166,11 +184,6 @@ AFRAME.registerComponent('gui-button', {
         } else {
             console.log("no textEntity!");
         }
-
-        // buttonEntity.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.toggleState ? data.activeColor : data.backgroundColor}`);
-        // buttonContainer.setAttribute('material', `shader: flat; opacity: 1; side:double; color: ${data.borderColor}`);
-
-        // console.log("In button update, toggle: "+this.data.toggleState);
     },
     setActiveState: function setActiveState(activeState) {
         // console.log("in setActiveState function, new state: " + activeState);
@@ -187,9 +200,9 @@ AFRAME.registerComponent('gui-button', {
         var textEntity = document.createElement("a-entity");
         this.textEntity = textEntity;
         textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
-        textEntity.setAttribute('position', '0 0 0.05');
+        textEntity.setAttribute('position', '0 0 ' + (this.guiItem.depth / 2 + 0.05));
         //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
-        this.el.appendChild(textEntity);
+        this.buttonEntity.appendChild(textEntity);
     }
 });
 
@@ -205,6 +218,10 @@ AFRAME.registerPrimitive('a-gui-button', {
         'key-code': 'gui-interactable.keyCode',
         'width': 'gui-item.width',
         'height': 'gui-item.height',
+        'depth': 'gui-item.depth',
+        'base-depth': 'gui-item.baseDepth',
+        'gap': 'gui-item.gap',
+        'radius': 'gui-item.radius',
         'margin': 'gui-item.margin',
         'on': 'gui-button.on',
         'value': 'gui-button.text',
@@ -807,10 +824,10 @@ AFRAME.registerComponent('gui-cursor', {
         });
     },
     update: function update() {
-        //        var oldEntity = this.cursor;
-        //        oldEntity.parentNode.removeChild(oldEntity);
-
         /*
+                var oldEntity = this.cursor;
+                oldEntity.parentNode.removeChild(oldEntity);
+        
                 function removeAllChildNodes(parent) {
                     while (parent.firstChild) {
                         parent.removeChild(parent.firstChild);
@@ -818,9 +835,9 @@ AFRAME.registerComponent('gui-cursor', {
                 }
                 const oldEntity = this.cursor;
                 removeAllChildNodes(oldEntity);
+        
+                this.init();
         */
-
-        this.init();
     },
     tick: function tick() {},
     remove: function remove() {},
@@ -1610,6 +1627,10 @@ AFRAME.registerComponent('gui-item', {
         type: { type: 'string' },
         width: { type: 'number', default: 1 },
         height: { type: 'number', default: 1 },
+        baseDepth: { type: 'number', default: 0.01 },
+        depth: { type: 'number', default: 0.02 },
+        gap: { type: 'number', default: 0.025 },
+        radius: { type: 'number', default: 0 },
         margin: { type: 'vec4', default: { x: 0, y: 0, z: 0, w: 0 } }
     },
     init: function init() {},
