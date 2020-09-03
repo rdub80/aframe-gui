@@ -104,6 +104,7 @@ AFRAME.registerComponent('gui-button', {
     },
     update: function (oldData) {
         // console.log("In button update, toggle: "+this.data.toggleState);
+        this.setText(this.data.text);
     },
     setActiveState: function (activeState) {
         // console.log("in setActiveState function, new state: " + activeState);
