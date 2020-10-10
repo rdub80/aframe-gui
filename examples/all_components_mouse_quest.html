@@ -209,17 +209,18 @@
 			this.fontColor = "#F2BB16";
 			this.backgroundColor = "#011C40";
 			this.borderColor = "#F2BB16";
+			this.focusColor = "#ff0000";
 			this.hoverColor = "#2a5b7a";
 			this.activeColor = "#5687A6";
 			this.fontSize = 0.3;
 			this.toggle = true;
 			this.fontFamily = "PressStart2P";
-			this.width=2.75; 
-			this.height=0.7; 
-			this.baseDepth=0.05; 
-			this.depth=0.2;
-			this.gap=0.1;
-			this.radius=0;
+			// this.width=2.75; 
+			// this.height=0.7; 
+			// this.baseDepth=0.05; 
+			// this.depth=0.2;
+			// this.gap=0.1;
+			// this.radius=0;
 		};
 
 		window.onload = function() {
@@ -231,16 +232,17 @@
 			gui.addColor(controls, 'hoverColor').onChange(setValue);
 			gui.addColor(controls, 'activeColor').onChange(setValue);
 			gui.addColor(controls, 'borderColor').onChange(setValue);
+			gui.addColor(controls, 'focusColor').onChange(setValue);
 			gui.addColor(controls, 'backgroundColor').onChange(setValue);
 			gui.add(controls, 'fontSize', 0, 1).onChange(setValue);
 			gui.add(controls, 'toggle').onChange(setValue);
 			gui.add(controls, 'fontFamily',["PermanentMarker", "PressStart2P", "Plaster", "DiplomataSC"]).onChange(setValue);
-			gui.add(controls, 'width', 0, 5).onChange(setValue);
-			gui.add(controls, 'height', 0, 5).onChange(setValue);
-			gui.add(controls, 'baseDepth', 0, 1).onChange(setValue);
-			gui.add(controls, 'depth', 0, 1).onChange(setValue);
-			gui.add(controls, 'gap', 0, 1).onChange(setValue);
-			gui.add(controls, 'radius', 0, 1).onChange(setValue);
+			// gui.add(controls, 'width', 0, 5).onChange(setValue);
+			// gui.add(controls, 'height', 0, 5).onChange(setValue);
+			// gui.add(controls, 'baseDepth', 0, 1).onChange(setValue);
+			// gui.add(controls, 'depth', 0, 1).onChange(setValue);
+			// gui.add(controls, 'gap', 0, 1).onChange(setValue);
+			// gui.add(controls, 'radius', 0, 1).onChange(setValue);
 		};
 
 		function setValue() {
@@ -251,14 +253,15 @@
 			data.setAttribute('active-color',controls.activeColor);
 			data.setAttribute('hover-color',controls.hoverColor);
 			data.setAttribute('border-color',controls.borderColor);
+			data.setAttribute('focus-color',controls.focusColor);
 			data.setAttribute('background-color',controls.backgroundColor);
 			data.setAttribute('toggle',controls.toggle);
-			data.setAttribute('width',controls.width);
-			data.setAttribute('height',controls.height);
-			data.setAttribute('base-depth',controls.baseDepth);
-			data.setAttribute('depth',controls.depth);
-			data.setAttribute('gap',controls.gap);
-			data.setAttribute('radius',controls.radius);
+			// data.setAttribute('width',controls.width);
+			// data.setAttribute('height',controls.height);
+			// data.setAttribute('base-depth',controls.baseDepth);
+			// data.setAttribute('depth',controls.depth);
+			// data.setAttribute('gap',controls.gap);
+			// data.setAttribute('radius',controls.radius);
 		}
 
 
