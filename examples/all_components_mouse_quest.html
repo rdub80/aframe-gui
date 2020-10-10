@@ -25,17 +25,17 @@
 		<a-gui-flex-container
 			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
 			opacity="0.7" width="3.5" height="4.5" panel-color="#072B73" panel-rounded="0.2"
-			position="-2 2.5 -6" rotation="0 0 0"
+			position="-4 2.5 -6" rotation="0 0 0"
 			>
 			<a-gui-button
 				id="btn1"
-				width="2.75" 
+				width="2.5" 
 				height="0.7" 
 				base-depth="0.05" 
 				depth="0.2"
 				gap="0.1"
 				radius="0"
-				onclick="testButtonAction" key-code="32"
+				onclick="testButtonAction1"
 				value="test button"
 				font-family="assets/fonts/PermanentMarker-Regular.ttf"
 				font-size="0.35"
@@ -43,6 +43,93 @@
 				toggle="true"
 			>
 			</a-gui-button>
+
+
+			<a-gui-button
+				width="2.5" 
+				height="0.7" 
+				base-depth="0.025" 
+				depth="0.1"
+				gap="0.1"
+				radius="0"
+				onclick="testButtonAction2"
+				value="Another button"
+				font-family="assets/fonts/PermanentMarker-Regular.ttf"	
+				font-size="0.275"
+				margin="0 0 0.05 0"
+
+				font-color="black"
+				active-color="red"
+				hover-color="yellow"
+				border-color="white"
+				focus-color="black"
+				background-color="orange"
+			>
+			</a-gui-button>
+
+
+			<a-gui-button
+				width="2.75" 
+				height="1"
+				base-depth="0.1" 
+				depth="0.3"
+				gap="0.1"
+				radius="0"				 
+				onclick="testButtonAction3"
+				value="Example 3"
+				font-family="assets/fonts/DiplomataSC-Regular.ttf"
+				font-size="0.275"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-button>
+
+			<a-gui-button
+				width="2.5" 
+				height="0.7" 
+				gap="0.2"				
+				onclick="testButtonAction4"
+				value="Example 4"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.275"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-button>
+
+			<a-gui-button
+				width="2.5" 
+				height="0.7" 
+				onclick="testButtonAction5"
+				value="Example 5"
+			>
+			</a-gui-button>
+
+
+		</a-gui-flex-container>
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+			opacity="0.5" width="3.5" height="6" panel-color="#000" panel-rounded="0.1"
+			position="0 2.5 -6" rotation="0 0 0"
+			>
+			<a-gui-label
+				width="2.5" height="0.75"
+				value="test label"
+				font-family="assets/fonts/DiplomataSC-Regular.ttf"
+				font-size="0.35"
+				line-height="0.8"
+				letter-spacing="0"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-label>
+
+			<a-gui-radio
+				width="2.5" height="0.75"
+				onclick="testToggleAction"
+				value="radio label"
+				font-size="0.3"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-radio>
 
 			<a-gui-icon-label-button
 				width="2.5" height="0.75"
@@ -66,65 +153,6 @@
 			>
 			</a-gui-toggle>
 
-			<a-gui-icon-button
-				height="0.75"
-				onclick="testButtonAction"
-				icon="f09b"
-				icon-font="assets/fonts/fa-brands-400.ttf"
-				margin="0 0 0.05 0"
-			>
-			</a-gui-icon-button>
-
-			<a-gui-circle-loader
-				height="0.75"
-				font-family="assets/fonts/Plaster-Regular.ttf"					
-				font-size="0.2"
-				loaded="0.3456"		
-			>
-			</a-gui-circle-loader>
-
-		</a-gui-flex-container>
-
-		<a-gui-flex-container
-			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" opacity="0.7" width="3.5" height="4.5"
-			position="2 2.5 -6" rotation="0 0 0"
-			>
-			<a-gui-label
-				width="2.5" height="0.75"
-				value="test label"
-				font-family="assets/fonts/DiplomataSC-Regular.ttf"
-				font-size="0.35"
-				line-height="0.8"
-				letter-spacing="0"
-				margin="0 0 0.05 0"
-			>
-			</a-gui-label>
-
-			<a-gui-radio
-				width="2.5" height="0.75"
-				onclick="testToggleAction"
-				value="radio label"
-				font-size="0.3"
-				margin="0 0 0.05 0"
-			>
-			</a-gui-radio>
-
-			<a-gui-progressbar
-				width="2.5" height="0.25"
-				margin="0 0 0.05 0"
-			>
-			</a-gui-progressbar>
-
-			<a-gui-circle-timer
-				id="timer"
-				height="0.75"
-				count-down="60"
-				callback="timedout"
-				font-family="assets/fonts/PermanentMarker-Regular.ttf"				
-				margin="0 0 0.05 0"
-			>
-			</a-gui-circle-timer>
-
 			<a-gui-slider
 				width="2.5" height="0.75"
 				onclick="testSliderAction"
@@ -139,10 +167,57 @@
 				font-family="assets/fonts/PermanentMarker-Regular.ttf"	
 				font-size="0.2"
 				value="Hello Wor_"
+				margin="0 0 0.05 0"
 			>
 			</a-gui-input>
 
+			<a-gui-progressbar
+				width="2.5" height="0.25"
+				margin="0 0 0.1 0"
+			>
+			</a-gui-progressbar>
+
 		</a-gui-flex-container>
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+			opacity="0.7" width="2" height="3" panel-color="#fff" panel-rounded="1"
+			position="3.25 2.5 -6" rotation="0 0 0"
+			>
+
+			<a-gui-circle-timer
+				id="timer"
+				height="0.75"
+				count-down="60"
+				callback="timedout"
+				font-family="assets/fonts/PermanentMarker-Regular.ttf"				
+				margin="0 0 0.1 0"
+				background-color="#999"
+
+			>
+			</a-gui-circle-timer>
+
+			<a-gui-circle-loader
+				height="0.75"
+				font-family="assets/fonts/Plaster-Regular.ttf"					
+				font-size="0.2"
+				loaded="0.3456"		
+				margin="0 0 0.1 0"
+				background-color="#999"
+			>
+			</a-gui-circle-loader>
+			
+			<a-gui-icon-button
+				height="0.75"
+				onclick="testButtonAction"
+				icon="f09b"
+				icon-font="assets/fonts/fa-brands-400.ttf"
+				background-color="#999"
+			>
+			</a-gui-icon-button>
+
+		</a-gui-flex-container>
+
 
 
 		<!-- Mouse cursor so we can click on the scene with mouse or touch. -->
@@ -182,9 +257,30 @@
 			console.log("GUI timer timed out");
 		}
 
-		window.testButtonAction = function () {
+		window.testButtonAction1 = function () {
 			console.log("clicked GUI");
 		}
+
+
+
+		window.testButtonAction2 = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testButtonAction3 = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testButtonAction4 = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testButtonAction5 = function () {
+			console.log("clicked GUI");
+		}
+
+
+
 
 		window.testToggleAction = function () {
 			console.log("clicked GUI");
