@@ -25,4 +25,5 @@ require('./components/vertical-slider.js');
 require('./components/input.js');
 require('./components/cursor.js');
 require('./components/rounded.js');
+require('./components/bevelbox.js');
 require('./scripts/reset-cursor.js');
