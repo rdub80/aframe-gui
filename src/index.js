@@ -9,6 +9,7 @@ if (typeof AFRAME === 'undefined') {
 require('./scripts/vars.js');
 require('./scripts/utils.js')
 require('./components/item.js');
+require('./components/bevelbox.js');
 require('./components/interactable.js');
 require('./components/flex-container.js');
 require('./components/label.js');
@@ -25,5 +26,4 @@ require('./components/vertical-slider.js');
 require('./components/input.js');
 require('./components/cursor.js');
 require('./components/rounded.js');
-require('./components/bevelbox.js');
 require('./scripts/reset-cursor.js');

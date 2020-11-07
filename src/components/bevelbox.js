@@ -1,54 +1,102 @@
+/* global AFRAME */
+
+if (typeof AFRAME === 'undefined') {
+  throw new Error('Component attempted to register before AFRAME was available.');
+}
+
+
 AFRAME.registerComponent('bevelbox', {
-    schema: {
-        width: {type: 'number', default: 1},
-        height: {type: 'number', default: 1},
-        depth: {type: 'number', default: 0.02},
-        gap: {type: 'number', default: 0.025},
-        radius: {type: 'number', default: 0},
-        margin: { type: 'vec4', default: {x: 0, y: 0, z: 0, w: 0}},
+  schema: {
+    width: {type: 'number', default: 1},
+    height: {type: 'number', default: 1},
+    depth: {type: 'number', default: 1},
 
-        bevelEnabled: {type: 'boolean', default: false},
-        bevelSegments: {type: 'number', default: 5},
-        steps: {type: 'number', default: 2},
-        bevelSize: {type: 'number', default: 4},
-        bevelThickness: {type: 'number', default: 2}
+    topLeftRadius: {type: 'number', default: 0.00001},
+    topRightRadius: {type: 'number', default: 0.00001},
+    bottomLeftRadius: {type: 'number', default: 0.00001},
+    bottomRightRadius: {type: 'number', default: 0.00001},
 
-    },    
-    init: function() {
+    bevelEnabled: {type: 'boolean', default: true},
+    bevelSegments: {type: 'number', default: 2},
+    steps: {type: 'number', default: 1},
+    bevelSize: {type: 'number', default: 0.1},
+    bevelOffset: {type: 'number', default: 0},
+    bevelThickness: {type: 'number', default: 0.1}
+  },  
 
+  multiple: false,
+  
+  init: function() {      
+    var el = this.el;
+    var data = this.data;
+    
+    var _w = data.width;
+    var _h = data.height;
+    var _x = -data.width/2;
+    var _y = -data.height/2;
+    
+    var shape = new THREE.Shape();      
+    shape.moveTo( _x, _y + data.topLeftRadius );
+    shape.lineTo( _x, _y + _h - data.topLeftRadius );
+    shape.quadraticCurveTo( _x, _y + _h, _x + data.topLeftRadius, _y + _h );
+    shape.lineTo( _x + _w - data.topRightRadius, _y + _h );
+    shape.quadraticCurveTo( _x + _w, _y + _h, _x + _w, _y + _h - data.topRightRadius );
+    shape.lineTo( _x + _w, _y + data.bottomRightRadius );
+    shape.quadraticCurveTo( _x + _w, _y, _x + _w - data.bottomRightRadius, _y );
+    shape.lineTo( _x + data.bottomLeftRadius, _y );
+    shape.quadraticCurveTo( _x, _y, _x, _y + data.bottomLeftRadius );
 
-      let points = [];
-      points.push(new THREE.Vector2(0, 0));
-      points.push(new THREE.Vector2(3, 0));
-      points.push(new THREE.Vector2(5, 2));
-      points.push(new THREE.Vector2(5, 5));
-      points.push(new THREE.Vector2(5, 5));
-      points.push(new THREE.Vector2(2, 7));
+    var extrudedShape = this.extrude(shape);
+    
+    el.setObject3D('mesh', extrudedShape);            
+  },
+    
+  extrude: function (roundedBase) {
+    var el = this.el;
+    var data = this.data;
+    
+    var extrudeSettings = {
+      steps: data.steps,
+      depth: data.depth,
+      bevelEnabled: data.bevelEnabled,
+      bevelThickness: data.bevelThickness,
+      bevelSize: data.bevelSize,
+      bevelOffset: data.bevelOffset,
+      bevelSegments: data.bevelSegments
+    };      
+    
+    var extrudedGeometry = new THREE.ExtrudeGeometry(roundedBase, extrudeSettings);      
+    return new THREE.Mesh( extrudedGeometry , new THREE.MeshStandardMaterial({ 
+      side: THREE.DoubleSide 
+    }) );      
+  },
 
-      for (var i = 0; i < points.length; i++) {
-        points[i].multiplyScalar(0.25);
-      }
-      var shape = new THREE.Shape(points);
-      var extrudedGeometry = new THREE.ExtrudeGeometry(shape, {
-        amount: 2,
-        bevelEnabled: false
-      });
+  /**
+   * Called when component is attached and when component data changes.
+   * Generally modifies the entity based on the data.
+   */
+  update: function (oldData) { },
 
-      // Geometry doesn't do much on its own, we need to create a Mesh from it
-      var extrudedMesh = new THREE.Mesh(extrudedGeometry, new THREE.MeshPhongMaterial({
-        color: 0xff0000
-      }));
-      this.el.object3D.add(extrudedMesh);
-    },
-    update: function () {
-    },
-    tick: function () {
-    },
-    remove: function () {
-    },
-    pause: function () {
-    },
-    play: function () {
-    },
+  /**
+   * Called when a component is removed (e.g., via removeAttribute).
+   * Generally undoes all modifications to the entity.
+   */
+  remove: function () { },
+
+  /**
+   * Called on each scene tick.
+   */
+  // tick: function (t) { },
+
+  /**
+   * Called when entity pauses.
+   * Use to stop or remove any dynamic or background behavior such as events.
+   */
+  pause: function () { },
+
+  /**
+   * Called when entity resumes.
+   * Use to continue or add any dynamic or background behavior such as events.
+   */
+  play: function () { }
 });
-  });

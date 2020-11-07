@@ -63,11 +63,120 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 21);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/* global AFRAME */
+
+if (typeof AFRAME === 'undefined') {
+  throw new Error('Component attempted to register before AFRAME was available.');
+}
+
+AFRAME.registerComponent('bevelbox', {
+  schema: {
+    width: { type: 'number', default: 1 },
+    height: { type: 'number', default: 1 },
+    depth: { type: 'number', default: 1 },
+
+    topLeftRadius: { type: 'number', default: 0.00001 },
+    topRightRadius: { type: 'number', default: 0.00001 },
+    bottomLeftRadius: { type: 'number', default: 0.00001 },
+    bottomRightRadius: { type: 'number', default: 0.00001 },
+
+    bevelEnabled: { type: 'boolean', default: true },
+    bevelSegments: { type: 'number', default: 2 },
+    steps: { type: 'number', default: 1 },
+    bevelSize: { type: 'number', default: 0.1 },
+    bevelOffset: { type: 'number', default: 0 },
+    bevelThickness: { type: 'number', default: 0.1 }
+  },
+
+  multiple: false,
+
+  init: function init() {
+    var el = this.el;
+    var data = this.data;
+
+    var _w = data.width;
+    var _h = data.height;
+    var _x = -data.width / 2;
+    var _y = -data.height / 2;
+
+    var shape = new THREE.Shape();
+    shape.moveTo(_x, _y + data.topLeftRadius);
+    shape.lineTo(_x, _y + _h - data.topLeftRadius);
+    shape.quadraticCurveTo(_x, _y + _h, _x + data.topLeftRadius, _y + _h);
+    shape.lineTo(_x + _w - data.topRightRadius, _y + _h);
+    shape.quadraticCurveTo(_x + _w, _y + _h, _x + _w, _y + _h - data.topRightRadius);
+    shape.lineTo(_x + _w, _y + data.bottomRightRadius);
+    shape.quadraticCurveTo(_x + _w, _y, _x + _w - data.bottomRightRadius, _y);
+    shape.lineTo(_x + data.bottomLeftRadius, _y);
+    shape.quadraticCurveTo(_x, _y, _x, _y + data.bottomLeftRadius);
+
+    var extrudedShape = this.extrude(shape);
+
+    el.setObject3D('mesh', extrudedShape);
+  },
+
+  extrude: function extrude(roundedBase) {
+    var el = this.el;
+    var data = this.data;
+
+    var extrudeSettings = {
+      steps: data.steps,
+      depth: data.depth,
+      bevelEnabled: data.bevelEnabled,
+      bevelThickness: data.bevelThickness,
+      bevelSize: data.bevelSize,
+      bevelOffset: data.bevelOffset,
+      bevelSegments: data.bevelSegments
+    };
+
+    var extrudedGeometry = new THREE.ExtrudeGeometry(roundedBase, extrudeSettings);
+    return new THREE.Mesh(extrudedGeometry, new THREE.MeshStandardMaterial({
+      side: THREE.DoubleSide
+    }));
+  },
+
+  /**
+   * Called when component is attached and when component data changes.
+   * Generally modifies the entity based on the data.
+   */
+  update: function update(oldData) {},
+
+  /**
+   * Called when a component is removed (e.g., via removeAttribute).
+   * Generally undoes all modifications to the entity.
+   */
+  remove: function remove() {},
+
+  /**
+   * Called on each scene tick.
+   */
+  // tick: function (t) { },
+
+  /**
+   * Called when entity pauses.
+   * Use to stop or remove any dynamic or background behavior such as events.
+   */
+  pause: function pause() {},
+
+  /**
+   * Called when entity resumes.
+   * Use to continue or add any dynamic or background behavior such as events.
+   */
+  play: function play() {}
+});
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -103,7 +212,7 @@ AFRAME.registerComponent('gui-button', {
             gap: {type: 'number', default: 0.025},
             radius: {type: 'number', default: 0},
             margin: { type: 'vec4', default: {x: 0, y: 0, z: 0, w: 0}},
-             bevelEnabled: {type: 'boolean', default: false},
+             bevelEnabled: {type: 'boolean', default: true},
             bevelSegments: {type: 'number', default: 5},
             steps: {type: 'number', default: 2},
             bevelSize: {type: 'number', default: 4},
@@ -123,18 +232,33 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('material', 'shader: flat; \n                                     transparent: true; \n                                     opacity: 0.5; \n                                     side:double; \n                                     color:' + data.backgroundColor + ';\n                                     ');
 
         var buttonContainer = document.createElement("a-entity");
-        buttonContainer.setAttribute('geometry', 'primitive: box; \n                                                  width: ' + guiItem.width + '; \n                                                  height: ' + guiItem.height + '; \n                                                  depth: ' + guiItem.baseDepth + ';\n                                                  ');
-        buttonContainer.setAttribute('material', 'shader: flat; \n                                                  opacity: 1; \n                                                  side:double; \n                                                  color: ' + data.borderColor + '\n                                                  ');
+
+        if (guiItem.bevel) {
+            var bevelsize_adjust = guiItem.bevelSize * 1;
+            var bevelthickness_adjust = guiItem.bevelThickness;
+            buttonContainer.setAttribute('bevelbox', 'width: ' + (guiItem.width - guiItem.width * bevelsize_adjust) + '; \n                                                      height: ' + (guiItem.height - guiItem.height * bevelsize_adjust) + '; \n                                                      depth: ' + (guiItem.baseDepth - guiItem.baseDepth * bevelthickness_adjust) + ';\n                                                      bevelThickness: ' + guiItem.bevelThickness + ';\n                                                      bevelSize: ' + guiItem.bevelSize + ';\n                                                      ');
+            buttonContainer.setAttribute('position', '0 0 0');
+        } else {
+            buttonContainer.setAttribute('geometry', 'primitive: box; \n                                                      width: ' + guiItem.width + '; \n                                                      height: ' + guiItem.height + '; \n                                                      depth: ' + guiItem.baseDepth + ';\n                                                      ');
+            buttonContainer.setAttribute('position', '0 0 ' + guiItem.baseDepth / 2);
+        }
         buttonContainer.setAttribute('rotation', '0 0 0');
-        buttonContainer.setAttribute('position', '0 0 ' + guiItem.baseDepth / 2);
+        buttonContainer.setAttribute('material', 'shader: flat; \n                                                  opacity: 1; \n                                                  side:double; \n                                                  color: ' + data.borderColor + '\n                                                  ');
         el.appendChild(buttonContainer);
         this.buttonContainer = buttonContainer;
 
         var buttonEntity = document.createElement("a-entity");
-        buttonEntity.setAttribute('geometry', 'primitive: box; \n                                               width: ' + (guiItem.width - guiItem.gap) + '; \n                                               height: ' + (guiItem.height - guiItem.gap) + '; \n                                               depth: ' + guiItem.depth + ';');
+        if (guiItem.bevel) {
+            var bevelsize_adjust = guiItem.bevelSize * 1;
+            var bevelthickness_adjust = guiItem.bevelThickness;
+            buttonEntity.setAttribute('bevelbox', 'width: ' + (guiItem.width - guiItem.gap - (guiItem.width - guiItem.gap) * bevelsize_adjust) + '; \n                                                   height: ' + (guiItem.height - guiItem.gap - (guiItem.height - guiItem.gap) * bevelsize_adjust) + '; \n                                                   depth: ' + (guiItem.depth - guiItem.depth * bevelthickness_adjust) + ';\n                                                   bevelThickness: ' + guiItem.bevelThickness + ';\n                                                   bevelSize: ' + guiItem.bevelSize + ';\n                                                   ');
+            buttonEntity.setAttribute('position', '0 0 0');
+        } else {
+            buttonEntity.setAttribute('geometry', 'primitive: box; \n                                               width: ' + (guiItem.width - guiItem.gap) + '; \n                                               height: ' + (guiItem.height - guiItem.gap) + '; \n                                               depth: ' + guiItem.depth + ';');
+            buttonEntity.setAttribute('position', '0 0 ' + guiItem.depth / 2);
+        }
         buttonEntity.setAttribute('material', 'shader: flat; \n                                               opacity: 1; \n                                               side:double; \n                                               color: ' + (data.toggleState ? data.activeColor : data.backgroundColor) + '\n                                               ');
         buttonEntity.setAttribute('rotation', '0 0 0');
-        buttonEntity.setAttribute('position', '0 0 ' + guiItem.depth / 2);
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
@@ -214,13 +338,27 @@ AFRAME.registerComponent('gui-button', {
         el.setAttribute('geometry', 'primitive: plane; \n                                     height: ' + guiItem.height + '; \n                                     width: ' + guiItem.width + ';\n                                     ');
         el.setAttribute('material', 'shader: flat; \n                                     transparent: true; \n                                     opacity: 0.5; \n                                     side:double; \n                                     color:' + data.backgroundColor + ';\n                                     ');
 
-        this.buttonContainer.setAttribute('geometry', 'primitive: box; \n                                                       width: ' + guiItem.width + '; \n                                                       height: ' + guiItem.height + '; \n                                                       depth: ' + guiItem.baseDepth + ';\n                                                       ');
+        if (guiItem.bevel) {
+            var bevelsize_adjust = guiItem.bevelSize * 1;
+            var bevelthickness_adjust = guiItem.bevelThickness;
+            this.buttonContainer.setAttribute('bevelbox', 'width: ' + (guiItem.width - guiItem.width * bevelsize_adjust) + '; \n                                                           height: ' + (guiItem.height - guiItem.height * bevelsize_adjust) + '; \n                                                           depth: ' + (guiItem.baseDepth - guiItem.baseDepth * bevelthickness_adjust) + ';\n                                                           bevelThickness: ' + guiItem.bevelThickness + ';\n                                                           bevelSize: ' + guiItem.bevelSize + ';\n                                                           ');
+            this.buttonContainer.setAttribute('position', '0 0 0');
+        } else {
+            this.buttonContainer.setAttribute('geometry', 'primitive: box; \n                                                       width: ' + guiItem.width + '; \n                                                       height: ' + guiItem.height + '; \n                                                       depth: ' + guiItem.baseDepth + ';\n                                                       ');
+            this.buttonContainer.setAttribute('position', '0 0 ' + guiItem.baseDepth / 2);
+        }
         this.buttonContainer.setAttribute('material', 'shader: flat; \n                                                       opacity: 1; \n                                                       side:double; \n                                                       color: ' + data.borderColor + '\n                                                       ');
-        this.buttonContainer.setAttribute('position', '0 0 ' + guiItem.baseDepth / 2);
 
-        this.buttonEntity.setAttribute('geometry', 'primitive: box; \n                                                    width: ' + (guiItem.width - guiItem.gap) + '; \n                                                    height: ' + (guiItem.height - guiItem.gap) + '; \n                                                    depth: ' + guiItem.depth + ';\n                                                    ');
+        if (guiItem.bevel) {
+            var bevelsize_adjust = guiItem.bevelSize * 1;
+            var bevelthickness_adjust = guiItem.bevelThickness;
+            this.buttonEntity.setAttribute('bevelbox', 'width: ' + (guiItem.width - guiItem.gap - (guiItem.width - guiItem.gap) * bevelsize_adjust) + '; \n                                                        height: ' + (guiItem.height - guiItem.gap - (guiItem.height - guiItem.gap) * bevelsize_adjust) + '; \n                                                        depth: ' + (guiItem.depth - guiItem.depth * bevelthickness_adjust) + ';\n                                                        bevelThickness: ' + guiItem.bevelThickness + ';\n                                                        bevelSize: ' + guiItem.bevelSize + ';\n                                                        ');
+            this.buttonEntity.setAttribute('position', '0 0 0');
+        } else {
+            this.buttonEntity.setAttribute('geometry', 'primitive: box; \n                                               width: ' + (guiItem.width - guiItem.gap) + '; \n                                               height: ' + (guiItem.height - guiItem.gap) + '; \n                                               depth: ' + guiItem.depth + ';\n                                               ');
+            this.buttonEntity.setAttribute('position', '0 0 ' + guiItem.depth / 2);
+        }
         this.buttonEntity.setAttribute('material', 'shader: flat; \n                                                    opacity: 1; \n                                                    side:double; \n                                                    color: ' + (data.toggleState ? data.activeColor : data.backgroundColor) + '\n                                                    ');
-        this.buttonEntity.setAttribute('position', '0 0 ' + guiItem.depth / 2);
 
         if (this.textEntity) {
             console.log("has textEntity: " + this.textEntity);
@@ -245,10 +383,18 @@ AFRAME.registerComponent('gui-button', {
         }
     },
     setText: function setText(newText) {
+        var data = this.data;
+        var el = this.el;
+        var guiItem = el.getAttribute("gui-item");
+
         var textEntity = document.createElement("a-entity");
         this.textEntity = textEntity;
-        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.fontFamily + ';\n                                                fontSize:' + this.data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + this.guiItem.width / 1.05 + ';\n                                                ');
-        textEntity.setAttribute('position', '0 0 ' + (this.guiItem.depth / 2 + 0.05));
+        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + data.fontColor + ';\n                                                font:' + data.fontFamily + ';\n                                                fontSize:' + data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + guiItem.width / 1.05 + ';\n                                                ');
+        if (guiItem.bevel) {
+            textEntity.setAttribute('position', '0 0 ' + (guiItem.depth + guiItem.bevelThickness / 2 + 0.05));
+        } else {
+            textEntity.setAttribute('position', '0 0 ' + (guiItem.depth / 2 + 0.05));
+        }
         //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
         this.buttonEntity.appendChild(textEntity);
     }
@@ -273,6 +419,13 @@ AFRAME.registerPrimitive('a-gui-button', {
         'gap': 'gui-item.gap',
         'radius': 'gui-item.radius',
         'margin': 'gui-item.margin',
+        //gui item bevelbox
+        'bevel': 'gui-item.bevel',
+        'bevel-segments': 'gui-item.bevelSegments',
+        'steps': 'gui-item.steps',
+        'bevel-size': 'gui-item.bevelSize',
+        'bevel-offset': 'gui-item.bevelOffset',
+        'bevel-thickness': 'gui-item.bevelThickness',
         //gui button specific
         'on': 'gui-button.on',
         'value': 'gui-button.value',
@@ -290,7 +443,7 @@ AFRAME.registerPrimitive('a-gui-button', {
 });
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -373,7 +526,7 @@ AFRAME.registerPrimitive('a-gui-circle-loader', {
 });
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -522,7 +675,7 @@ AFRAME.registerPrimitive('a-gui-circle-timer', {
 });
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -914,7 +1067,7 @@ AFRAME.registerPrimitive('a-gui-cursor', {
 });
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1171,7 +1324,7 @@ AFRAME.registerPrimitive('a-gui-flex-container', {
 });
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1315,7 +1468,7 @@ AFRAME.registerPrimitive('a-gui-icon-button', {
 });
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1483,7 +1636,7 @@ AFRAME.registerPrimitive('a-gui-icon-label-button', {
 });
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1625,7 +1778,7 @@ AFRAME.registerPrimitive('a-gui-input', {
 });
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1644,7 +1797,7 @@ AFRAME.registerComponent('gui-interactable', {
         var el = this.el;
 
         if (data.keyCode > 0) {
-            window.addEventListener("keyup", function (event) {
+            window.addEventListener("keydown", function (event) {
                 // console.log('in keydown handler, event key: ' + event.key);
                 if (event.key == data.key) {
                     //    console.log("key press by gui-interactable, key: " + data.key);
@@ -1668,7 +1821,7 @@ AFRAME.registerComponent('gui-interactable', {
 });
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1685,11 +1838,12 @@ AFRAME.registerComponent('gui-item', {
         radius: { type: 'number', default: 0 },
         margin: { type: 'vec4', default: { x: 0, y: 0, z: 0, w: 0 } },
 
-        bevelEnabled: { type: 'boolean', default: false },
+        bevel: { type: 'boolean', default: false },
         bevelSegments: { type: 'number', default: 5 },
         steps: { type: 'number', default: 2 },
-        bevelSize: { type: 'number', default: 4 },
-        bevelThickness: { type: 'number', default: 2 }
+        bevelSize: { type: 'number', default: 0.1 },
+        bevelOffset: { type: 'number', default: 0 },
+        bevelThickness: { type: 'number', default: 0.1 }
 
     },
     init: function init() {},
@@ -1701,7 +1855,7 @@ AFRAME.registerComponent('gui-item', {
 });
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1776,7 +1930,7 @@ AFRAME.registerPrimitive('a-gui-label', {
 });
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1831,7 +1985,7 @@ AFRAME.registerPrimitive('a-gui-progressbar', {
 });
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1994,7 +2148,7 @@ AFRAME.registerPrimitive('a-gui-radio', {
 });
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2118,7 +2272,7 @@ AFRAME.registerPrimitive('a-rounded', {
 });
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2253,7 +2407,7 @@ AFRAME.registerPrimitive('a-gui-slider', {
 });
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2414,7 +2568,7 @@ AFRAME.registerPrimitive('a-gui-toggle', {
 });
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2725,7 +2879,7 @@ AFRAME.registerPrimitive('a-gui-vertical-slider', {
 });
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2744,7 +2898,7 @@ if (cursor) {
 }
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2755,7 +2909,7 @@ window.nearestPow2 = function (n) {
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2837,7 +2991,7 @@ window.drawIcon = function (ctx, canvas, iconFontSize, icon, color) {
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2851,26 +3005,27 @@ if (typeof AFRAME === 'undefined') {
 // require('aframe-troika-text');
 
 // Components
+__webpack_require__(20);
 __webpack_require__(19);
-__webpack_require__(18);
-__webpack_require__(9);
-__webpack_require__(8);
-__webpack_require__(4);
 __webpack_require__(10);
 __webpack_require__(0);
+__webpack_require__(9);
 __webpack_require__(5);
-__webpack_require__(6);
-__webpack_require__(15);
-__webpack_require__(12);
-__webpack_require__(1);
 __webpack_require__(11);
-__webpack_require__(2);
-__webpack_require__(14);
-__webpack_require__(16);
+__webpack_require__(1);
+__webpack_require__(6);
 __webpack_require__(7);
-__webpack_require__(3);
+__webpack_require__(16);
 __webpack_require__(13);
+__webpack_require__(2);
+__webpack_require__(12);
+__webpack_require__(3);
+__webpack_require__(15);
 __webpack_require__(17);
+__webpack_require__(8);
+__webpack_require__(4);
+__webpack_require__(14);
+__webpack_require__(18);
 
 /***/ })
 /******/ ]);
