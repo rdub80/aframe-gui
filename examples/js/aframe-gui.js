@@ -236,7 +236,7 @@ AFRAME.registerComponent('gui-button', {
         if (guiItem.bevel) {
             var bevelsize_adjust = guiItem.bevelSize * 1;
             var bevelthickness_adjust = guiItem.bevelThickness;
-            buttonContainer.setAttribute('bevelbox', 'width: ' + (guiItem.width - guiItem.width * bevelsize_adjust) + '; \n                                                      height: ' + (guiItem.height - guiItem.height * bevelsize_adjust) + '; \n                                                      depth: ' + (guiItem.baseDepth - guiItem.baseDepth * bevelthickness_adjust) + ';\n                                                      bevelThickness: ' + guiItem.bevelThickness + ';\n                                                      bevelSize: ' + guiItem.bevelSize + ';\n                                                      ');
+            buttonContainer.setAttribute('bevelbox', 'width: ' + (guiItem.width - guiItem.width * bevelsize_adjust) + '; \n                                                      height: ' + (guiItem.height - guiItem.height * bevelsize_adjust) + '; \n                                                      depth: ' + (guiItem.baseDepth - guiItem.baseDepth * bevelthickness_adjust) + ';\n                                                      bevelThickness: 0;\n                                                      bevelSize: ' + guiItem.bevelSize + ';\n                                                      ');
             buttonContainer.setAttribute('position', '0 0 0');
         } else {
             buttonContainer.setAttribute('geometry', 'primitive: box; \n                                                      width: ' + guiItem.width + '; \n                                                      height: ' + guiItem.height + '; \n                                                      depth: ' + guiItem.baseDepth + ';\n                                                      ');
@@ -341,7 +341,7 @@ AFRAME.registerComponent('gui-button', {
         if (guiItem.bevel) {
             var bevelsize_adjust = guiItem.bevelSize * 1;
             var bevelthickness_adjust = guiItem.bevelThickness;
-            this.buttonContainer.setAttribute('bevelbox', 'width: ' + (guiItem.width - guiItem.width * bevelsize_adjust) + '; \n                                                           height: ' + (guiItem.height - guiItem.height * bevelsize_adjust) + '; \n                                                           depth: ' + (guiItem.baseDepth - guiItem.baseDepth * bevelthickness_adjust) + ';\n                                                           bevelThickness: ' + guiItem.bevelThickness + ';\n                                                           bevelSize: ' + guiItem.bevelSize + ';\n                                                           ');
+            this.buttonContainer.setAttribute('bevelbox', 'width: ' + (guiItem.width - guiItem.width * bevelsize_adjust) + '; \n                                                           height: ' + (guiItem.height - guiItem.height * bevelsize_adjust) + '; \n                                                           depth: ' + (guiItem.baseDepth - guiItem.baseDepth * bevelthickness_adjust) + ';\n                                                           bevelThickness: 0;\n                                                           bevelSize: ' + guiItem.bevelSize + ';\n                                                           ');
             this.buttonContainer.setAttribute('position', '0 0 0');
         } else {
             this.buttonContainer.setAttribute('geometry', 'primitive: box; \n                                                       width: ' + guiItem.width + '; \n                                                       height: ' + guiItem.height + '; \n                                                       depth: ' + guiItem.baseDepth + ';\n                                                       ');
@@ -1432,7 +1432,7 @@ AFRAME.registerComponent('gui-icon-button', {
         var iconEntity = document.createElement("a-entity");
         this.iconEntity = iconEntity;
         iconEntity.setAttribute('troika-text', 'value:' + char + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                lineHeight:' + this.guiItem.height + ';\n                                                maxWidth:' + this.guiItem.width + ';\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.iconFont + ';\n                                                fontSize:' + this.data.iconFontSize + ';\n                                                depthOffset:1;\n                                                ');
-        iconEntity.setAttribute('position', '0 0.05 0.05'); // 0.05 y axis adjustment for fontawesome
+        iconEntity.setAttribute('position', '0 0 0.05'); // 0.05 y axis adjustment for fontawesome
         //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
         this.el.appendChild(iconEntity);
     }
@@ -1588,7 +1588,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         }
         this.iconEntity = iconEntity;
         iconEntity.setAttribute('troika-text', 'value:' + char + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                color:' + this.data.fontColor + ';\n                                                font:' + this.data.iconFont + ';\n                                                fontSize:' + this.data.iconFontSize + ';\n                                                depthOffset:1;\n                                                ');
-        iconEntity.setAttribute('position', iconEntityX + ' 0.05 0.05'); // 0.05 y axis adjustment for fontawesome
+        iconEntity.setAttribute('position', iconEntityX + ' 0 0.05'); // 0.05 y axis adjustment for fontawesome
         //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
         this.el.appendChild(iconEntity);
     },

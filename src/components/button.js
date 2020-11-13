@@ -65,7 +65,7 @@ AFRAME.registerComponent('gui-button', {
             buttonContainer.setAttribute('bevelbox', `width: ${guiItem.width - (guiItem.width*bevelsize_adjust)}; 
                                                       height: ${guiItem.height - (guiItem.height*bevelsize_adjust)}; 
                                                       depth: ${guiItem.baseDepth - (guiItem.baseDepth*bevelthickness_adjust)};
-                                                      bevelThickness: ${guiItem.bevelThickness};
+                                                      bevelThickness: 0;
                                                       bevelSize: ${guiItem.bevelSize};
                                                       `);
             buttonContainer.setAttribute('position', `0 0 0`);
@@ -218,7 +218,7 @@ AFRAME.registerComponent('gui-button', {
             this.buttonContainer.setAttribute('bevelbox', `width: ${guiItem.width-(guiItem.width*bevelsize_adjust)}; 
                                                            height: ${guiItem.height-(guiItem.height*bevelsize_adjust)}; 
                                                            depth: ${guiItem.baseDepth-(guiItem.baseDepth*bevelthickness_adjust)};
-                                                           bevelThickness: ${guiItem.bevelThickness};
+                                                           bevelThickness: 0;
                                                            bevelSize: ${guiItem.bevelSize};
                                                            `);
             this.buttonContainer.setAttribute('position', `0 0 0`);

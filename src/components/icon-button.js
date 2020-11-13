@@ -113,7 +113,7 @@ AFRAME.registerComponent('gui-icon-button', {
                                                 fontSize:${this.data.iconFontSize};
                                                 depthOffset:1;
                                                 `);
-        iconEntity.setAttribute('position', `0 0.05 0.05`); // 0.05 y axis adjustment for fontawesome
+        iconEntity.setAttribute('position', `0 0 0.05`); // 0.05 y axis adjustment for fontawesome
 //        textEntity.setAttribute('troika-text-material', `shader: flat;`);
         this.el.appendChild(iconEntity);
     }
