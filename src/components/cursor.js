@@ -286,69 +286,69 @@ AFRAME.registerComponent('gui-cursor', {
         });
 
         el.addEventListener('mouseleave', function () {
-            console.log("in gui-cursor mouseleave, el: "+el);
+            console.log("in gui-cursor mouseleave, el: " + el);
             el.emit('leavegui');
             if (data.design == 'dot' || data.design == 'ring') {
                 cursorShadow.emit('leavegui');
-            }else if (data.design == 'cross') {
+            } else if (data.design == 'cross') {
                 cursorVerticalTop.emit('leavegui');
                 cursorVerticalBottom.emit('leavegui');
                 cursorHorizontalLeft.emit('leavegui');
                 cursorHorizontalRight.emit('leavegui');
-            }else if (data.design == 'reticle') {
+            } else if (data.design == 'reticle') {
                 centerHoverAniOpacity.emit('leavegui');
                 cursorHoverAniColor.emit('leavegui');
                 cursorHoverAniOpacity.emit('leavegui');
             }
 
-            if(fuse){
-                fuseLoader.object3D.el.components.animation.animation.pause();
-                fuseLoader.object3D.el.components.animation.animation.seek(0);
+            if (fuse) {
+                fuseLoader.components.animation.pauseAnimation();
+                fuseLoader.setAttribute('geometry','thetaLength','0');
             }
 
             el.setAttribute('scale', '1 1 1');
         });
 
-        if(fuse){
-            el.addEventListener('fusing', function () {
-                fuseLoader.object3D.el.components.animation.animation.play();
+        if (fuse) {
+            el.addEventListener('fusing', function (evt) {
+                console.log("evt.detail " + evt.detail, evt);
+                fuseLoader.components.animation.beginAnimation();
             });
         }
 
         el.addEventListener("stateremoved", function (evt) {
-            console.log("evt.detail " +evt.detail)
-            if (evt.detail.state === 'cursor-fusing' || evt.detail === 'cursor-fusing') {
-                if(data.design == 'dot' || data.design == 'ring' || data.design == 'cross' ){  
-                    if(fuse){
-                        fuseLoader.object3D.el.components.animation.animation.pause();
-                        fuseLoader.object3D.el.components.animation.animation.seek(0);
-                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.thetaLength', '0');
+            console.log("evt.detail " + evt.detail, evt);
+            if (evt.detail === 'cursor-fusing') {
+                if (data.design == 'dot' || data.design == 'ring' || data.design == 'cross') {
+                    if (fuse) {
+                        fuseLoader.components.animation.pauseAnimation();
+                        fuseLoader.setAttribute('geometry','thetaLength','0');
+
                     }
-                }else if(data.design == 'reticle'){
-                    if(fuse){
-                        fuseLoader.object3D.el.components.animation.animation.pause();
-                        fuseLoader.object3D.el.components.animation.animation.seek(0);
-                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.width', '0.000001');
-                    }                    
+                } else if (data.design == 'reticle') {
+                    if (fuse) {
+                        fuseLoader.components.animation.pauseAnimation();
+                        fuseLoader.setAttribute('geometry','thetaLength','0');
+                        fuseLoader.setAttribute('geometry','width','0.000001');
+                    }
                 }
-            }else if(evt.detail.state === 'cursor-hovering' || evt.detail === 'cursor-hovering') {
-                if(data.design == 'dot' || data.design == 'ring' ){  
+            } else if (evt.detail === 'cursor-hovering') {
+                if (data.design == 'dot' || data.design == 'ring') {
                     AFRAME.utils.entity.setComponentProperty(this, 'scale', '1 1 1');
-                    if(fuse){
-                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.thetaLength', '0');
+                    if (fuse) {
+                        fuseLoader.setAttribute('geometry','thetaLength','0');
                     }
-                }else if(data.design == 'cross' ){  
-                    if(fuse){
-                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.thetaLength', '0');
+                } else if (data.design == 'cross') {
+                    if (fuse) {
+                        fuseLoader.setAttribute('geometry','thetaLength','0');
                     }
-                }else if(data.design == 'reticle' ){  
-                    if(fuse){
-                        AFRAME.utils.entity.setComponentProperty(fuseLoader, 'geometry.width', '0.000001');
+                } else if (data.design == 'reticle') {
+                    if (fuse) {
+                        fuseLoader.setAttribute('geometry','width','0.000001');
                     }
                 }
             }
         });
-
 
     },
     update: function () {
