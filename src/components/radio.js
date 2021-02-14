@@ -1,7 +1,7 @@
 AFRAME.registerComponent('gui-radio', {
     schema: {
         on: {default: 'click'},
-        text: {type: 'string', default: ''},
+        value: {type: 'string', default: ''},
         active: {type: 'boolean', default: true },
         toggle: {type: 'boolean', default: false},
         toggleState: {type: 'boolean', default: false},
@@ -53,7 +53,7 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('material', `color:${data.handleColor}; shader: flat;`);
         radioBox.appendChild(radioCenter);
 
-        this.setText(data.text);
+        this.setText(data.value);
 
         this.updateToggle(data.active);
         el.setAttribute("checked",data.active);
@@ -156,7 +156,7 @@ AFRAME.registerPrimitive( 'a-gui-radio', {
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-radio.on',
-        'value': 'gui-radio.text',
+        'value': 'gui-radio.value',
         'active': 'gui-radio.active',
         'checked': 'gui-radio.checked',
         'font-color': 'gui-radio.fontColor',

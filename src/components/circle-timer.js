@@ -136,9 +136,11 @@ AFRAME.registerPrimitive( 'a-gui-circle-timer', {
         'gui-circle-timer': { }
     },
     mappings: {
+        //gui item general
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        //gui timer specific
         'count-down': 'gui-circle-timer.countDown',
         'font-size': 'gui-circle-timer.fontSize',
         'font-family': 'gui-circle-timer.fontFamily',

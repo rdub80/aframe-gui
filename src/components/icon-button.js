@@ -126,12 +126,15 @@ AFRAME.registerPrimitive( 'a-gui-icon-button', {
         'gui-icon-button': { }
     },
     mappings: {
+        //gui interactable general
         'onclick': 'gui-interactable.clickAction',
         'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
+        //gui item general
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        //gui button specific
         'on': 'gui-icon-button.on',
         'font-color': 'gui-icon-button.fontColor',
         'font-family': 'gui-icon-button.fontFamily',

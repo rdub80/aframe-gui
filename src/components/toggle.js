@@ -1,7 +1,7 @@
 AFRAME.registerComponent('gui-toggle', {
     schema: {
         on: {default: 'click'},
-        text: {type: 'string', default: ''},
+        value: {type: 'string', default: ''},
         toggle: {type: 'boolean', default: false},
         toggleState: {type: 'boolean', default: false},
         active: {type: 'boolean', default: true },
@@ -52,7 +52,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('position', `${toggleHandleXStart} 0 0.02`);
         toggleBox.appendChild(toggleHandle);
 
-        this.setText(data.text);
+        this.setText(data.value);
 
         this.updateToggle(data.active);
 
@@ -155,7 +155,7 @@ AFRAME.registerPrimitive( 'a-gui-toggle', {
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
-        'value': 'gui-toggle.text',
+        'value': 'gui-toggle.value',
         'font-color': 'gui-toggle.fontColor',
         'font-family': 'gui-toggle.fontFamily',
         'font-size': 'gui-toggle.fontSize',

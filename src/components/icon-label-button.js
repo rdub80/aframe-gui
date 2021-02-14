@@ -7,7 +7,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         iconActive: {type: 'string', default: ''},
         iconFontSize: {type: 'number', default: 0.35},
         iconFont: {type: 'string', default: 'assets/fonts/fa-regular-400.ttf'},
-        text: {type: 'string', default: ''},
+        value: {type: 'string', default: ''},
         fontSize: {type: 'number', default: 0.2},
         fontFamily: {type: 'string', default: ''},
         fontColor: {type: 'string', default: key_offwhite},
@@ -46,7 +46,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
 
         this.setIcon(data.icon);
 
-        if(data.text != ''){ this.setText(data.text) }
+        if(data.value != ''){ this.setText(data.value) }
 
         el.addEventListener('mouseenter', function(event) {
             buttonEntity.removeAttribute('animation__leave');
@@ -108,7 +108,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
 
         var iconEntity = document.createElement("a-entity");
         var iconEntityX = 0;
-        if(this.data.text != ''){
+        if(this.data.value != ''){
             iconEntityX = -this.guiItem.width*0.5 + this.guiItem.height*0.5;
         }
         this.iconEntity = iconEntity;
@@ -154,12 +154,15 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'gui-icon-label-button': { }
     },
     mappings: {
+        //gui interactable general
         'onclick': 'gui-interactable.clickAction',
         'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
+        //gui item general
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        //gui button specific
         'on': 'gui-icon-label-button.on',
         'font-color': 'gui-icon-label-button.fontColor',
         'font-family': 'gui-icon-label-button.fontFamily',
@@ -172,7 +175,7 @@ AFRAME.registerPrimitive( 'a-gui-icon-label-button', {
         'icon-active': 'gui-icon-label-button.iconActive',
         'icon-font': 'gui-icon-label-button.iconFont',
         'icon-font-size': 'gui-icon-label-button.iconFontSize',
-        'value': 'gui-icon-label-button.text',
+        'value': 'gui-icon-label-button.value',
         'toggle': 'gui-icon-label-button.toggle',
         'toggle-state': 'gui-icon-label-button.toggleState'        
     }

@@ -76,9 +76,11 @@ AFRAME.registerPrimitive( 'a-gui-circle-loader', {
         'gui-circle-loader': { }
     },
     mappings: {
+        //gui item general
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        //gui loader specific
         'loaded': 'gui-circle-loader.loaded',
         'font-size': 'gui-circle-loader.fontSize',
         'font-family': 'gui-circle-loader.fontFamily',

@@ -1,6 +1,6 @@
 AFRAME.registerComponent('gui-label', {
   schema: {
-    text: {type: 'string', default: ''},
+    value: {type: 'string', default: ''},
     align: {type: 'string', default: 'center'},
     anchor: {type: 'string', default: 'center'},
     fontSize: {type: 'number', default: 0.2},
@@ -21,7 +21,7 @@ AFRAME.registerComponent('gui-label', {
     el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
     el.setAttribute('material', `shader: flat; side:front; color:${data.backgroundColor}; transparent: true; opacity: ${data.opacity}; alphaTest: 0.5;`);
     
-    this.setText(data.text);
+    this.setText(data.value);
 
     ////WAI ARIA Support
 
@@ -66,7 +66,7 @@ AFRAME.registerPrimitive( 'a-gui-label', {
     'margin': 'gui-item.margin',
     'align': 'gui-label.align',
     'anchor': 'gui-label.anchor',
-    'value': 'gui-label.text',
+    'value': 'gui-label.value',
     'font-size': 'gui-label.fontSize',
     'line-height': 'gui-label.lineHeight',
     'letter-spacing': 'gui-label.letterSpacing',
