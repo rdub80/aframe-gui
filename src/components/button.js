@@ -36,6 +36,12 @@ AFRAME.registerComponent('gui-button', {
             bevelThickness: {type: 'number', default: 2}
         */
 
+        //fallback for old font-sizing
+        if(data.fontSize > 20) { // 150/1000
+          var newSize = data.fontSize/750;
+          data.fontSize = newSize;        
+        }
+
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
         /* gui interactable parameters
