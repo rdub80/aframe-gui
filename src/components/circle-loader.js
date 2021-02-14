@@ -14,6 +14,12 @@ AFRAME.registerComponent('gui-circle-loader', {
         var guiItem = el.getAttribute("gui-item");
         this.guiItem = guiItem;
 
+        //fallback for old font-sizing
+        if(data.fontSize > 20) { // 150/1000
+          var newSize = data.fontSize/750;
+          data.fontSize = newSize;        
+        }
+
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:back; color:${data.backgroundColor};`);
 

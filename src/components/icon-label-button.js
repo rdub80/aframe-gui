@@ -26,6 +26,17 @@ AFRAME.registerComponent('gui-icon-label-button', {
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
 
+
+        //fallback for old font-sizing
+        if(data.iconFontSize > 20) { // 150/750
+          var newSize = data.iconFontSize/750;
+          data.iconFontSize = newSize;        
+        }
+        if(data.fontSize > 20) { // 150/750
+          var newSize = data.fontSize/750;
+          data.fontSize = newSize;        
+        }
+
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; side:front; color:${data.backgroundColor};`);
 

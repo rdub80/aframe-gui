@@ -16,6 +16,12 @@ AFRAME.registerComponent('gui-circle-timer', {
         this.guiItem = guiItem;
         var guiInteractable = el.getAttribute("gui-interactable");
         console.log("in timer callback, guiInteractable: "+JSON.stringify(guiInteractable));
+
+        //fallback for old font-sizing
+        if(data.fontSize > 20) { // 150/750
+          var newSize = data.fontSize/750;
+          data.fontSize = newSize;        
+        }
         
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 1; side:back; color:${data.backgroundColor};`);

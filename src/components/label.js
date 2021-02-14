@@ -21,6 +21,12 @@ AFRAME.registerComponent('gui-label', {
     el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
     el.setAttribute('material', `shader: flat; side:front; color:${data.backgroundColor}; transparent: true; opacity: ${data.opacity}; alphaTest: 0.5;`);
     
+    //fallback for old font-sizing
+    if(data.fontSize > 20) { // 150/750
+      var newSize = data.fontSize/750;
+      data.fontSize = newSize;        
+    }
+
     this.setText(data.value);
 
     ////WAI ARIA Support

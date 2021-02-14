@@ -26,6 +26,12 @@ AFRAME.registerComponent('gui-radio', {
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
 
+        //fallback for old font-sizing
+        if(data.fontSize > 20) { // 150/750
+          var newSize = data.fontSize/750;
+          data.fontSize = newSize;        
+        }
+
         el.setAttribute('material', `shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ${this.data.backgroundColor}; side:front;`);
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.height};`);
 
