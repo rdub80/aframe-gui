@@ -9,7 +9,7 @@ AFRAME.registerComponent('gui-icon-label-button', {
         iconFont: {type: 'string', default: 'assets/fonts/fa-regular-400.ttf'},
         text: {type: 'string', default: ''},
         fontSize: {type: 'number', default: 0.2},
-        fontFamily: {type: 'string', default: 'sans-serif'},
+        fontFamily: {type: 'string', default: ''},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},

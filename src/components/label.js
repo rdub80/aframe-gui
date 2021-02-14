@@ -6,7 +6,7 @@ AFRAME.registerComponent('gui-label', {
     fontSize: {type: 'number', default: 0.2},
     lineHeight: {type: 'number', default: 0.2},
     letterSpacing: {type: 'number', default: 0},
-    fontFamily: {type: 'string', default: 'sans-serif'},
+    fontFamily: {type: 'string', default: ''},
     fontColor: {type: 'string', default: key_grey_dark},
     backgroundColor: {type: 'string', default: key_offwhite},
     opacity: { type: 'number', default: 1.0 },

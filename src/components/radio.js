@@ -8,7 +8,7 @@ AFRAME.registerComponent('gui-radio', {
         checked: {type: 'boolean', default: false },
         radiosizecoef: {type: 'number', default: 1 },
         fontSize: {type: 'number', default: 0.2},
-        fontFamily: {type: 'string', default: 'sans-serif'},
+        fontFamily: {type: 'string', default: ''},
         fontColor: {type: 'string', default: key_grey_dark},
         borderColor: {type: 'string', default: key_white},
         backgroundColor: {type: 'string', default: key_offwhite},

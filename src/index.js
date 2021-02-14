@@ -3,7 +3,7 @@ if (typeof AFRAME === 'undefined') {
 }
 
 // third-party
-// require('aframe-troika-text');
+require('./third-party/aframe-troika-text.js');
 
 // Components
 require('./scripts/vars.js');

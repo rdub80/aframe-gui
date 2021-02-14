@@ -3,7 +3,7 @@ AFRAME.registerComponent('gui-button', {
         on: {default: 'click'},
         value: {type: 'string', default: ''},
         fontSize: {type: 'number', default: 0.2},
-        fontFamily: {type: 'string', default: 'sans-serif'},
+        fontFamily: {type: 'string', default: ''},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         focusColor: {type: 'string', default: key_orange_light},
@@ -12,8 +12,11 @@ AFRAME.registerComponent('gui-button', {
         activeColor: {type: 'string', default: key_orange},
         toggle: {type: 'boolean', default: false},
         toggleState: {type: 'boolean', default: false},
-    },
-    init: function() {
+    },     
+
+    dependencies: ['aframe-troika-text'],  
+
+    init: function(){    
 
         var data = this.data;
         var el = this.el;

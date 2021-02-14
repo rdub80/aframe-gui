@@ -17,7 +17,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         leftRightPadding: {type: 'number', default: 0.125},
         percent: {type: 'number', default: 0.5},
         opacity: { type: 'number', default: 1.0 },
-        outputFontSize: {type: 'string', default: '180px'},
+        outputFontSize: {type: 'string', default: '0.2'},
         outputFunction: {type: 'string'},
         outputHeight: {type: 'number', default: 1.0},
         outputMargin: {type: 'vec4', default: {x: 0, y: 0, z: 0, w: 0}},

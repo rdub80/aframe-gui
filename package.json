@@ -1,6 +1,6 @@
 {
   "name": "aframe-gui",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A-Frame GUI components",
   "author": "Leonardo Malave <leo@malave.tech>",
   "contributors": [
@@ -46,8 +46,5 @@
     "uglify-js": "git+https://github.com/mishoo/UglifyJS2.git#harmony",
     "webpack": "2.2.1",
     "webpack-dev-server": "1.16.5"
-  },
-  "dependencies": {
-    "aframe-troika-text": "^0.3.4"
   }
 }
