@@ -475,6 +475,13 @@ AFRAME.registerComponent('gui-circle-loader', {
         var guiItem = el.getAttribute("gui-item");
         this.guiItem = guiItem;
 
+        //fallback for old font-sizing
+        if (data.fontSize > 20) {
+            // 150/1000
+            var newSize = data.fontSize / 750;
+            data.fontSize = newSize;
+        }
+
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
 
@@ -562,6 +569,13 @@ AFRAME.registerComponent('gui-circle-timer', {
         this.guiItem = guiItem;
         var guiInteractable = el.getAttribute("gui-interactable");
         console.log("in timer callback, guiInteractable: " + JSON.stringify(guiInteractable));
+
+        //fallback for old font-sizing
+        if (data.fontSize > 20) {
+            // 150/750
+            var newSize = data.fontSize / 750;
+            data.fontSize = newSize;
+        }
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 1; side:back; color:' + data.backgroundColor + ';');
@@ -1369,6 +1383,13 @@ AFRAME.registerComponent('gui-icon-button', {
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
 
+        //fallback for old font-sizing
+        if (data.iconFontSize > 20) {
+            // 150/1000
+            var newSize = data.iconFontSize / 750;
+            data.iconFontSize = newSize;
+        }
+
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: true; opacity: 0.0; alphaTest: 0.5; side:double; color:' + data.backgroundColor + ';');
 
@@ -1518,6 +1539,18 @@ AFRAME.registerComponent('gui-icon-label-button', {
         var toggleState = this.toggleState = data.toggle;
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
+
+        //fallback for old font-sizing
+        if (data.iconFontSize > 20) {
+            // 150/750
+            var newSize = data.iconFontSize / 750;
+            data.iconFontSize = newSize;
+        }
+        if (data.fontSize > 20) {
+            // 150/750
+            var newSize = data.fontSize / 750;
+            data.fontSize = newSize;
+        }
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; side:front; color:' + data.backgroundColor + ';');
@@ -1687,6 +1720,13 @@ AFRAME.registerComponent('gui-input', {
         var toggleState = this.toggleState = data.toggle;
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
+
+        //fallback for old font-sizing
+        if (data.fontSize > 20) {
+            // 150/750
+            var newSize = data.fontSize / 750;
+            data.fontSize = newSize;
+        }
 
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
         el.setAttribute('material', 'shader: flat; transparent: false; side:front; color:' + data.backgroundColor + ';');
@@ -1907,6 +1947,13 @@ AFRAME.registerComponent('gui-label', {
     el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
     el.setAttribute('material', 'shader: flat; side:front; color:' + data.backgroundColor + '; transparent: true; opacity: ' + data.opacity + '; alphaTest: 0.5;');
 
+    //fallback for old font-sizing
+    if (data.fontSize > 20) {
+      // 150/750
+      var newSize = data.fontSize / 750;
+      data.fontSize = newSize;
+    }
+
     this.setText(data.value);
 
     ////WAI ARIA Support
@@ -2041,6 +2088,13 @@ AFRAME.registerComponent('gui-radio', {
         var toggleState = this.toggleState = data.toggle;
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
+
+        //fallback for old font-sizing
+        if (data.fontSize > 20) {
+            // 150/750
+            var newSize = data.fontSize / 750;
+            data.fontSize = newSize;
+        }
 
         el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
@@ -2463,6 +2517,13 @@ AFRAME.registerComponent('gui-toggle', {
         var toggleState = this.toggleState = data.toggle;
         var guiInteractable = el.getAttribute("gui-interactable");
         this.guiInteractable = guiInteractable;
+
+        //fallback for old font-sizing
+        if (data.fontSize > 20) {
+            // 150/750
+            var newSize = data.fontSize / 750;
+            data.fontSize = newSize;
+        }
 
         el.setAttribute('material', 'shader: flat; depthTest:true;transparent: false; opacity: 1;  color: ' + this.data.backgroundColor + '; side:front;');
         el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.height + ';');
