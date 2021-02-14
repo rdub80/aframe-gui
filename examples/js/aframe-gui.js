@@ -1666,7 +1666,7 @@ AFRAME.registerComponent('gui-input', {
     schema: {
         align: { type: 'string', default: 'left' },
         on: { default: 'click' },
-        text: { type: 'string', default: '' },
+        value: { type: 'string', default: '' },
         toggle: { type: 'boolean', default: false },
         toggleState: { type: 'boolean', default: false },
         fontSize: { type: 'number', default: 0.2 },
@@ -1712,7 +1712,7 @@ AFRAME.registerComponent('gui-input', {
         borderRightEntity.setAttribute('position', guiItem.width / 2 - 0.025 + ' 0 0.01');
         el.appendChild(borderRightEntity);
 
-        this.setText(data.text);
+        this.setText(data.value);
 
         ////WAI ARIA Support
         el.setAttribute('role', 'input');
@@ -1760,15 +1760,15 @@ AFRAME.registerComponent('gui-input', {
     update: function update(oldData) {
         var data = this.data;
         var el = this.el;
-        this.textEntity.setAttribute('troika-text', 'value: ' + data.text + ';');
+        this.textEntity.setAttribute('troika-text', 'value: ' + data.value + ';');
     },
     appendText: function appendText(text) {
-        var newText = this.data.text + text;
+        var newText = this.data.value + text;
         this.el.setAttribute('gui-input', 'text', newText);
     },
     delete: function _delete() {
-        if (this.data.text && this.data.text.length > 0) {
-            var newText = this.data.text.slice(0, -1);
+        if (this.data.value && this.data.value.length > 0) {
+            var newText = this.data.value.slice(0, -1);
             this.el.setAttribute('gui-input', 'text', newText);
         }
     }
@@ -1781,19 +1781,22 @@ AFRAME.registerPrimitive('a-gui-input', {
         'gui-input': {}
     },
     mappings: {
-        'background-color': 'gui-input.backgroundColor',
-        'border-color': 'gui-input.borderColor',
-        'border-hover-color': 'gui-input.borderHoverColor',
-        'font-color': 'gui-input.fontColor',
-        'font-family': 'gui-input.fontFamily',
-        'font-size': 'gui-input.fontSize',
-        'height': 'gui-item.height',
-        'hover-color': 'gui-input.hoverColor',
+        //gui interactable general
         'onclick': 'gui-interactable.clickAction',
         'onhover': 'gui-interactable.hoverAction',
+        //gui item general
         'width': 'gui-item.width',
+        'height': 'gui-item.height',
         'margin': 'gui-item.margin',
-        'value': 'gui-input.text'
+        //gui input specific
+        'value': 'gui-input.value',
+        'font-size': 'gui-input.fontSize',
+        'font-family': 'gui-input.fontFamily',
+        'font-color': 'gui-input.fontColor',
+        'background-color': 'gui-input.backgroundColor',
+        'hover-color': 'gui-input.hoverColor',
+        'border-color': 'gui-input.borderColor',
+        'border-hover-color': 'gui-input.borderHoverColor'
     }
 });
 
@@ -1883,7 +1886,7 @@ AFRAME.registerComponent('gui-item', {
 
 AFRAME.registerComponent('gui-label', {
   schema: {
-    text: { type: 'string', default: '' },
+    value: { type: 'string', default: '' },
     align: { type: 'string', default: 'center' },
     anchor: { type: 'string', default: 'center' },
     fontSize: { type: 'number', default: 0.2 },
@@ -1904,7 +1907,7 @@ AFRAME.registerComponent('gui-label', {
     el.setAttribute('geometry', 'primitive: plane; height: ' + guiItem.height + '; width: ' + guiItem.width + ';');
     el.setAttribute('material', 'shader: flat; side:front; color:' + data.backgroundColor + '; transparent: true; opacity: ' + data.opacity + '; alphaTest: 0.5;');
 
-    this.setText(data.text);
+    this.setText(data.value);
 
     ////WAI ARIA Support
 
@@ -1937,7 +1940,7 @@ AFRAME.registerPrimitive('a-gui-label', {
     'margin': 'gui-item.margin',
     'align': 'gui-label.align',
     'anchor': 'gui-label.anchor',
-    'value': 'gui-label.text',
+    'value': 'gui-label.value',
     'font-size': 'gui-label.fontSize',
     'line-height': 'gui-label.lineHeight',
     'letter-spacing': 'gui-label.letterSpacing',
@@ -2014,7 +2017,7 @@ AFRAME.registerPrimitive('a-gui-progressbar', {
 AFRAME.registerComponent('gui-radio', {
     schema: {
         on: { default: 'click' },
-        text: { type: 'string', default: '' },
+        value: { type: 'string', default: '' },
         active: { type: 'boolean', default: true },
         toggle: { type: 'boolean', default: false },
         toggleState: { type: 'boolean', default: false },
@@ -2066,7 +2069,7 @@ AFRAME.registerComponent('gui-radio', {
         radioCenter.setAttribute('material', 'color:' + data.handleColor + '; shader: flat;');
         radioBox.appendChild(radioCenter);
 
-        this.setText(data.text);
+        this.setText(data.value);
 
         this.updateToggle(data.active);
         el.setAttribute("checked", data.active);
@@ -2152,7 +2155,7 @@ AFRAME.registerPrimitive('a-gui-radio', {
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
         'on': 'gui-radio.on',
-        'value': 'gui-radio.text',
+        'value': 'gui-radio.value',
         'active': 'gui-radio.active',
         'checked': 'gui-radio.checked',
         'font-color': 'gui-radio.fontColor',
@@ -2436,7 +2439,7 @@ AFRAME.registerPrimitive('a-gui-slider', {
 AFRAME.registerComponent('gui-toggle', {
     schema: {
         on: { default: 'click' },
-        text: { type: 'string', default: '' },
+        value: { type: 'string', default: '' },
         toggle: { type: 'boolean', default: false },
         toggleState: { type: 'boolean', default: false },
         active: { type: 'boolean', default: true },
@@ -2487,7 +2490,7 @@ AFRAME.registerComponent('gui-toggle', {
         toggleHandle.setAttribute('position', toggleHandleXStart + ' 0 0.02');
         toggleBox.appendChild(toggleHandle);
 
-        this.setText(data.text);
+        this.setText(data.value);
 
         this.updateToggle(data.active);
 
@@ -2574,7 +2577,7 @@ AFRAME.registerPrimitive('a-gui-toggle', {
         'on': 'gui-toggle.on',
         'active': 'gui-toggle.active',
         'checked': 'gui-toggle.checked',
-        'value': 'gui-toggle.text',
+        'value': 'gui-toggle.value',
         'font-color': 'gui-toggle.fontColor',
         'font-family': 'gui-toggle.fontFamily',
         'font-size': 'gui-toggle.fontSize',
