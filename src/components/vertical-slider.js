@@ -71,7 +71,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         valueLabel.setAttribute('width', `${guiItem.width * 1.4 * data.outputWidth}`);
         valueLabel.setAttribute('height', `${guiItem.width * 0.7}`);
         // TODO: use function to calculate display value
-        valueLabel.setAttribute('value', '');
+        valueLabel.setAttribute('value', '0.0');
         valueLabel.setAttribute('opacity', '1.0');
         valueLabel.setAttribute('position', `${guiItem.width * 1.4} 0 ${data.sliderBarDepth}`);
         valueLabel.setAttribute('rotation', '-90 0 0');

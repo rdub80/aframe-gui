@@ -513,7 +513,21 @@ AFRAME.registerComponent('gui-circle-loader', {
         this.setText(data.loaded);
     },
     play: function play() {},
-    update: function update(oldData) {},
+    update: function update(oldData) {
+        var data = this.data;
+        var el = this.el;
+
+        if (this.textEntity) {
+            console.log("has textEntity: " + this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.loaded);
+        } else {
+            console.log("no textEntity!");
+        }
+    },
     setText: function setText(newLoaded) {
         var textEntity = document.createElement("a-entity");
         this.textEntity = textEntity;
@@ -1448,6 +1462,19 @@ AFRAME.registerComponent('gui-icon-button', {
     play: function play() {},
     update: function update(oldData) {
         console.log("In button update, toggle: " + this.toggleState);
+        var data = this.data;
+        var el = this.el;
+
+        if (this.iconEntity) {
+            console.log("has iconEntity: " + this.iconEntity);
+
+            var oldEntity = this.iconEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setIcon(this.data.icon);
+        } else {
+            console.log("no iconEntity!");
+        }
     },
     setActiveState: function setActiveState(activeState) {
         // console.log("in setActiveState function, new state: " + activeState);
@@ -1615,6 +1642,30 @@ AFRAME.registerComponent('gui-icon-label-button', {
     play: function play() {},
     update: function update(oldData) {
         console.log("In button update, toggle: " + this.toggleState);
+        var data = this.data;
+        var el = this.el;
+
+        if (this.iconEntity) {
+            console.log("has iconEntity: " + this.iconEntity);
+
+            var oldEntity = this.iconEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setIcon(this.data.icon);
+        } else {
+            console.log("no iconEntity!");
+        }
+
+        if (this.textEntity) {
+            console.log("has textEntity: " + this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.value);
+        } else {
+            console.log("no textEntity!");
+        }
     },
     setActiveState: function setActiveState(activeState) {
         // console.log("in setActiveState function, new state: " + activeState);
@@ -1964,7 +2015,19 @@ AFRAME.registerComponent('gui-label', {
 
   },
   update: function update(oldData) {
-    this.init();
+    var data = this.data;
+    var el = this.el;
+
+    if (this.textEntity) {
+      console.log("has textEntity: " + this.textEntity);
+
+      var oldEntity = this.textEntity;
+      oldEntity.parentNode.removeChild(oldEntity);
+
+      this.setText(this.data.value);
+    } else {
+      console.log("no textEntity!");
+    }
   },
   setText: function setText(newText) {
     var textEntity = document.createElement("a-entity");
@@ -2175,7 +2238,19 @@ AFRAME.registerComponent('gui-radio', {
     },
     update: function update() {
         var data = this.data;
+        var el = this.el;
         this.updateToggle(data.active);
+
+        if (this.textEntity) {
+            console.log("has textEntity: " + this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.value);
+        } else {
+            console.log("no textEntity!");
+        }
     },
 
     updateToggle: function updateToggle(active) {
@@ -2603,7 +2678,19 @@ AFRAME.registerComponent('gui-toggle', {
     },
     update: function update() {
         var data = this.data;
+        var el = this.el;
         this.updateToggle(data.active);
+
+        if (this.textEntity) {
+            console.log("has textEntity: " + this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.value);
+        } else {
+            console.log("no textEntity!");
+        }
     },
 
     updateToggle: function updateToggle(active) {
@@ -2733,7 +2820,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         valueLabel.setAttribute('width', '' + guiItem.width * 1.4 * data.outputWidth);
         valueLabel.setAttribute('height', '' + guiItem.width * 0.7);
         // TODO: use function to calculate display value
-        valueLabel.setAttribute('value', '');
+        valueLabel.setAttribute('value', '0.0');
         valueLabel.setAttribute('opacity', '1.0');
         valueLabel.setAttribute('position', guiItem.width * 1.4 + ' 0 ' + data.sliderBarDepth);
         valueLabel.setAttribute('rotation', '-90 0 0');
