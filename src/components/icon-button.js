@@ -90,6 +90,20 @@ AFRAME.registerComponent('gui-icon-button', {
     },
     update: function (oldData) {
         console.log("In button update, toggle: "+this.toggleState);
+        var data = this.data;
+        var el = this.el;
+
+        if(this.iconEntity){
+            console.log("has iconEntity: "+this.iconEntity);
+
+            var oldEntity = this.iconEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setIcon(this.data.icon);
+   
+        }else{
+            console.log("no iconEntity!");   
+        }        
     },
     setActiveState: function (activeState) {
         // console.log("in setActiveState function, new state: " + activeState);

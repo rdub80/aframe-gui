@@ -101,6 +101,33 @@ AFRAME.registerComponent('gui-icon-label-button', {
     },
     update: function (oldData) {
         console.log("In button update, toggle: "+this.toggleState);
+        var data = this.data;
+        var el = this.el;
+
+        if(this.iconEntity){
+            console.log("has iconEntity: "+this.iconEntity);
+
+            var oldEntity = this.iconEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setIcon(this.data.icon);
+   
+        }else{
+            console.log("no iconEntity!");   
+        } 
+
+        if(this.textEntity){
+            console.log("has textEntity: "+this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.value);
+   
+        }else{
+            console.log("no textEntity!");   
+        }        
+
     },
     setActiveState: function (activeState) {
         // console.log("in setActiveState function, new state: " + activeState);

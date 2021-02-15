@@ -55,6 +55,20 @@ AFRAME.registerComponent('gui-circle-loader', {
     play: function () {
     },
     update: function (oldData) {
+        var data = this.data;
+        var el = this.el;
+
+        if(this.textEntity){
+            console.log("has textEntity: "+this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.loaded);
+   
+        }else{
+            console.log("no textEntity!");   
+        }        
     },
     setText: function (newLoaded) {
         var textEntity = document.createElement("a-entity");

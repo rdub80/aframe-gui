@@ -111,7 +111,21 @@ AFRAME.registerComponent('gui-toggle', {
     },
     update: function(){
         var data = this.data;
+        var el = this.el;
         this.updateToggle(data.active)
+
+        if(this.textEntity){
+            console.log("has textEntity: "+this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.value);
+   
+        }else{
+            console.log("no textEntity!");   
+        }
+        
     },
 
 
