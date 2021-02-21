@@ -310,12 +310,14 @@ AFRAME.registerComponent('gui-button', {
                                                 anchor:center; 
                                                 baseline:center;
                                                 letterSpacing:0;
-                                                color:${data.fontColor};
+                                                color:${data.fontColor};                                                
                                                 font:${data.fontFamily};
                                                 fontSize:${data.fontSize};
                                                 depthOffset:1;
                                                 maxWidth:${guiItem.width/1.05};
                                                 `);
+        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+
         if(guiItem.bevel){         
             textEntity.setAttribute('position', `0 0 ${guiItem.depth+(guiItem.bevelThickness/2)+0.05}`);
         }else{

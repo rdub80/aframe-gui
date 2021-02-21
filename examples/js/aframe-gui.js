@@ -399,7 +399,9 @@ AFRAME.registerComponent('gui-button', {
 
         var textEntity = document.createElement("a-entity");
         this.textEntity = textEntity;
-        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + data.fontColor + ';\n                                                font:' + data.fontFamily + ';\n                                                fontSize:' + data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + data.fontColor + ';                                                \n                                                font:' + data.fontFamily + ';\n                                                fontSize:' + data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + guiItem.width / 1.05 + ';\n                                                ');
+        textEntity.setAttribute('troika-text-material', 'shader: flat; \n                                                         \n                                                        ');
+
         if (guiItem.bevel) {
             textEntity.setAttribute('position', '0 0 ' + (guiItem.depth + guiItem.bevelThickness / 2 + 0.05));
         } else {
@@ -1191,10 +1193,10 @@ AFRAME.registerComponent('gui-flex-container', {
 
         if (this.data.isTopContainer) {
             this.setBackground();
+        } else {
+            //          this.el.setAttribute('material', `shader: flat; transparent: true; alphaTest: 0.5; side:front;`);
+            this.el.setAttribute('rounded', 'height: ' + containerGuiItem.height + '; width: ' + containerGuiItem.width + '; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + '; radius:' + this.data.panelRounded + '; depthWrite:false; polygonOffset:true; polygonOffsetFactor: 1;');
         }
-
-        //        this.el.setAttribute('material', `shader: flat; transparent: true; alphaTest: 0.5; side:front;`);
-        this.el.setAttribute('rounded', 'height: ' + containerGuiItem.height + '; width: ' + containerGuiItem.width + '; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + '; radius:' + this.data.panelRounded + ';');
 
         this.children = this.el.getChildEntities();
         //console.log("childElements: "+this.children);
@@ -1295,6 +1297,7 @@ AFRAME.registerComponent('gui-flex-container', {
                 //console.log(`child element position for ${childElement.id}: ${childPositionX} ${childPositionY} ${childPositionZ}`)
                 childElement.setAttribute('position', childPositionX + ' ' + childPositionY + ' ' + childPositionZ);
                 childElement.setAttribute('geometry', 'primitive: plane; height: ' + childGuiItem.height + '; width: ' + childGuiItem.width + ';');
+
                 var childFlexContainer = childElement.components['gui-flex-container'];
                 if (childFlexContainer) {
                     childFlexContainer.setBackground();
@@ -1326,10 +1329,10 @@ AFRAME.registerComponent('gui-flex-container', {
             console.log("panel position: " + JSON.stringify(this.el.getAttribute("position")));
             var guiItem = this.el.getAttribute("gui-item");
             var panelBackground = document.createElement("a-entity");
-
-            panelBackground.setAttribute('geometry', 'primitive: box; height: ' + guiItem.height + '; width: ' + guiItem.width + '; depth:0.025;');
+            panelBackground.setAttribute('rounded', 'height: ' + guiItem.height + '; width: ' + guiItem.width + '; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + '; radius:' + this.data.panelRounded + '; depthWrite:false; polygonOffset:true; polygonOffsetFactor: 2;');
+            //            panelBackground.setAttribute('geometry', `primitive: box; height: ${guiItem.height}; width: ${guiItem.width}; depth:0.025;`);
             console.log("about to set panel background color to: : " + this.data.panelColor);
-            panelBackground.setAttribute('material', 'shader: standard; depthTest: true; opacity: ' + this.data.opacity + '; color: ' + this.data.panelColor + ';');
+            //            panelBackground.setAttribute('material', `shader: standard; depthTest: true; opacity: ${this.data.opacity}; color: ${this.data.panelColor};`);
             panelBackground.setAttribute('position', this.el.getAttribute("position").x + ' ' + this.el.getAttribute("position").y + ' ' + (this.el.getAttribute("position").z - 0.0125));
             panelBackground.setAttribute('rotation', this.el.getAttribute("rotation").x + ' ' + this.el.getAttribute("rotation").y + ' ' + this.el.getAttribute("rotation").z);
             this.el.parentNode.insertBefore(panelBackground, this.el);
@@ -2316,11 +2319,14 @@ AFRAME.registerComponent('rounded', {
     topRightRadius: { type: 'number', default: -1 },
     bottomLeftRadius: { type: 'number', default: -1 },
     bottomRightRadius: { type: 'number', default: -1 },
+    depthWrite: { default: true },
+    polygonOffset: { default: false },
+    polygonOffsetFactor: { type: 'number', default: 0 },
     color: { type: 'color', default: "#F0F0F0" },
     opacity: { type: 'number', default: 1 }
   },
   init: function init() {
-    this.rounded = new THREE.Mesh(this.draw(), new THREE.MeshPhongMaterial({ color: new THREE.Color(this.data.color), side: THREE.DoubleSide }));
+    this.rounded = new THREE.Mesh(this.draw(), new THREE.MeshStandardMaterial({ color: new THREE.Color(this.data.color) }));
     this.updateOpacity();
     this.el.setObject3D('mesh', this.rounded);
   },
@@ -2345,10 +2351,11 @@ AFRAME.registerComponent('rounded', {
     }
     if (this.data.opacity < 1) {
       this.rounded.material.transparent = true;
+      this.rounded.material.opacity = this.data.opacity;
+      this.rounded.material.alphaTest = 0;
     } else {
       this.rounded.material.transparent = false;
     }
-    this.rounded.material.opacity = this.data.opacity;
   },
   tick: function tick() {},
   remove: function remove() {
@@ -2414,6 +2421,9 @@ AFRAME.registerPrimitive('a-rounded', {
     width: 'rounded.width',
     height: 'rounded.height',
     radius: 'rounded.radius',
+    'depth-write': 'rounded.depthWrite',
+    'polygon-offset': 'rounded.polygonOffset',
+    'polygon-offset-factor': 'rounded.polygonOffsetFactor',
     'top-left-radius': 'rounded.topLeftRadius',
     'top-right-radius': 'rounded.topRightRadius',
     'bottom-left-radius': 'rounded.bottomLeftRadius',

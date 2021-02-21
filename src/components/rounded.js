@@ -8,13 +8,16 @@ AFRAME.registerComponent('rounded', {
     topRightRadius: {type: 'number', default: -1},
     bottomLeftRadius: {type: 'number', default: -1},
     bottomRightRadius: {type: 'number', default: -1},
+    depthWrite: {default: true},
+    polygonOffset: {default: false},
+    polygonOffsetFactor: {type: 'number', default: 0},
     color: {type: 'color', default: "#F0F0F0"},
     opacity: {type: 'number', default: 1}
   },
   init: function () {
-    this.rounded = new THREE.Mesh( this.draw(), new THREE.MeshPhongMaterial( { color: new THREE.Color(this.data.color), side: THREE.DoubleSide } ) );
+    this.rounded = new THREE.Mesh( this.draw(), new THREE.MeshStandardMaterial( { color: new THREE.Color(this.data.color) } ) );
     this.updateOpacity();
-    this.el.setObject3D('mesh', this.rounded)
+    this.el.setObject3D('mesh', this.rounded);
   },
   update: function () {
     if (this.data.enabled) {
@@ -28,15 +31,16 @@ AFRAME.registerComponent('rounded', {
       this.rounded.visible = false;
     }
   },
-  updateOpacity: function() {
+  updateOpacity: function() {    
     if (this.data.opacity < 0) { this.data.opacity = 0; }
     if (this.data.opacity > 1) { this.data.opacity = 1; }
     if (this.data.opacity < 1) {
       this.rounded.material.transparent = true;
+      this.rounded.material.opacity = this.data.opacity;
+      this.rounded.material.alphaTest = 0;     
     } else {
       this.rounded.material.transparent = false;
     }
-    this.rounded.material.opacity = this.data.opacity;
   },
   tick: function () {},
   remove: function () {
@@ -84,6 +88,9 @@ AFRAME.registerPrimitive('a-rounded', {
     width: 'rounded.width',
     height: 'rounded.height',
     radius: 'rounded.radius',
+    'depth-write': 'rounded.depthWrite',
+    'polygon-offset': 'rounded.polygonOffset',
+    'polygon-offset-factor': 'rounded.polygonOffsetFactor',
     'top-left-radius': 'rounded.topLeftRadius',
     'top-right-radius': 'rounded.topRightRadius',
     'bottom-left-radius': 'rounded.bottomLeftRadius',

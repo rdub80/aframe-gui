@@ -21,6 +21,40 @@
 			<a-asset-item id="textfont4" src="assets/fonts/DiplomataSC-Regular.ttf"></a-asset-item>	
 		</a-assets>
 
+
+		<a-gui-flex-container 
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.25" width="2" height="4" panel-color="#000" panel-rounded="0.5"
+			position="-5 2.5 -5.5" rotation="0 30 0"
+		>
+
+			<a-gui-flex-container 
+				flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+				opacity="0.5" width="1.5" height="1" panel-color="#f00" panel-rounded="0.2"
+				position="0 0 0" rotation="0 0 0" is-top-container="true"
+			>
+		
+				<a-gui-button 
+					width="0.5" height="0.5"
+					onclick="testButtonAction"
+					value="One"
+					font-color="#f00"
+					margin="0 0.02 0.05 0"
+				>
+				</a-gui-button>
+
+				<a-gui-button 
+					width="0.5" height="0.5"
+					onclick="testButtonAction"
+					value="Two"
+					margin="0 0 0.05 0.02"
+				>
+				</a-gui-button>
+
+			</a-gui-flex-container>
+		
+		</a-gui-flex-container>
+
 		<a-gui-flex-container 
 			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
 			opacity="0.7" width="2.5" height="4.5"
