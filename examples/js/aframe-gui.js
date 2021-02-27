@@ -400,7 +400,7 @@ AFRAME.registerComponent('gui-button', {
         var textEntity = document.createElement("a-entity");
         this.textEntity = textEntity;
         textEntity.setAttribute('troika-text', 'value: ' + newText + '; \n                                                align:center; \n                                                anchor:center; \n                                                baseline:center;\n                                                letterSpacing:0;\n                                                color:' + data.fontColor + ';                                                \n                                                font:' + data.fontFamily + ';\n                                                fontSize:' + data.fontSize + ';\n                                                depthOffset:1;\n                                                maxWidth:' + guiItem.width / 1.05 + ';\n                                                ');
-        textEntity.setAttribute('troika-text-material', 'shader: flat; \n                                                         \n                                                        ');
+        textEntity.setAttribute('troika-text-material', 'shader: flat;');
 
         if (guiItem.bevel) {
             textEntity.setAttribute('position', '0 0 ' + (guiItem.depth + guiItem.bevelThickness / 2 + 0.05));
