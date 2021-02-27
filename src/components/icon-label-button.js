@@ -48,8 +48,11 @@ AFRAME.registerComponent('gui-icon-label-button', {
         canvasContainer.setAttribute('class', 'visuallyhidden');
         document.body.appendChild(canvasContainer);
 
-        var iconCanvasWidth = guiItem.height*multiplier; //square
+        //var iconCanvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
+        //var iconCanvasHeight = window.nearestPow2(guiItem.height * multiplier);        
+        var iconCanvasWidth = guiItem.height*multiplier; 
         var iconCanvasHeight = guiItem.height*multiplier;
+
         var iconCanvas = document.createElement("canvas");
         this.iconCanvas = iconCanvas;
         iconCanvas.className = "visuallyhidden";

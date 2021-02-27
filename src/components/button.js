@@ -25,6 +25,8 @@ AFRAME.registerComponent('gui-button', {
         this.guiInteractable = guiInteractable;
         //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 512; // POT conversion
+        // var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
+        // var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 

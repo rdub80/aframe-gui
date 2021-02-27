@@ -20,6 +20,8 @@ AFRAME.registerComponent('gui-input', {
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
         var multiplier = 512; // POT conversion
+        //var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
+        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
         var canvasWidth = guiItem.width*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 

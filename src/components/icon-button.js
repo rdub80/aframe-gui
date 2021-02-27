@@ -22,7 +22,9 @@ AFRAME.registerComponent('gui-icon-button', {
         var guiInteractable = el.getAttribute("gui-interactable");
         //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 512; // POT conversion
-        var canvasWidth = guiItem.height*multiplier; //square
+        //var canvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
+        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
+        var canvasWidth = guiItem.height*multiplier; 
         var canvasHeight = guiItem.height*multiplier;
         var toggleState = this.toggleState = data.toggle;
 

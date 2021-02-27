@@ -16,23 +16,25 @@ AFRAME.registerComponent('gui-label', {
     var el = this.el;
     var guiItem = el.getAttribute("gui-item");
     var multiplier = 500;
+    //var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
+    //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
     var canvasWidth = guiItem.width*multiplier;
     var canvasHeight = guiItem.height*multiplier;
 
-      var canvasContainer = document.createElement('div');
-      this.canvasContainer = canvasContainer;
-      canvasContainer.setAttribute('class', 'visuallyhidden');
-      canvasContainer.id = getUniqueId('canvasContainer');
-      document.body.appendChild(canvasContainer);
+    var canvasContainer = document.createElement('div');
+    this.canvasContainer = canvasContainer;
+    canvasContainer.setAttribute('class', 'visuallyhidden');
+    canvasContainer.id = getUniqueId('canvasContainer');
+    document.body.appendChild(canvasContainer);
 
 
-      var canvas = document.createElement("canvas");
-      this.canvas = canvas;
-      canvas.className = "visuallyhidden";
-      canvas.setAttribute('width', canvasWidth);
-      canvas.setAttribute('height', canvasHeight);
-      canvas.id = getUniqueId('canvas');
-      canvasContainer.appendChild(canvas);
+    var canvas = document.createElement("canvas");
+    this.canvas = canvas;
+    canvas.className = "visuallyhidden";
+    canvas.setAttribute('width', canvasWidth);
+    canvas.setAttribute('height', canvasHeight);
+    canvas.id = getUniqueId('canvas');
+    canvasContainer.appendChild(canvas);
 
     var ctx = this.ctx = canvas.getContext('2d');
 

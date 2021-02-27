@@ -1,6 +1,6 @@
 AFRAME.registerComponent('gui-circle-timer', {
     schema: {
-        countDown: {type: 'number', default: '10'},
+        countDown: {type: 'number', default: 10 },
         fontFamily: {type: 'string', default: 'Arial'},
         fontSize: {type: 'string', default: '150px'},
         fontColor: {type: 'string', default: key_grey},
@@ -16,7 +16,9 @@ AFRAME.registerComponent('gui-circle-timer', {
         var guiInteractable = el.getAttribute("gui-interactable");
         console.log("in timer callback, guiInteractable: "+JSON.stringify(guiInteractable));
         var multiplier = 512; // POT conversion
-        var canvasWidth = guiItem.height*multiplier; //square
+        //var canvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
+        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
+        var canvasWidth = guiItem.height*multiplier; 
         var canvasHeight = guiItem.height*multiplier;
 
         var initCount = this.initCount = data.countDown;

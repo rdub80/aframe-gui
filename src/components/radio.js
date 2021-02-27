@@ -2,9 +2,9 @@ AFRAME.registerComponent('gui-radio', {
     schema: {
         on: {default: 'click'},
         text: {type: 'string', default: 'text'},
-        active: {type: 'boolean', default: true},
-        checked: {type: 'boolean', default: false},
-        radiosizecoef: {type: 'number', default: 1},
+        active: {type: 'boolean', default: true },
+        checked: {type: 'boolean', default: false },
+        radiosizecoef: {type: 'number', default: 1 },
         fontSize: {type: 'string', default: '150px'},
         fontFamily: {type: 'string', default: 'Arial'},
         fontColor: {type: 'string', default: key_grey_dark},
@@ -47,6 +47,8 @@ AFRAME.registerComponent('gui-radio', {
 //        var labelWidth = guiItem.width - radioBoxWidth;
         var labelWidth = guiItem.width - guiItem.height;
         var multiplier = 512; // POT conversion
+        //var canvasWidth = window.nearestPow2(labelWidth.width * multiplier);
+        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);                
         var canvasWidth = labelWidth*multiplier;
         var canvasHeight = guiItem.height*multiplier;
 
