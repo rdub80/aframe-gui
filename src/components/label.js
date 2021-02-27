@@ -1,82 +1,77 @@
 AFRAME.registerComponent('gui-label', {
   schema: {
-    text: {type: 'string', default: 'label text'},
+    value: {type: 'string', default: ''},
     align: {type: 'string', default: 'center'},
-    labelFor: {type: 'selector', default: null},
-    fontSize: {type: 'string', default: '150px'},
-    fontFamily: {type: 'string', default: 'Helvetica'},
+    anchor: {type: 'string', default: 'center'},
+    fontSize: {type: 'number', default: 0.2},
+    lineHeight: {type: 'number', default: 0.2},
+    letterSpacing: {type: 'number', default: 0},
+    fontFamily: {type: 'string', default: ''},
     fontColor: {type: 'string', default: key_grey_dark},
-    fontWeight: {type: 'string', default: 'normal'},
     backgroundColor: {type: 'string', default: key_offwhite},
     opacity: { type: 'number', default: 1.0 },
-    textDepth: { type: 'number', default: 0.001 },
+    textDepth: { type: 'number', default: 0.01 },
   },
   init: function() {
     var data = this.data;
     var el = this.el;
     var guiItem = el.getAttribute("gui-item");
-    var multiplier = 500;
-    //var canvasWidth = window.nearestPow2(guiItem.width * multiplier);
-    //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-    var canvasWidth = guiItem.width*multiplier;
-    var canvasHeight = guiItem.height*multiplier;
-
-    var canvasContainer = document.createElement('div');
-    this.canvasContainer = canvasContainer;
-    canvasContainer.setAttribute('class', 'visuallyhidden');
-    canvasContainer.id = getUniqueId('canvasContainer');
-    document.body.appendChild(canvasContainer);
-
-
-    var canvas = document.createElement("canvas");
-    this.canvas = canvas;
-    canvas.className = "visuallyhidden";
-    canvas.setAttribute('width', canvasWidth);
-    canvas.setAttribute('height', canvasHeight);
-    canvas.id = getUniqueId('canvas');
-    canvasContainer.appendChild(canvas);
-
-    var ctx = this.ctx = canvas.getContext('2d');
+    this.guiItem = guiItem;
 
     el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
     el.setAttribute('material', `shader: flat; side:front; color:${data.backgroundColor}; transparent: true; opacity: ${data.opacity}; alphaTest: 0.5;`);
-
-    this.oldText = data.text;
-
-   //  drawText(ctx, canvas, data.text, guiItem.fontSize+' ' + data.fontFamily, data.fontColor, 1);
-
-    drawText(ctx, canvas, data.text, data.fontSize, data.fontFamily, data.fontColor, 1,data.align,'middle', data.fontWeight);
-
-    if (this.textEntity) {
-      el.removeChild(this.textEntity);
+    
+    //fallback for old font-sizing
+    if(data.fontSize > 20) { // 150/750
+      var newSize = data.fontSize/750;
+      data.fontSize = newSize;        
     }
-      var textEntity = document.createElement("a-entity");
-      this.textEntity = textEntity;
-      textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.width/1.05}; height: ${guiItem.height/1.05};`);
-      textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1.0; alphaTest: 0.5; side:front;`);
-      textEntity.setAttribute('position', `0 0 ${data.textDepth}`);
-      el.appendChild(textEntity);
+
+    this.setText(data.value);
 
     ////WAI ARIA Support
 
-    if(data.labelFor){
-      // el.setAttribute('role', 'button');
-    }
+    // if(data.labelFor){
+    //   // el.setAttribute('role', 'button');
+    // }
 
 
-  },
-  update: function (oldData) {
-    // console.log("In label update, toggle");
-   this.init();
-  },
-  tick() {
-    if (this.data.text !== this.oldText) {
-      // console.log('text was changed, about to draw text: ' + this.data.text);
-      this.oldText = this.data.text;
-     //  drawText(this.ctx, this.canvas, this.data.text, '100px ' + this.data.fontFamily, this.data.fontColor, 1);
-      drawText(this.ctx, this.canvas, this.data.text, this.data.fontSize, this.data.fontFamily, this.data.fontColor, 1,data.align,'middle', this.data.fontWeight);
+    },
+    update: function (oldData) {
+        var data = this.data;
+        var el = this.el;
+
+        if(this.textEntity){
+            console.log("has textEntity: "+this.textEntity);
+
+            var oldEntity = this.textEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setText(this.data.value);
+   
+        }else{
+            console.log("no textEntity!");   
+        }
+    },
+    setText: function (newText) {
+        var textEntity = document.createElement("a-entity");
+        this.textEntity = textEntity;
+        textEntity.setAttribute('troika-text', `value: ${newText}; 
+                                                align: ${this.data.align}; 
+                                                anchor: ${this.data.anchor}; 
+                                                baseline:center;
+                                                letterSpacing:0;
+                                                lineHeight: ${this.data.lineHeight};
+                                                color:${this.data.fontColor};
+                                                font:${this.data.fontFamily};
+                                                fontSize:${this.data.fontSize};
+                                                depthOffset:1;
+                                                maxWidth:${this.guiItem.width/1.05};
+                                                `);
+        textEntity.setAttribute('position', `0 0 ${this.data.textDepth}`);
+//        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(textEntity);
     }
-  },
 });
 
 AFRAME.registerPrimitive( 'a-gui-label', {
@@ -88,14 +83,14 @@ AFRAME.registerPrimitive( 'a-gui-label', {
     'width': 'gui-item.width',
     'height': 'gui-item.height',
     'margin': 'gui-item.margin',
-    'on': 'gui-button.on',
     'align': 'gui-label.align',
-    'value': 'gui-label.text',
-    'label-for': 'gui-label.labelFor',
+    'anchor': 'gui-label.anchor',
+    'value': 'gui-label.value',
     'font-size': 'gui-label.fontSize',
+    'line-height': 'gui-label.lineHeight',
+    'letter-spacing': 'gui-label.letterSpacing',
     'font-color': 'gui-label.fontColor',
     'font-family': 'gui-label.fontFamily',
-    'font-weight': 'gui-label.fontWeight',
     'background-color': 'gui-label.backgroundColor',
     'opacity': 'gui-label.opacity',
     'text-depth': 'gui-label.textDepth'

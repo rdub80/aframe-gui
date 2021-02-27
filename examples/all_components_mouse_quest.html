@@ -1,0 +1,381 @@
+<!doctype html>
+<html>
+<head>
+  	<meta charset="utf-8">
+  	<title>A-Frame GUI All Components</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5.1/dat.gui.min.js" type="text/javascript"></script>
+
+    <script src="js/aframe-gui.js"></script>
+    <script src="js/gui-env.js"></script>
+
+</head>
+<body>
+	<a-scene gui-env>
+		<a-assets>
+			<a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="iconfontbrand" src="assets/fonts/fa-brands-400.ttf"></a-asset-item>
+			<a-asset-item id="textfont1" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont2" src="assets/fonts/PressStart2P-Regular.ttf"></a-asset-item>	
+			<a-asset-item id="textfont3" src="assets/fonts/Plaster-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont4" src="assets/fonts/DiplomataSC-Regular.ttf"></a-asset-item>	
+		</a-assets>
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+			opacity="0.7" width="3.5" height="4.5" panel-color="#072B73" panel-rounded="0.2"
+			position="-4 2.5 -6" rotation="0 0 0"
+			>
+			<a-gui-button
+				id="btn1"
+				width="2.5" 
+				height="0.7" 
+				base-depth="0.05" 
+				depth="0.2"
+				gap="0.1"
+				radius="0"
+				onclick="testButtonAction1"
+				value="test button"
+				font-family="assets/fonts/PermanentMarker-Regular.ttf"
+				font-size="0.35"
+				margin="0 0 0.05 0"
+				toggle="true"
+			>
+			</a-gui-button>
+
+
+			<a-gui-button
+				width="2.5" 
+				height="0.7" 
+				base-depth="0.025" 
+				depth="0.1"
+				gap="0.1"
+				radius="0"
+				onclick="testButtonAction2"
+				value="Another button"
+				font-family="assets/fonts/PermanentMarker-Regular.ttf"	
+				font-size="0.275"
+				margin="0 0 0.05 0"
+
+				font-color="black"
+				active-color="red"
+				hover-color="yellow"
+				border-color="white"
+				focus-color="black"
+				background-color="orange"
+			>
+			</a-gui-button>
+
+			<a-gui-button
+				width="2.75" 
+				height="1"
+				base-depth="0.1" 
+				depth="0.3"
+				gap="0.1"
+				radius="0"				 
+				onclick="testButtonAction3"
+				value="Example Bevel"
+				font-family="assets/fonts/DiplomataSC-Regular.ttf"
+				font-size="0.25"
+				margin="0 0 0.05 0"
+
+				bevel="true"
+			>
+			</a-gui-button>
+
+			<a-gui-button
+				width="2.5" 
+				height="0.7" 
+				gap="0.2"				
+				onclick="testButtonAction4"
+				value="Example 4"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.275"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-button>
+
+			<a-gui-button
+				width="2.5" 
+				height="0.7" 
+				onclick="testButtonAction5"
+				value="Example 5"
+			>
+			</a-gui-button>
+
+
+		</a-gui-flex-container>
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+			opacity="0.5" width="3.5" height="6" panel-color="#000" panel-rounded="0.1"
+			position="0 2.5 -6" rotation="0 0 0"
+			>
+			<a-gui-label
+				width="2.5" height="0.75"
+				value="test label"
+				font-family="assets/fonts/DiplomataSC-Regular.ttf"
+				font-size="0.35"
+				line-height="0.8"
+				letter-spacing="0"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-label>
+
+			<a-gui-radio
+				width="2.5" height="0.75"
+				onclick="testToggleAction"
+				value="radio label"
+				font-size="0.3"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-radio>
+
+			<a-gui-icon-label-button
+				width="2.5" height="0.75"
+				onclick="testButtonAction"
+				icon="f2b9"
+				icon-font="assets/fonts/fa-solid-900.ttf"
+				value="icon label"
+				font-family="assets/fonts/PressStart2P-Regular.ttf"
+				font-size="0.16"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-icon-label-button>
+
+			<a-gui-toggle
+				width="2.5" height="0.75"
+				onclick="testToggleAction"
+				value="toggle label"
+				font-family="assets/fonts/Plaster-Regular.ttf"
+				font-size="0.2"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-toggle>
+
+			<a-gui-slider
+				width="2.5" height="0.75"
+				onclick="testSliderAction"
+				percent="0.29"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-slider>
+
+			<a-gui-input
+				width="2.5" height="0.75"
+				onclick="testInputAction"
+				font-family="assets/fonts/PermanentMarker-Regular.ttf"	
+				font-size="0.2"
+				value="Hello Wor_"
+				margin="0 0 0.05 0"
+			>
+			</a-gui-input>
+
+			<a-gui-progressbar
+				width="2.5" height="0.25"
+				margin="0 0 0.1 0"
+			>
+			</a-gui-progressbar>
+
+		</a-gui-flex-container>
+
+		<a-gui-flex-container
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1"
+			opacity="0.7" width="2" height="4" panel-color="#fff" panel-rounded="1"
+			position="3.25 2.5 -6" rotation="0 0 0"
+			>
+
+			<a-gui-circle-timer
+				id="timer"
+				height="0.75"
+				count-down="60"
+				callback="timedout"
+				font-family="assets/fonts/PermanentMarker-Regular.ttf"				
+				margin="0 0 0.1 0"
+				background-color="#999"
+
+			>
+			</a-gui-circle-timer>
+
+			<a-gui-circle-loader
+				height="0.75"
+				font-family="assets/fonts/Plaster-Regular.ttf"					
+				font-size="0.2"
+				loaded="0.3456"		
+				margin="0 0 0.1 0"
+				background-color="#999"
+			>
+			</a-gui-circle-loader>
+			
+			<a-gui-icon-button
+				height="0.75"
+				onclick="testButtonAction"
+				icon="f09b"
+				icon-font="assets/fonts/fa-brands-400.ttf"
+
+				font-color="black"
+				hover-color="#fff"
+				focus-color="#ccc"
+				background-color="#999"
+
+			>
+			</a-gui-icon-button>
+
+
+			<a-gui-vertical-slider
+
+			></a-gui-vertical-slider>
+
+
+		</a-gui-flex-container>
+
+
+
+		<!-- Mouse cursor so we can click on the scene with mouse or touch. -->
+		<a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: [gui-interactable]"></a-entity>
+		<a-entity id="leftHand" laser-controls="hand: left" raycaster="objects: [gui-interactable]"></a-entity>
+		<a-entity id="rightHand" laser-controls="hand: right" raycaster="objects: [gui-interactable]"></a-entity>
+
+		<!-- Camera + cursor. -->
+		<a-entity id="cameraRig" position="0 1.6 0">
+			<a-camera look-controls wasd-controls position="0 0 0">
+			</a-camera> <!-- /camera -->
+		</a-entity>
+
+	</a-scene>
+
+	<script type="text/javascript">
+
+		function startTimer(duration, display) {
+		    var timer = duration, minutes, seconds;
+		    setInterval(function () {
+		        seconds = parseInt(timer % 60, 10);
+		        seconds = seconds < 10 ? "0" + seconds : seconds;
+		        display.setAttribute('count-down', seconds);
+		        if (--timer < 0) {
+		            timer = duration;
+		        }
+		    }, 1000);
+		}
+
+		window.onload = function () {
+		    var countDownEntity = document.getElementById("timer"),
+		    	duration = countDownEntity.getAttribute('count-down');
+ 		    	startTimer(duration, countDownEntity);
+		};
+
+		window.timedout = function () {
+			console.log("GUI timer timed out");
+		}
+
+		window.testButtonAction1 = function () {
+			console.log("clicked GUI");
+		}
+
+
+
+		window.testButtonAction2 = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testButtonAction3 = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testButtonAction4 = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testButtonAction5 = function () {
+			console.log("clicked GUI");
+		}
+
+
+
+		window.testButtonAction = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testToggleAction = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testSliderAction = function () {
+			console.log("clicked GUI");
+		}
+
+		window.testInputAction = function () {
+			console.log("clicked GUI");
+		}
+
+
+
+
+		var data = document.querySelector("#btn1");
+		var controls;
+
+		var initControls = function() {
+			this.value = "sample";
+			this.fontColor = "#F2BB16";
+			this.backgroundColor = "#011C40";
+			this.borderColor = "#F2BB16";
+			this.focusColor = "#ff0000";
+			this.hoverColor = "#2a5b7a";
+			this.activeColor = "#5687A6";
+			this.fontSize = 0.3;
+			this.toggle = true;
+			this.fontFamily = "PressStart2P";
+			// this.width=2.75; 
+			// this.height=0.7; 
+			// this.baseDepth=0.05; 
+			// this.depth=0.2;
+			// this.gap=0.1;
+			// this.radius=0;
+		};
+
+		window.onload = function() {
+			controls = new initControls();
+			setValue();
+			var gui = new dat.GUI();
+			gui.add(controls, 'value').onChange(setValue);
+			gui.addColor(controls, 'fontColor').onChange(setValue);
+			gui.addColor(controls, 'hoverColor').onChange(setValue);
+			gui.addColor(controls, 'activeColor').onChange(setValue);
+			gui.addColor(controls, 'borderColor').onChange(setValue);
+			gui.addColor(controls, 'focusColor').onChange(setValue);
+			gui.addColor(controls, 'backgroundColor').onChange(setValue);
+			gui.add(controls, 'fontSize', 0, 1).onChange(setValue);
+			gui.add(controls, 'toggle').onChange(setValue);
+			gui.add(controls, 'fontFamily',["PermanentMarker", "PressStart2P", "Plaster", "DiplomataSC"]).onChange(setValue);
+			// gui.add(controls, 'width', 0, 5).onChange(setValue);
+			// gui.add(controls, 'height', 0, 5).onChange(setValue);
+			// gui.add(controls, 'baseDepth', 0, 1).onChange(setValue);
+			// gui.add(controls, 'depth', 0, 1).onChange(setValue);
+			// gui.add(controls, 'gap', 0, 1).onChange(setValue);
+			// gui.add(controls, 'radius', 0, 1).onChange(setValue);
+		};
+
+		function setValue() {
+			data.setAttribute('value',controls.value);
+			data.setAttribute('font-family',"assets/fonts/"+controls.fontFamily+"-Regular.ttf");
+			data.setAttribute('font-size',controls.fontSize);
+			data.setAttribute('font-color',controls.fontColor);
+			data.setAttribute('active-color',controls.activeColor);
+			data.setAttribute('hover-color',controls.hoverColor);
+			data.setAttribute('border-color',controls.borderColor);
+			data.setAttribute('focus-color',controls.focusColor);
+			data.setAttribute('background-color',controls.backgroundColor);
+			data.setAttribute('toggle',controls.toggle);
+			// data.setAttribute('width',controls.width);
+			// data.setAttribute('height',controls.height);
+			// data.setAttribute('base-depth',controls.baseDepth);
+			// data.setAttribute('depth',controls.depth);
+			// data.setAttribute('gap',controls.gap);
+			// data.setAttribute('radius',controls.radius);
+		}
+
+
+	</script>
+
+</body>
+</html>

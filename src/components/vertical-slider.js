@@ -17,7 +17,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         leftRightPadding: {type: 'number', default: 0.125},
         percent: {type: 'number', default: 0.5},
         opacity: { type: 'number', default: 1.0 },
-        outputFontSize: {type: 'string', default: '180px'},
+        outputFontSize: {type: 'string', default: '0.2'},
         outputFunction: {type: 'string'},
         outputHeight: {type: 'number', default: 1.0},
         outputMargin: {type: 'vec4', default: {x: 0, y: 0, z: 0, w: 0}},
@@ -71,7 +71,7 @@ AFRAME.registerComponent('gui-vertical-slider', {
         valueLabel.setAttribute('width', `${guiItem.width * 1.4 * data.outputWidth}`);
         valueLabel.setAttribute('height', `${guiItem.width * 0.7}`);
         // TODO: use function to calculate display value
-        valueLabel.setAttribute('value', '');
+        valueLabel.setAttribute('value', '0.0');
         valueLabel.setAttribute('opacity', '1.0');
         valueLabel.setAttribute('position', `${guiItem.width * 1.4} 0 ${data.sliderBarDepth}`);
         valueLabel.setAttribute('rotation', '-90 0 0');
