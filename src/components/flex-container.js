@@ -54,6 +54,7 @@ AFRAME.registerComponent('gui-flex-container', {
         opacity: { type: 'number', default: 0.0 },
         isTopContainer: {type: 'boolean', default: false},
         panelColor: {type: 'string', default: key_grey},
+        panelRounded: { type: 'number', default: 0.05 },
 
 //global settings for GUI items
         styles: {
@@ -73,10 +74,10 @@ AFRAME.registerComponent('gui-flex-container', {
 
         if (this.data.isTopContainer) {
             this.setBackground();
+        }else{
+//          this.el.setAttribute('material', `shader: flat; transparent: true; alphaTest: 0.5; side:front;`);
+            this.el.setAttribute('rounded', `height: ${containerGuiItem.height}; width: ${containerGuiItem.width}; opacity: ${this.data.opacity}; color: ${this.data.panelColor}; radius:${this.data.panelRounded}; depthWrite:false; polygonOffset:true; polygonOffsetFactor: 1;`);
         }
-
-        this.el.setAttribute('geometry', `primitive: plane; height: ${containerGuiItem.height}; width: ${containerGuiItem.width};`);
-        this.el.setAttribute('material', `shader: flat; transparent: true; opacity: ${this.data.opacity}; alphaTest: 0.5; color: ${this.data.panelColor}; side:front;`);
 
         this.children = this.el.getChildEntities();
         //console.log("childElements: "+this.children);
@@ -177,6 +178,7 @@ AFRAME.registerComponent('gui-flex-container', {
                 //console.log(`child element position for ${childElement.id}: ${childPositionX} ${childPositionY} ${childPositionZ}`)
                 childElement.setAttribute('position', `${childPositionX} ${childPositionY} ${childPositionZ}`)
                 childElement.setAttribute('geometry', `primitive: plane; height: ${childGuiItem.height}; width: ${childGuiItem.width};`)
+
                 var childFlexContainer = childElement.components['gui-flex-container']
                 if (childFlexContainer) {
                     childFlexContainer.setBackground();
@@ -209,10 +211,10 @@ AFRAME.registerComponent('gui-flex-container', {
             console.log("panel position: " + JSON.stringify(this.el.getAttribute("position")));
             var guiItem = this.el.getAttribute("gui-item");
             var panelBackground = document.createElement("a-entity");
-
-            panelBackground.setAttribute('geometry', `primitive: box; height: ${guiItem.height}; width: ${guiItem.width}; depth:0.025;`);
+            panelBackground.setAttribute('rounded', `height: ${guiItem.height}; width: ${guiItem.width}; opacity: ${this.data.opacity}; color: ${this.data.panelColor}; radius:${this.data.panelRounded}; depthWrite:false; polygonOffset:true; polygonOffsetFactor: 2;`);
+//            panelBackground.setAttribute('geometry', `primitive: box; height: ${guiItem.height}; width: ${guiItem.width}; depth:0.025;`);
             console.log("about to set panel background color to: : " + this.data.panelColor);
-            panelBackground.setAttribute('material', `shader: standard; depthTest: true; opacity: ${this.data.opacity}; color: ${this.data.panelColor};`);
+//            panelBackground.setAttribute('material', `shader: standard; depthTest: true; opacity: ${this.data.opacity}; color: ${this.data.panelColor};`);
             panelBackground.setAttribute('position', this.el.getAttribute("position").x + ' ' + this.el.getAttribute("position").y + ' ' + (this.el.getAttribute("position").z - 0.0125));
             panelBackground.setAttribute('rotation', this.el.getAttribute("rotation").x + ' ' + this.el.getAttribute("rotation").y + ' ' + this.el.getAttribute("rotation").z);
             this.el.parentNode.insertBefore(panelBackground, this.el);
@@ -238,6 +240,7 @@ AFRAME.registerPrimitive( 'a-gui-flex-container', {
         'opacity': 'gui-flex-container.opacity',
         'is-top-container': 'gui-flex-container.isTopContainer',
         'panel-color': 'gui-flex-container.panelColor',
+        'panel-rounded': 'gui-flex-container.panelRounded',
         'font-family': 'gui-flex-container.styles.fontFamily',
         'font-color': 'gui-flex-container.styles.fontColor',
         'border-color': 'gui-flex-container.styles.borderColor',

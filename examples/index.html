@@ -3,20 +3,270 @@
 <head>
   	<meta charset="utf-8">
   	<title>A-Frame GUI</title>
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css" integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  	<link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/grids-responsive-min.css">
+  	<style type="text/css">
+  		
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(61, 146, 201);
+}
+a:hover,
+a:focus {
+    text-decoration: underline;
+}
+
+h3 {
+    font-weight: 100;
+}
+
+/* LAYOUT CSS */
+.pure-img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+#layout {
+    padding: 0;
+}
+
+.header {
+    text-align: center;
+    top: auto;
+    margin: 3em auto;
+}
+
+.sidebar {
+    background: rgb(61, 79, 93);
+    color: #fff;
+}
+
+.brand-title,
+.brand-tagline {
+    margin: 0;
+}
+.brand-title {
+    text-transform: uppercase;
+}
+.brand-tagline {
+    font-weight: 300;
+    color: rgb(176, 202, 219);
+}
+
+.nav-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.nav-item {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+}
+.nav-item a {
+    background: transparent;
+    border: 2px solid rgb(176, 202, 219);
+    color: #fff;
+    margin-top: 1em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 85%;
+}
+.nav-item a:hover,
+.nav-item a:focus {
+    border: 2px solid rgb(61, 146, 201);
+    text-decoration: none;
+}
+
+.content-subhead {
+    text-transform: uppercase;
+    color: #aaa;
+    border-bottom: 1px solid #eee;
+    padding: 0.4em 0;
+    font-size: 80%;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+.content {
+    padding: 2em 1em 0;
+}
+
+.post {
+    padding-bottom: 2em;
+}
+.post-title {
+    font-size: 2em;
+    color: #222;
+    margin-bottom: 0.2em;
+}
+.post-avatar {
+    border-radius: 50px;
+    float: right;
+    margin-left: 1em;
+}
+.post-description {
+    font-family: Georgia, "Cambria", serif;
+    color: #444;
+    line-height: 1.8em;
+}
+.post-meta {
+    color: #999;
+    font-size: 90%;
+    margin: 0;
+}
+
+.post-category {
+    margin: 0 0.1em;
+    padding: 0.3em 1em;
+    color: #fff;
+    background: #999;
+    font-size: 80%;
+}
+    .post-category-design {
+        background: #5aba59;
+    }
+    .post-category-pure {
+        background: #4d85d1;
+    }
+    .post-category-yui {
+        background: #8156a7;
+    }
+    .post-category-js {
+        background: #df2d4f;
+    }
+
+.post-images {
+    margin: 1em 0;
+}
+.post-image-meta {
+    margin-top: -3.5em;
+    margin-left: 1em;
+    color: #fff;
+    text-shadow: 0 1px 1px #333;
+}
+
+.footer {
+    padding: 1em 0;
+}
+.footer a {
+    color: #ccc;
+    font-size: 80%;
+}
+.footer .pure-menu a:hover,
+.footer .pure-menu a:focus {
+    background: none;
+}
+
+@media (min-width: 48em) {
+    .content {
+        padding: 2em 3em 0;
+        margin-left: 25%;
+    }
+
+    .header {
+        margin: 80% 2em 0;
+        text-align: right;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+    }
+
+    .footer {
+        text-align: center;
+    }
+}
+
+  	</style>
 </head>
 <body>
-<h1>A-Frame GUI Examples</h1>
 
-<h2><a href="all_components.html">All Components</a></h2>
-<h2><a href="all_components_colors.html">All Components using colors</a></h2>
-<h2><a href="all_components_smallfontsize.html">All Components using font-size attribute</a></h2>
+<div class="pure-g">
+	<div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <h1 class="brand-title">A-Frame GUI</h1>
+            <h2 class="brand-tagline">Examples</h2>
 
-<h2><a href="casestudy_dropdown.html">Dropdown Example - Future Component?</a></h2>
-<h2><a href="casestudy_call.html">Phone Call Interface</a></h2>
-<h2><a href="casestudy_movies.html">Movie Player Interface</a></h2>
-<h2><a href="casestudy_keyboard.html">Keyboard Interface (use tab and ctrl to switch keyboard)</a></h2>
-<h2><a href="casestudy_vrremote.html">KeyCode mapping for a VR Controllers(Kingear VR3D & Magicsee R1) on iOS browser</a></h2>
-<h2><a href="https://aframe-gui.herokuapp.com/demo.html">Amper Music Generator Interface</a></h2>
-<h2><a href="casestudy_eyetest.html">Text readability experiment</a></h2>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="https://github.com/rdub80/aframe-gui">GitHub</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+
+	<div class="content pure-u-1 pure-u-md-3-4">
+
+		<div class="posts">
+            <h1 class="content-subhead">Usage Examples</h1>
+            <section class="post">
+                <header class="post-header">
+                    <h2 class="post-title">Overview</h2>
+                </header>
+
+                <div class="post-description">
+
+					<ul>
+						<li><a target="_blank" href="all_components_mouse_quest.html">All Components - mouse cursor & laser controls</a></li>
+						<li><a target="_blank" href="all_components_colors.html">All Components - gaze controls</a></li>
+					</ul>
+
+                </div>
+            </section>
+
+            <section class="post">
+                <header class="post-header">
+                    <h2 class="post-title">Case Studies</h2>
+                </header>
+
+                <div class="post-description">
+
+					<ul>
+						<li><a target="_blank" href="casestudy_dropdown.html">Dropdown Example</a></li>
+						<li><a target="_blank" href="casestudy_call.html">Phone Call Interface</a></li>
+						<li><a target="_blank" href="casestudy_movies.html">Movie Player Interface</a></li>
+						<li><a target="_blank" href="casestudy_keyboard.html">Keyboard Interface (use tab and ctrl to switch keyboard)</a></li>
+
+					<!-- <li><a href="casestudy_vrremote.html">KeyCode mapping for a VR Controllers(Kingear VR3D & Magicsee R1) on iOS browser</a></li>
+					<li><a href="https://aframe-gui.herokuapp.com/demo.html">Amper Music Generator Interface</a></li>
+					<li><a href="casestudy_eyetest.html">Text readability experiment</a></li> -->
+
+					</ul>
+
+                </div>
+            </section>
+            <section class="post">
+                <header class="post-header">
+                    <h2 class="post-title">Showcase / Demos</h2>
+                </header>
+
+                <div class="post-description">
+
+                    <ul>
+                        <li><a target="_blank" href="https://learninginvr.glitch.me/">Intellect VR, a virtual reality education platform</a></li>
+                    </ul>
+
+                </div>
+            </section>
+        </div>
+
+	</div>
+
+</div>
+
+
 </body>
 </html>

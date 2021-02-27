@@ -2,10 +2,14 @@ if (typeof AFRAME === 'undefined') {
     throw new Error('Component attempted to register before AFRAME was available.');
 }
 
+// third-party
+require('./third-party/aframe-troika-text.js');
+
 // Components
 require('./scripts/vars.js');
 require('./scripts/utils.js')
 require('./components/item.js');
+require('./components/bevelbox.js');
 require('./components/interactable.js');
 require('./components/flex-container.js');
 require('./components/label.js');
@@ -21,4 +25,5 @@ require('./components/slider.js');
 require('./components/vertical-slider.js');
 require('./components/input.js');
 require('./components/cursor.js');
+require('./components/rounded.js');
 require('./scripts/reset-cursor.js');

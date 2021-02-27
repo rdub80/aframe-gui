@@ -2,31 +2,10 @@
 <html>
 <head>
   	<meta charset="utf-8">
-  	<title>A-Frame GUI All Components</title>
+  	<title>A-Frame GUI Colors</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-	<style type="text/css">
-		@font-face{
-			font-family:"Ionicons";
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5.1/dat.gui.min.js" type="text/javascript"></script>
 
-			src:url("assets/fonts/ionicons.eot?v=2.0.1");
-			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-			
-			font-weight:normal;
-			font-style:normal
-		}
-		body{font-family:Ionicons;}
-		.visuallyhidden {
-			position: absolute;
-			display: block;
-			border: 0;
-			clip: rect(0 0 0 0);
-			height: 1px;
-			width: 1px;
-			margin: -1px;
-			padding: 0;
-			overflow: hidden;
-		}
-	</style>
     <script src="js/aframe-gui.js"></script>
     <script src="js/gui-env.js"></script>
 
@@ -34,9 +13,47 @@
 <body>
 	<a-scene gui-env>
 		<a-assets>
-			<canvas id="canvasObj" crossorigin="anonymous" webkit-playsinline=""></canvas>
-			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
+			<a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="iconfontbrand" src="assets/fonts/fa-brands-400.ttf"></a-asset-item>
+			<a-asset-item id="textfont1" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont2" src="assets/fonts/PressStart2P-Regular.ttf"></a-asset-item>	
+			<a-asset-item id="textfont3" src="assets/fonts/Plaster-Regular.ttf"></a-asset-item>
+			<a-asset-item id="textfont4" src="assets/fonts/DiplomataSC-Regular.ttf"></a-asset-item>	
 		</a-assets>
+
+
+		<a-gui-flex-container 
+			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
+			opacity="0.25" width="2" height="4" panel-color="#000" panel-rounded="0.5"
+			position="-5 2.5 -5.5" rotation="0 30 0"
+		>
+
+			<a-gui-flex-container 
+				flex-direction="row" justify-content="center" align-items="normal" component-padding="0.1"
+				opacity="0.5" width="1.5" height="1" panel-color="#f00" panel-rounded="0.2"
+				position="0 0 0" rotation="0 0 0" is-top-container="true"
+			>
+		
+				<a-gui-button 
+					width="0.5" height="0.5"
+					onclick="testButtonAction"
+					value="One"
+					font-color="#f00"
+					margin="0 0.02 0.05 0"
+				>
+				</a-gui-button>
+
+				<a-gui-button 
+					width="0.5" height="0.5"
+					onclick="testButtonAction"
+					value="Two"
+					margin="0 0 0.05 0.02"
+				>
+				</a-gui-button>
+
+			</a-gui-flex-container>
+		
+		</a-gui-flex-container>
 
 		<a-gui-flex-container 
 			flex-direction="column" justify-content="center" align-items="normal" component-padding="0.1" 
@@ -54,14 +71,14 @@
 				hover-color="#6A1B9A"
 				border-color="#F3E5F5"
 				font-color="#F3E5F5"
-				font-size="120px"
 			>
 			</a-gui-button>
 
 			<a-gui-icon-label-button
 				width="2" height="0.5"
 				onclick="testButtonAction"
-				icon="social-github"
+				icon="f09b"
+				icon-font="assets/fonts/fa-brands-400.ttf"
 				value="label button"
 				margin="0 0 0.05 0"
 				active-color="#009688"
@@ -69,8 +86,6 @@
 				hover-color="#00695C"
 				border-color="#E0F2F1"
 				font-color="#E0F2F1"
-				font-size="120px"
-				icon-font-size="220px"
 			>
 			</a-gui-icon-label-button>
 
@@ -85,7 +100,6 @@
 				handle-color="#E3F2FD"
 				border-color="#0D47A1"
 				font-color="#0D47A1"
-				font-size="120px"
 			>
 			</a-gui-toggle>
 
@@ -106,7 +120,6 @@
 				width="2" height="0.5"
 				onclick="testInputAction"
 				value="Hello Wor_"
-				font-size="120px"
 				font-color="#880E4F"
 				border-color="#880E4F"
 				border-hover-color="#AD1457"
@@ -120,7 +133,6 @@
 				width="2" height="0.5"
 				value="label text"
 				margin="0 0 0.05 0"
-				font-size="120px"
 				font-color="#BF360C"
 				background-color="#FFCCBC"
 			>
@@ -131,7 +143,6 @@
 				onclick="testToggleAction"
 				value="label radio"
 				margin="0 0 0.05 0"
-				font-size="120px"
 				font-color="#006064"
 				border-color="#006064"
 				background-color="#E0F7FA"
@@ -162,7 +173,6 @@
 				count-down="60"
 				callback="timedout"
 				margin="0 0 0.05 0"
-				font-size="120px"
 				font-color="#263238"
 				background-color="#CFD8DC"
 				border-color="#37474F"
@@ -173,8 +183,8 @@
 			<a-gui-icon-button
 				height="0.5"
 				onclick="testButtonAction"
-				icon="social-twitter"
-				icon-font-size="220px"
+				icon="f099"
+				icon-font="assets/fonts/fa-brands-400.ttf"
 				margin="0 0 0.05 0"
 				font-color="#F3E5F5"
 				border-color="#F3E5F5"
@@ -186,7 +196,6 @@
 
 			<a-gui-circle-loader
 				height="0.5"
-				font-size="100px"
 				font-color="#F9A825"
 				active-color="#F57F17"
 				background-color="#FFF9C4"
@@ -212,14 +221,14 @@
 				hover-color="#CFD8DC"
 				border-color="#263238"
 				font-color="#263238"
-				font-size="160px"
 			>
 			</a-gui-button>
 
 			<a-gui-icon-label-button
 				width="3" height="0.75"
 				onclick="testButtonAction"
-				icon="social-github"
+				icon="f179"
+				icon-font="assets/fonts/fa-brands-400.ttf"
 				value="label button"
 				margin="0 0 0.05 0"
 				active-color="#FFEB3B"
@@ -227,8 +236,6 @@
 				hover-color="#F0F4C3"
 				border-color="#827717"
 				font-color="#827717"
-				font-size="160px"
-				icon-font-size="400px"
 			>
 			</a-gui-icon-label-button>
 
@@ -243,7 +250,6 @@
 				handle-color="#f44336"
 				border-color="#ffebee"
 				font-color="#fff"
-				font-size="160px"
 			>
 			</a-gui-toggle>
 
@@ -251,7 +257,6 @@
 				width="3" height="0.75"
 				onclick="testInputAction"
 				value="Hello Wor_"
-				font-size="160px"
 				font-color="#212121"
 				border-color="#212121"
 				border-hover-color="#424242"
@@ -266,7 +271,6 @@
 				onclick="testToggleAction"
 				value="label radio"
 				margin="0 0 0.05 0"
-				font-size="160px"
 				font-color="#E8EAF6"
 				border-color="#E8EAF6"
 				background-color="#3F51B5"
@@ -334,6 +338,38 @@
 		window.testInputAction = function () {
 			console.log("clicked GUI");
 		}
+
+
+
+		var data = document.querySelector("#cursor");
+		var controls;
+
+		var initControls = function() {
+			this.color = "#011C40";
+			this.hoverColor = "#F2BB16";
+			this.activeColor = "#2a5b7a";
+			this.design = "ring";
+		};
+
+		window.onload = function() {
+			controls = new initControls();
+			setValue();
+			var gui = new dat.GUI();
+			gui.addColor(controls, 'color').onChange(setValue);
+			gui.addColor(controls, 'hoverColor').onChange(setValue);
+			gui.addColor(controls, 'activeColor').onChange(setValue);
+			gui.add(controls, 'design',["dot", "ring", "reticle", "cross"]).onChange(setValue);
+		};
+
+		function setValue() {
+			data.setAttribute('color',controls.color);
+			data.setAttribute('hover-color',controls.hoverColor);
+			data.setAttribute('active-color',controls.activeColor);
+			data.setAttribute('design',controls.design);
+		}
+
+
+
 	</script>
 
 </body>

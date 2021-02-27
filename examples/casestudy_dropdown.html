@@ -4,29 +4,7 @@
   	<meta charset="utf-8">
   	<title>A-Frame GUI Dropdown</title>
     <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-	<style type="text/css">
-		@font-face{
-			font-family:"Ionicons";
-			
-			src:url("assets/fonts/ionicons.eot?v=2.0.1");
-			src:url("assets/fonts/ionicons.eot?v=2.0.1#iefix") format("embedded-opentype"),url("assets/fonts/ionicons.ttf?v=2.0.1") format("truetype"),url("assets/fonts/ionicons.woff?v=2.0.1") format("woff"),url("assets/fonts/ionicons.svg?v=2.0.1#Ionicons") format("svg");
-			
-			font-weight:normal;
-			font-style:normal
-		}
-		body{font-family:Ionicons;} 
-		.visuallyhidden {
-			position: absolute;
-			display: block;
-			border: 0;
-			clip: rect(0 0 0 0);
-			height: 1px;
-			width: 1px;
-			margin: -1px;
-			padding: 0;
-			overflow: hidden;
-		}
-	</style>
+
     <script src="js/aframe-gui.js"></script>
     <script src="js/gui-env.js"></script>
 
@@ -34,8 +12,8 @@
 <body>
 	<a-scene gui-env>
 		<a-assets>
-			<a-asset-item id="iconfont" src="assets/fonts/ionicons.ttf"></a-asset-item>
-			<a-asset-item id="fontfamily" src="https://fonts.googleapis.com/css?family=Fira+Sans"></a-asset-item>
+			<a-asset-item id="iconfontsolid" src="assets/fonts/fa-solid-900.ttf"></a-asset-item>
+			<a-asset-item id="textfont" src="assets/fonts/PermanentMarker-Regular.ttf"></a-asset-item>
 		</a-assets>
 
 		<a-torus-knot id="knot" 
@@ -56,9 +34,11 @@
 						id="mydropdown"
 						width="2.5" height="0.75"
 						onclick="openDropdown"
-						icon="android-menu"
+						icon="f0c9"
+						icon-font="assets/fonts/fa-solid-900.ttf"
 						value="dropdown"
-						font-family="Arial"
+						font-family="assets/fonts/PermanentMarker-Regular.ttf"
+						font-size="0.25"
 						visible="true"
 						animation__rotateIn="property: rotation; to: 180 0 0; dur: 1000; startEvents:opendropdown"
 						animation__visibleIn="property: visible; to: false; delay: 500; startEvents:opendropdown"
@@ -84,30 +64,34 @@
 					<a-gui-button 
 						width="2.5" height="0.75"
 						onclick="red"
+						font-family="assets/fonts/PermanentMarker-Regular.ttf"
+						font-size="0.3"
 						value="Red"
-						font-family="Arial"
 					>
 					</a-gui-button>
 					<a-gui-button 
 						width="2.5" height="0.75"
 						onclick="blue"
+						font-family="assets/fonts/PermanentMarker-Regular.ttf"
+						font-size="0.3"
 						value="Blue"
-						font-family="Arial"
 					>
 					</a-gui-button>
 					<a-gui-button 
 						width="2.5" height="0.75"
 						onclick="green"
+						font-family="assets/fonts/PermanentMarker-Regular.ttf"
+						font-size="0.3"
 						value="Green"
-						font-family="Arial"
 					>
 					</a-gui-button>
 					<a-gui-icon-button
-						width="0.5" height="0.5"
+						height="0.5"
 						onclick="closeDropdown"
-						icon="android-close"
+						icon="f00d"
+						icon-font="assets/fonts/fa-solid-900.ttf"
 					>
-					</a-gui-icon-button>
+					</a-gui-icon-button>					
 								
 				</a-gui-flex-container>
 

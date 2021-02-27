@@ -2,11 +2,11 @@ AFRAME.registerComponent('gui-icon-button', {
     schema: {
         on: {default: 'click'},
         toggle: {type: 'boolean', default: false},
-        icon: {type: 'string', default: ''},
+        toggleState: {type: 'boolean', default: false},
+        icon: {type: 'string', default: 'f0f3'},
         iconActive: {type: 'string', default: ''},
-        fontFamily: {type: 'string', default: 'Arial'},
-        iconFontSize: {type: 'string', default: '400px'},
-        fontSize: {type: 'string', default: '150px'},
+        iconFontSize: {type: 'number', default: 0.4},
+        iconFont: {type: 'string', default: 'assets/fonts/fa-regular-400.ttf'},
         fontColor: {type: 'string', default: key_offwhite},
         borderColor: {type: 'string', default: key_offwhite},
         backgroundColor: {type: 'string', default: key_grey},
@@ -18,32 +18,19 @@ AFRAME.registerComponent('gui-icon-button', {
         var data = this.data;
         var el = this.el;
         var guiItem = el.getAttribute("gui-item");
-        //console.log("in icon button, guiItem: "+JSON.stringify(guiItem));
-        var guiInteractable = el.getAttribute("gui-interactable");
-        //console.log("in button, guiInteractable: "+JSON.stringify(guiInteractable));
-        var multiplier = 512; // POT conversion
-        //var canvasWidth = window.nearestPow2(guiItem.height * multiplier);//square
-        //var canvasHeight = window.nearestPow2(guiItem.height * multiplier);        
-        var canvasWidth = guiItem.height*multiplier; 
-        var canvasHeight = guiItem.height*multiplier;
+        this.guiItem = guiItem;        
         var toggleState = this.toggleState = data.toggle;
+        var guiInteractable = el.getAttribute("gui-interactable");
+        this.guiInteractable = guiInteractable;
 
-        var canvasContainer = document.createElement('div');
-        canvasContainer.setAttribute('class', 'visuallyhidden');
-        document.body.appendChild(canvasContainer);
-        var canvas = document.createElement("canvas");
-        this.canvas = canvas;
-        canvas.setAttribute('width', canvasWidth);
-        canvas.setAttribute('height', canvasHeight);
-        canvas.id = getUniqueId('canvasIcon');
-        canvasContainer.appendChild(canvas);
-
-        var ctx = this.ctx = canvas.getContext('2d');
+        //fallback for old font-sizing
+        if(data.iconFontSize > 20) { // 150/1000
+          var newSize = data.iconFontSize/750;
+          data.iconFontSize = newSize;        
+        }
 
         el.setAttribute('geometry', `primitive: plane; height: ${guiItem.height}; width: ${guiItem.width};`);
         el.setAttribute('material', `shader: flat; transparent: true; opacity: 0.0; alphaTest: 0.5; side:double; color:${data.backgroundColor};`);
-
-        drawIcon(ctx, canvas, data.iconFontSize, data.icon, data.fontColor, 1);
 
         var buttonContainer = document.createElement("a-entity");
         buttonContainer.setAttribute('geometry', `primitive: cylinder; radius: ${guiItem.height/2}; height: 0.02;`);
@@ -60,39 +47,39 @@ AFRAME.registerComponent('gui-icon-button', {
         el.appendChild(buttonEntity);
         this.buttonEntity = buttonEntity;
 
-        var textEntity = document.createElement("a-entity");
-        textEntity.setAttribute('geometry', `primitive: plane; width: ${guiItem.height/2}; height: ${guiItem.height/2};`);
-        textEntity.setAttribute('material', `shader: flat; src: #${canvas.id}; transparent: true; opacity: 1; alphaTest: 0.5; side:front;`);
-        textEntity.setAttribute('position', '0 0 0.041');
-        el.appendChild(textEntity);
+        this.setIcon(data.icon);
 
         el.addEventListener('mouseenter', function(evt) {
             buttonEntity.removeAttribute('animation__leave');
-            buttonEntity.setAttribute('animation__enter', `property: material.color; from: ${data.backgroundColor}; to:${data.hoverColor}; dur:200;`);
+            if (!(data.toggle)) {
+                buttonEntity.setAttribute('animation__enter', `property: material.color; from: ${data.backgroundColor}; to:${data.hoverColor}; dur:200;`);
+            }
         });
         el.addEventListener('mouseleave', function(evt) {
             if (!(data.toggle)) {
                 buttonEntity.removeAttribute('animation__click');
+                buttonEntity.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.backgroundColor}; dur:200; easing: easeOutQuad;`);
             }
             buttonEntity.removeAttribute('animation__enter');
-            buttonEntity.setAttribute('animation__leave', `property: material.color; from: ${data.hoverColor}; to:${data.backgroundColor}; dur:200; easing: easeOutQuad;`);
         });
-        el.addEventListener(data.on, function(evt) {
+        el.addEventListener(data.on, function(event) {
             if (!(data.toggle)) { // if not toggling flashing active state
-                buttonEntity.setAttribute('animation__click', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; easing: easeOutBack;`);
+                buttonEntity.setAttribute('animation__click', `property: material.color; from: ${data.activeColor}; to:${data.backgroundColor}; dur:400; easing: easeOutQuad;`);
             }else{
-                buttonEntity.setAttribute('material', 'color', data.activeColor);
+                var guiButton = el.components['gui-button']
+                // console.log("about to toggle, current state: " + guiButton.data.toggleState);
+                guiButton.setActiveState(!guiButton.data.toggleState);
+               //  buttonEntity.setAttribute('material', 'color', data.activeColor);
             }
 
             var clickActionFunctionName = guiInteractable.clickAction;
-            console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
+            // console.log("in button, clickActionFunctionName: "+clickActionFunctionName);
             // find object
             var clickActionFunction = window[clickActionFunctionName];
             //console.log("clickActionFunction: "+clickActionFunction);
             // is object a function?
-            if (typeof clickActionFunction === "function") clickActionFunction(evt);
+            if (typeof clickActionFunction === "function") clickActionFunction(event);
         });
-
         ////WAI ARIA Support
         el.setAttribute('role', 'button');
 
@@ -103,16 +90,53 @@ AFRAME.registerComponent('gui-icon-button', {
     },
     update: function (oldData) {
         console.log("In button update, toggle: "+this.toggleState);
+        var data = this.data;
+        var el = this.el;
+
+        if(this.iconEntity){
+            console.log("has iconEntity: "+this.iconEntity);
+
+            var oldEntity = this.iconEntity;
+            oldEntity.parentNode.removeChild(oldEntity);
+
+            this.setIcon(this.data.icon);
+   
+        }else{
+            console.log("no iconEntity!");   
+        }        
     },
     setActiveState: function (activeState) {
-        console.log("in setActiveState function");
-        this.data.toggle = this.toggleState = activeState;
+        // console.log("in setActiveState function, new state: " + activeState);
+        this.data.toggleState = activeState;
         if (!activeState) {
+            console.log('not active, about to set background color');
             this.buttonEntity.setAttribute('material', 'color', this.data.backgroundColor);
         } else {
-
+            console.log('active, about to set active color');
+            this.buttonEntity.setAttribute('material', 'color', this.data.activeColor);
         }
     },
+    setIcon: function (unicode) {
+        var hex = parseInt(unicode, 16);
+        var char = String.fromCharCode(hex);
+
+        var iconEntity = document.createElement("a-entity");
+        this.iconEntity = iconEntity;
+        iconEntity.setAttribute('troika-text', `value:${char}; 
+                                                align:center; 
+                                                anchor:center; 
+                                                baseline:center;
+                                                lineHeight:${this.guiItem.height};
+                                                maxWidth:${this.guiItem.width};
+                                                color:${this.data.fontColor};
+                                                font:${this.data.iconFont};
+                                                fontSize:${this.data.iconFontSize};
+                                                depthOffset:1;
+                                                `);
+        iconEntity.setAttribute('position', `0 0 0.05`); // 0.05 y axis adjustment for fontawesome
+//        textEntity.setAttribute('troika-text-material', `shader: flat;`);
+        this.el.appendChild(iconEntity);
+    }
 });
 
 AFRAME.registerPrimitive( 'a-gui-icon-button', {
@@ -122,12 +146,15 @@ AFRAME.registerPrimitive( 'a-gui-icon-button', {
         'gui-icon-button': { }
     },
     mappings: {
+        //gui interactable general
         'onclick': 'gui-interactable.clickAction',
         'onhover': 'gui-interactable.hoverAction',
         'key-code': 'gui-interactable.keyCode',
+        //gui item general
         'width': 'gui-item.width',
         'height': 'gui-item.height',
         'margin': 'gui-item.margin',
+        //gui button specific
         'on': 'gui-icon-button.on',
         'font-color': 'gui-icon-button.fontColor',
         'font-family': 'gui-icon-button.fontFamily',
@@ -135,9 +162,11 @@ AFRAME.registerPrimitive( 'a-gui-icon-button', {
         'background-color': 'gui-icon-button.backgroundColor',
         'hover-color': 'gui-icon-button.hoverColor',
         'active-color': 'gui-icon-button.activeColor',
-        'toggle': 'gui-icon-button.toggle',
         'icon': 'gui-icon-button.icon',
-        'icon-font-size': 'gui-icon-button.iconFontSize',
         'icon-active': 'gui-icon-button.iconActive',
+        'icon-font': 'gui-icon-button.iconFont',
+        'icon-font-size': 'gui-icon-button.iconFontSize',
+        'toggle': 'gui-icon-button.toggle',
+        'toggle-state': 'gui-icon-button.toggleState'        
     }
 });

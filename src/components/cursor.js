@@ -352,6 +352,20 @@ AFRAME.registerComponent('gui-cursor', {
 
     },
     update: function () {
+/*
+        var oldEntity = this.cursor;
+        oldEntity.parentNode.removeChild(oldEntity);
+
+        function removeAllChildNodes(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+        const oldEntity = this.cursor;
+        removeAllChildNodes(oldEntity);
+
+        this.init();
+*/
     },
     tick: function () {
     },
