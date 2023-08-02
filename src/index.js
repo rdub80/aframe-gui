@@ -2,9 +2,6 @@ if (typeof AFRAME === 'undefined') {
     throw new Error('Component attempted to register before AFRAME was available.');
 }
 
-// third-party
-require('./third-party/aframe-troika-text.js');
-
 // Components
 require('./scripts/vars.js');
 require('./scripts/utils.js')
